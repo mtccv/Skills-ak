@@ -55,6 +55,7 @@ Cloud 为本轮唯一开发环境；Node.js 24.22.1、npm 11.9.0。宿主无独�
 | `npm run check:assets` | app.css 6005 bytes；app.js 55953 bytes；资源检查通过 |
 | `node --check assets/admin.js` | 后台 JavaScript 语法检查通过 |
 | `git diff --check`、基本代码复核 | 通过；修正表单/控制器字段、原生批量 nonce 冲突、分页、过期编辑重试、NULL 来源查询及审核完整性等明显问题 |
+| GitHub Actions 基本 CI | 代码提交 e25da32 的 PHP 8.3、PHP 8.4 和 assets 均 success；wordpress-smoke 为 skipped，未启动完整数据库测试 |
 
 构建期间 Browserslist 提示 caniuse-lite 数据较旧，构建未失败；本轮没有为消除此提示变更依赖。
 
@@ -62,4 +63,4 @@ Cloud 为本轮唯一开发环境；Node.js 24.22.1、npm 11.9.0。宿主无独�
 
 后台界面文案目前以中文为主，UI 已接入 gettext；完整英文界面消息目录尚未提供。中英文内容分别编辑及保存已实现，不把消息目录预留等同完整界面翻译。名称选择显示前 100 条可用记录并保留所有已有选择，超出范围支持输入 ID；每种分类/标签最多关联 100 项。
 
-Git 提交与同步后的完整 SHA 以本轮最终交付消息及 `git log -1` 为准；本报告随 Phase 2 提交入库。
+代码提交：`e25da3241ab7830f0d34f8157063863b456d578a`，已正常推送 origin/main 并核对远端 SHA 一致。GitHub Actions 证据：[运行 41904484033](https://github.com/mtccv/Skills-ak/actions/runs/41904484033)。本报告补记提交只更新文档，不改变已检查代码；最终提交 SHA 以本轮交付消息及 `git log -1` 为准。
