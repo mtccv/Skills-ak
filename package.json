@@ -14,7 +14,8 @@
     "dev:js": "npm run build:js -- --watch",
     "check:assets": "node scripts/check-assets.mjs",
     "lint:php": "bash scripts/lint-php.sh",
-    "smoke:wp": "bash scripts/smoke-wordpress.sh"
+    "smoke:wp": "bash scripts/smoke-wordpress.sh",
+    "test:core": "bash scripts/test-core.sh"
   },
   "devDependencies": {
     "alpinejs": "^3.14.9",

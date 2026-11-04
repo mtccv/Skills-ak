@@ -1,4 +1,4 @@
-name: Phase 0 checks
+name: Core checks
 on: [push, pull_request]
 permissions:
   contents: read
@@ -54,7 +54,7 @@ jobs:
         run: |
           python3 scripts/install-wordpress.py --password-file "$RUNNER_TEMP/aish-admin-password"
           docker compose run --rm -T cli wp theme activate ai-skills-hub
-      - run: npm run lint:php && npm run smoke:wp
+      - run: npm run lint:php && npm run test:core && npm run smoke:wp
       - name: Record runtime versions
         run: |
           docker compose exec -T wordpress php -v

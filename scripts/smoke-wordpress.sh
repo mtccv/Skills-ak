@@ -17,6 +17,7 @@ docker compose exec -T wordpress php -r '
 require "/var/www/html/wp-load.php";
 if (get_template() !== "ai-skills-hub" || !defined("AISkillsHub\\Core\\VERSION")) { exit(1); }
 if (post_type_exists("aish_skill")) { exit(1); }
-echo "Theme active, Core loaded, no Phase 1 content type.\n";
+if (!AISkillsHub\Core\Core::boot()->migrator()->isCurrent()) { exit(1); }
+echo "Theme active, Core loaded, schema current, no CPT shadow storage.\n";
 '
 echo 'WordPress HTTP and CSS/JS smoke checks passed.'

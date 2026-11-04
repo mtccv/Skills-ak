@@ -7,7 +7,7 @@ if command -v php >/dev/null 2>&1; then
   while IFS= read -r -d '' file; do
     php -l "$file"
     count=$((count + 1))
-  done < <(find "$theme" -name '*.php' -type f -print0)
+  done < <(find "$theme" tests -name '*.php' -type f -print0)
   test "$count" -gt 0
 else
   docker compose exec -T wordpress sh -eu -c \
