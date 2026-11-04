@@ -23,6 +23,7 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
       - run: bash scripts/lint-php.sh
+      - run: php tests/basic/frontend-routing.php
   assets:
     runs-on: ubuntu-latest
     steps:

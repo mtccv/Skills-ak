@@ -3,8 +3,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 page_file=$(mktemp)
 trap 'rm -f "$page_file"' EXIT
-curl --fail --silent --show-error http://localhost:8080/ -o "$page_file"
-grep -q 'Project initialization is complete' "$page_file"
+curl --fail --location --silent --show-error http://localhost:8080/en/ -o "$page_file"
+grep -q 'AI Skills Hub' "$page_file"
 if grep -Eq 'Fatal error|<b>Warning</b>|<b>Notice</b>' "$page_file"; then
   echo 'PHP diagnostic found in page' >&2
   exit 1

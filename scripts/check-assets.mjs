@@ -8,4 +8,7 @@ for (const file of ['app.css', 'app.js']) {
   console.log(`${file}: ${info.size} bytes`);
 }
 const css = await readFile(new URL('app.css', directory), 'utf8');
-if (!css.includes('.bg-slate-50')) throw new Error('Tailwind template scanning failed');
+// This utility is used by the current templates; the Phase 0 placeholder was removed.
+if (!css.includes('.text-4xl') || !css.includes('.aish-container')) {
+  throw new Error('Tailwind template scanning or design-system build failed');
+}

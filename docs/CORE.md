@@ -1,6 +1,6 @@
 # AI Skills Hub Core 使用与维护
 
-Phase 1 建立数据基础；Phase 2 在同一数据与模块体系上实现 WordPress 原生后台。完整字段与索引见总规格第 5 节，以及 `inc/core/Database/Schema.php`。WordPress 表前缀不是固定 `wp_`。
+Phase 1 建立数据基础；Phase 2 在同一数据与模块体系上实现 WordPress 原生后台；Phase 3 增加受限公开投影、双语前台、原生教程与私有来信。完整字段与索引见总规格第 5 节，以及 `inc/core/Database/Schema.php`。WordPress 表前缀不是固定 `wp_`。
 
 ## 数据所有权
 
@@ -36,7 +36,7 @@ echo AISkillsHub\Core\Security\Output::rich($translation['content']);
 
 ## 生命周期与升级
 
-Core bootstrap 注册限定命名空间自动加载器，显式模块为 database、language、catalog、admin；ModuleLoader 先验证完整依赖图，拒绝重复、缺失或循环，再按顺序注册服务。`functions.php` 仅保留 Phase 0 主题启动代码，没有新增领域逻辑。
+Core bootstrap 注册限定命名空间自动加载器，显式模块为 database、language、catalog、admin、frontend；ModuleLoader 先验证完整依赖图，拒绝重复、缺失或循环，再按顺序注册服务。`functions.php` 仅保留 Phase 0 主题启动代码，没有新增领域逻辑。
 
 迁移仅在管理员 `admin_init`、授权的主题切换后请求或可信 WP-CLI 上下文运行。前台仅加载服务，不创建业务表。WP-CLI 的首次主题激活可能在下次 WordPress 加载时才执行迁移；README 的版本检查命令会加载主题并显示 `1.2.0`。后台失败提示为通用信息；管理员重新加载后台可重试。
 
@@ -81,3 +81,13 @@ Translations 新增 `seo_title`（191 字符）、`seo_description`（320 字符
 现有 `tests/integration/core.php` 创建随机 `aish_t_<12 hex>_` 前缀表、专用版本选项和临时 subscriber，finally 仅删除这些测试对象；会切换主题后恢复，只能在可丢弃的开发/CI 站点运行，禁止生产运行。Phase 2 更新了模块数量、当前迁移和发布约束等基线预期，尚未重新执行。
 
 Final QA 须覆盖 1.1→1.2 实际迁移、重复升级、人工多记录 NULL 来源、草稿 NULL slug、两种语言唯一性、过期保存、审核与编辑竞争、拒绝与归档恢复、角色矩阵、nonce/HTTP 方法、批量部分失败、分类循环及归档关系、预览缓存/越权、SQL/XSS、WordPress 编辑器、浏览器无 JS 操作及 WPML 真实联调。仅手动执行 CI `final_qa=true` 的旧基线不足以宣称所有项目完成。
+
+## Phase 3 Frontend 模块
+
+`FrontendModule` 注册 PublicCatalog、Editorial、Forms、Router；通过 `$core->get('public_catalog')`、`$core->get('editorial')`、`$core->get('frontend')` 取得对象。`functions.php` 仍只启动主题与资源。
+
+PublicCatalog 是受限只读投影，所有对外 Skills/计数/语言备选只读取已发布且当前修订审核通过的记录；不把管理用 Catalog 直接暴露给 HTTP。没有修改八表、Schema/Migrator、Catalog、Management 或既有 LanguageProvider。业务 schema 仍为 1.2.0。
+
+教程、说明页及私有投稿只复用 WordPress 原生 posts/postmeta/options；没有 Skills CPT 或另一套 Skill ID。公开版本 SHA 仅为审核时间之前记录的历史参考，没有 schema 证据可以将其绑定到当前来源/审核，不能宣称已审核源码。平台、许可证、精选使用现有标签，缺失字段如实显示未提供。
+
+完整路由、数据映射、私有表单及 WPML 预留 hooks 见 FRONTEND.md。本阶段只执行必要语法/构建/基本检查；真实数据库公开查询、重写、表单持久化、浏览器和 WPML 尚待 Final QA，不能沿用 Phase 1 集成结果宣称通过。

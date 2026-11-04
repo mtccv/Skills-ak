@@ -1,5 +1,5 @@
 <?php
-/** Theme initialization only; business features begin in later phases. */
+/** Theme initialization only; feature modules are loaded by Core. */
 
 defined( 'ABSPATH' ) || exit;
 

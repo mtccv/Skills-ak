@@ -78,7 +78,7 @@ try {
 	do_action( 'admin_init' );
 	$core = Core::boot();
 	check( $core->migrator()->isCurrent(), 'authorized admin initializes active theme database' );
-	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin' ), 'Core modules loaded in dependency order' );
+	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin', 'frontend' ), 'Core modules loaded in dependency order' );
 	check( Core::boot() === $core, 'Core boot is idempotent' );
 
 	list( $db, $migrator, $catalog, $option ) = fixture();

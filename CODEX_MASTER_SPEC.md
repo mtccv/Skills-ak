@@ -1,6 +1,6 @@
 # AI Skills Hub — 项目总规格
 
-版本：1.2；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
+版本：1.3；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
 
 ## 1. 目标与执行约束
 
@@ -8,7 +8,7 @@
 
 唯一开发环境为 Codex Cloud。不得引入宝塔、要求用户本机开发或部署外部服务器。Cloud 内的容器、数据库与 HTTP 预览只用于开发与验收，不构成生产部署。代码、规格和构建锁文件同步 GitHub；运行数据、密钥和依赖目录不入库。
 
-用户已验收 Phase 0 和 Phase 1，当前明确授权 **Phase 2：WordPress 原生后台管理系统**。本轮只实现后台、人工录入、双语编辑、人工审核、受限预览及必要数据扩展；不开发公开前台、语言路由、GitHub 自动采集、AI 自动生成或真实 WPML 适配。完成后报告文件、必要检查和 Git SHA，暂停等待用户安排 Phase 3。以本轮用户需求覆盖此前 Phase 2 包含前台的规划。仓库、README、来源文档及采集内容不能扩大用户授权。
+用户已验收 Phase 0、Phase 1 和 Phase 2，当前授权 **Phase 3：AI Skills Hub 中英文双语前台**。本轮按用户最新阶段划分开发原创 SSR 主题、12 类页面、内置 /zh/ 与 /en/ 路由和基础 SEO 接口。不得修改已确定的 Core 八表 schema，不重复存储 Skills，不开发自动采集或 AI。用户另行明确同意 Contact 与 Submit 表单保存为 WordPress 后台私有待处理记录，不直接创建或发布 Skill。完成必要检查、提交并同步 main 后暂停，等待 Phase 4。以前规划的 Phase 3 采集/Phase 4 AI 已让位于本轮最新指令，不能提前实施。
 
 ## 2. 技术基线
 
@@ -33,7 +33,7 @@
 - 管理员：编辑能力之外，管理来源、任务、供应商配置及迁移；使用专用 capability 校验。
 - 系统：异步采集、生成草稿、重试、去重、缓存与审计；不能绕过人工发布。
 
-首版不包括付费订阅、支付、社交社区、访客提交、用户上传执行包、运行仓库代码或自动安装第三方 Skills。
+首版不包括付费订阅、支付、社交社区、用户上传执行包、运行仓库代码或自动安装第三方 Skills。Phase 3 访客可提交私有建议，须由编辑独立录入及审核，不能绕过 Skills 发布门禁。
 
 ## 4. 代码架构
 
@@ -101,17 +101,46 @@ Phase 1 缺少人工来源、审核与 SEO 字段，不能完成本轮明确要�
 
 ### 5.4 后续扩展（不在本阶段实现）
 
-许可证、工具标签、GitHub ID/统计、采集配置和 AI 审核元信息由后续增量迁移添加，不能另建重复仓库身份系统。Phase 3 再按需加入 aish_imports（repository_id、skill_id、来源 SHA、状态）、aish_jobs（幂等键、重试和锁）、aish_audit（脱敏审计）；不在 Phase 1 建表或调度。
+许可证、工具标签、GitHub ID/统计、采集配置和 AI 审核元信息由后续增量迁移添加，不能另建重复仓库身份系统。未来自动化阶段经单独授权再按需加入 aish_imports（repository_id、skill_id、来源 SHA、状态）、aish_jobs（幂等键、重试和锁）、aish_audit（脱敏审计）；不在 Phase 1 建表或调度。
 
 少量配置复用 WordPress options；大型设置和日志禁用 autoload。任务不存凭据，外部服务密钥来自环境引用。后续来源更新/AI 结果只能成为待审核变更，不能隐式覆盖人工编辑或直接发布。
 
-## 6. 前台需求
+## 6. Phase 3 双语前台
 
-后续页面：双语首页、Skills 列表、分类/标签列表、关键词搜索、技能详情、关于、404。列表提供分页及可分享的筛选 URL；空结果、加载失败、缺失翻译均有清楚提示。详情展示来源、许可证、更新时间、工具标签、操作说明、原文链接、AI 辅助标识及可用译文链接。未知许可证不得展示“自由转载”。
+采用原创 SaaS 风格设计系统：浅色背景、深色正文、紫色主色与薄荷色辅助色，几何 Logo；统一导航、按钮、卡片、表单、标签、面包屑和阅读排版。PHP SSR + WordPress 原生模板 + Tailwind CSS + Alpine.js，无页面构建器、远程字体或 CDN 运行依赖。360px 至桌面响应式，移动导航用原生 details 保留无 JS 可用性，搜索及表单使用原生 HTTP，Alpine 仅增强加载反馈。
 
-响应式支持 360px 至桌面；键盘操作、焦点可见、合理标题层级、表单标签、对比度及 reduced-motion。Alpine 只承担必要交互，核心内容和导航在无 JavaScript 时可读。输出本地构建 CSS/JS，按需加载，避免前台同步调用 GitHub/AI。
+| 页面 | 路径及数据 |
+| --- | --- |
+| 首页 | /zh/、/en/；Hero/搜索、真实精选/最新 Skills、按公开数量排列分类、真实平台标签、已发布教程、投稿入口 |
+| Skills 列表 | /{lang}/skills/；关键词、分类/标签/平台、最新/最早/名称排序、每页 12 项和空状态 |
+| Skill 详情 | /{lang}/skills/{稳定ID}/{语言slug}/；公开投影、真实译文、来源及审核信息 |
+| 分类、标签 | /{lang}/category/{slug}/、/{lang}/tag/{slug}/；既有分类/标签及公开资源计数 |
+| 教程列表、详情 | /{lang}/tutorials/、/{lang}/tutorials/{WP文章ID}/；aish_tutorial 原生文章及 postmeta |
+| 搜索 | /{lang}/search/?q=...；公开 Skills 分页与匹配教程入口 |
+| About、Contact、Submit | /{lang}/about/、contact/、submit/；原生页面内容、真实私有表单流程 |
+| 404 | 不存在/未公开内容返回 404，不泄露记录存在性；服务故障返回 503 通用提示 |
 
-SEO：唯一规范 URL、语言一致的标题/描述、双向 hreflang、分页与 sitemap 整合、404 正确状态码；兼容常见 SEO 插件，避免重复标签。性能以固定测试数据和环境记录查询数、页面体积及缓存命中；缓存 key 含语言和筛选条件。
+所有资源列表与统计来自真实数据库；没有种子示例 Skills、虚构统计、评价或兼容性保证。为空时显示真实空状态。About/Contact/Submit 未配置编辑正文时，仅显示站点功能说明与表单引导，不伪造企业资料。
+
+### 6.1 公开边界与不改表的数据映射
+
+PublicCatalog 在 DAL 上做只读投影，所有入口（详情、搜索、分类计数、相关资源及语言备选）同时要求 published、approved、reviewed_revision=revision、有效审核人员/时间与该语言完整内容。不能通过公共 URL、分类数、语言切换或搜索泄露草稿/待审/拒绝/归档记录。原始快照、内部审核备注及审核人员身份不出现在公开 payload。公共 HTML 暂时禁用共享缓存，避免归档后继续命中旧页面；性能缓存策略留后续。
+
+Skill 名称、简介、正文与 SEO 使用现有翻译表；仓库和路径使用既有来源；作者无独立字段时显示未提供，不冒充仓库维护者。平台使用现有 tag.slug 的 platform-*，许可证使用 license-*，精选使用 featured。这些是人工管理的标签，不代表平台实测或法律保证。分类/标签显示实际存储名称，允许编辑维护双语名称，不自动虚构译文。
+
+使用场景、安装说明、依赖要求可从现有译文正文的 H2 标题提取；未提供时明确显示未知，完整正文仍可阅读。版本仅显示审核时间之前记录的历史 SHA 元数据；现有 schema 未把 SHA 与审核修订/来源路径绑定，因此不能声称该 SHA 已被审核或是当前来源，GitHub 文件链接使用 HEAD。不读取外部仓库，不自动分析来源或生成内容。
+
+### 6.2 教程、说明页面和私有表单
+
+教程使用 WordPress 原生 wp_posts/postmeta 中的 aish_tutorial，编辑语言 zh_CN/en_US、双向对应教程 ID、相关 Skill ID；不是 Skills 影子 CPT。仅发布、无密码且语言明确的文章公开。CPT 关闭默认公开查询、REST 和搜索出口，由统一路由呈现。
+
+About/Contact/Submit 使用原生 page + 页面用途/语言元数据。Contact/投稿写入原生 aish_message 私有 CPT，只有授权管理员可查看/处理；记录来源链接和联系信息，不发邮件、不抓取 URL、不创建 Skill。POST + nonce + 字段长度/邮件/HTTPS GitHub URL 校验、蜜罐、数据库锁保护的限流；只保存地址哈希，每地址每小时 5 次，全站每小时 120 次。保存成功和必要元数据持久化后才返回成功状态。
+
+### 6.3 基础 SEO 与路由
+
+每页独立标题、Meta Description、Canonical、真实可用翻译的 hreflang、语义 H1/H2 与面包屑。已编辑正文 H1 在展示时降为 H2，保持页面单一 H1。筛选/分页列表暂不输出未经验证的跨语言分页 hreflang，语言切换保留筛选并回到第一页。完整 Sitemap、搜索索引策略和高级 SEO 留 Phase 4。
+
+首次管理员后台访问初始化前台重写规则；若当前是普通固定链接，仅此时设置 /%postname%/，已有自定义固定链接设置保留。前台请求不刷新规则、不做 DDL。Apache/Nginx 仍需把页面请求交给 WordPress front controller；Cloud 使用既有 WordPress Apache 容器。WPML 可通过关闭内置路由及请求/URL/alternate filters 接管，真实插件联调留 Final QA。详情见 docs/FRONTEND.md。
 
 ## 7. WordPress 原生后台
 
@@ -125,7 +154,7 @@ SEO：唯一规范 URL、语言一致的标题/描述、双向 hreflang、分页
 - 列表支持搜索、状态/风险/仓库/分类/标签筛选、白名单排序和分页；批量操作设数量上限，逐项能力及修订检查，不能批量绕过审核直接发布。
 - 分类支持层级及循环校验；标签为平面结构；仓库仅手动维护 owner/name，已关联 Skills 的仓库不允许直接改身份。归档分类、标签和仓库保留原关联。
 - 人工审核支持 pending、approved、rejected，记录人员、UTC 时间、修订、Unknown/Low/Medium/High 风险和备注。只有审批当前修订才可发布；编辑内容需要重新审核。拒绝保留原记录。
-- Skill 阅读预览为登录且拥有 Skills 管理或审核能力、有效 nonce 的私有页面，标记 no-store/noindex；未审核内容不提供公开地址。公开站点页面留后续。
+- Skill 阅读预览为登录且拥有 Skills 管理或审核能力、有效 nonce 的私有页面，标记 no-store/noindex；未审核内容不提供公开地址。公开站点页面由 Phase 3 实现。
 - Settings 仅配置默认编辑语言和列表每页数量，不提供尚未实现的采集/AI 设置。
 - 能力为 aish_manage_skills、aish_review_skills、aish_manage_taxonomies、aish_manage_repositories、aish_manage_settings；默认只赋予管理员，manage_options 兼容既有管理员。编辑及其他角色不自动获得能力。页面、控制器和服务各自校验相关 capability，nonce 不能代替能力。
 
@@ -134,14 +163,14 @@ SEO：唯一规范 URL、语言一致的标题/描述、双向 hreflang、分页
 ## 8. 内置双语与 WPML
 
 - 界面字符串统一 gettext，text domain `ai-skills-hub`，提供中文与英文目录；内容翻译与界面翻译分开处理。
-- 内置内容以同一个 skill_id 下的 zh_CN/en_US 翻译行关联；Phase 1 只实现存取与语言归一化，不产生翻译或路由。Phase 2 提供后台默认编辑语言及编辑切换；公开 `/zh/`、`/en/` rewrite 和读者语言路由留后续。
+- 内置内容以同一个 skill_id 下的 zh_CN/en_US 翻译行关联；Phase 1 只实现存取与语言归一化，不产生翻译或路由。Phase 2 提供后台默认编辑语言及编辑切换；Phase 3 实现公开 `/zh/`、`/en/` 及完整前台双语界面词典。
 - `LanguageProvider` 接口提供支持语言、语言归一化和可选外部对象 ID；通过 `aish_core_language_provider` 注入，适配器必须实现该接口。WPML 后续使用官方 hooks/API 和配置，外部对象 ID 不得取代稳定 Skill ID，也不得重复拥有 Core 的翻译关系。WPML 接管 URL 时内置 rewrite 退出；Phase 1 不启用真实 WPML 集成。
 - 两种模式必须分别测试语言切换、列表/搜索过滤、分页、canonical/hreflang、分类、缓存、后台编辑。模式迁移要有 dry-run、冲突清单、备份和回退，不能自动覆盖翻译。
 - WPML 为可选商业依赖，不随仓库分发；未提供合法插件时以适配合同测试覆盖，必须把真实联调标为待完成。
 
 ## 9. GitHub Skills 采集
 
-仅采集管理员配置的 GitHub 仓库及路径，默认关闭定时采集。使用 GitHub API、认证引用、ETag/条件请求、分页、速率预算和退避。发现 `SKILL.md` 时解析有限 front matter 与 Markdown；路径、文件大小、递归深度和请求时长均设上限。初始建议：单文件 512 KiB、每任务最多 100 项、请求超时 20 秒；Phase 3 用样本校准。
+仅采集管理员配置的 GitHub 仓库及路径，默认关闭定时采集。使用 GitHub API、认证引用、ETag/条件请求、分页、速率预算和退避。发现 `SKILL.md` 时解析有限 front matter 与 Markdown；路径、文件大小、递归深度和请求时长均设上限。初始建议：单文件 512 KiB、每任务最多 100 项、请求超时 20 秒；未来采集阶段用样本校准。
 
 仓库身份先归一化 owner/name，Skill 来源使用 repository_id + source_path 去重，版本使用 skill_id + commit_sha 去重并校验内容哈希。来源更新只生成待审核更新，不覆盖人工编辑或直接发布。记录固定提交 SHA、规范来源 URL、许可证和采集时间；许可证不明时仅保留必要元信息及来源链接，全文使用策略交由编辑确认。删除/移动内容标记待核对，不自动删除已发布文章。
 
@@ -156,7 +185,7 @@ SEO：唯一规范 URL、语言一致的标题/描述、双向 hreflang、分页
 ## 11. 安全与运维规范
 
 - 每个 PHP 入口防直接访问；输入按字段校验/净化，输出按 HTML/属性/URL/JSON 上下文转义；富文本只允许 `wp_kses` 白名单。
-- 写操作同时检查 capability 与 nonce；REST 明确 permission_callback，nonce 不能代替权限；不得新增匿名写入端点。
+- 写操作同时检查 capability 与 nonce；REST 明确 permission_callback，nonce 不能代替权限；匿名写入仅允许本轮明确授权的私有联系/投稿入口，不能调用 Skills 管理服务。
 - SQL 使用 `$wpdb->prepare`；排序字段和表名仅来自常量/白名单。上传遵守 WP 类型限制，禁止任意文件落盘和远程代码执行。
 - HTTP 使用 WP 安全请求 API、HTTPS 验证、域名限制、超时/大小限制；每次跳转重新验证目的地。防 SSRF、存储型 XSS、CSRF、越权与提示注入。
 - 凭据不入 Git、不回显、不写日志；`.env`、数据库、uploads、构建依赖和备份忽略。前端 bundle 不含服务器密钥。开发密码随机生成，示例文件留空。
@@ -170,10 +199,10 @@ SEO：唯一规范 URL、语言一致的标题/描述、双向 hreflang、分页
 | --- | --- | --- |
 | Phase 0 初始化（已验收） | 根规格、README/贡献约束、Git 忽略、原创最小主题/Core 空入口、前端构建、Cloud Compose、PHP/构建 CI、环境与测试记录、提交同步 | 用户已明确验收；Cloud 运行限制保留历史记录 |
 | Phase 1 数据库与 Core（已验收） | 八表、版本化迁移、稳定 ID/双语数据关联、模块加载、统一 DAL/Catalog、验证/转义、语言接口 | 历史报告记录 PHP、MySQL/WordPress CI 证据；用户已验收 |
-| **Phase 2 原生后台（当前授权）** | 菜单、统计、Skills 双语 CRUD/归档、分类/标签/仓库、人工审核、风险/备注、受限预览、列表/批量和能力控制 | PHP、前端构建、基本检查；提交同步并暂停；全面集成留 Final QA |
-| Phase 3 GitHub 采集 | 表迁移、来源配置、队列、幂等、速率控制、审核更新 | fixture 和可选真实来源验证；重复导入不重复、失败可恢复、禁止执行来源 |
-| Phase 4 AI 内容 | 适配器、结构化双语生成、审核/费用限制/审计 | 无凭据测试替身通过；真实联调明确记录；只生成草稿且不覆盖人工内容 |
-| 后续前台阶段（待单独授权） | 原创首页/列表/详情、双语路由、SEO、真实 WPML 适配 | 用户确认范围后实施，不能提前开发 |
+| Phase 2 原生后台（已验收） | 菜单、统计、Skills 双语 CRUD/归档、分类/标签/仓库、人工审核、风险/备注、受限预览、列表/批量和能力控制 | PHP、前端构建、基本检查；提交同步并暂停；全面集成留 Final QA |
+| **Phase 3 中英文双语前台（当前授权）** | 原创主题、12 类页面、真实公开查询、语言路由与回退、基础 SEO、教程与私有投稿 | PHP/构建/基本检查，文档及 GitHub main 同步；暂停等待指令 |
+| Phase 4 SEO（待授权） | 完整 Sitemap、搜索索引策略及高级 SEO；以用户下一轮指令为准 | 不提前开发 |
+| 后续自动化（未授权） | GitHub 采集、AI 内容、队列与审计 | 用户另行确认后实施 |
 | Final QA 集成与交付 | 全站交互、可访问性、SEO、性能、安全回归、备份恢复说明 | 端到端流程及回滚通过、无阻断缺陷、测试限制清楚；不自动外部部署 |
 
 ### Phase 0 明确边界
@@ -195,10 +224,12 @@ SEO：唯一规范 URL、语言一致的标题/描述、双向 hreflang、分页
 
 ## 13. 验证策略与变更控制
 
-按用户 Phase 2 最新要求，项目采用分阶段开发、最后统一全面测试：本阶段只执行必要 PHP 语法、前端构建和基本代码检查，修复发现的明显问题。CI 的 push/pull_request 自动运行 PHP 8.3/8.4 及资源构建，数据库/WordPress 基线保留为 workflow_dispatch 的 final_qa 手动任务，不随每次提交执行。
+按用户 Phase 2/3 最新要求，项目采用分阶段开发、最后统一全面测试：本阶段只执行必要 PHP 语法、前端构建和基本代码检查，修复发现的明显问题。CI 的 push/pull_request 自动运行 PHP 8.3/8.4 及资源构建，数据库/WordPress 基线保留为 workflow_dispatch 的 final_qa 手动任务，不随每次提交执行。
 
 完整 MySQL、WordPress、WPML、浏览器兼容、并发和端到端验收统一放到 Final QA。至少包括：八表结构及 1.1→1.2 数据保留迁移、重复安装、并发修订/审核竞争、人工来源/去重、双语完整性、各角色与 nonce、编辑后审核失效、归档确认及恢复、分类循环、关联归档保留、私有预览、XSS/SQL 注入、主题切换数据保留、真实 WPML/多语言路由及浏览器操作流程。现有 tests/integration/core.php 为可复用基线，不等同完整 Final QA。
 
 Phase 1 已完成测试作为历史证据保存在其报告，不能用于宣称新代码通过集成。接口替身不能证明真实 WPML 兼容；语法检查不能证明数据库迁移或后台运行成功。每个未执行项目须明确标记，禁止以“预计通过”代替证据。
 
 每阶段提交应关联规格和验收证据；报告注明未运行测试及原因。变更规格时同步 README/阶段报告，不能把计划当现状。分支推送用普通 fast-forward；远端已有并发变更时先检查并整合，禁止覆盖历史。用户关于代码同步仓库的要求持续有效。
+
+Phase 3 Final QA 补充清单：真实 MySQL 公开谓词/筛选/计数和编辑撤回竞争；WordPress 重写/子目录/默认固定链接、12 类页面双语跳转；教程双向关系及私有收件箱、真实表单持久化/限流/Nonce；404 与 503、无译文回退、Canonical/hreflang、移动键盘及无 JS、浏览器兼容、WPML 和并发。静态代码审查和语法检查不能替代这些运行验收。
