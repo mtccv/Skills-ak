@@ -9,6 +9,8 @@ use AISkillsHub\Core\Language\LanguageProvider;
 use AISkillsHub\Core\Modules\DatabaseModule;
 use AISkillsHub\Core\Modules\LanguageModule;
 use AISkillsHub\Core\Modules\CatalogModule;
+use AISkillsHub\Core\Modules\AdminModule;
+use AISkillsHub\Core\Admin\Management;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,7 +22,7 @@ final class Core {
 	public static function boot(): self {
 		if ( null === self::$instance ) {
 			$core          = new self();
-			$core->modules = ( new ModuleLoader() )->load( array( new DatabaseModule(), new LanguageModule(), new CatalogModule() ), $core );
+			$core->modules = ( new ModuleLoader() )->load( array( new DatabaseModule(), new LanguageModule(), new CatalogModule(), new AdminModule() ), $core );
 			self::$instance = $core;
 		}
 		return self::$instance;
@@ -43,6 +45,10 @@ final class Core {
 
 	public function catalog(): Catalog {
 		return $this->get( 'catalog' );
+	}
+
+	public function management(): Management {
+		return $this->get( 'management' );
 	}
 
 	public function migrator(): Migrator {

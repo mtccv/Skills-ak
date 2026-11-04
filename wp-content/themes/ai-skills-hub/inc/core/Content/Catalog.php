@@ -15,9 +15,9 @@ defined( 'ABSPATH' ) || exit;
 final class Catalog {
 	public function __construct( private Database $db, private Migrator $migrator, private LanguageProvider $languages ) {}
 
-	private function ready( bool $write = false ): void {
+	private function ready( bool $write = false, string $capability = 'aish_manage_skills' ): void {
 		if ( $write ) {
-			Access::write();
+			Access::write( $capability );
 		}
 		if ( ! $this->migrator->isCurrent() ) {
 			throw new \DomainException( 'Core schema is not ready.' );
@@ -43,7 +43,7 @@ final class Catalog {
 	}
 
 	public function createRepository( string $owner, string $name ): int {
-		$this->ready( true );
+		$this->ready( true, 'aish_manage_repositories' );
 		list( $owner, $name ) = Input::repository( $owner, $name );
 		$table = $this->db->table( 'repositories' );
 		$this->db->execute( "INSERT INTO $table (owner,name,created_at) VALUES (%s,%s,%s) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)", array( $owner, $name, gmdate( 'Y-m-d H:i:s' ) ) );
@@ -58,14 +58,15 @@ final class Catalog {
 	public function createSkill( int $repository_id, string $source_path, string $status = 'draft' ): int {
 		$this->ready( true );
 		$source_path = Input::sourcePath( $source_path );
-		if ( ! in_array( $status, array( 'draft', 'pending', 'published', 'archived' ), true ) ) {
+		if ( ! in_array( $status, array( 'draft', 'pending', 'archived' ), true ) ) {
 			throw new \InvalidArgumentException( 'Unsupported Skill status.' );
 		}
 		return $this->db->transaction( function () use ( $repository_id, $source_path, $status ) {
-			$this->requireRow( 'repositories', $repository_id, true );
+			$repository = $this->requireRow( 'repositories', $repository_id, true );
+			if ( (int) $repository['is_archived'] ) { throw new \DomainException( 'Repository is archived.' ); }
 			$table = $this->db->table( 'skills' );
 			$now   = gmdate( 'Y-m-d H:i:s' );
-			$this->db->execute( "INSERT INTO $table (repository_id,source_path,status,created_at,updated_at) VALUES (%d,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)", array( $repository_id, $source_path, $status, $now, $now ) );
+			$this->db->execute( "INSERT INTO $table (repository_id,source_path,status,review_status,created_at,updated_at) VALUES (%d,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)", array( $repository_id, $source_path, $status, 'pending' === $status ? 'pending' : 'unreviewed', $now, $now ) );
 			return (int) $this->db->value( "SELECT id FROM $table WHERE repository_id=%d AND source_path=%s", array( $repository_id, $source_path ) );
 		} );
 	}
@@ -88,6 +89,9 @@ final class Catalog {
 		}
 		$search = Input::utf8( $search, 768 );
 		$table  = $this->db->table( 'skills' );
+		if ( '' === $search ) {
+			return $this->db->rows( "SELECT * FROM $table ORDER BY $sort $direction, id $direction LIMIT %d OFFSET %d", array( $limit, $offset ) );
+		}
 		$like   = '%' . $this->db->connection()->esc_like( $search ) . '%';
 		return $this->db->rows( "SELECT * FROM $table WHERE source_path LIKE %s ORDER BY $sort $direction, id $direction LIMIT %d OFFSET %d", array( $like, $limit, $offset ) );
 	}
@@ -105,6 +109,7 @@ final class Catalog {
 		return $this->db->transaction( function () use ( $skill_id, $locale, $data ) {
 			$this->requireRow( 'skills', $skill_id, true );
 			$existing = $this->getTranslation( $skill_id, $locale );
+			$this->invalidateReview( $skill_id );
 			if ( $existing ) {
 				$this->db->updateById( 'skill_translations', (int) $existing['id'], $data );
 				return (int) $existing['id'];
@@ -153,18 +158,19 @@ final class Catalog {
 	}
 
 	public function createCategory( string $name, string $slug, ?int $parent_id = null ): int {
-		$this->ready( true );
+		$this->ready( true, 'aish_manage_taxonomies' );
 		$data = array( 'name' => Input::plain( $name ), 'slug' => Input::slug( $slug ), 'parent_id' => $parent_id, 'created_at' => gmdate( 'Y-m-d H:i:s' ) );
 		return $this->db->transaction( function () use ( $parent_id, $data ) {
 			if ( null !== $parent_id ) {
-				$this->requireRow( 'categories', $parent_id, true );
+				$parent = $this->requireRow( 'categories', $parent_id, true );
+				if ( (int) $parent['is_archived'] ) { throw new \DomainException( 'Parent category is archived.' ); }
 			}
 			return $this->db->insert( 'categories', $data );
 		} );
 	}
 
 	public function createTag( string $name, string $slug ): int {
-		$this->ready( true );
+		$this->ready( true, 'aish_manage_taxonomies' );
 		return $this->db->insert( 'tags', array( 'name' => Input::plain( $name ), 'slug' => Input::slug( $slug ), 'created_at' => gmdate( 'Y-m-d H:i:s' ) ) );
 	}
 
@@ -181,9 +187,11 @@ final class Catalog {
 		list( $terms, $links, $column ) = $this->termConfig( $kind );
 		$this->db->transaction( function () use ( $skill_id, $term_id, $terms, $links, $column ) {
 			$this->requireRow( 'skills', $skill_id, true );
-			$this->requireRow( $terms, $term_id, true );
+			$term = $this->requireRow( $terms, $term_id, true );
+			if ( (int) $term['is_archived'] ) { throw new \DomainException( 'Term is archived.' ); }
 			$table = $this->db->table( $links );
-			$this->db->execute( "INSERT INTO $table (skill_id,$column) VALUES (%d,%d) ON DUPLICATE KEY UPDATE skill_id=VALUES(skill_id)", array( $skill_id, $term_id ) );
+			$changed = $this->db->execute( "INSERT INTO $table (skill_id,$column) VALUES (%d,%d) ON DUPLICATE KEY UPDATE skill_id=VALUES(skill_id)", array( $skill_id, $term_id ) );
+			if ( $changed ) { $this->invalidateReview( $skill_id ); }
 		} );
 	}
 
@@ -194,4 +202,9 @@ final class Catalog {
 		$links = $this->db->table( $links );
 		return $this->db->rows( "SELECT t.* FROM $terms t INNER JOIN $links l ON t.id=l.$column WHERE l.skill_id=%d ORDER BY t.id ASC", array( Input::id( $skill_id ) ) );
 	}
+	private function invalidateReview( int $skill_id ): void {
+		$table = $this->db->table( 'skills' );
+		$this->db->execute( "UPDATE $table SET revision=revision+1, review_status='unreviewed', status=CASE WHEN status='archived' THEN 'archived' ELSE 'draft' END, updated_at=%s WHERE id=%d", array( gmdate( 'Y-m-d H:i:s' ), $skill_id ) );
+	}
+
 }

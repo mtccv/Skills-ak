@@ -22,7 +22,7 @@ final class Migrator {
 	}
 
 	public function migrate( string $target = Schema::VERSION ): true|\WP_Error {
-		$versions = array( '0', '1.0.0', '1.1.0' );
+		$versions = array( '0', '1.0.0', '1.1.0', '1.2.0' );
 		if ( ! in_array( $target, array_slice( $versions, 1 ), true ) ) {
 			return new \WP_Error( 'aish_schema_target', 'Unsupported migration target.' );
 		}
@@ -59,6 +59,15 @@ final class Migrator {
 					}
 				} finally {
 					$this->db->connection()->suppress_errors( $previous );
+				}
+				if ( '1.2.0' === $version ) {
+					// dbDelta does not reliably compare nullability when the SQL type is unchanged.
+					$table = $this->db->table( 'skills' );
+					$this->db->execute( "ALTER TABLE $table MODIFY repository_id bigint(20) unsigned NULL DEFAULT NULL, MODIFY source_path varbinary(768) NULL DEFAULT NULL" );
+					$translations = $this->db->table( 'skill_translations' );
+					$this->db->execute( "ALTER TABLE $translations MODIFY slug varchar(191) NULL DEFAULT NULL" );
+					$this->db->execute( "UPDATE $table SET status='pending', review_status='pending', revision=revision+1 WHERE status='published' AND (review_status<>'approved' OR reviewer_id IS NULL OR reviewer_id=0 OR reviewed_at IS NULL OR reviewed_revision IS NULL OR reviewed_revision<>revision)" );
+					$this->db->execute( "UPDATE $table SET review_status='pending' WHERE status='pending' AND review_status='unreviewed'" );
 				}
 				Schema::verify( $this->db, $version );
 				update_option( $this->option, $version, false );

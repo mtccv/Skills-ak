@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-// CLI-only integration suite. All destructive cleanup is confined to random test tables.
+// CLI-only Final QA suite. Do not treat a syntax check as an executed integration run.
+// All destructive cleanup is confined to random test tables.
 if ( PHP_SAPI !== 'cli' ) {
 	exit( 1 );
 }
@@ -77,7 +78,7 @@ try {
 	do_action( 'admin_init' );
 	$core = Core::boot();
 	check( $core->migrator()->isCurrent(), 'authorized admin initializes active theme database' );
-	check( $core->modules() === array( 'database', 'language', 'catalog' ), 'Core modules loaded in dependency order' );
+	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin' ), 'Core modules loaded in dependency order' );
 	check( Core::boot() === $core, 'Core boot is idempotent' );
 
 	list( $db, $migrator, $catalog, $option ) = fixture();
@@ -93,8 +94,9 @@ try {
 	$skill = $catalog->createSkill( $repo, 'skills/one/SKILL.md' );
 	$other = $catalog->createSkill( $repo, 'skills/two/SKILL.md' );
 	check( $skill !== $other, 'one repository contains multiple Skills' );
-	check( $skill === $catalog->createSkill( $repo, 'skills/one/SKILL.md', 'published' ), 'source duplicate retains stable internal ID' );
+	check( $skill === $catalog->createSkill( $repo, 'skills/one/SKILL.md', 'pending' ), 'source duplicate retains stable internal ID' );
 	check( 'draft' === $catalog->getSkill( $skill )['status'], 'source deduplication does not overwrite existing status' );
+	rejects( fn() => $catalog->createSkill( $repo, 'unreviewed/SKILL.md', 'published' ), InvalidArgumentException::class, 'Catalog cannot bypass human review by directly publishing' );
 	$case = $catalog->createSkill( $repo, 'skills/One/SKILL.md' );
 	check( $case !== $skill, 'source path case preserved with byte-exact unique key' );
 	$repo2 = $catalog->createRepository( 'openai', 'other' );
@@ -148,13 +150,14 @@ try {
 	foreach ( $counts as $entity => $count ) { check( $count === count_rows( $db, $entity ), 'reinstall retains rows: ' . $entity ); }
 	check( (int) $catalog->getTranslation( $skill, 'zh_CN' )['skill_id'] === $skill, 'reinstall retains bilingual stable identity' );
 
-	// Real historical schema: create v1.0.0, seed existing content, then add v1.1.0 column.
+	// Real historical schema: preserve Phase 1 fixtures while upgrading through the current version.
 	list( $old_db, $old_migrator, $old_catalog, $old_option ) = fixture();
 	check( true === $old_migrator->migrate( '1.0.0' ), 'historical v1.0.0 schema installation' );
 	check( ! in_array( 'version_label', array_column( $old_db->rows( 'SHOW COLUMNS FROM ' . $old_db->table( 'skill_versions' ) ), 'Field' ), true ), 'historical fixture physically lacks new column' );
 	$now = gmdate( 'Y-m-d H:i:s' );
 	$old_repo = $old_db->insert( 'repositories', array( 'owner' => 'legacy', 'name' => 'skills', 'created_at' => $now ) );
 	$old_skill = $old_db->insert( 'skills', array( 'repository_id' => $old_repo, 'source_path' => 'SKILL.md', 'status' => 'draft', 'created_at' => $now, 'updated_at' => $now ) );
+	$legacy_published = $old_db->insert( 'skills', array( 'repository_id' => $old_repo, 'source_path' => 'published/SKILL.md', 'status' => 'published', 'created_at' => $now, 'updated_at' => $now ) );
 	$old_translation = $old_db->insert( 'skill_translations', array( 'skill_id' => $old_skill, 'locale' => 'zh_CN', 'title' => '升级前内容 🚀', 'slug' => 'legacy', 'summary' => '', 'content' => '<p>旧内容</p>', 'created_at' => $now, 'updated_at' => $now ) );
 	$old_version = $old_db->insert( 'skill_versions', array( 'skill_id' => $old_skill, 'commit_sha' => $sha, 'content_hash' => hash( 'sha256', 'legacy' ), 'source_content' => 'legacy', 'created_at' => $now ) );
 	$second = new wpdb( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST );
@@ -166,8 +169,10 @@ try {
 		$second->get_var( $second->prepare( 'SELECT RELEASE_LOCK(%s)', $old_migrator->lockName() ) );
 		$second->close();
 	}
-	check( true === $old_migrator->migrate(), 'upgrade v1.0.0 to v1.1.0 after lock released' );
+	check( true === $old_migrator->migrate(), 'upgrade v1.0.0 through current schema after lock released' );
 	Schema::verify( $old_db, Schema::VERSION );
+	$legacy_review = $old_catalog->getSkill( $legacy_published );
+	check( (int) $legacy_review['id'] === $legacy_published && 'pending' === $legacy_review['status'] && 'pending' === $legacy_review['review_status'], 'legacy publication without review evidence retains ID and requires review' );
 	check( $old_skill === (int) $old_catalog->getSkill( $old_skill )['id'] && $old_translation === (int) $old_catalog->getTranslation( $old_skill, 'zh_CN' )['id'] && '升级前内容 🚀' === $old_catalog->getTranslation( $old_skill, 'zh_CN' )['title'], 'upgrade preserves stable IDs and Unicode content' );
 	check( $old_version === (int) $old_catalog->versionsForSkill( $old_skill )[0]['id'] && '' === $old_catalog->versionsForSkill( $old_skill )[0]['version_label'], 'upgrade preserves historical version and initializes new field' );
 	check( is_wp_error( $old_migrator->migrate( '1.0.0' ) ), 'automatic downgrade refused' );

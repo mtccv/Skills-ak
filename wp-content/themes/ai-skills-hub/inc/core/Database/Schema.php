@@ -6,15 +6,15 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.1.0';
+	public const VERSION = '1.2.0';
 
 	public const COLUMNS = array(
-		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s' ),
-		'skills' => array( 'id' => '%d', 'repository_id' => '%d', 'source_path' => '%s', 'status' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
-		'skill_translations' => array( 'id' => '%d', 'skill_id' => '%d', 'locale' => '%s', 'title' => '%s', 'slug' => '%s', 'summary' => '%s', 'content' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d' ),
+		'skills' => array( 'id' => '%d', 'repository_id' => '%d', 'source_path' => '%s', 'status' => '%s', 'revision' => '%d', 'review_status' => '%s', 'risk_level' => '%s', 'reviewer_id' => '%d', 'reviewed_at' => '%s', 'reviewed_revision' => '%d', 'review_notes' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'skill_translations' => array( 'id' => '%d', 'skill_id' => '%d', 'locale' => '%s', 'title' => '%s', 'slug' => '%s', 'summary' => '%s', 'content' => '%s', 'seo_title' => '%s', 'seo_description' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
 		'skill_versions' => array( 'id' => '%d', 'skill_id' => '%d', 'commit_sha' => '%s', 'content_hash' => '%s', 'source_content' => '%s', 'created_at' => '%s', 'version_label' => '%s' ),
-		'categories' => array( 'id' => '%d', 'name' => '%s', 'slug' => '%s', 'parent_id' => '%d', 'created_at' => '%s' ),
-		'tags' => array( 'id' => '%d', 'name' => '%s', 'slug' => '%s', 'created_at' => '%s' ),
+		'categories' => array( 'id' => '%d', 'name' => '%s', 'slug' => '%s', 'parent_id' => '%d', 'created_at' => '%s', 'is_archived' => '%d' ),
+		'tags' => array( 'id' => '%d', 'name' => '%s', 'slug' => '%s', 'created_at' => '%s', 'is_archived' => '%d' ),
 		'skill_categories' => array( 'skill_id' => '%d', 'category_id' => '%d' ),
 		'skill_tags' => array( 'skill_id' => '%d', 'tag_id' => '%d' ),
 	);
@@ -93,6 +93,15 @@ tag_id bigint(20) unsigned NOT NULL,
 PRIMARY KEY  (skill_id,tag_id),
 KEY tag_id (tag_id)",
 		);
+		if ( version_compare( $version, '1.2.0', '>=' ) ) {
+			$bodies['skills'] = str_replace( array( 'repository_id bigint(20) unsigned NOT NULL,', 'source_path varbinary(768) NOT NULL,' ), array( 'repository_id bigint(20) unsigned DEFAULT NULL,', 'source_path varbinary(768) DEFAULT NULL,' ), $bodies['skills'] );
+			$bodies['skills'] = str_replace( "created_at datetime NOT NULL,", "revision bigint(20) unsigned NOT NULL DEFAULT 1,\nreview_status varchar(20) NOT NULL DEFAULT 'unreviewed',\nrisk_level varchar(10) NOT NULL DEFAULT 'unknown',\nreviewer_id bigint(20) unsigned DEFAULT NULL,\nreviewed_at datetime DEFAULT NULL,\nreviewed_revision bigint(20) unsigned DEFAULT NULL,\nreview_notes text,\ncreated_at datetime NOT NULL,", $bodies['skills'] );
+			$bodies['skill_translations'] = str_replace( 'created_at datetime NOT NULL,', "seo_title varchar(191) NOT NULL DEFAULT '',\nseo_description varchar(320) NOT NULL DEFAULT '',\ncreated_at datetime NOT NULL,", $bodies['skill_translations'] );
+			$bodies['skill_translations'] = str_replace( 'slug varchar(191) NOT NULL,', 'slug varchar(191) DEFAULT NULL,', $bodies['skill_translations'] );
+			foreach ( array( 'repositories', 'categories', 'tags' ) as $entity ) {
+				$bodies[ $entity ] = str_replace( 'created_at datetime NOT NULL,', "is_archived tinyint(1) unsigned NOT NULL DEFAULT 0,\ncreated_at datetime NOT NULL,", $bodies[ $entity ] );
+			}
+		}
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -106,6 +115,9 @@ KEY tag_id (tag_id)",
 			if ( 'skill_versions' === $entity && version_compare( $version, '1.1.0', '<' ) ) {
 				unset( $columns['version_label'] );
 			}
+			if ( version_compare( $version, '1.2.0', '<' ) ) {
+				foreach ( array( 'is_archived', 'revision', 'review_status', 'risk_level', 'reviewer_id', 'reviewed_at', 'reviewed_revision', 'review_notes', 'seo_title', 'seo_description' ) as $column ) { unset( $columns[ $column ] ); }
+			}
 			$table  = $db->table( $entity );
 			$fields = $db->rows( "SHOW COLUMNS FROM $table" );
 			$actual = array_column( $fields, 'Field' );
@@ -115,6 +127,12 @@ KEY tag_id (tag_id)",
 			foreach ( $fields as $field ) {
 				if ( 'id' === $field['Field'] && ( ! str_contains( $field['Type'], 'bigint' ) || ! str_contains( $field['Type'], 'unsigned' ) || ! str_contains( $field['Extra'], 'auto_increment' ) ) ) {
 					throw new \RuntimeException( 'Core identity columns are invalid.' );
+				}
+				if ( 'skills' === $entity && version_compare( $version, '1.2.0', '>=' ) && in_array( $field['Field'], array( 'repository_id', 'source_path' ), true ) && 'YES' !== $field['Null'] ) {
+					throw new \RuntimeException( 'Manual Skill source columns must allow NULL.' );
+				}
+				if ( 'skill_translations' === $entity && version_compare( $version, '1.2.0', '>=' ) && 'slug' === $field['Field'] && 'YES' !== $field['Null'] ) {
+					throw new \RuntimeException( 'Draft translation slugs must allow NULL.' );
 				}
 				if ( 'source_path' === $field['Field'] && 'varbinary(768)' !== strtolower( $field['Type'] ) ) {
 					throw new \RuntimeException( 'Source paths require exact byte comparison.' );
