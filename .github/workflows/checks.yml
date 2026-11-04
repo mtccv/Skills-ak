@@ -26,3 +26,38 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run check:assets
+  wordpress-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci && npm run build && npm run check:assets
+      - name: Generate temporary development credentials
+        run: |
+          python3 - <<'PY'
+          import os, secrets
+          from pathlib import Path
+          Path('.env').write_text('MYSQL_DATABASE=ai_skills_hub\nMYSQL_USER=aish\nMYSQL_PASSWORD=' + secrets.token_hex(24) + '\nMYSQL_ROOT_PASSWORD=' + secrets.token_hex(24) + '\n')
+          Path('.env').chmod(0o600)
+          password = Path(os.environ['RUNNER_TEMP']) / 'aish-admin-password'
+          password.write_text(secrets.token_hex(24) + '\n')
+          password.chmod(0o600)
+          PY
+      - run: docker compose up -d --wait mysql wordpress
+      - name: Install development WordPress and activate theme
+        run: |
+          docker compose run --rm -T cli core install --url=http://localhost:8080 --title='AI Skills Hub Dev' --admin_user=cloud_admin --admin_email=dev@example.invalid --skip-email --prompt=admin_password < "$RUNNER_TEMP/aish-admin-password"
+          docker compose run --rm -T cli theme activate ai-skills-hub
+      - run: npm run lint:php && npm run smoke:wp
+      - name: Record runtime versions
+        run: |
+          docker compose exec -T wordpress php -v
+          docker compose exec -T mysql mysql --version
+          docker compose run --rm -T cli core version
+      - name: Stop temporary test containers
+        if: always()
+        run: docker compose down
