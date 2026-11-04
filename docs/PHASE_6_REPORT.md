@@ -56,6 +56,7 @@
 | Tailwind / esbuild / 资源 | 通过；CSS 47227 bytes、JS 56108 bytes |
 | JavaScript / Bash / Compose | 语法及 `docker compose config --quiet` 通过 |
 | Git diff / 基本代码复核 | 通过；复核人工内容保护、来源身份、租约与未知计费；修正标题长度、失联用量汇总、连接权限一致性及后台记录显示 |
+| GitHub Actions 基本 CI | PHP 8.3/8.4 的语法和全部隔离检查、assets 均 success；WordPress/MySQL 按策略 skipped |
 
 PHP 使用 Cloud 缓存官方镜像，只读挂载源码；没有启动 MySQL 或真实 WordPress。Node 24.22.1、npm 11.9.0。既有 caniuse-lite 日期提示仍出现，构建成功，未为消除提示变更依赖。
 
@@ -69,4 +70,8 @@ PHP 使用 Cloud 缓存官方镜像，只读挂载源码；没有启动 MySQL �
 
 重新生成保留独立建议，已有人工字段只能在原编辑器由人合并；使用场景片段不自动替换整个正文。AI 证据匹配和语言字符检查不能保证事实、语义或翻译质量。风险与成本均有明确局限，未知费用不会显示为零，人工重试可能再计费。
 
-完整操作见 [AI_USAGE.md](AI_USAGE.md)，配置见 [API_CONFIGURATION.md](API_CONFIGURATION.md)，安全与待测项见 [AI_SECURITY.md](AI_SECURITY.md)。提交与 CI 证据将在同步后补记。完成后暂停，等待 Phase 7 指令。
+完整操作见 [AI_USAGE.md](AI_USAGE.md)，配置见 [API_CONFIGURATION.md](API_CONFIGURATION.md)，安全与待测项见 [AI_SECURITY.md](AI_SECURITY.md)。
+
+实现提交 `b5c159bf8befb6a4fdc941f5d2384bffccb3b8ac` 已正常推送 GitHub main，核对远端 SHA 一致。[Core checks 41927463668](https://github.com/mtccv/Skills-ak/actions/runs/41927463668) 的 PHP 8.3/8.4 与 assets 全部通过，WordPress/MySQL 按策略跳过。本报告和进度的 Git/CI 补记属于随后纯文档提交，不改变已验证代码；最终交付 SHA 以交付消息及 `git log -1` 为准。
+
+Phase 6 完成后暂停，等待 Phase 7 指令。

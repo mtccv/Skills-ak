@@ -8,7 +8,7 @@
 | Phase 3 中英文双语前台 | 用户已验收 | PHASE_3_REPORT.md / FRONTEND.md |
 | Phase 4 搜索与 SEO | 用户已验收 | PHASE_4_REPORT.md / SEO.md |
 | Phase 5 GitHub Skills 自动采集 | 用户已验收 | PHASE_5_REPORT.md / GITHUB_IMPORT.md / IMPORT_SECURITY.md |
-| Phase 6 AI 双语内容 | 实现与必要检查完成，正在提交同步 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
+| Phase 6 AI 双语内容 | 实现、必要检查与 GitHub 同步完成，等待用户验收 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
 | Phase 7 | 未启动，等待用户安排 | 不自动进入下一阶段 |
 | Final QA | 待执行 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
 
@@ -36,4 +36,6 @@ Phase 5 以已验收 Phase 4 的 `3766dc1b410e50dd9873b1ef52a1a818d4a3f8fb` 为�
 
 Phase 6 以 GitHub main `4a7d70c3eeda9c4d4f1f668508ea7d036b4bb4fe` 为基线，新增可替换 Provider、OpenAI/兼容协议、多模型配置、结构化双语/局部草稿、证据与风险建议、原生 AI Settings/Generation、可恢复 Cron 与用量/估算成本。主题/Core 0.7.0、schema 1.5.0；保留原十一表定义，追加 ai_jobs/ai_attempts/ai_reviews。API Key 只存服务器配置，队列默认暂停。人工采用检查来源与编辑修订，只填选中的空字段，保留人工内容并转正常待审核。
 
-本轮 Cloud PHP 8.3 语法检查 87 文件、1466 项隔离/模拟断言、前端构建与资源、脚本及 Compose 配置检查通过。没有执行真实 AI API、MySQL、WordPress、WPML、浏览器或端到端测试；完整验收仍留 Final QA。文件、限制及 Git/CI 证据见 [Phase 6 报告](PHASE_6_REPORT.md)。完成提交同步后暂停，等待 Phase 7 指令。
+本轮 Cloud PHP 8.3 语法检查 87 文件、1466 项隔离/模拟断言、前端构建与资源、脚本及 Compose 配置检查通过。实现提交 `b5c159bf8befb6a4fdc941f5d2384bffccb3b8ac` 已同步 GitHub main；[CI 41927463668](https://github.com/mtccv/Skills-ak/actions/runs/41927463668) 的 PHP 8.3/8.4 和 assets 均 success，WordPress/MySQL 按策略 skipped。Git/CI 补记为随后纯文档提交。
+
+没有执行真实 AI API、MySQL、WordPress、WPML、浏览器或端到端测试；完整验收仍留 Final QA。文件、限制及证据见 [Phase 6 报告](PHASE_6_REPORT.md)。Phase 6 完成后暂停，等待 Phase 7 指令。
