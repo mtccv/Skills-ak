@@ -6,7 +6,7 @@
 | Phase 1 数据库与 Core | 用户已验收 | PHASE_1_REPORT.md；历史 CI 证据保留 |
 | Phase 2 WordPress 原生后台 | 用户已验收 | PHASE_2_REPORT.md |
 | Phase 3 中英文双语前台 | 用户已验收 | PHASE_3_REPORT.md / FRONTEND.md |
-| Phase 4 搜索与 SEO | 开发和 Cloud 必要检查完成，正在提交同步 | PHASE_4_REPORT.md / SEO.md |
+| Phase 4 搜索与 SEO | 代码、必要检查与 GitHub 同步完成，等待用户验收 | PHASE_4_REPORT.md / SEO.md |
 | 后续阶段 | 未启动，等待用户安排 | 不自动进入采集或 AI |
 | Final QA | 待执行 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
 
@@ -24,4 +24,4 @@ Phase 3 代码提交 `6cdc701c5553129307656c458ec89a5d27a0c19f`；[CI 基本检�
 
 Phase 4 在已验收 Phase 3 的 `729b0a92a7659d7bda5bbafe10a76a5f49a512b0` 上实现中英文 Skills/教程搜索、组合筛选、批量查询、双语 SEO 配置和 Meta、hreflang/x-default、分页 XML Sitemap、插件输出协调与 robots 策略。主题/Core 0.5.0；schema 1.3.0 仅增加两个非唯一索引，保留原八表和全部数据。没有提前实现自动采集或 AI。
 
-Cloud PHP 8.3.36 全部 51 个文件语法通过，342 项隔离基础断言通过，Tailwind/esbuild、资源及脚本检查通过。真实 MySQL、WordPress、WPML、SEO 插件、浏览器、并发和端到端均仍待 Final QA，隔离检查不作为集成验收。最终提交及 CI 证据在同步后补记。
+Cloud PHP 8.3.36 全部 51 个文件语法通过，342 项隔离基础断言通过，Tailwind/esbuild、资源及脚本检查通过。真实 MySQL、WordPress、WPML、SEO 插件、浏览器、并发和端到端均仍待 Final QA，隔离检查不作为集成验收。实现提交 `3df1e0573f84a8d7c563094ebf16af383cc2a636`，已同步 GitHub main；[CI 41917878687](https://github.com/mtccv/Skills-ak/actions/runs/41917878687) 的 PHP 8.3/8.4 与 assets 均通过，WordPress/MySQL 任务按策略 skipped。报告及本进度随后进行纯文档补记，不改变已检查代码。Phase 4 完成后暂停。

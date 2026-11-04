@@ -21,6 +21,8 @@
 
 ## 文件清单
 
+本轮 29 个文件变更：9 个新增、20 个修改。
+
 新增：
 
 - `inc/core/Frontend/Seo.php`、`SeoSettings.php`、`Sitemap.php`。
@@ -47,6 +49,7 @@
 | Tailwind + esbuild | 构建通过 |
 | 资源检查 | 通过；CSS 46069 bytes，JS 56108 bytes |
 | JavaScript / Bash 语法 | 通过 |
+| GitHub Actions 基本 CI | PHP 8.3/8.4 的语法与五组隔离检查、assets 全部 success；wordpress-smoke 按策略 skipped |
 | Git diff 空白与基本代码复核 | 通过；修正持久查询缓存、空正文计数、Sitemap 路由/XML 样式保留、禁用 Sitemap 广告及语言前缀重复等问题 |
 
 检查使用 Cloud 缓存官方 WordPress/PHP 镜像，只读挂载源码；没有启动 MySQL。Node 24.22.1、npm 11.9.0。Browserslist 仍提示既有 caniuse-lite 数据较旧，构建成功，未为消除提示变更依赖。
@@ -59,4 +62,6 @@
 
 WPML 多域名/自定义路由仍需使用已有 request/URL 适配接口，未宣称安装插件后所有模式自动通过；分类名称共享、不生成译文。About/Contact 无实际语言正文时保持可访问但 noindex。只有真实内容才进入 Sitemap。物理 robots.txt 由服务器返回时不会经过主题 filter，需要 Final QA 核对真实 HTTP 响应。
 
-代码及报告将正常提交并同步 GitHub main；具体实现 SHA、CI 链接和最终交付 SHA 在提交完成后补记。完成 Phase 4 后暂停，等待下一阶段指令。
+实现提交：`3df1e0573f84a8d7c563094ebf16af383cc2a636`，已正常推送 GitHub main 并核对远端一致。CI 证据：[Core checks 41917878687](https://github.com/mtccv/Skills-ak/actions/runs/41917878687)。
+
+本报告及进度的 CI 补记属于随后纯文档提交，不改变已检查代码；最终交付 SHA 以交付消息及 `git log -1` 为准。Phase 4 完成后暂停，等待下一阶段指令。
