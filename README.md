@@ -18,11 +18,11 @@ cp .env.example .env
 
 ```sh
 docker compose up -d --wait mysql wordpress
-docker compose run --rm cli core install \
+docker compose run --rm cli wp core install \
   --url=http://localhost:8080 --title='AI Skills Hub Dev' \
   --admin_user=cloud_admin --admin_email=dev@example.invalid --prompt=admin_password
-docker compose run --rm cli theme activate ai-skills-hub
-docker compose run --rm cli core version
+docker compose run --rm cli wp theme activate ai-skills-hub
+docker compose run --rm cli wp core version
 docker compose exec -T wordpress php -v
 docker compose exec -T mysql mysql --version
 curl --fail http://localhost:8080/

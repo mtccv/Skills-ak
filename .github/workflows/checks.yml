@@ -50,14 +50,14 @@ jobs:
       - run: docker compose up -d --wait mysql wordpress
       - name: Install development WordPress and activate theme
         run: |
-          docker compose run --rm -T cli core install --url=http://localhost:8080 --title='AI Skills Hub Dev' --admin_user=cloud_admin --admin_email=dev@example.invalid --skip-email --prompt=admin_password < "$RUNNER_TEMP/aish-admin-password"
-          docker compose run --rm -T cli theme activate ai-skills-hub
+          docker compose run --rm -T cli wp core install --url=http://localhost:8080 --title='AI Skills Hub Dev' --admin_user=cloud_admin --admin_email=dev@example.invalid --skip-email --prompt=admin_password < "$RUNNER_TEMP/aish-admin-password"
+          docker compose run --rm -T cli wp theme activate ai-skills-hub
       - run: npm run lint:php && npm run smoke:wp
       - name: Record runtime versions
         run: |
           docker compose exec -T wordpress php -v
           docker compose exec -T mysql mysql --version
-          docker compose run --rm -T cli core version
+          docker compose run --rm -T cli wp core version
       - name: Stop temporary test containers
         if: always()
         run: docker compose down
