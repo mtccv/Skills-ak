@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+node_modules/
+vendor/
+wp-content/themes/ai-skills-hub/assets/dist/*
+!wp-content/themes/ai-skills-hub/assets/dist/.gitkeep
+wp-content/uploads/
+*.sql
+*.sql.gz
+*.log
+*.zip
+.DS_Store
+.cache/
+coverage/

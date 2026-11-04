@@ -1,0 +1,61 @@
+name: ai-skills-hub
+
+x-wordpress-env: &wordpress-env
+  WORDPRESS_DB_HOST: mysql:3306
+  WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-ai_skills_hub}
+  WORDPRESS_DB_USER: ${MYSQL_USER:-aish}
+  WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ai_skills_hub}
+      MYSQL_USER: ${MYSQL_USER:-aish}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [CMD-SHELL, 'MYSQL_PWD="$$MYSQL_PASSWORD" mysql --protocol=TCP -h 127.0.0.1 -u "$$MYSQL_USER" "$$MYSQL_DATABASE" -e "SELECT 1" >/dev/null 2>&1']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      <<: *wordpress-env
+      WORDPRESS_DEBUG: '1'
+    ports:
+      - '127.0.0.1:8080:80'
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wp-content/themes/ai-skills-hub:/var/www/html/wp-content/themes/ai-skills-hub:ro
+    healthcheck:
+      test: [CMD, php, -r, "exit(@fsockopen('127.0.0.1', 80) ? 0 : 1);"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  cli:
+    image: wordpress:cli-php8.3
+    profiles: [tools]
+    user: '33:33'
+    environment:
+      <<: *wordpress-env
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wp-content/themes/ai-skills-hub:/var/www/html/wp-content/themes/ai-skills-hub:ro
+
+volumes:
+  mysql_data:
+  wordpress_data:
