@@ -1,11 +1,11 @@
-# 双语前台、搜索与 SEO 使用维护（Phase 3–5）
+# 双语前台、搜索与 SEO 使用维护（Phase 3–6）
 
-前台复用 Phase 1/2 的八张 Core 表；Phase 3 交付为 schema `1.2.0`，Phase 4 的 `1.3.0` 追加两个非唯一搜索索引。Phase 0–4 已验收；当前 Phase 5 主题/Core 为 `0.6.0`、schema 为 `1.4.0`，保留全部前台/搜索/SEO 功能，仅为后台采集扩展仓库/版本元数据和 imports/jobs/import_logs 运营表。没有 Skills 文章副本，不自动生成译文；教程、说明页面和私有来信仍使用 WordPress 原生 posts/postmeta 存储。
+前台复用 Phase 1/2 的八张 Core 表；Phase 3 交付为 schema `1.2.0`，Phase 4 的 `1.3.0` 追加搜索索引，Phase 5 的 `1.4.0` 增加采集元数据和运营表。Phase 0–5 已验收；当前 Phase 6 主题/Core 为 `0.7.0`、schema 为 `1.5.0`，保留全部前台/搜索/SEO 功能，只增加后台 AI 运营表与人工审稿流程。没有 Skills 文章副本，AI 不自动写入公开译文；教程、说明页面和私有来信仍使用 WordPress 原生 posts/postmeta 存储。
 
 ## 启用与真实内容准备
 
 1. 在 Codex Cloud 按 README 构建主题资源并启用主题，然后以管理员身份访问一次 WordPress 后台。`Router::refreshRewrites()` 在管理员 `admin_init` 检查 `aish_frontend_routes_version`（Phase 4 为 2，含 Sitemap 路由）：原来使用普通链接时改为 `/%postname%/`，已有固定链接设置则保留；注册双语规则并刷新重写。也可在“设置 → 固定链接”保存一次重试。Web 服务需要将路径请求交给 WordPress；不要求用户本机开发或外部部署。
-2. 在 AI Skills Hub → Skills 新建或编辑真实 Skill。人工资源不填写仓库和路径；GitHub 来源继续使用既有仓库 ID 与规范相对路径。Phase 5 可从 GitHub Imports 中打开采集到的 pending Skill；原文仅为后台证据，需要人工分别填写实际拥有的中文/英文内容，缺少译文时保持空白。
+2. 在 AI Skills Hub → Skills 新建或编辑真实 Skill。人工资源不填写仓库和路径；GitHub 来源继续使用既有仓库 ID 与规范相对路径。可从 GitHub Imports 打开采集到的 pending Skill，也可在 AI Generation 生成私有双语草稿并人工核实后采用空字段；AI 不覆盖现有人工内容。分别维护真实中文/英文内容，缺少译文时保持空白。
 3. 至少一种语言的标题、Slug、简介、正文完整后提交审核，由具有审核能力的用户批准。仅保存草稿不会出现在前台；修改已发布内容后需要重新审核。后台私有预览与公开详情是不同入口。
 4. 按下面的标签约定维护精选、平台和许可证，再将标签关联到 Skill；新关联会使原审核失效。没有相关记录时首页展示真实空状态，不填充演示卡片、虚构数量或用户评价。
 5. 在“教程 / Tutorials”添加真实教程；在 WordPress “页面”添加 About、Contact、Submit a Skill 的实际说明。Contact 和投稿表单本身可以接收来信，说明正文为空时不会自动编造机构介绍、联系方式或投稿政策。
@@ -111,6 +111,16 @@ AI Skills Hub → “来信与投稿 / Inbox”仅对拥有 `aish_manage_setting
 
 采集的 License/依赖/风险均为后台证据，不自动变成公开 `license-*`、`platform-*` 标签或正文声明。静态检查不表示脚本已执行、平台已测试或绝对安全。既有 WPML 接口、独立双语 SEO、Canonical/hreflang、robots 和 Sitemap 门禁保持不变；具体采集操作见 [GITHUB_IMPORT.md](GITHUB_IMPORT.md)，信任边界见 [IMPORT_SECURITY.md](IMPORT_SECURITY.md)。
 
+## Phase 6 AI 草稿如何进入前台
+
+AI Generation 只在受限后台展示生成结果、来源证据、用量和人工审稿。生成完成不会新增公开 URL、修改正式译文或使缺译页面出现在 hreflang/Sitemap；AI 原文输出和未接受草稿不传给前台模板。模型请求由独立 Cron worker 执行，前台仍不访问 AI 服务。
+
+管理员比较 GitHub 原文和 AI 草稿后，可单独编辑中文/英文的审稿内容并明确采用空的标题、摘要或正文。采用时核对来源、Skill 修订与现有译文，过期草稿不能写回；现有非空人工内容、slug 和 SEO 不覆盖。仅摘要/使用场景的重新生成不会无条件替换完整介绍，使用场景片段由编辑在正常 Skills 编辑器人工合并。
+
+采用后的 Skill 进入 pending，需要补充真实 Slug、核实内容完整性，再按原 Reviews 流程审核当前修订。原公开搜索、详情和 Sitemap 门禁保持不变；人工采用导致审核失效时，旧公开记录会按原规则停止公开。AI 草稿接受与内容正式批准是两个步骤。
+
+分类/标签/平台建议不自动创建或关联，AI License/依赖/风险说明也不会自动成为公开标签或“安全”声明。编辑核实后在既有管理页维护；未确定的信息保留待核实文字。公开内容一旦采用，中文/英文仍是同一个稳定 Skill ID 的原翻译表行，既有 WPML 适配和缺译行为不变。操作及安全说明见 [AI_USAGE.md](AI_USAGE.md)、[AI_SECURITY.md](AI_SECURITY.md)。
+
 ## API 与扩展接口
 
 `FrontendModule` 在 Core 注册 `public_catalog`、`editorial`、`frontend` 服务，依赖既有 database/language/catalog 模块。模板通过 `Router::context()`、`View` 和 WordPress `get_template_part()` 渲染；业务查询不放入 `functions.php`。
@@ -149,4 +159,4 @@ XML 索引为 `/aish-sitemap.xml`，子文件形如 `/aish-sitemap-skills-zh-1.x
 
 ## 验证范围
 
-本文件描述当前实现和编辑方式，不作为集成通过证明。本阶段按用户策略仅做必要 PHP、构建及基础代码检查；前台/搜索/SEO 历史结果见 Phase 3/4 报告，采集模拟检查见 Phase 5 报告。完整 MySQL、WordPress、WPML、浏览器、并发、表单滥用/缓存及端到端验收统一留到 Final QA。本轮没有写入演示数据或调用真实 GitHub API，模拟采集不代表真实环境通过；未开发 AI 内容生成或部署外部站点。
+本文件描述当前实现和编辑方式，不作为集成通过证明。本阶段按用户策略仅做必要 PHP、构建及基础代码检查；前台/搜索/SEO、采集历史结果分别见 Phase 3–5 报告，本轮 AI 模拟检查见 Phase 6 报告。完整真实 AI/GitHub API、MySQL、WordPress、WPML、浏览器、并发、表单滥用/缓存及端到端验收统一留到 Final QA。没有写入演示内容或部署外部站点，Mock Provider 不能证明真实模型质量或生产运行已经通过。

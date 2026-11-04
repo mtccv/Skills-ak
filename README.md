@@ -1,8 +1,8 @@
 # AI Skills Hub
 
-WordPress 原创主题项目，内置 AI Skills Hub Core。Phase 0–4 已验收；Phase 5 在既有双语前台、原生后台、搜索与 SEO 之上增加 GitHub Skills 发现、解析、去重、增量同步、Cron 小任务和人工处理。主题/Core 为 0.6.0；schema 1.4.0 保留原八表、稳定 Skill ID 和双语关系，扩展仓库/版本元数据并追加三张采集运营表。新资源只进入待审核，不自动发布或生成译文；AI 内容留 Phase 6。
+WordPress 原创主题项目，内置 AI Skills Hub Core。Phase 0–5 已验收；Phase 6 在既有双语前台、原生后台、搜索、SEO 和 GitHub 采集之上增加可替换 AI Provider、结构化双语草稿、分类/安装/风险建议及人工采用流程。主题/Core 为 0.7.0；schema 1.5.0 保留八张核心表和三张采集运营表，仅追加 AI 任务、尝试用量及审稿记录。Skill ID、来源唯一键和双语关系不变；AI 不能自动发布或覆盖人工内容。
 
-完整需求及阶段门禁见 [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md)，Core 说明见 [docs/CORE.md](docs/CORE.md)，本轮记录见 [docs/PHASE_5_REPORT.md](docs/PHASE_5_REPORT.md)，采集使用和安全说明分别见 [docs/GITHUB_IMPORT.md](docs/GITHUB_IMPORT.md)、[docs/IMPORT_SECURITY.md](docs/IMPORT_SECURITY.md)。前台维护见 [docs/FRONTEND.md](docs/FRONTEND.md)，搜索与 SEO 见 [docs/SEO.md](docs/SEO.md)，进度见 [docs/PROGRESS.md](docs/PROGRESS.md)。Phase 0–4 报告保留历史证据，本轮不改写历史测试结果。Phase 5 完成提交同步后暂停，等待 Phase 6 指令。
+完整需求及阶段门禁见 [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md)，Core 说明见 [docs/CORE.md](docs/CORE.md)，本轮记录见 [docs/PHASE_6_REPORT.md](docs/PHASE_6_REPORT.md)。AI 操作、API 配置及安全边界分别见 [AI_USAGE.md](docs/AI_USAGE.md)、[API_CONFIGURATION.md](docs/API_CONFIGURATION.md)、[AI_SECURITY.md](docs/AI_SECURITY.md)。采集维护见 [GITHUB_IMPORT.md](docs/GITHUB_IMPORT.md)、[IMPORT_SECURITY.md](docs/IMPORT_SECURITY.md)，前台见 [FRONTEND.md](docs/FRONTEND.md)，搜索与 SEO 见 [SEO.md](docs/SEO.md)，进度见 [PROGRESS.md](docs/PROGRESS.md)。Phase 0–5 报告保留历史证据，不改写为本轮验收。Phase 6 完成提交同步后暂停，等待 Phase 7 指令。
 
 ## Codex Cloud 开发
 
@@ -38,7 +38,7 @@ docker compose stop
 
 `lint:php` 优先使用环境内 PHP，否则使用已运行的 WordPress 容器。CI 自带 PHP。Cloud 只有缓存的 PHP 镜像时，也可用隔离的一次性容器只读挂载主题及 tests 执行 `php -l`，不启动数据库。
 
-按当前策略，每阶段运行 PHP、构建和基本代码检查；`tests/basic/` 包含路由、搜索查询合同、教程、SEO、Sitemap，以及 GitHub API/Tree/Frontmatter/风险/采集状态机的独立 PHP 检查，可逐个 `php tests/basic/文件名.php` 执行。它们使用模拟响应、函数/数据库替身，不调用真实 GitHub API 或加载真实 WordPress/MySQL；CI 同步执行，不能把断言通过视为集成通过。完整集成留到 Final QA。届时可在可丢弃的开发 WordPress 上执行 `npm run test:core` 与 `npm run smoke:wp`，或手动触发 GitHub Actions 的 `Core checks` 并设置 `final_qa=true`。现有集成脚本使用随机表前缀并在 finally 清理，是 Final QA 的基线而非全部验收。默认 push/PR 不运行 MySQL/WordPress 任务。
+按当前策略，每阶段运行 PHP、构建和基本代码检查；`tests/basic/` 包含路由、搜索查询合同、教程、SEO、Sitemap、GitHub 采集和 AI Provider/结构化内容/任务/人工保护的独立 PHP 检查，可逐个 `php tests/basic/文件名.php` 执行。它们使用模拟响应、函数/数据库替身，不调用真实 AI/GitHub API 或加载真实 WordPress/MySQL；CI 同步执行，不能把断言通过视为集成通过。完整集成留到 Final QA。届时可在可丢弃的开发 WordPress 上执行 `npm run test:core` 与 `npm run smoke:wp`，或手动触发 GitHub Actions 的 `Core checks` 并设置 `final_qa=true`。现有集成脚本使用随机表前缀并在 finally 清理，是 Final QA 的基线而非全部验收。默认 push/PR 不运行 MySQL/WordPress 任务。
 
 `npm run dev` 监听 CSS，`npm run dev:js` 监听 JS，分别在终端运行；改变依赖后提交 `package-lock.json`。容器镜像使用官方版本系列标签，可变标签不保证长期完全重现；已取得的实际版本和 digest 见阶段报告，更新镜像后应重新验收。
 
@@ -46,14 +46,14 @@ docker compose stop
 
 ## 目录与当前范围
 
-- `wp-content/themes/ai-skills-hub`：原创主题、模块化 Core、原生 Admin 服务/界面及资源源码；`inc/core/Sources` 为采集与调度实现。
+- `wp-content/themes/ai-skills-hub`：原创主题、模块化 Core、原生 Admin 服务/界面及资源源码；`inc/core/Sources` 为采集，`inc/core/AI` 为 AI Provider、提示/输出、任务和审稿实现。
 - `compose.yaml`、`.env.example`：Cloud 开发环境。
 - `scripts/`、`.github/workflows/`：构建与语法验证。
-- `tests/basic/`：隔离路由、搜索、SEO、Sitemap 与模拟 GitHub 采集检查。
+- `tests/basic/`：隔离路由、搜索、SEO、Sitemap 与模拟 GitHub / AI 检查。
 - `tests/integration/core.php`：数据库结构、重复安装、实际增量升级、双语关联与安全测试基线，留 Final QA 执行。
 - `docs/`：环境检查和阶段结果。
 
-Skills 采用自定义表作为主存储，内部 ID 与语言无关；不注册影子 CPT。内置双语路由与 WPML 公开 API/适配接口并存。GitHub 采集限管理员配置的公开仓库，在后台分步运行；普通前台不执行扫描，不调用 AI。真实 GitHub、WordPress/MySQL、WPML、Yoast、Rank Math 联调留 Final QA。服务器密钥不得进入源码、前端或日志。每阶段完成代码提交与推送，并报告测试限制。
+Skills 采用自定义表作为主存储，内部 ID 与语言无关；不注册影子 CPT。内置双语路由与 WPML 公开 API/适配接口并存。GitHub 采集和 AI 生成仅处理管理员授权的来源与任务，在后台分步运行；普通前台不执行扫描或 AI 请求。真实 AI/GitHub、WordPress/MySQL、WPML、Yoast、Rank Math 联调留 Final QA。服务器密钥不得进入源码、前端或日志。每阶段完成代码提交与推送，并报告测试限制。
 
 ## Phase 2 后台使用
 
@@ -61,7 +61,7 @@ Skills 采用自定义表作为主存储，内部 ID 与语言无关；不注册
 
 创建 Skill 时可以不选择仓库；手工分别维护中文/英文标题、简介、正文和 SEO。保存草稿允许内容不完整，空白译文不会自动补全。提交审核后，有审核能力的用户选择风险等级并记录备注；批准当前修订且至少一种语言内容完整才会发布。已发布内容修改后必须重新审核。预览只对授权用户开放，不是公开页面。
 
-删除采用归档，服务器确认页要求二次提交，保留原记录与关联。默认只有管理员获得管理能力；其他角色必须由站点管理员明确分配相应 `aish_*` capability。升级前备份数据库并暂停任务执行；历史 1.2.0 提供管理字段、1.3.0 增搜索索引，当前 1.4.0 增采集元数据和运营表，详情见 Core 文档。
+删除采用归档，服务器确认页要求二次提交，保留原记录与关联。默认只有管理员获得管理能力；其他角色必须由站点管理员明确分配相应 `aish_*` capability。升级前备份数据库并暂停任务执行；历史 1.2.0 提供管理字段、1.3.0 增搜索索引、1.4.0 增采集元数据和运营表，当前 1.5.0 增 AI 运营表，详情见 Core 文档。
 
 ## Phase 3 前台与真实内容
 
@@ -95,4 +95,14 @@ Cron 每 60 秒计划执行一个可恢复步骤：仓库 → 提交 → 树 →
 
 每个来源按 `repository_id + source_path` 去重，保留内部 Skill ID。新采集 Skill 固定 pending、不创建译文；来源更新只保存 incoming 快照和风险结果，不覆盖人工内容、slug 或审核。相同文件 SHA 的新提交仍重新检查目录/依赖/许可证变化；缺失/疑似移动保留记录交人工处理。静态提示不是安全认证，未知许可证待核实，详见 [安全说明](docs/IMPORT_SECURITY.md)。
 
-本轮测试只含语法、构建和隔离模拟检查；真实 API、MySQL 迁移/并发、WordPress Cron/后台、浏览器及完整端到端均留 Final QA，实际结果见 Phase 5 报告。没有提前开发 Phase 6。
+Phase 5 的历史检查及真实 API/MySQL/WordPress 待测范围见其报告；本轮继续保留采集功能，不将既有模拟证据视为真实运行验收。
+
+## Phase 6 AI 内容生成
+
+在 **AI Skills Hub → AI Settings** 配置 OpenAI 或 OpenAI 兼容服务的模型档案、HTTPS Base URL、生成参数、超时、Token 上限及可选价格/费用上限。API Key 由服务器 `AISH_AI_KEY_<大写档案ID>` 常量或环境变量提供，后台仅显示固定掩码；不存入 WordPress options。非默认 API 主机还必须由服务器 `AISH_AI_ALLOWED_HOSTS` 明确允许，不能通过仓库文本选择目标。具体配置和 Cloud 容器传递方式见 API_CONFIGURATION.md。
+
+AI 队列默认暂停。管理员配置后可排队连接测试或对已采集 Skill 单个/批量生成，启用队列后由 WordPress Cron 每次执行一个请求。支持双语、仅中文、仅英文、仅摘要和仅使用场景；批量最多 10 个 Skill。连接测试也可能产生费用，需要同时拥有 AI 设置与生成权限，仅配置角色不能单独发起请求。超时或网络结果不确定的尝试不盲目自动重发，人工重试需要理解可能重复计费；普通页面不调用模型。
+
+AI Generation 显示来源原文、SHA、结构化输出、任务与失败历史、Token 和估算费用，并允许单独编辑双语审稿草稿、接受或拒绝。AI 输出和人工编辑草稿分开留档；采用前核对来源和内容版本，只能填入所选仍为空的标题、摘要或正文，已存在人工字段不会覆盖。使用场景等部分结果保留为建议，由编辑在正常 Skills 编辑器有意识地合并；采用后仍为 pending，补充真实 Slug/内容并按 Reviews 审核后才可公开。
+
+分类/标签/平台和安装说明都要求来源依据，新增术语只提供建议，不自动创建或关联；未知安装步骤、依赖和 License 标为待核实。模型没有执行 Skill 命令或读取密钥的工具权限。AI 风险结果是人工线索，不能替代静态检查或安全认证。准确操作与限制见 AI_USAGE.md / AI_SECURITY.md；模拟检查和真实 AI API 未执行范围见 Phase 6 报告。完成后暂停，不自动进入 Phase 7。

@@ -3,7 +3,7 @@ declare(strict_types=1);
 // Isolated in-memory SQL adapter contracts. Does not run MySQL, WordPress or GitHub.
 if ( PHP_SAPI !== 'cli' ) { exit( 1 ); }
 define( 'ABSPATH', __DIR__ . '/' ); define( 'ARRAY_A', 'ARRAY_A' ); define( 'DOING_CRON', true );
-function get_option( string $key, mixed $default = false ): mixed { return 'aish_schema_version' === $key ? '1.4.0' : $default; }
+function get_option( string $key, mixed $default = false ): mixed { return 'aish_schema_version' === $key ? \AISkillsHub\Core\Database\Schema::VERSION : $default; }
 function current_user_can( string $cap ): bool { return $GLOBALS['allow_import_admin'] ?? true; }
 function sanitize_text_field( string $value ): string { return trim( strip_tags( $value ) ); }
 final class wpdb {

@@ -1,6 +1,6 @@
 # AI Skills Hub — 项目总规格
 
-版本：1.5；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
+版本：1.6；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
 
 ## 1. 目标与执行约束
 
@@ -8,7 +8,7 @@
 
 唯一开发环境为 Codex Cloud。不得引入宝塔、要求用户本机开发或部署外部服务器。Cloud 内的容器、数据库与 HTTP 预览只用于开发与验收，不构成生产部署。代码、规格和构建锁文件同步 GitHub；运行数据、密钥和依赖目录不入库。
 
-用户已验收 Phase 0–4，当前授权 **Phase 5：GitHub Skills 自动采集系统**。本轮以 GitHub main 的既有代码为基础，实现公开仓库 API、SKILL.md 发现与安全解析、来源去重和增量同步、可恢复任务、静态风险检查及原生后台人工处理。主题/Core 为 0.6.0，schema 为 1.4.0；保留既有八表、稳定 ID、双语关系、来源唯一键、人工审核及全部搜索/SEO 功能。为持久保存 GitHub 身份、不可变来源证据、任务恢复与脱敏日志，采用第 5.4 节说明的只增不删迁移。Contact 与 Submit 继续保存私有待处理记录，不自动创建或发布 Skill。完成必要检查、文档、提交及 GitHub main 同步后暂停，等待 Phase 6 指令；不开发 AI 自动翻译或内容生成。
+用户已验收 Phase 0–5，当前授权 **Phase 6：AI Skills Hub 智能内容生成系统**。本轮以 GitHub main 最新代码为基础，实现可替换 AI Provider、采集来源分析、中英文草稿、分类/标签/平台与安装建议、AI 风险线索、原生 AI 管理、任务用量/费用及人工审稿。主题/Core 为 0.7.0，schema 为 1.5.0；保留既有八张核心表、三张采集运营表、稳定 ID、双语关系、来源唯一键和 Phase 0–5 全部功能。AI 草稿单独保存，只有人工确认才能填写空字段，不能覆盖既有人工内容或自动发布。Contact 与 Submit 继续保存私有待处理记录，不自动创建或发布 Skill。完成必要检查、文档、提交及 GitHub main 同步后暂停，等待 Phase 7 指令。
 
 ## 2. 技术基线
 
@@ -51,11 +51,11 @@ wp-content/themes/ai-skills-hub/
   languages/                 # gettext 翻译目录
 ```
 
-当前 Core 显式模块为 database、language、catalog、admin、frontend、sources，PHP 命名空间 `AISkillsHub\Core`；Sources 包含 GitHubClient、Discovery、Frontmatter、RiskInspector、ImportStore、Worker、Scheduler 和原生后台 Admin。ModuleLoader 校验依赖图后注册，sources 依赖 database/catalog/admin，复用既有 DAL 和迁移。AI 模块保留到 Phase 6。主题函数使用 `aish_` 前缀，选项/元字段/表名使用 `aish_`，WordPress 数据表前缀从 `$wpdb->prefix` 获取。模块通过 WordPress hooks 启动，模板不直接请求外部网络。
+当前 Core 显式模块为 database、language、catalog、admin、frontend、sources、ai，PHP 命名空间 `AISkillsHub\Core`。Sources 保留 GitHub 发现、解析、静态检查及采集任务；AI 独立包含 Provider/Settings、Prompt/Output、来源上下文、GenerationStore/Service、Worker/Scheduler 及原生 Admin。ModuleLoader 校验依赖图后注册，各模块复用同一个 DAL/Migrator，不把 AI 混入 GitHub worker 或公开模板。主题函数使用 `aish_` 前缀，选项/元字段/表名使用 `aish_`，WordPress 数据表前缀从 `$wpdb->prefix` 获取；模板不直接请求外部网络。
 
-Core 随主题加载，切换主题时清除采集 Cron 事件，但保留内容、任务和日志；不得自动删除表、选项或文章。文档说明此耦合，未来独立插件拆分须经用户确认。升级执行版本化、可重复的迁移，不在每个前台请求执行 DDL。仓库定期同步默认关闭，只有管理员配置并启用的公开仓库或明确手动排队的任务才允许采集；本轮开发检查不调用真实 GitHub API。
+Core 随主题加载，切换主题时清除采集与 AI Cron 事件，但保留内容、任务和日志；不得自动删除表、选项或文章。文档说明此耦合，未来独立插件拆分须经用户确认。升级执行版本化、可重复的迁移，不在每个前台请求执行 DDL。仓库定期同步默认关闭，AI 队列默认暂停，均需授权后台明确配置和排队；本轮开发检查使用 Mock Provider，不调用真实 AI 或 GitHub 采集 API。
 
-## 5. 数据库与内容模型（保留八张核心表，Phase 5 增加采集运营数据）
+## 5. 数据库与内容模型（保留八张核心表，采集与 AI 运营数据独立）
 
 依据用户本轮要求，Core 自定义表为唯一主存储。WordPress 提供用户、权限、选项、主题生命周期与原生后台界面；不注册影子 Skills CPT，不以 post ID 或语言文章 ID 代替内部 Skill ID。Phase 0 未创建业务表，无旧 CPT 数据需要转换。
 
@@ -78,11 +78,11 @@ Core 随主题加载，切换主题时清除采集 Cron 事件，但保留内容
 
 正文最多 512 KiB，经 `wp_kses_post` 存储；来源快照为受限 UTF-8 原文，仅以纯文本方式输出，不执行 Markdown/脚本/指令。版本哈希由 Core 自行计算 SHA-256，同一 skill_id+commit_sha 的不同内容拒绝写入，不能覆盖旧版本。slug 采用最长 191 字节的规范 ASCII 小写形式，中英文允许同 slug（按 locale 隔离）。
 
-不建立数据库外键或级联删除；Catalog、Management 和 ImportStore 事务与行锁校验关联对象，数据库唯一键兜底并发去重。DAL 属于可信内部代码，不是授权边界；人工写入经过 Catalog/Management，采集写入经过限定后台上下文、任务租约及来源校验的 ImportStore。没有硬删除 API 或卸载清理钩子，主题升级、停用、切换均保留数据。人工 SQL 必须自行维护关联完整性，禁止将内部 DAL 直接暴露到 HTTP。
+不建立数据库外键或级联删除；Catalog、Management、ImportStore 和 GenerationStore 通过事务与行锁校验关联对象，数据库唯一键兜底并发去重。DAL 属于可信内部代码，不是授权边界；人工写入经过受权限保护的服务，采集/生成后台写入还要求可信后台上下文及活动任务租约。GenerationStore 不提供自动发布入口，人工采用必须同时校验来源基线、Skill 修订与现存译文。没有硬删除 API 或卸载清理钩子，主题升级、停用、切换均保留数据。人工 SQL 必须自行维护关联完整性，禁止将内部 DAL 直接暴露到 HTTP。
 
 ### 5.2 初始化与增量升级
 
-`aish_schema_version` 为每站点 schema 版本，autoload 关闭。迁移 1.0.0 建立基础八表，1.1.0 为版本快照添加 `version_label`；Phase 2 加入 1.2.0 扩展现有八表；Phase 4 的 1.3.0 只添加 `skills.public_updated(status,review_status,updated_at,id)` 和 `skill_translations.locale_title(locale,title,skill_id)` 两个非唯一完整索引，并校验实际索引列顺序。Phase 5 的 1.4.0 追加第 5.4 节的字段、唯一键及三张运营表，保留原有 ID、数据、翻译和索引，不重建 Skills。1.0.0 同时用于旧结构升级测试，并不表示已有线上历史数据。
+`aish_schema_version` 为每站点 schema 版本，autoload 关闭。迁移 1.0.0 建立基础八表，1.1.0 为版本快照添加 `version_label`；Phase 2 加入 1.2.0 扩展现有八表；Phase 4 的 1.3.0 只添加 `skills.public_updated(status,review_status,updated_at,id)` 和 `skill_translations.locale_title(locale,title,skill_id)` 两个非唯一完整索引。Phase 5 的 1.4.0 追加第 5.4 节的字段、唯一键及三张采集运营表；Phase 6 的 1.5.0 只新增第 5.5 节的三张 AI 运营表，不改原业务字段、ID、译文、索引或来源设计。1.0.0 同时用于旧结构升级测试，并不表示已有线上历史数据。
 
 迁移使用 `dbDelta`、MySQL GET_LOCK/RELEASE_LOCK、实际列/完整唯一索引/InnoDB/utf8mb4 验证；只有验证通过才能更新版本。拒绝未知版本与降级，失败不虚报版本，并支持排除故障后重复执行。MySQL DDL 不是原子事务，失败可能留下部分表；各迁移保持可重复、只增不删，升级前仍须备份，不能宣称 DDL 自动回滚。
 
@@ -115,6 +115,18 @@ Phase 1 缺少人工来源、审核与 SEO 字段，不能完成本轮明确要�
 imports 的 `source_status` 为 present/missing，`change_status` 区分 new/updated/inspection_updated/missing/restored/handled；jobs 为 queued/running/retry/complete/incomplete/failed/cancelled。source_status 不等于公开审核状态；handled 只表示人工处理来源提示，不发布 Skill。业务写入统一走现有 DAL 的白名单和 prepared SQL。
 
 少量配置复用 WordPress options；任务状态和日志使用运营表，任务 JSON 上限 4 MiB，不存凭据。1.4.0 沿用锁、dbDelta 和物理列/索引验证，历史版本验证排除尚未引入的字段和表；只在成功后更新版本。升级和恢复须备份，真实 MySQL 迁移、重复执行与并发验证留 Final QA。AI 配置、生成记录和完整审核事件历史不在 Phase 5 实现。
+
+### 5.5 Phase 6 必要增量（schema 1.5.0）
+
+原业务表和采集任务只保存来源及当前人工内容，无法独立保留 AI 原始结果、人工修改、逐次网络用量和不确定请求状态。新增三张运营表，使来源、AI 草稿和已审核内容分离，避免把生成任务塞进 Phase 5 仓库 worker 或覆盖人工译文。
+
+| 新表（加 WP 前缀） | 数据所有权与约束 |
+| --- | --- |
+| aish_ai_jobs | 关联原 skill_id（连接测试可空），冻结来源、Skill/译文基线、Provider/模型档案及 Prompt Version；保存任务状态、来源 SHA、租约/重试、不可变 AI 输出、独立编辑草稿、审稿修订与状态；请求键防同表单重复入队，活动键防同 Skill 并行生成 |
+| aish_ai_attempts | 每次外部请求之前写入的尝试记录，关联 job、请求标识、状态、输入/输出 Token、耗时、估算费用与固定错误码；未确认请求不能伪装成未发送或成功 |
+| aish_ai_reviews | 人工保存、采用或拒绝的追加记录，关联 job、操作者、时间、草稿快照及所选字段，保留 AI 输出与人工修改的来源区别 |
+
+当前共 14 张 Core 管理表。Provider 档案和全局暂停设置使用非 autoload 的 WordPress options；API Key 只使用服务器常量/环境变量引用，不进入上述表、配置 JSON 或日志。AI 表引用既有 Skill ID，不建立译文副本作为公开主存储。1.5.0 继续按既有顺序迁移和物理验证，历史版本验证不提前要求新表，主题停用不删除记录。具体字段以 Schema.php 和 CORE.md 为准；真实 MySQL 升级、重复升级及并发留 Final QA。
 
 ## 6. Phase 3 双语前台
 
@@ -191,7 +203,7 @@ WordPress 原生 Sitemap provider、Yoast 和 Rank Math 的官方索引 hooks �
 
 使用 WordPress 原生菜单、WP_List_Table、wp_editor 和 admin-post 控制器管理 Core 记录；不创建影子文章，不引入页面构建器或独立 SPA。
 
-基础菜单为 AI Skills Hub → Dashboard、Skills、Add New Skill、Categories、Tags、Repositories、Reviews、Settings；Phase 3 增加 Tutorials 与 Inbox，Phase 4 增加 SEO，Phase 5 增加 GitHub Imports。
+基础菜单为 AI Skills Hub → Dashboard、Skills、Add New Skill、Categories、Tags、Repositories、Reviews、Settings；Phase 3 增加 Tutorials 与 Inbox，Phase 4 增加 SEO，Phase 5 增加 GitHub Imports，Phase 6 增加 AI Settings 与 AI Generation。
 
 - Dashboard 显示总数、待审核、各状态以及分类、标签、仓库统计。
 - Skills 支持创建、读取、修改和归档；保留 draft/pending/published/rejected/archived 五种状态；支持人工来源和同仓库多个 Skills。归档代替永久删除，必须在服务器返回的确认页二次提交。
@@ -200,8 +212,8 @@ WordPress 原生 Sitemap provider、Yoast 和 Rank Math 的官方索引 hooks �
 - 分类支持层级及循环校验；标签为平面结构；仓库沿用手动 owner/name 管理，GitHub Imports 追加规范 URL、同步开关/间隔及任务操作。已关联 Skills、GitHub ID 或任务的仓库不允许直接改身份。归档分类、标签和仓库保留原关联；归档仓库停用采集并取消其活动任务。
 - 人工审核支持 pending、approved、rejected，记录人员、UTC 时间、修订、Unknown/Low/Medium/High 风险和备注。只有审批当前修订才可发布；编辑内容需要重新审核。拒绝保留原记录。
 - Skill 阅读预览为登录且拥有 Skills 管理或审核能力、有效 nonce 的私有页面，标记 no-store/noindex；未审核内容不提供公开地址。公开站点页面由 Phase 3 实现。
-- Settings 配置默认编辑语言和列表每页数量；SEO 子菜单及原生文章 SEO 面板承载 Phase 4 配置。GitHub Imports 展示仓库、任务/错误/限流、来源原文/SHA/License/风险、新增/更新/缺失变更，并链接既有 Skills/Reviews；扫描和同步只排队，手动批量最多 10 个仓库。Token 只显示是否配置，不提供前端或后台回显凭据。AI 设置留 Phase 6。
-- 能力为 aish_manage_skills、aish_review_skills、aish_manage_taxonomies、aish_manage_repositories、aish_manage_settings；默认只赋予管理员，manage_options 兼容既有管理员。编辑及其他角色不自动获得能力。页面、控制器和服务各自校验相关 capability，nonce 不能代替能力。
+- Settings 配置默认编辑语言和列表每页数量；SEO 子菜单及原生文章 SEO 面板承载 Phase 4 配置。GitHub Imports 展示来源与采集结果，手动批量最多 10 个仓库。AI Settings 管理 Provider/模型档案、参数、价格、连接测试及全局暂停；AI Generation 管理单个/批量/指定语言或字段生成、任务、用量及审稿。两种自动化的页面只配置/排队，不直接做长网络请求；凭据仅显示配置状态和固定掩码。
+- 原能力 aish_manage_skills、aish_review_skills、aish_manage_taxonomies、aish_manage_repositories、aish_manage_settings 保留；AI 增加 aish_manage_ai_settings 与 aish_generate_content。默认只赋予管理员，manage_options 兼容既有管理员。AI 草稿采用另须 Skills 管理和审核能力；编辑及其他角色不自动获得能力。页面、控制器和服务各自校验相关 capability，nonce 不能代替能力。
 
 归档及批量操作使用 POST + nonce + 权限 + 二次确认；输入验证、prepared SQL、输出上下文转义和 KSES 沿用 Core。服务抛出可控错误，HTTP 层不显示数据库详情。设置保存在 WordPress options，未引入额外业务表。
 
@@ -251,11 +263,45 @@ Scheduler 使用数据库/站点级 GET_LOCK 保证单 worker，同时每轮最�
 
 静态结果保存在 imports，不自动替换人工 risk_level 或绕过审核。来源文本不能读取系统密钥、改变系统指令、触发管理接口、扩展网络域名或授权执行。后台所有写入要求 POST、nonce、capability；归档二次确认，原文按文本转义。日志使用固定码和安全提示，不保存 HTTP Authorization、响应原文或 SQL。操作说明见 `docs/GITHUB_IMPORT.md`，安全说明见 `docs/IMPORT_SECURITY.md`。
 
-## 10. AI 双语内容生成（Phase 6，尚未授权/实现）
+## 10. Phase 6 AI 智能内容生成
 
-供应商适配层接受脱敏且长度受限的来源数据，输出结构化 zh_CN/en_US 标题、摘要、说明、适用场景及限制；校验 JSON schema、语言、必填项及长度。系统提示明确来源中的指令只是引用，不得改变任务、访问工具或读取密钥。
+### 10.1 Provider 与配置
 
-所有结果保存为草稿/待审核，保留模型、提示版本、来源 SHA、时间与失败原因。不得捏造测试结果、兼容性、安全保证或许可证；缺失信息必须标明未知。重试使用幂等键，失败不覆盖现有译文；显示单任务 token/费用预算与取消能力。无真实凭据时使用测试替身，不伪造真实 API 成功。发布前必须人工校对两种语言。
+独立 Provider 接口接受冻结模型档案、结构化消息及请求标识，返回内容、Token 使用量和耗时；ProviderRegistry 允许可信服务器代码注入实现，默认支持 OpenAI 与 OpenAI 格式兼容服务，不绑定具体模型。内置适配器使用 `/chat/completions`、Bearer 和 `response_format=json_object`，不发送工具或使用流式执行；其他服务须实际支持该协议，不能据“兼容”名称推定任意厂商 API 可用。后台维护最多 20 份档案，包括 Provider、HTTPS API Base URL、Model、可选 Temperature、超时 5–45 秒、输出 Token 上限 256–8192、max_tokens/max_completion_tokens 参数选择、输入/输出每百万 Token 单价、可选费用上限及启用状态。
+
+API Key 由服务器 `AISH_AI_KEY_<大写档案ID>` 常量或环境变量读取，后台只显示固定掩码，不提供读取明文接口，不写 options、任务、浏览器、普通日志或 Git。默认 API 主机为 api.openai.com；自定义主机必须加入服务器 `AISH_AI_ALLOWED_HOSTS`，且仍拒绝 IP、私网/本地主机、不安全协议、凭据、查询片段和重定向。使用统一 WordPress 安全 HTTP、TLS、有限超时和响应体限制，错误转为固定诊断，不回显远端错误体或 Authorization。
+
+连接测试通过同一受控队列发起最小模型请求，记录状态和用量；同时要求 AI 设置和生成能力，仅有配置权限的角色不能单独发起付费测试。测试也可能收费，成功仅证明该档案当时的最小请求可用，不代表整套生成、数据库或浏览器已验收。Provider/Model 切换不会把旧任务悄悄改发到新目标，执行前校验冻结配置与当前设置。
+
+### 10.2 输入与结构化输出
+
+输入只来自 Phase 5 已采集来源及真实数据库信息：名称、description、SKILL.md、仓库/路径、File/Commit SHA、现有平台标签、依赖/安装/License 证据、静态风险和已有分类标签目录。提示采用独立 system 消息和 JSON user 数据；来源只作为不可信引用，不能替换系统指令、调用工具、读取密钥、执行脚本、安装依赖或触发管理操作。白名单来源 JSON 最多 64 KiB，超限明确失败，不静默截断后冒充完整分析；常见密钥模式在传给模型前遮蔽，但不声称检测所有敏感信息。
+
+支持双语、仅中文、仅英文、摘要及使用场景的独立生成模式。两种语言均关联原 Skill ID，但以各自读者习惯生成，不以逐句直译或关键词堆砌冒充质量。完整语言结果包含标题、简介、详细介绍、核心功能、适用任务/场景、安装初稿、环境依赖、限制和安全注意。部分生成仅返回指定字段，不能用片段无条件替换完整正文。
+
+输出必须为有效 JSON，严格结果上限 128 KiB、HTTP 响应上限 1 MiB，并逐层验证允许字段、类型、重复键、必填内容、数量、长度、请求语言及引用证据。语言字符检查只筛除明显错配，不能证明文风、事实或翻译质量。无效 JSON、截断、错误语言、超限或不受支持结构进入失败记录，不自动兜底为虚构内容。
+
+### 10.3 建议与风险边界
+
+分类建议区分主/次分类，标签建议优先引用真实已有 ID/名称；未知名称只保留建议，管理员在既有分类/标签页面核实后才创建或关联，不自动生成同义项。平台兼容性和依赖须有实际依据，不把模型推断当已测试支持。安装步骤明确“来源有文档”或“待核实”，结构化 command 字段逐字匹配 SKILL.md 及所引用证据，不编造通用安装命令、不执行命令。自然语言解释的事实正确性仍需人工核实，字段校验不是语义证明。
+
+AI 风险结果使用 unknown/low/medium/high，保留来源证据与解释，覆盖命令、脚本、文件系统、敏感数据、网络、依赖、权限、下载及提示注入线索。该结果不改人工 risk_level、不覆盖 Phase 5 静态检查，不宣称通过模型检查即安全。原始内容可能隐瞒风险，必须人工核对许可证、兼容性和安装行为。
+
+### 10.4 草稿、人工保护与采用
+
+原始 GitHub 快照、不可变 AI 输出、人工编辑草稿、已采用内容分别记录。AI 完成只进入 needs_review，不能自动更新正式译文或公开状态。管理员可查看原文与生成结果、修改中文/英文草稿、拒绝建议，或明确选择字段采用；记录操作者、时间及版本，不覆盖原始 AI 输出。
+
+采用时在事务内核对来源指纹、Skill 修订号与正式译文基线，任一变化即拒绝旧草稿写回。只允许填入选中且仍为空的标题、简介、正文，不覆盖已有人工字段、slug、SEO、分类标签或审核。已有内容需要合并时由编辑在原 Skills 编辑器主动操作；仅使用场景的片段保留为审稿建议，不能当完整正文自动采用。成功采用使 Skill 进入 pending、修订递增，之后仍需补齐真实 slug/内容并按既有 Reviews 审核当前修订，才可能公开。
+
+### 10.5 任务、用量与费用
+
+AI 使用独立 WordPress Cron 队列，计划间隔 60 秒，每步最多一个模型请求；全局默认暂停，只有授权管理员配置/入队并启用后执行。批量最多 10 个 Skill，活动任务键和请求键防同源并行/重复表单，支持暂停、恢复、取消及显式失败重试。租约 120 秒，任务截止 48 小时，尝试最多 3 次；所有写回检查当前租约，普通前台请求不执行耗时任务。WP-Cron 依赖真实触发，不承诺准点执行。
+
+每次请求前先持久化 attempt。明确可重试的限流/服务错误按退避调度；超时、网络中断或已发送请求未保存结果的情况标为不确定，不自动假设供应商没执行而重发。人工重试可能产生额外费用，不能承诺跨供应商“恰好一次”计费。暂停/取消也不能撤回已经发出的外部请求，界面应如实显示已知结果和限制。
+
+任务记录 Provider、Model、Prompt Version、来源 SHA、状态、固定错误、耗时、输入/输出 Token 和估算费用。用量缺失保持未知，不写虚构零值；费用按管理员配置单价估算并明确标注，不冒充实际账单。输出 Token 和单请求时长有上限；配置费用上限时执行前做保守预算校验，价格未知不能假报预算已满足。价格变更不重写历史估算。
+
+说明见 `docs/AI_USAGE.md`、`docs/API_CONFIGURATION.md`、`docs/AI_SECURITY.md`；实际基本检查结果见 Phase 6 报告。没有真实 API Key 时只运行 Mock Provider，不能声称真实 AI API 成功；完整集成留 Final QA。
 
 ## 11. 安全与运维规范
 
@@ -277,8 +323,9 @@ Scheduler 使用数据库/站点级 GET_LOCK 保证单 worker，同时每轮最�
 | Phase 2 原生后台（已验收） | 菜单、统计、Skills 双语 CRUD/归档、分类/标签/仓库、人工审核、风险/备注、受限预览、列表/批量和能力控制 | PHP、前端构建、基本检查；提交同步并暂停；全面集成留 Final QA |
 | Phase 3 中英文双语前台（已验收） | 原创主题、12 类页面、真实公开查询、语言路由与回退、基础 SEO、教程与私有投稿 | 用户已验收；历史检查及未测项目见 Phase 3 报告 |
 | Phase 4 搜索与 SEO（已验收） | Skills/教程双语关键词、组合筛选、查询与索引优化、独立 SEO、多语言 Meta、XML Sitemap、robots 索引策略 | 用户已验收；历史检查及未测项目见 Phase 4 报告 |
-| **Phase 5 GitHub Skills 自动采集（当前授权）** | 公开 GitHub API、完整树发现、安全 Frontmatter、去重/增量/不可变快照、原生采集后台、Cron 小任务/恢复、静态风险与人工处理 | PHP/构建/基本检查及模拟响应断言；更新使用/安全/进度文档，提交同步 GitHub main 并暂停；真实 API/数据库集成留 Final QA |
-| Phase 6 AI 双语内容（未授权） | AI 供应商、结构化双语草稿、预算及人工审核衔接 | 用户另行确认后实施，不能从 Phase 5 自动进入 |
+| Phase 5 GitHub Skills 自动采集（已验收） | 公开 GitHub API、完整树发现、安全 Frontmatter、去重/增量/不可变快照、原生采集后台、Cron 小任务/恢复、静态风险与人工处理 | 用户已验收；历史检查及未测项目见 Phase 5 报告 |
+| **Phase 6 AI 智能内容生成（当前授权）** | 可替换 Provider、双语分析/安装/分类/风险草稿、原生 AI 后台、任务用量/预算和人工内容保护 | PHP/构建/基本检查与 Mock Provider；更新使用/API/安全/进度文档，提交同步 GitHub main 后暂停；真实集成留 Final QA |
+| Phase 7（未授权） | 范围待用户安排 | 不自动进入，不把 Final QA 或部署当作本轮已授权工作 |
 | Final QA 集成与交付 | 全站交互、可访问性、SEO、性能、安全回归、备份恢复说明 | 端到端流程及回滚通过、无阻断缺陷、测试限制清楚；不自动外部部署 |
 
 ### Phase 0 明确边界
@@ -315,3 +362,7 @@ Phase 4 Final QA 补充清单：MySQL 1.2→1.3 仅索引增量及可重复执�
 Phase 5 阶段检查以模拟 GitHub API、纯状态机和数据库替身覆盖仓库地址/公开身份、Git Tree/截断回退、多 SKILL.md、Frontmatter、SHA/重复扫描/增量、限流重试及不可信内容；不得描述为真实 GitHub 或 MySQL 验收。实际结果记录于 Phase 5 报告。
 
 Phase 5 Final QA 补充清单：真实 GitHub 认证/匿名限流/次限流、公开转私有/同名重建、分支/Tree/Blob 响应与超限；MySQL 1.3→1.4 与历史版本逐级迁移/重复安装/故障恢复、11 表物理结构及原八表 ID/双语/唯一键/内容保留；真实 WordPress Cron 触发、单 worker 锁、租约回收与过期 worker 拒写、断点崩溃恢复、并发排队/去重、5 次失败/48 小时截止；完整/截断/失败清单的 missing 规则、疑似移动、相同文件 SHA 的新树风险变化、人工编辑与采集并发、来源绑定修改、原生后台权限/nonce/归档确认、浏览器以及 Phase 0–4 搜索/SEO/WPML 回归。真实 API、MySQL、WordPress 和端到端本轮未执行，必须在 Final QA 逐项取得证据。
+
+Phase 6 阶段检查使用 Mock Provider/HTTP 与存储替身，覆盖 Provider 切换、API 错误/超时/退避、Key 掩码与错误脱敏、结构化输出/无效 JSON、中文/英文模式、来源证据、人工字段保护、重复任务、暂停恢复和 Token 记录。断言通过不代表真实 AI 供应商或数据库已经验收，准确结果写入 Phase 6 报告。
+
+Phase 6 Final QA 补充清单：真实 OpenAI/兼容服务协议、模型/Temperature/Token 参数差异、Host/DNS/SSRF/TLS/重定向/大小边界和密钥轮换；MySQL 1.4→1.5 与历史逐级升级、重复迁移、原 11 表数据不变、任务唯一键/租约/事务、请求前后崩溃和不确定计费恢复；WordPress Cron、角色/nonce/批量部分失败、全局/单任务暂停取消；来源更新/管理员同时编辑/旧 AI 草稿采用竞争、空字段保护、采用后审核失效；Token 缺失、价格未知、预算边界、历史估算与供应商账单对照；真实双语质量、提示注入、安装证据、风险和术语建议的人工核验；浏览器、WPML/SEO 以及 Phase 0–5 全部端到端回归。无真实凭据时不得把 API 测试标为通过。

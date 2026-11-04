@@ -78,14 +78,14 @@ try {
 	do_action( 'admin_init' );
 	$core = Core::boot();
 	check( $core->migrator()->isCurrent(), 'authorized admin initializes active theme database' );
-	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin', 'frontend', 'sources' ), 'Core modules loaded in dependency order' );
+	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin', 'frontend', 'sources', 'ai' ), 'Core modules loaded in dependency order' );
 	check( Core::boot() === $core, 'Core boot is idempotent' );
 
 	list( $db, $migrator, $catalog, $option ) = fixture();
 	check( true === $migrator->migrate(), 'fresh database installation' );
 	Schema::verify( $db, Schema::VERSION );
 	check( Schema::VERSION === get_option( $option ), 'physical schema verified before version stored' );
-	check( 11 === count( Schema::COLUMNS ), 'eight Core tables and three import operation tables defined' );
+	check( 14 === count( Schema::COLUMNS ), 'eight Core tables and six import/AI operation tables defined' );
 	foreach ( array_keys( Schema::COLUMNS ) as $entity ) {
 		check( 0 === count_rows( $db, $entity ), 'fresh table empty: ' . $entity );
 	}

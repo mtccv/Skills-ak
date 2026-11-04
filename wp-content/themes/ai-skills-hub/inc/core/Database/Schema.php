@@ -6,7 +6,7 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.4.0';
+	public const VERSION = '1.5.0';
 
 	public const COLUMNS = array(
 		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d', 'github_id' => '%d', 'default_branch' => '%s', 'sync_enabled' => '%d', 'sync_interval' => '%d', 'last_sync_at' => '%s', 'last_sync_commit' => '%s', 'last_scan_at' => '%s', 'sync_status' => '%s', 'license_spdx' => '%s' ),
@@ -20,6 +20,9 @@ final class Schema {
 		'imports' => array( 'id' => '%d', 'skill_id' => '%d', 'repository_id' => '%d', 'source_path' => '%s', 'file_sha' => '%s', 'commit_sha' => '%s', 'source_status' => '%s', 'change_status' => '%s', 'metadata_json' => '%s', 'findings_json' => '%s', 'last_seen_job' => '%d', 'created_at' => '%s', 'updated_at' => '%s' ),
 		'jobs' => array( 'id' => '%d', 'repository_id' => '%d', 'kind' => '%s', 'status' => '%s', 'active_key' => '%d', 'state_json' => '%s', 'attempts' => '%d', 'available_at' => '%s', 'lease_token' => '%s', 'locked_until' => '%s', 'deadline_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s', 'completed_at' => '%s', 'last_error' => '%s' ),
 		'import_logs' => array( 'id' => '%d', 'job_id' => '%d', 'repository_id' => '%d', 'skill_id' => '%d', 'source_path' => '%s', 'level' => '%s', 'code' => '%s', 'message' => '%s', 'created_at' => '%s' ),
+		'ai_jobs' => array( 'id' => '%d', 'skill_id' => '%d', 'mode' => '%s', 'request_key' => '%s', 'active_key' => '%s', 'profile_json' => '%s', 'profile_hash' => '%s', 'provider' => '%s', 'model' => '%s', 'prompt_version' => '%s', 'source_json' => '%s', 'source_commit' => '%s', 'file_sha' => '%s', 'status' => '%s', 'review_status' => '%s', 'revision' => '%d', 'output_json' => '%s', 'edited_json' => '%s', 'attempts' => '%d', 'input_tokens' => '%d', 'output_tokens' => '%d', 'cost_estimate' => '%s', 'elapsed_ms' => '%d', 'requester_id' => '%d', 'lease_token' => '%s', 'locked_until' => '%s', 'available_at' => '%s', 'deadline_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s', 'completed_at' => '%s', 'last_error' => '%s' ),
+		'ai_attempts' => array( 'id' => '%d', 'job_id' => '%d', 'attempt_number' => '%d', 'request_key' => '%s', 'status' => '%s', 'input_tokens' => '%d', 'output_tokens' => '%d', 'cost_estimate' => '%s', 'elapsed_ms' => '%d', 'error_code' => '%s', 'started_at' => '%s', 'completed_at' => '%s' ),
+		'ai_reviews' => array( 'id' => '%d', 'job_id' => '%d', 'revision' => '%d', 'action' => '%s', 'actor_id' => '%d', 'snapshot_json' => '%s', 'created_at' => '%s' ),
 	);
 
 	public const UNIQUE_KEYS = array(
@@ -34,6 +37,9 @@ final class Schema {
 		'imports' => array( 'PRIMARY' => array( 'id' ), 'import_skill' => array( 'skill_id' ), 'import_source' => array( 'repository_id', 'source_path' ) ),
 		'jobs' => array( 'PRIMARY' => array( 'id' ), 'active_repository' => array( 'active_key' ) ),
 		'import_logs' => array( 'PRIMARY' => array( 'id' ) ),
+		'ai_jobs' => array( 'PRIMARY' => array( 'id' ), 'request_identity' => array( 'request_key' ), 'active_generation' => array( 'active_key' ) ),
+		'ai_attempts' => array( 'PRIMARY' => array( 'id' ), 'job_attempt' => array( 'job_id', 'attempt_number' ), 'attempt_request' => array( 'request_key' ) ),
+		'ai_reviews' => array( 'PRIMARY' => array( 'id' ), 'job_revision' => array( 'job_id', 'revision' ) ),
 	);
 
 	/** Columns introduced with the importer, masked when verifying historical migrations. */
@@ -42,6 +48,7 @@ final class Schema {
 		'skill_versions' => array( 'file_sha', 'repository_id', 'source_path' ),
 	);
 	private const IMPORT_TABLES = array( 'imports', 'jobs', 'import_logs' );
+	private const AI_TABLES = array( 'ai_jobs', 'ai_attempts', 'ai_reviews' );
 
 	/** Phase 4 non-unique access paths; existing identity constraints stay unchanged. */
 	public const SEARCH_KEYS = array(
@@ -192,6 +199,71 @@ PRIMARY KEY  (id),
 KEY job_log (job_id,id)";
 		}
 
+		if ( version_compare( $version, '1.5.0', '>=' ) ) {
+			$bodies['ai_jobs'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+skill_id bigint(20) unsigned DEFAULT NULL,
+mode varchar(20) NOT NULL,
+request_key char(64) NOT NULL,
+active_key char(64) DEFAULT NULL,
+profile_json mediumtext NOT NULL,
+profile_hash char(64) NOT NULL,
+provider varchar(64) NOT NULL,
+model varchar(191) NOT NULL,
+prompt_version varchar(64) NOT NULL,
+source_json mediumtext NOT NULL,
+source_commit varchar(64) NOT NULL DEFAULT '',
+file_sha varchar(64) NOT NULL DEFAULT '',
+status varchar(20) NOT NULL DEFAULT 'queued',
+review_status varchar(20) NOT NULL DEFAULT 'pending',
+revision bigint(20) unsigned NOT NULL DEFAULT 1,
+output_json mediumtext,
+edited_json mediumtext,
+attempts int(10) unsigned NOT NULL DEFAULT 0,
+input_tokens bigint(20) unsigned DEFAULT NULL,
+output_tokens bigint(20) unsigned DEFAULT NULL,
+cost_estimate decimal(20,8) DEFAULT NULL,
+elapsed_ms bigint(20) unsigned NOT NULL DEFAULT 0,
+requester_id bigint(20) unsigned NOT NULL,
+lease_token char(64) NOT NULL DEFAULT '',
+locked_until datetime DEFAULT NULL,
+available_at datetime NOT NULL,
+deadline_at datetime NOT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+completed_at datetime DEFAULT NULL,
+last_error varchar(64) NOT NULL DEFAULT '',
+PRIMARY KEY  (id),
+UNIQUE KEY request_identity (request_key),
+UNIQUE KEY active_generation (active_key),
+KEY due (status,available_at),
+KEY skill_history (skill_id,id),
+KEY lease (status,locked_until)";
+			$bodies['ai_attempts'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+job_id bigint(20) unsigned NOT NULL,
+attempt_number int(10) unsigned NOT NULL,
+request_key char(64) NOT NULL,
+status varchar(20) NOT NULL DEFAULT 'inflight',
+input_tokens bigint(20) unsigned DEFAULT NULL,
+output_tokens bigint(20) unsigned DEFAULT NULL,
+cost_estimate decimal(20,8) DEFAULT NULL,
+elapsed_ms bigint(20) unsigned NOT NULL DEFAULT 0,
+error_code varchar(64) NOT NULL DEFAULT '',
+started_at datetime NOT NULL,
+completed_at datetime DEFAULT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY job_attempt (job_id,attempt_number),
+UNIQUE KEY attempt_request (request_key)";
+			$bodies['ai_reviews'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+job_id bigint(20) unsigned NOT NULL,
+revision bigint(20) unsigned NOT NULL,
+action varchar(20) NOT NULL,
+actor_id bigint(20) unsigned NOT NULL,
+snapshot_json mediumtext NOT NULL,
+created_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY job_revision (job_id,revision)";
+		}
+
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -202,6 +274,7 @@ KEY job_log (job_id,id)";
 	/** Verify physical schema before advancing the version; dbDelta's messages alone are insufficient. */
 	public static function verify( Database $db, string $version ): void {
 		foreach ( self::COLUMNS as $entity => $columns ) {
+			if ( version_compare( $version, '1.5.0', '<' ) && in_array( $entity, self::AI_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.4.0', '<' ) ) {
 				if ( in_array( $entity, self::IMPORT_TABLES, true ) ) { continue; }
 				foreach ( self::IMPORT_COLUMNS[ $entity ] ?? array() as $column ) { unset( $columns[ $column ] ); }
@@ -230,6 +303,9 @@ KEY job_log (job_id,id)";
 				}
 				if ( version_compare( $version, '1.4.0', '>=' ) && ( ( 'repositories' === $entity && 'github_id' === $field['Field'] ) || ( 'jobs' === $entity && 'active_key' === $field['Field'] ) || ( 'skill_versions' === $entity && in_array( $field['Field'], array( 'repository_id', 'source_path' ), true ) ) ) && 'YES' !== $field['Null'] ) {
 					throw new \RuntimeException( 'Importer optional identity columns must allow NULL.' );
+				}
+				if ( version_compare( $version, '1.5.0', '>=' ) && 'ai_jobs' === $entity && in_array( $field['Field'], array( 'skill_id', 'active_key' ), true ) && 'YES' !== $field['Null'] ) {
+					throw new \RuntimeException( 'AI optional identity columns must allow NULL.' );
 				}
 				if ( 'source_path' === $field['Field'] && 'varbinary(768)' !== strtolower( $field['Type'] ) ) {
 					throw new \RuntimeException( 'Source paths require exact byte comparison.' );

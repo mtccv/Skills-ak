@@ -34,6 +34,12 @@ jobs:
       - run: php tests/basic/import-store.php
       - run: php tests/basic/import-admin.php
       - run: php tests/basic/import-worker.php
+      - run: php tests/basic/ai-provider.php
+      - run: php tests/basic/ai-content.php
+      - run: php tests/basic/ai-source.php
+      - run: php tests/basic/ai-store.php
+      - run: php tests/basic/ai-admin.php
+      - run: php tests/basic/ai-worker.php
   assets:
     runs-on: ubuntu-latest
     steps:
