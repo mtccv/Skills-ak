@@ -5,6 +5,7 @@ x-wordpress-env: &wordpress-env
   WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-ai_skills_hub}
   WORDPRESS_DB_USER: ${MYSQL_USER:-aish}
   WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+  AISH_GITHUB_TOKEN: ${AISH_GITHUB_TOKEN:-}
 
 services:
   mysql:

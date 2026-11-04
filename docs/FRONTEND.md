@@ -1,11 +1,11 @@
-# 双语前台、搜索与 SEO 使用维护（Phase 3–4）
+# 双语前台、搜索与 SEO 使用维护（Phase 3–5）
 
-前台复用 Phase 1/2 的八张 Core 表；Phase 3 交付为 schema `1.2.0`，Phase 4 的 `1.3.0` 仅追加两个非唯一搜索索引，不改业务字段。当前主题/Core 为 `0.5.0`。没有注册 Skills 文章副本，没有新增业务表，也没有自动导入或生成内容。教程、说明页面和私有来信使用 WordPress 原生 posts/postmeta 存储。
+前台复用 Phase 1/2 的八张 Core 表；Phase 3 交付为 schema `1.2.0`，Phase 4 的 `1.3.0` 追加两个非唯一搜索索引。Phase 0–4 已验收；当前 Phase 5 主题/Core 为 `0.6.0`、schema 为 `1.4.0`，保留全部前台/搜索/SEO 功能，仅为后台采集扩展仓库/版本元数据和 imports/jobs/import_logs 运营表。没有 Skills 文章副本，不自动生成译文；教程、说明页面和私有来信仍使用 WordPress 原生 posts/postmeta 存储。
 
 ## 启用与真实内容准备
 
 1. 在 Codex Cloud 按 README 构建主题资源并启用主题，然后以管理员身份访问一次 WordPress 后台。`Router::refreshRewrites()` 在管理员 `admin_init` 检查 `aish_frontend_routes_version`（Phase 4 为 2，含 Sitemap 路由）：原来使用普通链接时改为 `/%postname%/`，已有固定链接设置则保留；注册双语规则并刷新重写。也可在“设置 → 固定链接”保存一次重试。Web 服务需要将路径请求交给 WordPress；不要求用户本机开发或外部部署。
-2. 在 AI Skills Hub → Skills 新建或编辑真实 Skill。人工资源不填写仓库和路径；GitHub 来源继续使用既有仓库 ID 与规范相对路径。分别填写实际拥有的中文/英文内容；缺少译文时保持空白。
+2. 在 AI Skills Hub → Skills 新建或编辑真实 Skill。人工资源不填写仓库和路径；GitHub 来源继续使用既有仓库 ID 与规范相对路径。Phase 5 可从 GitHub Imports 中打开采集到的 pending Skill；原文仅为后台证据，需要人工分别填写实际拥有的中文/英文内容，缺少译文时保持空白。
 3. 至少一种语言的标题、Slug、简介、正文完整后提交审核，由具有审核能力的用户批准。仅保存草稿不会出现在前台；修改已发布内容后需要重新审核。后台私有预览与公开详情是不同入口。
 4. 按下面的标签约定维护精选、平台和许可证，再将标签关联到 Skill；新关联会使原审核失效。没有相关记录时首页展示真实空状态，不填充演示卡片、虚构数量或用户评价。
 5. 在“教程 / Tutorials”添加真实教程；在 WordPress “页面”添加 About、Contact、Submit a Skill 的实际说明。Contact 和投稿表单本身可以接收来信，说明正文为空时不会自动编造机构介绍、联系方式或投稿政策。
@@ -31,7 +31,7 @@
 | Submit a Skill | `/{lang}/submit/` |
 | 404 | 无匹配的公开路径；`/{lang}/not-found/` 可访问该状态 |
 
-列表使用 GET 参数 `q`、`category`、`tag`、`platform`、`sort`、`page`。`sort` 允许 `newest`、`oldest`、`title`；公开页面每页 12 项，API 上限 24 项；page 上限 10000，搜索最多 100 个字符/400 UTF-8 字节。筛选值为现有分类/标签 Slug；平台值使用完整 `platform-*` Slug。不存在的详情、无效参数和越界空分页返回 404；数据读取失败返回 503 与通用错误提示，不输出 SQL。请求不会访问 GitHub 或 AI 服务。
+列表使用 GET 参数 `q`、`category`、`tag`、`platform`、`sort`、`page`。`sort` 允许 `newest`、`oldest`、`title`；公开页面每页 12 项，API 上限 24 项；page 上限 10000，搜索最多 100 个字符/400 UTF-8 字节。筛选值为现有分类/标签 Slug；平台值使用完整 `platform-*` Slug。不存在的详情、无效参数和越界空分页返回 404；数据读取失败返回 503 与通用错误提示，不输出 SQL。前台页面处理不访问 GitHub 或 AI 服务；采集只在独立 Cron 小任务中执行。
 
 分类、标签和平台选项按当前语言可见的已发布 Skill 统计；选项最多返回 200 项，每个 Skill 展示的分类/标签关联各最多 100 项。分类与标签名称仍使用原表中的共享名称，不自动生成中英文副本。
 
@@ -57,7 +57,7 @@ Skills 与教程列表都支持 q/category/tag/platform/sort/page。分类、标
 
 这些仍然是普通 Core 标签；可在后台编辑、归档和关联。标签归档不删除数据，前台不再使用已归档标记。
 
-Skill 作者没有独立字段，因此前台不把仓库 Owner 或审核人员冒充作者；仓库 Owner 单独标为维护者，作者缺失时如实显示。版本仅返回审核时间之前已存在的历史 SHA/标签/时间，不返回原始快照。现有版本表没有仓库路径或审核修订绑定，故 `version_source_verified=false`；记录的 SHA 不代表已验证的当前来源版本。GitHub 文件链接使用 `/blob/HEAD/{path}`，不会用旧 SHA 拼接可能已经变更的仓库路径。
+Skill 作者没有独立字段，因此前台不把仓库 Owner 或审核人员冒充作者；仓库 Owner 单独标为维护者，作者缺失时如实显示。版本仅返回审核时间之前已存在的历史 SHA/标签/时间，不返回原始快照。1.4.0 的新采集快照保存仓库/路径绑定，但仍未绑定人工审核修订，旧快照也可能没有来源证据，故前台继续保持 `version_source_verified=false`；记录的 SHA 不代表已审核的当前来源版本。GitHub 文件链接使用 `/blob/HEAD/{path}`，不会用旧 SHA 拼接可能已经变更的仓库路径。
 
 使用场景、安装说明和依赖要求从当前已审核译文正文中提取，不新增存储。编辑时使用真正的二级标题（`<h2>`），后面写实际内容；支持以下标题，英文大小写不敏感：
 
@@ -103,6 +103,14 @@ AI Skills Hub → “来信与投稿 / Inbox”仅对拥有 `aish_manage_setting
 
 公开 HTML 发送 `private, no-store`，Sitemap XML 发送 `no-store`，防止资源撤下后主题自身仍复用跨请求快照。接入第三方页面缓存/CDN 时需保留此规则，并在 Final QA 验证撤稿生效；本阶段没有部署缓存或外部站点。
 
+## Phase 5 来源更新如何影响前台
+
+采集新资源固定为 pending，并且不创建中文/英文翻译，因此不会进入列表、详情、搜索、语言备选或 Sitemap。编辑人员须在既有 Skills 编辑器补充真实内容，经 Reviews 批准当前修订后才能公开；后台“来源变更已处理”不是发布按钮。
+
+已存在的来源更新仅保存 incoming 元数据、不可变原文版本和静态风险提示，不覆盖人工译文、SEO 字段、slug 或审核。原有已发布页面继续展示人工批准的内容；如需采用新来源，管理员编辑后按原规则重新审核。来源 missing/疑似移动也不会自动删除或归档公开资源，后台人员应核实并决定如何处理已有页面。扫描不完整时不推断来源删除。
+
+采集的 License/依赖/风险均为后台证据，不自动变成公开 `license-*`、`platform-*` 标签或正文声明。静态检查不表示脚本已执行、平台已测试或绝对安全。既有 WPML 接口、独立双语 SEO、Canonical/hreflang、robots 和 Sitemap 门禁保持不变；具体采集操作见 [GITHUB_IMPORT.md](GITHUB_IMPORT.md)，信任边界见 [IMPORT_SECURITY.md](IMPORT_SECURITY.md)。
+
 ## API 与扩展接口
 
 `FrontendModule` 在 Core 注册 `public_catalog`、`editorial`、`frontend` 服务，依赖既有 database/language/catalog 模块。模板通过 `Router::context()`、`View` 和 WordPress `get_template_part()` 渲染；业务查询不放入 `functions.php`。
@@ -141,4 +149,4 @@ XML 索引为 `/aish-sitemap.xml`，子文件形如 `/aish-sitemap-skills-zh-1.x
 
 ## 验证范围
 
-本文件描述当前实现和编辑方式，不作为集成通过证明。本阶段按用户策略仅做必要 PHP、构建及基础代码检查；历史前台结果见 Phase 3 报告，当前搜索与 SEO 的准确执行结果见 Phase 4 报告。完整 MySQL、WordPress、WPML、浏览器、并发、表单滥用/缓存及端到端验收统一留到 Final QA。没有写入演示数据，也没有执行自动采集、AI 内容生成或外部部署。
+本文件描述当前实现和编辑方式，不作为集成通过证明。本阶段按用户策略仅做必要 PHP、构建及基础代码检查；前台/搜索/SEO 历史结果见 Phase 3/4 报告，采集模拟检查见 Phase 5 报告。完整 MySQL、WordPress、WPML、浏览器、并发、表单滥用/缓存及端到端验收统一留到 Final QA。本轮没有写入演示数据或调用真实 GitHub API，模拟采集不代表真实环境通过；未开发 AI 内容生成或部署外部站点。

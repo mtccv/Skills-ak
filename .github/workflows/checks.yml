@@ -28,6 +28,12 @@ jobs:
       - run: php tests/basic/editorial-search.php
       - run: php tests/basic/seo.php
       - run: php tests/basic/sitemap.php
+      - run: php tests/basic/github-client.php
+      - run: php tests/basic/github-discovery.php
+      - run: php tests/basic/skill-parser.php
+      - run: php tests/basic/import-store.php
+      - run: php tests/basic/import-admin.php
+      - run: php tests/basic/import-worker.php
   assets:
     runs-on: ubuntu-latest
     steps:

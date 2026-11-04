@@ -1,6 +1,6 @@
 # AI Skills Hub — 项目总规格
 
-版本：1.4；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
+版本：1.5；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
 
 ## 1. 目标与执行约束
 
@@ -8,7 +8,7 @@
 
 唯一开发环境为 Codex Cloud。不得引入宝塔、要求用户本机开发或部署外部服务器。Cloud 内的容器、数据库与 HTTP 预览只用于开发与验收，不构成生产部署。代码、规格和构建锁文件同步 GitHub；运行数据、密钥和依赖目录不入库。
 
-用户已验收 Phase 0–3，当前授权 **Phase 4：AI Skills Hub 搜索系统与 SEO 系统**。本轮以 GitHub main 的既有代码为基础，完善中英文 Skills/教程搜索、组合筛选、排序分页、查询优化、独立 SEO 配置、多语言 Meta、XML Sitemap 和 robots 索引策略。复用现有八表；已说明的必要数据库调整仅为 1.3.0 两个非唯一索引，不新增业务字段或改变稳定 ID、审核、来源去重设计。SEO 复用已有翻译字段及 WordPress options/postmeta。Contact 与 Submit 继续按用户已确认方案保存私有待处理记录，不直接创建或发布 Skill。完成必要检查、文档、提交及 GitHub main 同步后暂停；不自动开始后续阶段、GitHub 采集或 AI 生成。
+用户已验收 Phase 0–4，当前授权 **Phase 5：GitHub Skills 自动采集系统**。本轮以 GitHub main 的既有代码为基础，实现公开仓库 API、SKILL.md 发现与安全解析、来源去重和增量同步、可恢复任务、静态风险检查及原生后台人工处理。主题/Core 为 0.6.0，schema 为 1.4.0；保留既有八表、稳定 ID、双语关系、来源唯一键、人工审核及全部搜索/SEO 功能。为持久保存 GitHub 身份、不可变来源证据、任务恢复与脱敏日志，采用第 5.4 节说明的只增不删迁移。Contact 与 Submit 继续保存私有待处理记录，不自动创建或发布 Skill。完成必要检查、文档、提交及 GitHub main 同步后暂停，等待 Phase 6 指令；不开发 AI 自动翻译或内容生成。
 
 ## 2. 技术基线
 
@@ -51,11 +51,11 @@ wp-content/themes/ai-skills-hub/
   languages/                 # gettext 翻译目录
 ```
 
-后续 Core 按 Content、Language、Sources、Jobs、AI、Admin、Security 分模块，PHP 命名空间 `AISkillsHub\Core`。主题函数使用 `aish_` 前缀，选项/元字段/表名使用 `aish_`，WordPress 数据表前缀从 `$wpdb->prefix` 获取。模块通过 WordPress hooks 启动，外部供应商、语言关系和任务执行均提供接口，避免模板直接请求外部网络。
+当前 Core 显式模块为 database、language、catalog、admin、frontend、sources，PHP 命名空间 `AISkillsHub\Core`；Sources 包含 GitHubClient、Discovery、Frontmatter、RiskInspector、ImportStore、Worker、Scheduler 和原生后台 Admin。ModuleLoader 校验依赖图后注册，sources 依赖 database/catalog/admin，复用既有 DAL 和迁移。AI 模块保留到 Phase 6。主题函数使用 `aish_` 前缀，选项/元字段/表名使用 `aish_`，WordPress 数据表前缀从 `$wpdb->prefix` 获取。模块通过 WordPress hooks 启动，模板不直接请求外部网络。
 
-Core 随主题加载，切换主题后停止执行，但保留内容和数据；不得自动删除表、选项或文章。文档说明此耦合，未来独立插件拆分须经用户确认。升级执行版本化、可重复的迁移，不在每个前台请求执行 DDL。开发阶段不自动启用真实外部任务。
+Core 随主题加载，切换主题时清除采集 Cron 事件，但保留内容、任务和日志；不得自动删除表、选项或文章。文档说明此耦合，未来独立插件拆分须经用户确认。升级执行版本化、可重复的迁移，不在每个前台请求执行 DDL。仓库定期同步默认关闭，只有管理员配置并启用的公开仓库或明确手动排队的任务才允许采集；本轮开发检查不调用真实 GitHub API。
 
-## 5. 数据库与内容模型（Phase 1 基础、Phase 2 字段扩展、Phase 4 索引优化）
+## 5. 数据库与内容模型（保留八张核心表，Phase 5 增加采集运营数据）
 
 依据用户本轮要求，Core 自定义表为唯一主存储。WordPress 提供用户、权限、选项、主题生命周期与原生后台界面；不注册影子 Skills CPT，不以 post ID 或语言文章 ID 代替内部 Skill ID。Phase 0 未创建业务表，无旧 CPT 数据需要转换。
 
@@ -65,10 +65,10 @@ Core 随主题加载，切换主题后停止执行，但保留内容和数据；
 
 | 表（加 WP 前缀） | 字段与约束 | 关联 |
 | --- | --- | --- |
-| aish_repositories | id, owner varchar(39), name varchar(100), is_archived, created_at；UNIQUE(owner,name)，GitHub 身份归一化小写 | 一个仓库有多个 Skills |
+| aish_repositories | id, owner varchar(39), name varchar(100), is_archived, created_at；1.4.0 增加 github_id、default_branch、sync_enabled、sync_interval、last_sync_at、last_sync_commit、last_scan_at、sync_status、license_spdx；UNIQUE(owner,name)，UNIQUE(github_id)，owner/name 归一化小写 | 一个仓库有多个 Skills；GitHub 数字身份不能取代内部 id |
 | aish_skills | id, repository_id nullable, source_path VARBINARY(768) nullable, status, revision, review_status, risk_level, reviewer_id, reviewed_at, reviewed_revision, review_notes, created_at, updated_at；UNIQUE(repository_id,source_path)，INDEX(status,created_at)，INDEX(status,review_status,updated_at,id) | 稳定的语言无关 Skill 实体 |
 | aish_skill_translations | id, skill_id, locale varchar(10), title, slug nullable, summary, content, seo_title, seo_description, created_at, updated_at；UNIQUE(skill_id,locale)，UNIQUE(locale,slug)，INDEX(locale,title,skill_id) | zh_CN/en_US 共用同一 skill_id；缺译返回 null |
-| aish_skill_versions | id, skill_id, commit_sha varchar(64), content_hash char(64), source_content mediumtext, version_label, created_at；UNIQUE(skill_id,commit_sha) | 每个 Skill 的不可变来源快照，同提交可包含多个 Skills |
+| aish_skill_versions | id, skill_id, commit_sha varchar(64), content_hash char(64), source_content mediumtext, version_label, created_at；1.4.0 增加 file_sha varchar(64)、repository_id nullable、source_path VARBINARY(768) nullable；UNIQUE(skill_id,commit_sha) | 每个 Skill 的不可变来源快照，同提交可包含多个 Skills；历史快照不虚构来源绑定 |
 | aish_categories | id, name, slug UNIQUE, parent_id nullable, is_archived, created_at；INDEX(parent_id) | 层级分类，共用分类名称；名称翻译留后续 |
 | aish_tags | id, name, slug UNIQUE, is_archived, created_at | 非层级标签 |
 | aish_skill_categories | PRIMARY KEY(skill_id,category_id)，INDEX(category_id) | Skills 与分类多对多 |
@@ -78,11 +78,11 @@ Core 随主题加载，切换主题后停止执行，但保留内容和数据；
 
 正文最多 512 KiB，经 `wp_kses_post` 存储；来源快照为受限 UTF-8 原文，仅以纯文本方式输出，不执行 Markdown/脚本/指令。版本哈希由 Core 自行计算 SHA-256，同一 skill_id+commit_sha 的不同内容拒绝写入，不能覆盖旧版本。slug 采用最长 191 字节的规范 ASCII 小写形式，中英文允许同 slug（按 locale 隔离）。
 
-不建立数据库外键或级联删除；Catalog 事务与行锁校验关联对象，数据库唯一键兜底并发去重。DAL 属于可信内部代码，不是授权边界；外部写入必须经过 Catalog 或 Admin Management 服务。没有硬删除 API 或卸载清理钩子，主题升级、停用、切换均保留数据。绕过 Catalog 的人工 SQL 必须自行维护关联完整性，禁止将内部 DAL 直接暴露到 HTTP。
+不建立数据库外键或级联删除；Catalog、Management 和 ImportStore 事务与行锁校验关联对象，数据库唯一键兜底并发去重。DAL 属于可信内部代码，不是授权边界；人工写入经过 Catalog/Management，采集写入经过限定后台上下文、任务租约及来源校验的 ImportStore。没有硬删除 API 或卸载清理钩子，主题升级、停用、切换均保留数据。人工 SQL 必须自行维护关联完整性，禁止将内部 DAL 直接暴露到 HTTP。
 
 ### 5.2 初始化与增量升级
 
-`aish_schema_version` 为每站点 schema 版本，autoload 关闭。迁移 1.0.0 建立基础八表，1.1.0 为版本快照添加 `version_label`；Phase 2 加入 1.2.0 扩展现有八表；Phase 4 的 1.3.0 只添加 `skills.public_updated(status,review_status,updated_at,id)` 和 `skill_translations.locale_title(locale,title,skill_id)` 两个非唯一完整索引，并校验实际索引列顺序。没有新表、新业务字段或数据重写。1.0.0 同时用于旧结构升级测试，并不表示已有线上历史数据。
+`aish_schema_version` 为每站点 schema 版本，autoload 关闭。迁移 1.0.0 建立基础八表，1.1.0 为版本快照添加 `version_label`；Phase 2 加入 1.2.0 扩展现有八表；Phase 4 的 1.3.0 只添加 `skills.public_updated(status,review_status,updated_at,id)` 和 `skill_translations.locale_title(locale,title,skill_id)` 两个非唯一完整索引，并校验实际索引列顺序。Phase 5 的 1.4.0 追加第 5.4 节的字段、唯一键及三张运营表，保留原有 ID、数据、翻译和索引，不重建 Skills。1.0.0 同时用于旧结构升级测试，并不表示已有线上历史数据。
 
 迁移使用 `dbDelta`、MySQL GET_LOCK/RELEASE_LOCK、实际列/完整唯一索引/InnoDB/utf8mb4 验证；只有验证通过才能更新版本。拒绝未知版本与降级，失败不虚报版本，并支持排除故障后重复执行。MySQL DDL 不是原子事务，失败可能留下部分表；各迁移保持可重复、只增不删，升级前仍须备份，不能宣称 DDL 自动回滚。
 
@@ -99,11 +99,22 @@ Phase 1 缺少人工来源、审核与 SEO 字段，不能完成本轮明确要�
 - 历史 published 且无当前修订审核证据的记录转 pending；原文、ID、关联均保留。内容、来源或 Skill 的分类/标签关联发生修改时使旧审核失效，防止旧批准覆盖新内容。
 - 编辑请求必须提交 revision，服务在事务中锁定行并比较修订号，过期编辑拒绝覆盖。审核批准必须针对当前待审修订，且至少一种语言的标题、slug、简介、正文完整；另一种语言可以缺失，后台明确标记。
 
-### 5.4 后续扩展（不在本阶段实现）
+### 5.4 Phase 5 必要增量与运营表（schema 1.4.0）
 
-许可证、工具标签、GitHub ID/统计、采集配置和 AI 审核元信息由后续增量迁移添加，不能另建重复仓库身份系统。未来自动化阶段经单独授权再按需加入 aish_imports（repository_id、skill_id、来源 SHA、状态）、aish_jobs（幂等键、重试和锁）、aish_audit（脱敏审计）；不在 Phase 1 建表或调度。
+原八表没有 GitHub 不变数字身份、文件 SHA、快照来源绑定、可恢复队列或采集结果状态，无法可靠判断同名仓库替换、增量内容变化和过期任务写入。因此使用已有 Migrator 追加以下结构，不改变 Skill 主键、来源唯一键、翻译关系或人工审核模型，不把任务/风险 JSON 混入公开译文。
 
-少量配置复用 WordPress options；大型设置和日志禁用 autoload。任务不存凭据，外部服务密钥来自环境引用。后续来源更新/AI 结果只能成为待审核变更，不能隐式覆盖人工编辑或直接发布。
+- repositories：`github_id` 为 nullable unsigned bigint，新增 UNIQUE `github_identity(github_id)`；`default_branch` varchar(255)、`sync_enabled` 默认 0、`sync_interval` unsigned int 默认 86400 秒、`last_sync_at` nullable datetime、`last_sync_commit` varchar(64)、`last_scan_at` nullable datetime、`sync_status` varchar(20) 默认 idle、`license_spdx` varchar(100)。首次可靠 API 响应后绑定 GitHub ID，后续身份变化拒绝同步；不是新建第二套仓库。license_spdx 保存最后完整成功的许可证基线，与 last_sync_commit/last_sync_at 在成功收尾时原子推进，不在获取仓库信息时提前覆盖。
+- skill_versions：`file_sha` varchar(64) 默认空，`repository_id` 与 `source_path` 允许 NULL，保存新采集快照的来源绑定。旧记录保留未知值，不根据当前来源回填历史；仍 UNIQUE(skill_id,commit_sha)，不覆盖已有原文。
+
+| 新表（加 WP 前缀） | 实际字段与约束 | 用途 |
+| --- | --- | --- |
+| aish_imports | id、skill_id、repository_id、source_path VARBINARY(768)、file_sha、commit_sha、source_status、change_status、metadata_json、findings_json、last_seen_job nullable、created_at、updated_at；UNIQUE(skill_id)、UNIQUE(repository_id,source_path)、INDEX(repository_id,source_status) | 当前收到的来源元数据、风险证据及待处理变更；引用原 Skill，不存另一套译文 |
+| aish_jobs | id、repository_id、kind、status、active_key nullable、state_json、attempts、available_at、lease_token、locked_until nullable、deadline_at、created_at、updated_at、completed_at nullable、last_error；UNIQUE(active_key)、INDEX(status,available_at)、INDEX(status,locked_until) | 持久化阶段、游标、退避和租约；active_key=repository_id 保证同仓库最多一个活动任务，终态置 NULL |
+| aish_import_logs | id、job_id、repository_id、skill_id nullable、source_path VARBINARY(768) nullable、level、code、message、created_at；INDEX(job_id,id) | 固定错误码/简短脱敏事件与来源定位；每任务最多 1000 条，重复事件不重复写入 |
+
+imports 的 `source_status` 为 present/missing，`change_status` 区分 new/updated/inspection_updated/missing/restored/handled；jobs 为 queued/running/retry/complete/incomplete/failed/cancelled。source_status 不等于公开审核状态；handled 只表示人工处理来源提示，不发布 Skill。业务写入统一走现有 DAL 的白名单和 prepared SQL。
+
+少量配置复用 WordPress options；任务状态和日志使用运营表，任务 JSON 上限 4 MiB，不存凭据。1.4.0 沿用锁、dbDelta 和物理列/索引验证，历史版本验证排除尚未引入的字段和表；只在成功后更新版本。升级和恢复须备份，真实 MySQL 迁移、重复执行与并发验证留 Final QA。AI 配置、生成记录和完整审核事件历史不在 Phase 5 实现。
 
 ## 6. Phase 3 双语前台
 
@@ -128,7 +139,7 @@ PublicCatalog 在 DAL 上做只读投影，所有入口（详情、搜索、分�
 
 Skill 名称、简介、正文与 SEO 使用现有翻译表；仓库和路径使用既有来源；作者无独立字段时显示未提供，不冒充仓库维护者。平台使用现有 tag.slug 的 platform-*，许可证使用 license-*，精选使用 featured。这些是人工管理的标签，不代表平台实测或法律保证。分类/标签显示实际存储名称，允许编辑维护双语名称，不自动虚构译文。
 
-使用场景、安装说明、依赖要求可从现有译文正文的 H2 标题提取；未提供时明确显示未知，完整正文仍可阅读。版本仅显示审核时间之前记录的历史 SHA 元数据；现有 schema 未把 SHA 与审核修订/来源路径绑定，因此不能声称该 SHA 已被审核或是当前来源，GitHub 文件链接使用 HEAD。不读取外部仓库，不自动分析来源或生成内容。
+使用场景、安装说明、依赖要求可从现有译文正文的 H2 标题提取；未提供时明确显示未知，完整正文仍可阅读。版本仅显示审核时间之前记录的历史 SHA 元数据；1.4.0 新快照保存来源绑定，但仍没有 SHA 对人工审核修订的绑定，历史快照的来源也可能未知，不能声称该 SHA 已被审核或是当前来源，GitHub 文件链接继续使用 HEAD。普通前台请求不采集外部仓库；后台新增的来源原文、风险和 License 提示不自动成为公开内容。
 
 ### 6.2 教程、说明页面和私有表单
 
@@ -180,16 +191,16 @@ WordPress 原生 Sitemap provider、Yoast 和 Rank Math 的官方索引 hooks �
 
 使用 WordPress 原生菜单、WP_List_Table、wp_editor 和 admin-post 控制器管理 Core 记录；不创建影子文章，不引入页面构建器或独立 SPA。
 
-基础菜单为 AI Skills Hub → Dashboard、Skills、Add New Skill、Categories、Tags、Repositories、Reviews、Settings；Phase 3 增加 Tutorials 与 Inbox，Phase 4 增加 SEO。
+基础菜单为 AI Skills Hub → Dashboard、Skills、Add New Skill、Categories、Tags、Repositories、Reviews、Settings；Phase 3 增加 Tutorials 与 Inbox，Phase 4 增加 SEO，Phase 5 增加 GitHub Imports。
 
 - Dashboard 显示总数、待审核、各状态以及分类、标签、仓库统计。
 - Skills 支持创建、读取、修改和归档；保留 draft/pending/published/rejected/archived 五种状态；支持人工来源和同仓库多个 Skills。归档代替永久删除，必须在服务器返回的确认页二次提交。
 - 中文/英文在同一编辑表单内切换，分别维护标题、slug、简介、正文、SEO 标题和描述。显示缺失/未完整/完整状态；不得因缺译自动填充另一种语言。
 - 列表支持搜索、状态/风险/仓库/分类/标签筛选、白名单排序和分页；批量操作设数量上限，逐项能力及修订检查，不能批量绕过审核直接发布。
-- 分类支持层级及循环校验；标签为平面结构；仓库仅手动维护 owner/name，已关联 Skills 的仓库不允许直接改身份。归档分类、标签和仓库保留原关联。
+- 分类支持层级及循环校验；标签为平面结构；仓库沿用手动 owner/name 管理，GitHub Imports 追加规范 URL、同步开关/间隔及任务操作。已关联 Skills、GitHub ID 或任务的仓库不允许直接改身份。归档分类、标签和仓库保留原关联；归档仓库停用采集并取消其活动任务。
 - 人工审核支持 pending、approved、rejected，记录人员、UTC 时间、修订、Unknown/Low/Medium/High 风险和备注。只有审批当前修订才可发布；编辑内容需要重新审核。拒绝保留原记录。
 - Skill 阅读预览为登录且拥有 Skills 管理或审核能力、有效 nonce 的私有页面，标记 no-store/noindex；未审核内容不提供公开地址。公开站点页面由 Phase 3 实现。
-- Settings 配置默认编辑语言和列表每页数量；SEO 子菜单及原生文章 SEO 面板承载 Phase 4 配置，不提供尚未实现的采集/AI 设置。
+- Settings 配置默认编辑语言和列表每页数量；SEO 子菜单及原生文章 SEO 面板承载 Phase 4 配置。GitHub Imports 展示仓库、任务/错误/限流、来源原文/SHA/License/风险、新增/更新/缺失变更，并链接既有 Skills/Reviews；扫描和同步只排队，手动批量最多 10 个仓库。Token 只显示是否配置，不提供前端或后台回显凭据。AI 设置留 Phase 6。
 - 能力为 aish_manage_skills、aish_review_skills、aish_manage_taxonomies、aish_manage_repositories、aish_manage_settings；默认只赋予管理员，manage_options 兼容既有管理员。编辑及其他角色不自动获得能力。页面、控制器和服务各自校验相关 capability，nonce 不能代替能力。
 
 归档及批量操作使用 POST + nonce + 权限 + 二次确认；输入验证、prepared SQL、输出上下文转义和 KSES 沿用 Core。服务抛出可控错误，HTTP 层不显示数据库详情。设置保存在 WordPress options，未引入额外业务表。
@@ -202,15 +213,45 @@ WordPress 原生 Sitemap provider、Yoast 和 Rank Math 的官方索引 hooks �
 - 两种模式必须分别测试语言切换、列表/搜索过滤、分页、canonical/hreflang、分类、缓存、后台编辑。模式迁移要有 dry-run、冲突清单、备份和回退，不能自动覆盖翻译。
 - WPML 为可选商业依赖，不随仓库分发；未提供合法插件时以适配合同测试覆盖，必须把真实联调标为待完成。
 
-## 9. GitHub Skills 采集
+## 9. Phase 5 GitHub Skills 采集
 
-仅采集管理员配置的 GitHub 仓库及路径，默认关闭定时采集。使用 GitHub API、认证引用、ETag/条件请求、分页、速率预算和退避。发现 `SKILL.md` 时解析有限 front matter 与 Markdown；路径、文件大小、递归深度和请求时长均设上限。初始建议：单文件 512 KiB、每任务最多 100 项、请求超时 20 秒；未来采集阶段用样本校准。
+### 9.1 API、身份与资源上限
 
-仓库身份先归一化 owner/name，Skill 来源使用 repository_id + source_path 去重，版本使用 skill_id + commit_sha 去重并校验内容哈希。来源更新只生成待审核更新，不覆盖人工编辑或直接发布。记录固定提交 SHA、规范来源 URL、许可证和采集时间；许可证不明时仅保留必要元信息及来源链接，全文使用策略交由编辑确认。删除/移动内容标记待核对，不自动删除已发布文章。
+仅接受管理员配置的 `https://github.com/owner/repository` 根地址（可带 `.git`），拒绝凭据、端口、查询参数、片段及任意下载地址。统一 GitHubClient 用 `wp_safe_remote_get` 请求固定 `https://api.github.com` REST 路径；TLS 验证、拒绝不安全目标、禁止重定向和压缩响应、每请求 15 秒超时。仓库/提交响应上限 128 KiB，Tree 响应 4 MiB，Blob JSON 响应 768 KiB、解码文件 512 KiB。只读公开且非 disabled 仓库，Token 不能使私有仓库进入采集范围。
 
-不得执行来源中的命令、脚本或指令；采集文本视为不可信数据。下载地址仅允许 GitHub 已定义 HTTPS API/内容域，校验重定向，阻止内网和云元数据地址；不提供任意 URL 抓取代理。
+可选 Token 来自服务器 `AISH_GITHUB_TOKEN` 常量或同名环境变量，不写入任务/日志/前台，不入 Git。认证失败、权限拒绝、身份变化等终止本次扫描；429、主/次限流、网络及 5xx 由有界任务重试。共享限流状态保存 remaining/reset/cooldown，遵守 Retry-After/重置时间和指数退避，不在请求内 sleep。GitHub 数字 ID 初次绑定后不可替换；跨 Cron 步骤取 Commit/Tree/Blob 前重新验证公开身份，避免同名仓库重建混用来源。固定 Commit → Tree SHA → Blob SHA，校验响应 SHA、长度及 Git blob 哈希，不跟随响应中的 URL。增量依据 SHA，不宣称实现 ETag 缓存。
 
-## 10. AI 双语内容生成
+### 9.2 完整发现与安全解析
+
+精确查找大小写为 `SKILL.md` 的普通 blob（100644/100755），支持根目录和同仓库多个目录。树路径使用既有相对路径校验，保留大小写；树/符号链接/子模块类型与 mode 对应校验，符号链接和子模块不递归。Discovery 保存纯 JSON 状态：树最多 10000 条、Skill 候选最多 500 个、路径最多 32 段、树请求最多 1000 次、Discovery 状态最多 2 MiB；超过上限标记不完整，不能悄悄截断成完整结果。
+
+递归 Tree 返回 truncated 或响应超过大小限制时，丢弃不完整的清单，记录诊断并以固定 root SHA 逐层读取非递归 Tree。子树队列和祖先 SHA 持久化，相同 SHA 在不同目录允许分别遍历，祖先环路拒绝。非递归 Tree 仍截断、超限、异常路径或目录层级不一致时失败并保留不完整状态。仅在完整树、所有文件处理完成且零文件错误后，允许对比缺失来源；解析失败、读取失败或超大 Skill 不得触发删除推断。
+
+Frontmatter 支持受限 YAML 字符串、单双引号、文字/折叠块及扁平 metadata 字符串映射；允许 name、description、license、compatibility、metadata、allowed-tools，不实现通用 YAML。name/description 必填并校验类型/长度；嵌套 Skill 的 name 须匹配目录名，根 SKILL.md 留目录未知提示。头部上限 16 KiB/256 行、metadata 最多 32 项；拒绝重复键、非字符串隐式值、未知字段、标签/锚点/别名/合并键和不支持的复杂结构。失败记录固定诊断后继续其他候选，不执行 YAML 或 Markdown 中的任何指令。
+
+### 9.3 去重、增量与人工审核
+
+来源唯一性始终是内部 `repository_id + source_path`，绝不按 Skill name 合并。ImportStore 使用事务、行锁、数据库唯一键及任务租约防并发冲突。新发现的合法来源只创建 `pending/review_status=pending` Skill 和私有来源快照；不自动写入中文或英文翻译，不设置公开 slug，不自动发布。管理员从来源原文补充真实双语内容，并走原有 Reviews 的当前修订审核。
+
+文件变化追加不可变版本，记录 File SHA、Commit SHA、快照绑定、SHA-256 和风险结果。已有 Skill 的 ID、slug、人工译文、审核及公开内容不由采集覆盖；新原文只是后台待处理变更。增量 sync 仅在同仓库最近前序任务为 complete、当前 Commit 等于 last_sync_commit、且许可证相对最后成功基线未变化时，才通过 baselineReusable 跳过重复扫描。若最近前序任务失败、不完整或取消，即使上游回退到原成功 SHA，也必须重新检查，避免未完成任务的部分写入被误当成完整基线。Commit 变化但某文件 SHA 未变时复用已核验快照，仍针对新树与许可证重新静态检查，风险/依赖变化标为 inspection_updated，不重复存原文版本。完整 scan 重新读取候选内容。
+
+仅完整成功的 finish 才原子保存 last_sync_at/last_sync_commit/license_spdx；仓库元数据获取或失败/取消任务均不能推进该基线，last_scan_at 是排队时间，不表示完成。完整清单确认旧路径不存在时标记 missing，恢复标记 restored，不删除或自动归档旧 Skill/已发布页面。新路径与缺失旧路径具有相同文件 SHA 时记录 possible_move，由人工核对；不猜测移动、迁移 ID 或修改已发布 slug。“来源变更已处理”校验来源版本指纹和审核权限，只清理提示，不等于通过内容审核。
+
+### 9.4 调度与恢复
+
+WordPress Cron 的 `aish_import_tick` 使用 60 秒周期；管理员初始化注册，普通前台只允许 WordPress 常规触发 Cron，不在页面处理栈执行扫描。任务阶段为 repository → commit → tree → files → finalize，一次 Cron 最多执行一个可恢复步骤，一个文件一步；持久化检查点后下一步至少延迟 60 秒。执行网络操作的步骤最多两个 HTTP 请求（仓库身份校验加固定对象读取），每个独立 15 秒超时。
+
+Scheduler 使用数据库/站点级 GET_LOCK 保证单 worker，同时每轮最多检查 20 个到期仓库；ImportStore 的活动任务唯一键、claim 锁、120 秒租约与 fencing token 防止重复任务和过期写入。单仓库新任务间隔至少 60 秒，定期间隔范围 3600–604800 秒，默认 86400 秒且默认关闭。后台手动批量最多 10 个仓库，不并行扫描。成功检查点重置连续失败计数；同一步达到 5 次失败或任务超过 48 小时截止即终止，不永久占用队列。
+
+运行状态明确区分 queued/running/retry/complete/incomplete/failed/cancelled；断点保存失败不能报成功，租约到期后可恢复。租约回收、幂等来源写入和完整清单核对需真实 MySQL 并发测试；WordPress Cron 依赖站点请求，60 秒是计划间隔，不承诺准点。无需假设 Action Scheduler 已安装。切换主题仅清理调度事件，不删除任何任务、来源或版本。
+
+### 9.5 静态风险与安全边界
+
+只分析 SKILL.md 文本和对应目录树元数据，记录许可证声明/仓库 SPDX、依赖声明/清单文件、脚本、网络地址、特权/破坏性命令、可疑命令执行、密钥读取/提示注入、路径/符号链接、超大文件及异常目录提示。未知许可证标记待核实；原文仅作为后台私有证据保存，公开使用须编辑确认。脚本本身和依赖内容未执行、未安装，也不声称已做全面源码审计或绝对安全认证。
+
+静态结果保存在 imports，不自动替换人工 risk_level 或绕过审核。来源文本不能读取系统密钥、改变系统指令、触发管理接口、扩展网络域名或授权执行。后台所有写入要求 POST、nonce、capability；归档二次确认，原文按文本转义。日志使用固定码和安全提示，不保存 HTTP Authorization、响应原文或 SQL。操作说明见 `docs/GITHUB_IMPORT.md`，安全说明见 `docs/IMPORT_SECURITY.md`。
+
+## 10. AI 双语内容生成（Phase 6，尚未授权/实现）
 
 供应商适配层接受脱敏且长度受限的来源数据，输出结构化 zh_CN/en_US 标题、摘要、说明、适用场景及限制；校验 JSON schema、语言、必填项及长度。系统提示明确来源中的指令只是引用，不得改变任务、访问工具或读取密钥。
 
@@ -235,8 +276,9 @@ WordPress 原生 Sitemap provider、Yoast 和 Rank Math 的官方索引 hooks �
 | Phase 1 数据库与 Core（已验收） | 八表、版本化迁移、稳定 ID/双语数据关联、模块加载、统一 DAL/Catalog、验证/转义、语言接口 | 历史报告记录 PHP、MySQL/WordPress CI 证据；用户已验收 |
 | Phase 2 原生后台（已验收） | 菜单、统计、Skills 双语 CRUD/归档、分类/标签/仓库、人工审核、风险/备注、受限预览、列表/批量和能力控制 | PHP、前端构建、基本检查；提交同步并暂停；全面集成留 Final QA |
 | Phase 3 中英文双语前台（已验收） | 原创主题、12 类页面、真实公开查询、语言路由与回退、基础 SEO、教程与私有投稿 | 用户已验收；历史检查及未测项目见 Phase 3 报告 |
-| **Phase 4 搜索与 SEO（当前授权）** | Skills/教程双语关键词、组合筛选、查询与索引优化、独立 SEO、多语言 Meta、XML Sitemap、robots 索引策略 | 必要 PHP/构建/基本检查，文档及 GitHub main 同步；完成后等待下一指令 |
-| 后续自动化（未授权） | GitHub 采集、AI 内容、队列与审计 | 用户另行确认后实施 |
+| Phase 4 搜索与 SEO（已验收） | Skills/教程双语关键词、组合筛选、查询与索引优化、独立 SEO、多语言 Meta、XML Sitemap、robots 索引策略 | 用户已验收；历史检查及未测项目见 Phase 4 报告 |
+| **Phase 5 GitHub Skills 自动采集（当前授权）** | 公开 GitHub API、完整树发现、安全 Frontmatter、去重/增量/不可变快照、原生采集后台、Cron 小任务/恢复、静态风险与人工处理 | PHP/构建/基本检查及模拟响应断言；更新使用/安全/进度文档，提交同步 GitHub main 并暂停；真实 API/数据库集成留 Final QA |
+| Phase 6 AI 双语内容（未授权） | AI 供应商、结构化双语草稿、预算及人工审核衔接 | 用户另行确认后实施，不能从 Phase 5 自动进入 |
 | Final QA 集成与交付 | 全站交互、可访问性、SEO、性能、安全回归、备份恢复说明 | 端到端流程及回滚通过、无阻断缺陷、测试限制清楚；不自动外部部署 |
 
 ### Phase 0 明确边界
@@ -269,3 +311,7 @@ Phase 1 已完成测试作为历史证据保存在其报告，不能用于宣称
 Phase 3 Final QA 补充清单：真实 MySQL 公开谓词/筛选/计数和编辑撤回竞争；WordPress 重写/子目录/默认固定链接、12 类页面双语跳转；教程双向关系及私有收件箱、真实表单持久化/限流/Nonce；404 与 503、无译文回退、Canonical/hreflang、移动键盘及无 JS、浏览器兼容、WPML 和并发。静态代码审查和语法检查不能替代这些运行验收。
 
 Phase 4 Final QA 补充清单：MySQL 1.2→1.3 仅索引增量及可重复执行、真实 EXPLAIN/大数据量与组合筛选分页；教程 get_meta_sql 回调、语言/密码/完整性门禁及真实 WordPress 缓存；中英文自 Canonical/hreflang/x-default、独立 Meta 配置与 noindex；Sitemap 全量/跨页/缺译/归档/异常/lastmod 与重复 URL；物理 robots.txt 覆盖、站点关闭索引、原生及 Yoast/Rank Math/WPML 真实启停组合和索引缓存。必要基础断言只能验证隔离合同，不能代替上述真实系统验收。
+
+Phase 5 阶段检查以模拟 GitHub API、纯状态机和数据库替身覆盖仓库地址/公开身份、Git Tree/截断回退、多 SKILL.md、Frontmatter、SHA/重复扫描/增量、限流重试及不可信内容；不得描述为真实 GitHub 或 MySQL 验收。实际结果记录于 Phase 5 报告。
+
+Phase 5 Final QA 补充清单：真实 GitHub 认证/匿名限流/次限流、公开转私有/同名重建、分支/Tree/Blob 响应与超限；MySQL 1.3→1.4 与历史版本逐级迁移/重复安装/故障恢复、11 表物理结构及原八表 ID/双语/唯一键/内容保留；真实 WordPress Cron 触发、单 worker 锁、租约回收与过期 worker 拒写、断点崩溃恢复、并发排队/去重、5 次失败/48 小时截止；完整/截断/失败清单的 missing 规则、疑似移动、相同文件 SHA 的新树风险变化、人工编辑与采集并发、来源绑定修改、原生后台权限/nonce/归档确认、浏览器以及 Phase 0–4 搜索/SEO/WPML 回归。真实 API、MySQL、WordPress 和端到端本轮未执行，必须在 Final QA 逐项取得证据。

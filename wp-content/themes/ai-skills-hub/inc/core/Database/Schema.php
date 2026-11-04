@@ -6,21 +6,24 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.3.0';
+	public const VERSION = '1.4.0';
 
 	public const COLUMNS = array(
-		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d' ),
+		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d', 'github_id' => '%d', 'default_branch' => '%s', 'sync_enabled' => '%d', 'sync_interval' => '%d', 'last_sync_at' => '%s', 'last_sync_commit' => '%s', 'last_scan_at' => '%s', 'sync_status' => '%s', 'license_spdx' => '%s' ),
 		'skills' => array( 'id' => '%d', 'repository_id' => '%d', 'source_path' => '%s', 'status' => '%s', 'revision' => '%d', 'review_status' => '%s', 'risk_level' => '%s', 'reviewer_id' => '%d', 'reviewed_at' => '%s', 'reviewed_revision' => '%d', 'review_notes' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
 		'skill_translations' => array( 'id' => '%d', 'skill_id' => '%d', 'locale' => '%s', 'title' => '%s', 'slug' => '%s', 'summary' => '%s', 'content' => '%s', 'seo_title' => '%s', 'seo_description' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
-		'skill_versions' => array( 'id' => '%d', 'skill_id' => '%d', 'commit_sha' => '%s', 'content_hash' => '%s', 'source_content' => '%s', 'created_at' => '%s', 'version_label' => '%s' ),
+		'skill_versions' => array( 'id' => '%d', 'skill_id' => '%d', 'commit_sha' => '%s', 'content_hash' => '%s', 'source_content' => '%s', 'created_at' => '%s', 'version_label' => '%s', 'file_sha' => '%s', 'repository_id' => '%d', 'source_path' => '%s' ),
 		'categories' => array( 'id' => '%d', 'name' => '%s', 'slug' => '%s', 'parent_id' => '%d', 'created_at' => '%s', 'is_archived' => '%d' ),
 		'tags' => array( 'id' => '%d', 'name' => '%s', 'slug' => '%s', 'created_at' => '%s', 'is_archived' => '%d' ),
 		'skill_categories' => array( 'skill_id' => '%d', 'category_id' => '%d' ),
 		'skill_tags' => array( 'skill_id' => '%d', 'tag_id' => '%d' ),
+		'imports' => array( 'id' => '%d', 'skill_id' => '%d', 'repository_id' => '%d', 'source_path' => '%s', 'file_sha' => '%s', 'commit_sha' => '%s', 'source_status' => '%s', 'change_status' => '%s', 'metadata_json' => '%s', 'findings_json' => '%s', 'last_seen_job' => '%d', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'jobs' => array( 'id' => '%d', 'repository_id' => '%d', 'kind' => '%s', 'status' => '%s', 'active_key' => '%d', 'state_json' => '%s', 'attempts' => '%d', 'available_at' => '%s', 'lease_token' => '%s', 'locked_until' => '%s', 'deadline_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s', 'completed_at' => '%s', 'last_error' => '%s' ),
+		'import_logs' => array( 'id' => '%d', 'job_id' => '%d', 'repository_id' => '%d', 'skill_id' => '%d', 'source_path' => '%s', 'level' => '%s', 'code' => '%s', 'message' => '%s', 'created_at' => '%s' ),
 	);
 
 	public const UNIQUE_KEYS = array(
-		'repositories' => array( 'PRIMARY' => array( 'id' ), 'repository_identity' => array( 'owner', 'name' ) ),
+		'repositories' => array( 'PRIMARY' => array( 'id' ), 'repository_identity' => array( 'owner', 'name' ), 'github_identity' => array( 'github_id' ) ),
 		'skills' => array( 'PRIMARY' => array( 'id' ), 'skill_source' => array( 'repository_id', 'source_path' ) ),
 		'skill_translations' => array( 'PRIMARY' => array( 'id' ), 'skill_locale' => array( 'skill_id', 'locale' ), 'locale_slug' => array( 'locale', 'slug' ) ),
 		'skill_versions' => array( 'PRIMARY' => array( 'id' ), 'skill_commit' => array( 'skill_id', 'commit_sha' ) ),
@@ -28,7 +31,17 @@ final class Schema {
 		'tags' => array( 'PRIMARY' => array( 'id' ), 'slug' => array( 'slug' ) ),
 		'skill_categories' => array( 'PRIMARY' => array( 'skill_id', 'category_id' ) ),
 		'skill_tags' => array( 'PRIMARY' => array( 'skill_id', 'tag_id' ) ),
+		'imports' => array( 'PRIMARY' => array( 'id' ), 'import_skill' => array( 'skill_id' ), 'import_source' => array( 'repository_id', 'source_path' ) ),
+		'jobs' => array( 'PRIMARY' => array( 'id' ), 'active_repository' => array( 'active_key' ) ),
+		'import_logs' => array( 'PRIMARY' => array( 'id' ) ),
 	);
+
+	/** Columns introduced with the importer, masked when verifying historical migrations. */
+	private const IMPORT_COLUMNS = array(
+		'repositories' => array( 'github_id', 'default_branch', 'sync_enabled', 'sync_interval', 'last_sync_at', 'last_sync_commit', 'last_scan_at', 'sync_status', 'license_spdx' ),
+		'skill_versions' => array( 'file_sha', 'repository_id', 'source_path' ),
+	);
+	private const IMPORT_TABLES = array( 'imports', 'jobs', 'import_logs' );
 
 	/** Phase 4 non-unique access paths; existing identity constraints stay unchanged. */
 	public const SEARCH_KEYS = array(
@@ -113,6 +126,72 @@ KEY tag_id (tag_id)",
 			$bodies['skill_translations'] .= ",\nKEY locale_title (locale,title,skill_id)";
 		}
 
+		if ( version_compare( $version, '1.4.0', '>=' ) ) {
+			$bodies['repositories'] = str_replace( 'created_at datetime NOT NULL,', "github_id bigint(20) unsigned DEFAULT NULL,
+default_branch varchar(255) NOT NULL DEFAULT '',
+sync_enabled tinyint(1) unsigned NOT NULL DEFAULT 0,
+sync_interval int(10) unsigned NOT NULL DEFAULT 86400,
+last_sync_at datetime DEFAULT NULL,
+last_sync_commit varchar(64) NOT NULL DEFAULT '',
+last_scan_at datetime DEFAULT NULL,
+sync_status varchar(20) NOT NULL DEFAULT 'idle',
+license_spdx varchar(100) NOT NULL DEFAULT '',
+created_at datetime NOT NULL,", $bodies['repositories'] );
+			$bodies['repositories'] .= ",
+UNIQUE KEY github_identity (github_id)";
+			$bodies['skill_versions'] = str_replace( 'created_at datetime NOT NULL,', "file_sha varchar(64) NOT NULL DEFAULT '',
+repository_id bigint(20) unsigned DEFAULT NULL,
+source_path varbinary(768) DEFAULT NULL,
+created_at datetime NOT NULL,", $bodies['skill_versions'] );
+			$bodies['imports'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+skill_id bigint(20) unsigned NOT NULL,
+repository_id bigint(20) unsigned NOT NULL,
+source_path varbinary(768) NOT NULL,
+file_sha varchar(64) NOT NULL DEFAULT '',
+commit_sha varchar(64) NOT NULL DEFAULT '',
+source_status varchar(20) NOT NULL DEFAULT 'present',
+change_status varchar(20) NOT NULL DEFAULT 'new',
+metadata_json mediumtext,
+findings_json mediumtext,
+last_seen_job bigint(20) unsigned DEFAULT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY import_skill (skill_id),
+UNIQUE KEY import_source (repository_id,source_path),
+KEY repository_status (repository_id,source_status)";
+			$bodies['jobs'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+repository_id bigint(20) unsigned NOT NULL,
+kind varchar(10) NOT NULL,
+status varchar(20) NOT NULL DEFAULT 'queued',
+active_key bigint(20) unsigned DEFAULT NULL,
+state_json mediumtext,
+attempts int(10) unsigned NOT NULL DEFAULT 0,
+available_at datetime NOT NULL,
+lease_token varchar(64) NOT NULL DEFAULT '',
+locked_until datetime DEFAULT NULL,
+deadline_at datetime NOT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+completed_at datetime DEFAULT NULL,
+last_error varchar(64) NOT NULL DEFAULT '',
+PRIMARY KEY  (id),
+UNIQUE KEY active_repository (active_key),
+KEY due (status,available_at),
+KEY lease (status,locked_until)";
+			$bodies['import_logs'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+job_id bigint(20) unsigned NOT NULL,
+repository_id bigint(20) unsigned NOT NULL,
+skill_id bigint(20) unsigned DEFAULT NULL,
+source_path varbinary(768) DEFAULT NULL,
+level varchar(10) NOT NULL,
+code varchar(64) NOT NULL,
+message varchar(500) NOT NULL,
+created_at datetime NOT NULL,
+PRIMARY KEY  (id),
+KEY job_log (job_id,id)";
+		}
+
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -123,6 +202,10 @@ KEY tag_id (tag_id)",
 	/** Verify physical schema before advancing the version; dbDelta's messages alone are insufficient. */
 	public static function verify( Database $db, string $version ): void {
 		foreach ( self::COLUMNS as $entity => $columns ) {
+			if ( version_compare( $version, '1.4.0', '<' ) ) {
+				if ( in_array( $entity, self::IMPORT_TABLES, true ) ) { continue; }
+				foreach ( self::IMPORT_COLUMNS[ $entity ] ?? array() as $column ) { unset( $columns[ $column ] ); }
+			}
 			if ( 'skill_versions' === $entity && version_compare( $version, '1.1.0', '<' ) ) {
 				unset( $columns['version_label'] );
 			}
@@ -145,6 +228,9 @@ KEY tag_id (tag_id)",
 				if ( 'skill_translations' === $entity && version_compare( $version, '1.2.0', '>=' ) && 'slug' === $field['Field'] && 'YES' !== $field['Null'] ) {
 					throw new \RuntimeException( 'Draft translation slugs must allow NULL.' );
 				}
+				if ( version_compare( $version, '1.4.0', '>=' ) && ( ( 'repositories' === $entity && 'github_id' === $field['Field'] ) || ( 'jobs' === $entity && 'active_key' === $field['Field'] ) || ( 'skill_versions' === $entity && in_array( $field['Field'], array( 'repository_id', 'source_path' ), true ) ) ) && 'YES' !== $field['Null'] ) {
+					throw new \RuntimeException( 'Importer optional identity columns must allow NULL.' );
+				}
 				if ( 'source_path' === $field['Field'] && 'varbinary(768)' !== strtolower( $field['Type'] ) ) {
 					throw new \RuntimeException( 'Source paths require exact byte comparison.' );
 				}
@@ -163,6 +249,7 @@ KEY tag_id (tag_id)",
 				}
 			}
 			foreach ( self::UNIQUE_KEYS[ $entity ] as $name => $expected ) {
+				if ( 'github_identity' === $name && version_compare( $version, '1.4.0', '<' ) ) { continue; }
 				$parts = $indexes[ $name ] ?? array();
 				ksort( $parts );
 				if ( array_values( $parts ) !== $expected ) {

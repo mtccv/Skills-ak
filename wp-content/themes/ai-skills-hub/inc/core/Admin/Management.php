@@ -381,7 +381,8 @@ final class Management {
 			if ( null === $id ) { return $this->db->insert( 'repositories', array( 'owner' => $owner, 'name' => $name, 'created_at' => gmdate( 'Y-m-d H:i:s' ) ) ); }
 			$old = $this->row( 'repositories', $id, true );
 			$skills = $this->db->table( 'skills' );
-			if ( ( $old['owner'] !== $owner || $old['name'] !== $name ) && (int) $this->db->value( "SELECT COUNT(*) FROM $skills WHERE repository_id=%d", array( $id ) ) > 0 ) { throw new \DomainException( '仓库已关联 Skills，不能更换其来源身份；请新建仓库。' ); }
+			$jobs = $this->db->table( 'jobs' );
+			if ( ( $old['owner'] !== $owner || $old['name'] !== $name ) && ( ! empty( $old['github_id'] ) || (int) $this->db->value( "SELECT COUNT(*) FROM $skills WHERE repository_id=%d", array( $id ) ) > 0 || (int) $this->db->value( "SELECT COUNT(*) FROM $jobs WHERE repository_id=%d", array( $id ) ) > 0 ) ) { throw new \DomainException( '仓库已绑定来源或采集记录，不能更换身份；请新建仓库。' ); }
 			$this->db->updateById( 'repositories', $id, array( 'owner' => $owner, 'name' => $name ) );
 			return $id;
 		} );

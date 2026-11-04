@@ -11,6 +11,7 @@ use AISkillsHub\Core\Modules\LanguageModule;
 use AISkillsHub\Core\Modules\CatalogModule;
 use AISkillsHub\Core\Modules\AdminModule;
 use AISkillsHub\Core\Modules\FrontendModule;
+use AISkillsHub\Core\Modules\SourcesModule;
 use AISkillsHub\Core\Admin\Management;
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +24,7 @@ final class Core {
 	public static function boot(): self {
 		if ( null === self::$instance ) {
 			$core          = new self();
-			$core->modules = ( new ModuleLoader() )->load( array( new DatabaseModule(), new LanguageModule(), new CatalogModule(), new AdminModule(), new FrontendModule() ), $core );
+			$core->modules = ( new ModuleLoader() )->load( array( new DatabaseModule(), new LanguageModule(), new CatalogModule(), new AdminModule(), new FrontendModule(), new SourcesModule() ), $core );
 			self::$instance = $core;
 		}
 		return self::$instance;
