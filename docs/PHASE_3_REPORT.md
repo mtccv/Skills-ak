@@ -54,10 +54,11 @@ Cloud 使用已有官方 WordPress/PHP 镜像中的 PHP 8.3.36，不启动 MySQL
 
 | 检查 | 结果 |
 | --- | --- |
-| 全部 PHP 语法 | 42 个主题 PHP + 原有集成脚本通过；新增路由检查脚本另行 lint；最终共 44 个 PHP 文件 |
+| 全部 PHP 语法 | Cloud PHP 8.3.36 共 44 个文件通过（42 个主题 + 2 个检查脚本）；CI PHP 8.3/8.4 同样通过 |
 | 隔离路由/URL 基础检查 | 76 项断言通过：语言路径、未知地址、原生查询隔离、子目录/index.php、畸形适配器输入、URL 编码等；PHP 替身检查，**不是 WordPress/MySQL 集成测试** |
 | Tailwind + esbuild | 构建通过；CSS 46020 bytes，JS 56108 bytes |
 | 资源检查 | 通过；首次检查发现旧占位 CSS 类断言失效，更新为当前真实样式后通过 |
+| GitHub Actions 基本 CI | PHP 8.3/8.4 的 lint/76 项隔离路由断言及 assets 全部 success；wordpress-smoke 为 skipped |
 | JavaScript、Bash、Git diff 检查 | 通过 |
 | 基本代码复核 | 修正固定链接解析、缺译跳转、教程排序、搜索边界、结构化正文键名、表单错误屏蔽等明显问题；未发现阻断性代码问题 |
 
@@ -65,4 +66,6 @@ Browserslist 仍提示 caniuse-lite 数据较旧，构建成功；本轮未为�
 
 **未执行**完整 MySQL、真实 WordPress、WPML、浏览器、并发及端到端测试。尤其数据库 REGEXP/window 查询、重写/.htaccess、CPT 权限、表单实际持久化与限流、缓存撤稿、真实语言插件和浏览器操作均待 Final QA。没有将历史 Phase 1 CI 或本轮替身断言当作这些测试通过的证据。
 
-阶段代码与文档提交并同步 GitHub main，完整 SHA 及 CI 基本检查结果在最终交付消息/后续本报告补记中列出。完成后暂停，未进入 Phase 4。
+代码提交：`6cdc701c5553129307656c458ec89a5d27a0c19f`，39 个文件变更（20 个新增、19 个修改），已同步 GitHub main。CI 证据：[Core checks 41914648942](https://github.com/mtccv/Skills-ak/actions/runs/41914648942)。
+
+本报告补记和进度更新属于随后纯文档提交，不改变已经检查的代码；最终 SHA 以交付消息和 `git log -1` 为准。Phase 3 完成后暂停，未进入 Phase 4。
