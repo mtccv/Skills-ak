@@ -7,7 +7,7 @@
 | Phase 2 WordPress 原生后台 | 用户已验收 | PHASE_2_REPORT.md |
 | Phase 3 中英文双语前台 | 用户已验收 | PHASE_3_REPORT.md / FRONTEND.md |
 | Phase 4 搜索与 SEO | 用户已验收 | PHASE_4_REPORT.md / SEO.md |
-| Phase 5 GitHub Skills 自动采集 | 实现与必要检查完成，正在提交同步 | PHASE_5_REPORT.md / GITHUB_IMPORT.md / IMPORT_SECURITY.md |
+| Phase 5 GitHub Skills 自动采集 | 实现、必要检查与 GitHub 同步完成，等待用户验收 | PHASE_5_REPORT.md / GITHUB_IMPORT.md / IMPORT_SECURITY.md |
 | Phase 6 AI 双语内容 | 未启动，等待用户安排 | 不自动进入 AI 翻译或生成 |
 | Final QA | 待执行 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
 
@@ -29,4 +29,6 @@ Cloud PHP 8.3.36 全部 51 个文件语法通过，342 项隔离基础断言通�
 
 Phase 5 以已验收 Phase 4 的 `3766dc1b410e50dd9873b1ef52a1a818d4a3f8fb` 为基线，实现受限 GitHub API、固定 SHA 树发现、truncated 分层回退、安全 Frontmatter、静态风险检查、来源去重与增量同步、原生采集后台和可恢复 Cron 小任务。主题/Core 0.6.0、schema 1.4.0；原八表保留，仅追加仓库/版本必要字段及 imports/jobs/import_logs 三张运营表。新资源固定 pending，不生成译文；旧来源只追加快照和待处理通知，不覆盖人工内容或自动发布。
 
-新增模拟检查覆盖 API/发现/解析/存储/后台/worker，并保留原有路由、搜索与 SEO 基础回归。已执行的准确数量与 Git/CI 证据见 [Phase 5 报告](PHASE_5_REPORT.md)。真实 GitHub API、MySQL、WordPress Cron/后台、WPML、浏览器、并发与端到端均未执行，留 Final QA；没有部署外部服务。完成同步后暂停，等待 Phase 6 指令。
+新增模拟检查覆盖 API/发现/解析/存储/后台/worker，并保留原有路由、搜索与 SEO 基础回归。67 个 PHP 文件语法、827 项隔离断言、Tailwind/esbuild、资源/脚本及 Compose 配置检查通过。实现提交 `6cccdf526e2be05c55e8739908379438455de5a7` 已同步 GitHub main；[CI 41922541600](https://github.com/mtccv/Skills-ak/actions/runs/41922541600) 的 PHP 8.3/8.4 和 assets 均 success，WordPress/MySQL 按策略 skipped。证据详见 [Phase 5 报告](PHASE_5_REPORT.md)，Git/CI 补记为随后纯文档提交。
+
+真实 GitHub API、MySQL、WordPress Cron/后台、WPML、浏览器、并发与端到端均未执行，留 Final QA；没有部署外部服务。Phase 5 完成后暂停，等待 Phase 6 指令。

@@ -58,6 +58,7 @@
 | JavaScript / Bash 语法 | 通过 |
 | Compose 配置 | `docker compose config --quiet` 通过；未打印展开配置或启动服务 |
 | Git diff / 基本代码复核 | 通过；修正来源身份、同 SHA 风险重检、归档配置与确认指纹、License 基线及失败任务回退问题 |
+| GitHub Actions 基本 CI | PHP 8.3/8.4 的语法与全部隔离检查、assets 均 success；WordPress/MySQL 按策略 skipped |
 
 模拟覆盖仓库验证、认证/限流/失败退避、Git Tree/truncated、多文件发现、YAML/不可信内容、SHA 去重、重放/增量、任务恢复、来源缺失规则和后台权限/转义。存储测试使用内存 DAL 替身，不执行真实 SQL；API 测试使用固定响应，不发送真实采集请求。旧路由/搜索/SEO/Sitemap 的隔离检查一并通过。Browserslist 提示既有 caniuse-lite 较旧，构建成功，未为消除提示变更依赖。
 
@@ -69,4 +70,6 @@
 
 安全 YAML 为受限子集，不是任意 YAML 实现；目录/文件/任务有明确上限，超限会显示不完整。静态检查只覆盖 Skill 文本及树元数据，没有执行或全面审计仓库脚本。疑似移动由管理员核实，不自动改绑。没有自动补充翻译，采集原文需在现有编辑器由人工采用。WP-Cron 在低流量或禁用时可能延迟；任务仍按真实状态显示，不伪造完成。
 
-提交、远端一致性及 CI 结果将在完成同步后补记。Phase 5 完成后暂停，等待 Phase 6 指令。
+实现提交：`6cccdf526e2be05c55e8739908379438455de5a7`，已正常推送 GitHub main 并核对远端 SHA 一致。CI 证据：[Core checks 41922541600](https://github.com/mtccv/Skills-ak/actions/runs/41922541600)，PHP 8.3/8.4 与 assets 均通过，WordPress/MySQL 按当前策略 skipped。
+
+本报告和进度的 Git/CI 补记属于随后纯文档提交，不改变已检查代码；最终交付 SHA 以交付消息及 `git log -1` 为准。Phase 5 完成后暂停，等待 Phase 6 指令。
