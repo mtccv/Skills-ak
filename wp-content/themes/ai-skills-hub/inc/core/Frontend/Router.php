@@ -16,6 +16,14 @@ final class Router {
 
 	public static function context(): array { return self::$context; }
 
+	/** Site root before language plugins decorate home_url; adapters still own the final URL filter. */
+	public static function siteUrl( string $path = '/' ): string {
+		$base = get_option( 'home', '' );
+		if ( ! is_string( $base ) || '' === $base ) { return home_url( $path ); }
+		if ( function_exists( 'set_url_scheme' ) ) { $base = set_url_scheme( $base ); }
+		return rtrim( $base, '/' ) . '/' . ltrim( $path, '/' );
+	}
+
 	public function register(): void {
 		add_action( 'init', array( $this, 'rewrites' ) );
 		add_action( 'admin_init', array( $this, 'refreshRewrites' ) );
@@ -31,7 +39,6 @@ final class Router {
 		add_filter( 'template_include', fn( string $file ): string => $this->handled ? get_template_directory() . '/index.php' : $file );
 		add_filter( 'pre_get_document_title', fn( string $title ): string => $this->handled ? self::$context['title'] : $title );
 		add_filter( 'language_attributes', fn( string $attributes ): string => $this->handled ? 'lang="' . ( 'zh_CN' === self::$context['locale'] ? 'zh-CN' : 'en-US' ) . '" dir="ltr"' : $attributes );
-		add_action( 'wp_head', array( $this, 'head' ), 1 );
 	}
 
 	public function rewrites(): void {
@@ -41,12 +48,12 @@ final class Router {
 	}
 
 	public function refreshRewrites(): void {
-		if ( ! current_user_can( 'manage_options' ) || ! apply_filters( 'aish_frontend_builtin_routing', true ) || '1' === get_option( 'aish_frontend_routes_version' ) ) { return; }
+		if ( ! current_user_can( 'manage_options' ) || ! apply_filters( 'aish_frontend_builtin_routing', true ) || '2' === get_option( 'aish_frontend_routes_version' ) ) { return; }
 		// Only the former plain-permalink setup needs a structure; preserve an existing choice.
 		if ( '' === (string) get_option( 'permalink_structure' ) ) { $GLOBALS['wp_rewrite']->set_permalink_structure( '/%postname%/' ); }
 		$this->rewrites();
 		flush_rewrite_rules( true );
-		update_option( 'aish_frontend_routes_version', '1', false );
+		update_option( 'aish_frontend_routes_version', '2', false );
 	}
 
 	public function parse( \WP $wp ): void {
@@ -55,12 +62,12 @@ final class Router {
 		// WP may leave request empty before pretty permalinks are configured. Never redirect /en/ to itself.
 		$uri = $_SERVER['REQUEST_URI'] ?? '';
 		$uriPath = is_string( $uri ) ? wp_parse_url( $uri, PHP_URL_PATH ) : null;
-		$homePath = rtrim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+		$homePath = rtrim( (string) wp_parse_url( self::siteUrl(), PHP_URL_PATH ), '/' );
 		if ( is_string( $uriPath ) && strlen( $uriPath ) <= 4096 && ( '' === $homePath || $uriPath === $homePath || str_starts_with( $uriPath, $homePath . '/' ) ) ) {
 			$path = trim( substr( $uriPath, strlen( $homePath ) ), '/' );
 			$path = preg_replace( '#^index\.php(?:/|$)#', '', $path );
 		}
-		if ( preg_match( '#^(wp-json|wp-admin|wp-login\.php|wp-sitemap(?:-.*)?\.xml|robots\.txt|favicon\.ico|feed)(/|$)#', $path ) ) { return; }
+		if ( preg_match( '#^(wp-json|wp-admin|wp-login\.php|[a-z0-9_-]*sitemap[a-z0-9_-]*\.(?:xml|xsl)|robots\.txt|favicon\.ico|feed)(/|$)#', $path ) ) { return; }
 		$mapped = apply_filters( 'aish_frontend_request', null, $path );
 		if ( is_array( $mapped ) ) { $this->request = $mapped; }
 		elseif ( ! apply_filters( 'aish_frontend_builtin_routing', true ) ) { return; }
@@ -147,7 +154,7 @@ final class Router {
 					$data += array( 'result' => $this->catalog->skills( $locale, $filters ), 'filters' => $filters, 'categories' => $this->catalog->terms( 'category', $locale ), 'tags' => $this->catalog->terms( 'tag', $locale ), 'platforms' => $this->catalog->platforms( $locale ) );
 					if ( $filters['page'] > 1 && ! $data['result']['items'] ) { $route = '404'; $status = 404; $data = array(); }
 					$canonicalArgs += $filters;
-					if ( 'search' === $route ) { $data['tutorials'] = $this->editorial->tutorials( $locale, array( 'q' => $filters['q'], 'per_page' => 3 ) )['items']; }
+					if ( 'search' === $route ) { $data['tutorial_result'] = $this->editorial->tutorials( $locale, array_merge( $filters, array( 'page' => 1, 'per_page' => 3 ) ) ); $data['tutorials'] = $data['tutorial_result']['items']; }
 				}
 			} elseif ( 'skill' === $route ) {
 				$id = filter_var( $this->request['id'], FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
@@ -165,7 +172,7 @@ final class Router {
 				}
 			} elseif ( 'tutorials' === $route ) {
 				$filters = self::filters();
-				$data = array( 'result' => $this->editorial->tutorials( $locale, $filters ), 'filters' => $filters );
+				$data = array( 'result' => $this->editorial->tutorials( $locale, $filters ), 'filters' => $filters, 'categories' => $this->catalog->terms( 'category', $locale ), 'tags' => $this->catalog->terms( 'tag', $locale ), 'platforms' => $this->catalog->platforms( $locale ) );
 				if ( $filters['page'] > 1 && ! $data['result']['items'] ) { $route = '404'; $status = 404; $data = array(); }
 				$canonicalArgs = $filters;
 			} elseif ( 'tutorial' === $route ) {
@@ -177,8 +184,7 @@ final class Router {
 					if ( $available ) { $fallback = isset( $available[ $locale ] ) ? $locale : array_key_first( $available ); wp_safe_redirect( self::url( 'tutorial', array( 'id' => $available[ $fallback ], 'translation' => $fallback !== $locale ? 'missing' : '' ), $fallback ), 302 ); exit; }
 					$route = '404'; $status = 404;
 				} else {
-					$data = array( 'tutorial' => $tutorial, 'relatedSkills' => array() );
-					foreach ( array_slice( $tutorial['related_skill_ids'] ?? array(), 0, 6 ) as $skillId ) { $skill = $this->catalog->detail( (int) $skillId, $locale ); if ( $skill ) { $data['relatedSkills'][] = $skill; } }
+					$data = array( 'tutorial' => $tutorial, 'relatedSkills' => $this->catalog->cardsByIds( array_slice( $tutorial['related_skill_ids'] ?? array(), 0, 6 ), $locale ) );
 					$canonicalArgs = array( 'id' => $id );
 					foreach ( $available as $language => $translationId ) { $alternates[ $language ] = self::url( 'tutorial', array( 'id' => $translationId ), $language ); }
 				}
@@ -189,9 +195,21 @@ final class Router {
 			$data['translation_missing'] = 'missing' === self::query( 'translation', '', 10 );
 		} catch ( \InvalidArgumentException $error ) { $route = '404'; $status = 404; $data = array(); }
 		catch ( \Throwable $error ) { $status = 503; $data = array(); $alternates = array(); }
-		$filtered = isset( $data['filters'] ) && ( (int) $data['filters']['page'] > 1 || '' !== $data['filters']['q'] || '' !== $data['filters']['platform'] || '' !== $data['filters']['category'] || '' !== $data['filters']['tag'] );
+		$filtered = isset( $data['filters'] ) && ( (int) $data['filters']['page'] > 1 || 'newest' !== $data['filters']['sort'] || '' !== $data['filters']['q'] || '' !== $data['filters']['platform'] || ( 'category' !== $route && '' !== $data['filters']['category'] ) || ( 'tag' !== $route && '' !== $data['filters']['tag'] ) );
 		if ( ! $alternates && ! $filtered && 200 === $status && ! in_array( $route, array( 'skill', 'tutorial' ), true ) ) {
-			foreach ( array( 'zh_CN', 'en_US' ) as $language ) { $alternates[ $language ] = self::url( $route, $canonicalArgs, $language ); }
+			try {
+				foreach ( array( 'zh_CN', 'en_US' ) as $language ) {
+					if ( in_array( $route, array( 'about', 'contact', 'submit' ), true ) ) {
+						$translated = $this->editorial->page( $route, $language );
+						if ( ! $translated || SeoSettings::postValues( (int) $translated['id'] )['noindex'] ) { continue; }
+					}
+					if ( in_array( $route, array( 'category', 'tag' ), true ) ) {
+						$translated = $this->catalog->term( $route, $data['term']['slug'], $language );
+						if ( ! $translated || (int) $translated['count'] < 1 ) { continue; }
+					}
+					$alternates[ $language ] = self::url( $route, $canonicalArgs, $language );
+				}
+			} catch ( \Throwable $error ) { $status = 503; $data = array(); $alternates = array(); }
 		}
 		$title = Strings::get( 'page.' . $route . '.title', $locale );
 		$description = Strings::get( 'page.' . $route . '.description', $locale );
@@ -201,12 +219,15 @@ final class Router {
 		elseif ( ! empty( $data['page'] ) ) { $title = $data['page']['title']; $description = $data['page']['summary']; }
 		if ( $status >= 500 ) { $title = 'zh_CN' === $locale ? '暂时无法加载' : 'Temporarily unavailable'; $description = ''; }
 		self::$context = array( 'route' => $route, 'locale' => $locale, 'language' => 'zh_CN' === $locale ? 'zh' : 'en', 'title' => $title . ' · AI Skills Hub', 'description' => wp_strip_all_tags( $description ), 'canonical' => 200 === $status ? self::url( $route, $canonicalArgs, $locale ) : '', 'alternates' => 200 === $status ? $alternates : array(), 'data' => $data, 'error' => $status >= 500, 'status' => $status );
+		self::$context['alternate_ids'] = 'tutorial' === $route ? ( $available ?? array() ) : array();
+		self::$context = Seo::prepare( self::$context, $_GET );
 		$GLOBALS['wp_query']->is_404 = 404 === $status;
 		$GLOBALS['wp_query']->is_home = 'home' === $route;
 		status_header( $status );
 		// Unpublishing must take effect immediately; shared caches may not retain a public snapshot.
 		nocache_headers();
 		header( 'Cache-Control: private, no-store, max-age=0' );
+		Seo::sendHeaders( self::$context );
 		if ( $status >= 500 ) { header( 'Retry-After: 60' ); }
 	}
 
@@ -228,18 +249,9 @@ final class Router {
 			if ( ( 'page' === $key && (int) $args[ $key ] <= 1 ) || ( 'sort' === $key && 'newest' === $args[ $key ] ) || $key === $route ) { continue; }
 			$query[ $key ] = (string) $args[ $key ];
 		}
-		$url = home_url( '/' . $prefix . '/' . $path );
+		$url = self::siteUrl( '/' . $prefix . '/' . $path );
 		if ( $query ) { $url = add_query_arg( $query, $url ); }
 		return (string) apply_filters( 'aish_frontend_url', $url, $route, $args, $locale );
 	}
 
-	public function head(): void {
-		if ( ! $this->handled || ! apply_filters( 'aish_frontend_seo_enabled', true, self::$context ) ) { return; }
-		if ( '' !== self::$context['description'] ) { echo '<meta name="description" content="' . esc_attr( self::$context['description'] ) . '">' . "\n"; }
-		if ( '' !== self::$context['canonical'] ) { echo '<link rel="canonical" href="' . esc_url( self::$context['canonical'] ) . '">' . "\n"; }
-		foreach ( (array) apply_filters( 'aish_frontend_alternates', self::$context['alternates'], self::$context ) as $locale => $url ) {
-			if ( ! in_array( $locale, array( 'zh_CN', 'en_US' ), true ) || ! is_string( $url ) ) { continue; }
-			echo '<link rel="alternate" hreflang="' . ( 'zh_CN' === $locale ? 'zh-CN' : 'en' ) . '" href="' . esc_url( $url ) . '">' . "\n";
-		}
-	}
 }

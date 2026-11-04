@@ -12,11 +12,24 @@ final class Editorial {
 	public const TUTORIAL = 'aish_tutorial';
 	private const LOCALES = array( 'zh_CN', 'en_US' );
 	private const PAGE_KINDS = array( 'about', 'contact', 'submit' );
+	private array $cache = array();
+
+	public function __construct( private ?PublicCatalog $catalog = null ) {}
+
+	public function clearCache(): void { $this->cache = array(); }
+
+	private function remember( string $key, callable $read ): mixed {
+		if ( ! array_key_exists( $key, $this->cache ) ) { $this->cache[ $key ] = $read(); }
+		return $this->cache[ $key ];
+	}
 
 	public function register(): void {
 		add_action( 'init', array( $this, 'registerType' ) );
 		add_action( 'add_meta_boxes', array( $this, 'metaBoxes' ) );
 		add_action( 'save_post', array( $this, 'saveMeta' ), 10, 2 );
+		foreach ( array( 'clean_post_cache', 'added_post_meta', 'updated_post_meta', 'deleted_post_meta' ) as $hook ) {
+			add_action( $hook, array( $this, 'clearCache' ) );
+		}
 		add_action( 'admin_notices', static function (): void {
 			$key = 'aish_editorial_error_' . get_current_user_id();
 			$message = get_transient( $key );
@@ -51,8 +64,42 @@ final class Editorial {
 		} finally { $wpdb->suppress_errors( $previous ); }
 	}
 
-	private static function query( array $arguments ): \WP_Query {
-		return self::database( static fn() => new \WP_Query( $arguments ) );
+	/** The token scopes our SQL to this native query, including when WPML is active. */
+	private static function query( array $arguments, string $extra_where = '' ): \WP_Query {
+		global $wpdb;
+		$token = new \stdClass();
+		$arguments['_aish_editorial_query'] = $token;
+		// Native query-cache generations do not track changes to Core review/status tables.
+		// Only request-local memoization may reuse these cross-store public queries.
+		$arguments['cache_results'] = false;
+		$posts = $wpdb->posts;
+		$guard = static function ( array $sql, array $queries, string $type, string $table, string $column, mixed $context ) use ( $token, $posts, $extra_where ): array {
+			if ( ! $context instanceof \WP_Query || $context->get( '_aish_editorial_query' ) !== $token || $posts !== $table || 'ID' !== $column ) { return $sql; }
+			// Native posts are public only with actual title/body text, not HTML placeholders.
+			$spaces = '&(nbsp|NonBreakingSpace|ensp|emsp|emsp13|emsp14|numsp|puncsp|thinsp|hairsp|MediumSpace|ThickSpace|Tab|NewLine|#0*(9|10|11|12|13|32|160|5760|819[2-9]|820[0-2]|8232|8233|8239|8287|12288)|#x0*(9|a|b|c|d|20|a0|1680|200[0-9a]|2028|2029|202f|205f|3000));';
+			foreach ( array( 'post_title', 'post_content' ) as $field ) {
+				$text = "REGEXP_REPLACE(REGEXP_REPLACE(COALESCE($posts.$field,''),'<script[^>]*>.*?</script>','',1,0,'in'),'<style[^>]*>.*?</style>','',1,0,'in')";
+				$sql['where'] .= " AND REGEXP_REPLACE(REGEXP_REPLACE($text,'<[^>]*>',''),'$spaces','') REGEXP '[^[:space:]]'";
+			}
+			$sql['where'] .= $extra_where;
+			return $sql;
+		};
+		add_filter( 'get_meta_sql', $guard, 10, 6 );
+		try { return self::database( static fn() => new \WP_Query( $arguments ) ); }
+		finally { remove_filter( 'get_meta_sql', $guard, 10 ); }
+	}
+
+	private static function prime( array $posts ): void {
+		if ( ! $posts ) { return; }
+		self::database( static function () use ( $posts ): void {
+			update_meta_cache( 'post', array_map( static fn( \WP_Post $post ): int => $post->ID, $posts ) );
+			update_post_author_caches( $posts );
+		} );
+	}
+
+	private static function nonemptyText( string $value ): bool {
+		$text = html_entity_decode( wp_strip_all_tags( $value ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		return 1 === preg_match( '/[^\s\p{Z}]/u', $text );
 	}
 
 	private static function post( int $id ): ?\WP_Post {
@@ -70,6 +117,7 @@ final class Editorial {
 
 	private static function publicPost( mixed $post, string $type, ?string $locale = null ): bool {
 		return $post instanceof \WP_Post && $type === $post->post_type && 'publish' === $post->post_status && '' === $post->post_password
+			&& self::nonemptyText( $post->post_title ) && self::nonemptyText( $post->post_content )
 			&& in_array( self::meta( $post->ID, '_aish_locale', true ), self::LOCALES, true )
 			&& ( null === $locale || $locale === self::meta( $post->ID, '_aish_locale', true ) );
 	}
@@ -105,74 +153,161 @@ final class Editorial {
 		);
 	}
 
+	private function linkedFilter( string $locale, array $filters ): string {
+		global $wpdb;
+		$selected = array();
+		foreach ( array( 'category', 'tag', 'platform' ) as $key ) {
+			$value = $filters[ $key ] ?? '';
+			if ( '' !== $value ) { $selected[ $key ] = Input::slug( $value ); }
+		}
+		if ( ! $selected ) { return ''; }
+		if ( ! $this->catalog ) { throw new \RuntimeException( 'Public catalog is temporarily unavailable.' ); }
+		$skill_sql = $this->catalog->matchingIdsSql( $locale, $selected );
+		// A single related Skill must satisfy the whole combination. Duplicate links cannot duplicate posts.
+		return " AND EXISTS (SELECT 1 FROM $wpdb->postmeta aish_link WHERE aish_link.post_id=$wpdb->posts.ID AND aish_link.meta_key='_aish_related_skill' AND aish_link.meta_value REGEXP '^[1-9][0-9]*$' AND CAST(aish_link.meta_value AS UNSIGNED) IN ($skill_sql))";
+	}
+
 	public function tutorials( string $locale, array $filters = array() ): array {
 		$locale = self::locale( $locale );
 		$page = filter_var( $filters['page'] ?? 1, FILTER_VALIDATE_INT );
 		$limit = filter_var( $filters['per_page'] ?? 12, FILTER_VALIDATE_INT );
 		if ( false === $page || $page < 1 || $page > 10000 || false === $limit || $limit < 1 || $limit > 24 ) { throw new \InvalidArgumentException( 'Invalid editorial pagination.' ); }
-		$search = Input::plain( $filters['q'] ?? '', 191, true );
+		$search = trim( Input::utf8( $filters['q'] ?? '', 400 ) );
+		if ( preg_match_all( '/./us', $search ) > 100 ) { throw new \InvalidArgumentException( 'Editorial query is too long.' ); }
 		$sort = $filters['sort'] ?? 'newest';
 		$sorts = array( 'newest' => array( 'modified' => 'DESC', 'ID' => 'DESC' ), 'oldest' => array( 'modified' => 'ASC', 'ID' => 'ASC' ), 'title' => array( 'title' => 'ASC', 'ID' => 'ASC' ) );
 		if ( ! is_string( $sort ) || ! isset( $sorts[ $sort ] ) ) { throw new \InvalidArgumentException( 'Invalid tutorial sort.' ); }
-		$query = self::query( array(
-			'post_type' => self::TUTORIAL, 'post_status' => 'publish', 'has_password' => false,
-			'posts_per_page' => $limit, 'paged' => $page, 's' => $search,
-			'meta_key' => '_aish_locale', 'meta_value' => $locale,
-			'orderby' => $sorts[ $sort ], 'ignore_sticky_posts' => true, 'suppress_filters' => true,
-		) );
-		$items = array();
-		foreach ( $query->posts as $post ) {
-			if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post ); }
+		$where = $this->linkedFilter( $locale, $filters );
+		if ( '' !== $search ) {
+			global $wpdb;
+			$like = '%' . $wpdb->esc_like( $search ) . '%';
+			// Literal substring semantics match Skills: no stopword or leading-minus interpretation.
+			$where .= $wpdb->prepare( " AND ($wpdb->posts.post_title LIKE %s OR $wpdb->posts.post_excerpt LIKE %s OR $wpdb->posts.post_content LIKE %s)", $like, $like, $like );
 		}
-		return array( 'items' => $items, 'total' => (int) $query->found_posts );
+		$key = 'tutorials:' . md5( serialize( array( $locale, $page, $limit, $search, $sort, $where ) ) );
+		return $this->remember( $key, function () use ( $locale, $page, $limit, $search, $sort, $sorts, $where ): array {
+			$query = self::query( array(
+				'post_type' => self::TUTORIAL, 'post_status' => 'publish', 'has_password' => false,
+				'posts_per_page' => $limit, 'paged' => $page,
+				'meta_key' => '_aish_locale', 'meta_value' => $locale,
+				'orderby' => $sorts[ $sort ], 'ignore_sticky_posts' => true, 'suppress_filters' => true,
+				'update_post_meta_cache' => true, 'update_post_term_cache' => false,
+			), $where );
+			self::prime( $query->posts );
+			$items = array();
+			foreach ( $query->posts as $post ) {
+				if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post ); }
+			}
+			return array( 'items' => $items, 'total' => (int) $query->found_posts, 'page' => $page, 'per_page' => $limit );
+		} );
 	}
 
 	public function tutorial( int $id, string $locale ): ?array {
-		$locale = self::locale( $locale );
-		$post = self::post( Input::id( $id ) );
-		return self::publicPost( $post, self::TUTORIAL, $locale ) ? $this->payload( $post ) : null;
+		$locale = self::locale( $locale ); Input::id( $id );
+		return $this->remember( "tutorial:$id:$locale", function () use ( $id, $locale ): ?array {
+			$post = self::post( $id );
+			return self::publicPost( $post, self::TUTORIAL, $locale ) ? $this->payload( $post ) : null;
+		} );
 	}
 
-	/** Filters may map native tutorial IDs for a future adapter; reciprocal verified mapping is mandatory. */
+	private static function translationId( int $id, string $locale ): mixed {
+		$mapped = self::meta( $id, '_aish_translation_id', true );
+		if ( has_filter( 'wpml_object_id' ) ) {
+			// Public WPML API, never return the original as a fabricated translation.
+			$language = 'zh_CN' === $locale ? 'zh-hans' : 'en';
+			$language = apply_filters( 'aish_wpml_language_code', $language, $locale );
+			$wpml_id = apply_filters( 'wpml_object_id', $id, self::TUTORIAL, false, $language );
+			if ( is_scalar( $wpml_id ) && ctype_digit( (string) $wpml_id ) && (int) $wpml_id > 0 && (int) $wpml_id !== $id ) { $mapped = $wpml_id; }
+		}
+		return apply_filters( 'aish_editorial_translation_id', $mapped, $id, $locale );
+	}
+
+	/** Both native and WPML pairs must be reciprocal, public and in the explicitly stored language. */
 	public function tutorialAlternatives( int $id ): array {
-		$post = self::post( Input::id( $id ) );
-		if ( ! self::publicPost( $post, self::TUTORIAL ) ) { return array(); }
-		$locale = (string) self::meta( $id, '_aish_locale', true );
-		$other_locale = 'zh_CN' === $locale ? 'en_US' : 'zh_CN';
-		$result = array( $locale => $id );
-		$other_id = apply_filters( 'aish_editorial_translation_id', self::meta( $id, '_aish_translation_id', true ), $id, $other_locale );
-		if ( ! is_scalar( $other_id ) || ! ctype_digit( (string) $other_id ) || (int) $other_id < 1 ) { return $result; }
-		$other_id = (int) $other_id;
-		$other = self::post( $other_id );
-		$reverse = apply_filters( 'aish_editorial_translation_id', self::meta( $other_id, '_aish_translation_id', true ), $other_id, $locale );
-		if ( self::publicPost( $other, self::TUTORIAL, $other_locale ) && is_scalar( $reverse ) && (string) $id === (string) $reverse ) { $result[ $other_locale ] = $other_id; }
-		return $result;
+		Input::id( $id );
+		return $this->remember( "tutorial-alternates:$id", function () use ( $id ): array {
+			$post = self::post( $id );
+			if ( ! self::publicPost( $post, self::TUTORIAL ) ) { return array(); }
+			$locale = (string) self::meta( $id, '_aish_locale', true );
+			$other_locale = 'zh_CN' === $locale ? 'en_US' : 'zh_CN';
+			$result = array( $locale => $id );
+			$other_id = self::translationId( $id, $other_locale );
+			if ( ! is_scalar( $other_id ) || ! ctype_digit( (string) $other_id ) || (int) $other_id < 1 ) { return $result; }
+			$other_id = (int) $other_id;
+			$other = self::post( $other_id );
+			$reverse = self::translationId( $other_id, $locale );
+			if ( self::publicPost( $other, self::TUTORIAL, $other_locale ) && is_scalar( $reverse ) && (string) $id === (string) $reverse ) { $result[ $other_locale ] = $other_id; }
+			return $result;
+		} );
 	}
 
 	public function relatedTutorials( int $skill_id, string $locale, int $limit = 3 ): array {
 		Input::id( $skill_id ); self::locale( $locale );
 		if ( $limit < 1 || $limit > 12 ) { throw new \InvalidArgumentException( 'Invalid related tutorial limit.' ); }
-		$query = self::query( array(
-			'post_type' => self::TUTORIAL, 'post_status' => 'publish', 'has_password' => false,
-			'posts_per_page' => $limit, 'no_found_rows' => true, 'ignore_sticky_posts' => true, 'suppress_filters' => true,
-			'orderby' => array( 'date' => 'DESC', 'ID' => 'DESC' ),
-			'meta_query' => array( 'relation' => 'AND', array( 'key' => '_aish_locale', 'value' => $locale ), array( 'key' => '_aish_related_skill', 'value' => $skill_id, 'type' => 'UNSIGNED' ) ),
-		) );
-		$items = array();
-		foreach ( $query->posts as $post ) { if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post ); } }
-		return $items;
+		return $this->remember( "related:$skill_id:$locale:$limit", function () use ( $skill_id, $locale, $limit ): array {
+			$query = self::query( array(
+				'post_type' => self::TUTORIAL, 'post_status' => 'publish', 'has_password' => false,
+				'posts_per_page' => $limit, 'no_found_rows' => true, 'ignore_sticky_posts' => true, 'suppress_filters' => true,
+				'update_post_meta_cache' => true, 'update_post_term_cache' => false,
+				'orderby' => array( 'modified' => 'DESC', 'ID' => 'DESC' ),
+				'meta_query' => array( 'relation' => 'AND', array( 'key' => '_aish_locale', 'value' => $locale ), array( 'key' => '_aish_related_skill', 'value' => $skill_id, 'type' => 'UNSIGNED' ) ),
+			) );
+			self::prime( $query->posts );
+			$items = array();
+			foreach ( $query->posts as $post ) { if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post ); } }
+			return $items;
+		} );
 	}
 
 	public function page( string $kind, string $locale ): ?array {
 		self::locale( $locale );
 		if ( ! in_array( $kind, self::PAGE_KINDS, true ) ) { throw new \InvalidArgumentException( 'Unsupported editorial page.' ); }
-		$query = self::query( array(
-			'post_type' => 'page', 'post_status' => 'publish', 'has_password' => false,
-			'posts_per_page' => 1, 'no_found_rows' => true, 'orderby' => array( 'ID' => 'ASC' ), 'suppress_filters' => true,
-			'meta_query' => array( 'relation' => 'AND', array( 'key' => '_aish_locale', 'value' => $locale ), array( 'key' => '_aish_page_kind', 'value' => $kind ) ),
-		) );
-		$post = $query->posts[0] ?? null;
-		return self::publicPost( $post, 'page', $locale ) ? $this->payload( $post ) : null;
+		return $this->remember( "page:$kind:$locale", function () use ( $kind, $locale ): ?array {
+			$query = self::query( array(
+				'post_type' => 'page', 'post_status' => 'publish', 'has_password' => false,
+				'posts_per_page' => 1, 'no_found_rows' => true, 'orderby' => array( 'ID' => 'ASC' ), 'suppress_filters' => true,
+				'update_post_term_cache' => false,
+				'meta_query' => array( 'relation' => 'AND', array( 'key' => '_aish_locale', 'value' => $locale ), array( 'key' => '_aish_page_kind', 'value' => $kind ) ),
+			) );
+			$post = $query->posts[0] ?? null;
+			return self::publicPost( $post, 'page', $locale ) ? $this->payload( $post ) : null;
+		} );
+	}
+
+	private static function sitemapArguments( string $locale ): array {
+		return array(
+			'post_type' => self::TUTORIAL, 'post_status' => 'publish', 'has_password' => false,
+			'meta_key' => '_aish_locale', 'meta_value' => self::locale( $locale ),
+			'orderby' => array( 'ID' => 'ASC' ), 'suppress_filters' => true,
+			'update_post_term_cache' => false, 'ignore_sticky_posts' => true,
+		);
+	}
+
+	private static function indexableWhere(): string {
+		global $wpdb;
+		return " AND NOT EXISTS (SELECT 1 FROM $wpdb->postmeta aish_noindex WHERE aish_noindex.post_id=$wpdb->posts.ID AND aish_noindex.meta_key='_aish_seo_noindex' AND aish_noindex.meta_value NOT IN ('','0'))";
+	}
+
+	public function sitemapCount( string $locale ): int {
+		self::locale( $locale );
+		return $this->remember( "sitemap-count:$locale", static function () use ( $locale ): int {
+			$query = self::query( self::sitemapArguments( $locale ) + array( 'posts_per_page' => 1, 'fields' => 'ids', 'update_post_meta_cache' => false ), self::indexableWhere() );
+			return (int) $query->found_posts;
+		} );
+	}
+
+	public function sitemapItems( string $locale, int $page, int $per_page = 200 ): array {
+		self::locale( $locale );
+		if ( $page < 1 || $page > 100000 || $per_page < 1 || $per_page > 1000 ) { throw new \InvalidArgumentException( 'Invalid sitemap pagination.' ); }
+		return $this->remember( "sitemap-items:$locale:$page:$per_page", static function () use ( $locale, $page, $per_page ): array {
+			$query = self::query( self::sitemapArguments( $locale ) + array( 'posts_per_page' => $per_page, 'paged' => $page, 'no_found_rows' => true, 'update_post_meta_cache' => true ), self::indexableWhere() );
+			if ( $query->posts ) { self::database( static fn() => update_meta_cache( 'post', array_map( static fn( \WP_Post $post ): int => $post->ID, $query->posts ) ) ); }
+			$items = array();
+			foreach ( $query->posts as $post ) {
+				if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = array( 'id' => $post->ID, 'locale' => $locale, 'updated_at' => $post->post_modified_gmt ); }
+			}
+			return $items;
+		} );
 	}
 
 	public function metaBoxes(): void {

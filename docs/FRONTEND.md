@@ -1,10 +1,10 @@
-# Phase 3 双语前台使用与维护
+# 双语前台、搜索与 SEO 使用维护（Phase 3–4）
 
-前台复用 Phase 1/2 的八张 Core 表，数据库 schema 仍为 `1.2.0`。没有注册 Skills 文章副本，没有新增业务表，也没有自动导入或生成内容。教程、说明页面和私有来信使用 WordPress 原生 posts/postmeta 存储。
+前台复用 Phase 1/2 的八张 Core 表；Phase 3 交付为 schema `1.2.0`，Phase 4 的 `1.3.0` 仅追加两个非唯一搜索索引，不改业务字段。当前主题/Core 为 `0.5.0`。没有注册 Skills 文章副本，没有新增业务表，也没有自动导入或生成内容。教程、说明页面和私有来信使用 WordPress 原生 posts/postmeta 存储。
 
 ## 启用与真实内容准备
 
-1. 在 Codex Cloud 按 README 构建主题资源并启用主题，然后以管理员身份访问一次 WordPress 后台。`Router::refreshRewrites()` 在首次 `admin_init` 检查 `aish_frontend_routes_version`：原来使用普通链接时改为 `/%postname%/`，已有固定链接设置则保留；注册双语规则并刷新重写。也可在“设置 → 固定链接”保存一次重试。Web 服务需要将路径请求交给 WordPress；不要求用户本机开发或外部部署。
+1. 在 Codex Cloud 按 README 构建主题资源并启用主题，然后以管理员身份访问一次 WordPress 后台。`Router::refreshRewrites()` 在管理员 `admin_init` 检查 `aish_frontend_routes_version`（Phase 4 为 2，含 Sitemap 路由）：原来使用普通链接时改为 `/%postname%/`，已有固定链接设置则保留；注册双语规则并刷新重写。也可在“设置 → 固定链接”保存一次重试。Web 服务需要将路径请求交给 WordPress；不要求用户本机开发或外部部署。
 2. 在 AI Skills Hub → Skills 新建或编辑真实 Skill。人工资源不填写仓库和路径；GitHub 来源继续使用既有仓库 ID 与规范相对路径。分别填写实际拥有的中文/英文内容；缺少译文时保持空白。
 3. 至少一种语言的标题、Slug、简介、正文完整后提交审核，由具有审核能力的用户批准。仅保存草稿不会出现在前台；修改已发布内容后需要重新审核。后台私有预览与公开详情是不同入口。
 4. 按下面的标签约定维护精选、平台和许可证，再将标签关联到 Skill；新关联会使原审核失效。没有相关记录时首页展示真实空状态，不填充演示卡片、虚构数量或用户评价。
@@ -34,6 +34,16 @@
 列表使用 GET 参数 `q`、`category`、`tag`、`platform`、`sort`、`page`。`sort` 允许 `newest`、`oldest`、`title`；公开页面每页 12 项，API 上限 24 项；page 上限 10000，搜索最多 100 个字符/400 UTF-8 字节。筛选值为现有分类/标签 Slug；平台值使用完整 `platform-*` Slug。不存在的详情、无效参数和越界空分页返回 404；数据读取失败返回 503 与通用错误提示，不输出 SQL。请求不会访问 GitHub 或 AI 服务。
 
 分类、标签和平台选项按当前语言可见的已发布 Skill 统计；选项最多返回 200 项，每个 Skill 展示的分类/标签关联各最多 100 项。分类与标签名称仍使用原表中的共享名称，不自动生成中英文副本。
+
+## Phase 4 搜索行为
+
+Skills 关键词匹配当前语言标题、简介、正文；教程匹配当前语言标题、摘要、正文。关键词是字面子串：支持中英文混合，用户输入的 `%`、`_`、反斜杠会按字面量转义，负号不作排除运算，不自动翻译。匹配大小写遵循现有数据库 utf8mb4 排序规则。
+
+Skills 与教程列表都支持 q/category/tag/platform/sort/page。分类、标签、平台共同限制同一个匹配 Skill。教程通过已维护的“相关 Skill ID”关联筛选：至少一个当前语言公开 Skill 同时满足所选条件；教程关键词只匹配教程自身。无关联的教程仍能在普通教程搜索/列表出现，只是不满足资源分类/标签/平台筛选。
+
+综合搜索页分页展示 Skills，并给出最多 3 条匹配教程与完整教程结果入口；教程列表独立分页并保留全部筛选。newest/oldest 按更新时间，title 按标题，同值使用 ID 稳定排序。筛选无结果显示真实空状态，不返回另一语言或未审核资源填充结果。
+
+公开查询复用本次请求中的结果/计数，关联 Skills 卡片、分类/标签、教程作者与元数据批量加载；没有跨请求的公开结果缓存。原生 WP_Query 结果缓存关闭，防止 Core 自定义表的归档未触发原生缓存失效。两个新索引支撑公开时间/语言标题访问路径；包含匹配和完整性 REGEXP 的真实规模性能仍待 MySQL EXPLAIN 与 Final QA 验证。
 
 ## 精选、平台、许可证与详情内容
 
@@ -66,7 +76,7 @@ Skill 作者没有独立字段，因此前台不把仓库 Owner 或审核人员�
 教程的“AI Skills Hub 双语内容”面板维护：
 
 - `_aish_locale`：明确选择中文或英文；未选择的教程不出现在双语前台。
-- `_aish_translation_id`：可选另一语言教程 ID。保存时验证类型、语言和编辑权限，并维护双向关联；已有其他配对时拒绝覆盖。公开切换还要求两个教程都已发布、无密码保护、语言正确且相互指向。
+- `_aish_translation_id`：可选另一语言教程 ID。保存时验证类型、语言和编辑权限，并维护双向关联；已有其他配对时拒绝覆盖。公开切换还要求两个教程都已发布、无密码保护、标题/正文非空、语言正确且相互指向。WPML 公开关系 API 可提供对应 ID，仍接受这些站点公开边界检查。
 - `_aish_related_skill`：重复 postmeta 行，每行一个既有 Skill ID，最多 100 个。前台只链接通过 PublicCatalog 公开校验的资源；不会创建 Skills 副本。
 
 建议先创建两篇实际译文并分别设置语言，再在其中一篇填写对应教程 ID。仅发布其中一种语言也可以；另一种语言不会自动生成。教程摘要缺失时从已有正文截取，不编造介绍；作者使用 WordPress 实际显示名称。
@@ -91,13 +101,13 @@ AI Skills Hub → “来信与投稿 / Inbox”仅对拥有 `aish_manage_setting
 
 直接访问缺失译文的已发布 Skill 时，以 302 跳转到真实存在的完整语言，并提示缺译；两种语言均不可公开时返回 404。语言切换优先使用同一个 Skill ID 的真实译文，缺译时跳到目标语言列表并提示；教程遵循已验证的双向配对。不会在 `/en/` 中伪装展示中文译文。Slug 不匹配的可见 Skill 地址以 301 跳到其规范地址。
 
-公开 HTML 发送 `private, no-store`，防止资源撤下后主题自身仍复用缓存页面。接入第三方页面缓存/CDN 时需保留此规则，并在 Final QA 验证撤稿生效；本阶段没有部署缓存或外部站点。
+公开 HTML 发送 `private, no-store`，Sitemap XML 发送 `no-store`，防止资源撤下后主题自身仍复用跨请求快照。接入第三方页面缓存/CDN 时需保留此规则，并在 Final QA 验证撤稿生效；本阶段没有部署缓存或外部站点。
 
 ## API 与扩展接口
 
 `FrontendModule` 在 Core 注册 `public_catalog`、`editorial`、`frontend` 服务，依赖既有 database/language/catalog 模块。模板通过 `Router::context()`、`View` 和 WordPress `get_template_part()` 渲染；业务查询不放入 `functions.php`。
 
-主要接口：`PublicCatalog::skills(locale, filters)` 返回 items/total/page/per_page；`detail(id, locale)` 返回公开详情或 null；`alternatives(id)` 返回 locale→slug；`terms(kind, locale)`、`term(kind, slug, locale)`、`platforms(locale)`、`featured(locale, limit)`、`latest(locale, limit)`、`related(id, locale, limit)` 提供列表数据。`Editorial` 提供 `tutorials`、`tutorial`、`tutorialAlternatives`、`relatedTutorials`、`page`。`View::sections()` 读取已存正文区块，`Strings` 提供两种语言的界面文案。
+主要接口：`PublicCatalog::skills(locale, filters)` 返回 items/total/page/per_page；`detail(id, locale)` 返回公开详情或 null；`alternatives(id)` 返回 locale→slug；`terms(kind, locale)`、`term(kind, slug, locale)`、`platforms(locale)`、`featured(locale, limit)`、`latest(locale, limit)`、`related(id, locale, limit)` 提供列表数据。Phase 4 增加 `cardsByIds(ids, locale)` 批量关联卡片和 `sitemapCount/sitemapItems` 紧凑分页投影。`matchingIdsSql` 仅供可信内部的教程关联筛选，不暴露给 HTTP。`Editorial` 提供 `tutorials`、`tutorial`、`tutorialAlternatives`、`relatedTutorials`、`page` 及教程 Sitemap count/items。`View::sections()` 读取已存正文区块，`Strings` 提供两种语言的界面文案。
 
 | Filter | 参数与用途 |
 | --- | --- |
@@ -105,14 +115,30 @@ AI Skills Hub → “来信与投稿 / Inbox”仅对拥有 `aish_manage_setting
 | `aish_frontend_builtin_routing` | `(bool enabled)`；默认 true，可由适配层关闭内置路径匹配/规则 |
 | `aish_frontend_request` | `(null\|array request, string path)`；适配层可返回 route/locale 及可选 id/slug，路由仍验证允许值 |
 | `aish_frontend_url` | `(string url, string route, array args, string locale)`；统一调整站内页面、语言切换及表单返回地址 |
-| `aish_frontend_alternates` | `(array alternates, array context)`；调整语言地址，主题只输出支持语言的字符串 URL |
-| `aish_frontend_seo_enabled` | `(bool enabled, array context)`；关闭主题基础 description/canonical/hreflang 输出，方便 SEO 插件统一管理 |
+| `aish_frontend_alternates` | `(array alternates, array context)`；调整已经通过公开检查的语言地址，不能借此创造缺失译文 |
+| `aish_frontend_seo_enabled` | `(bool enabled, array context)`；默认主题统一输出 Meta，关闭后由适配器拥有标签；独立的安全 noindex HTTP 标记仍生效 |
 | `aish_editorial_translation_id` | `(mixed translation_id, int source_post_id, string target_locale)`；教程映射须通过公开状态、语言及反向配对检查 |
+| `aish_wpml_language_code` | `(string code, string locale)`；默认 zh_CN→zh-hans、en_US→en，供 WPML 公开 wpml_object_id API 使用 |
+| `aish_sitemaps_enabled` | `(bool enabled)`；关闭主题 XML 源及索引接入，交由其他已配置 Sitemap 适配器负责 |
 
-WPML 接入时应协调请求映射、URL 与语言关系，可关闭内置路由并自行刷新相应 rewrite；不能重复拥有 Core 的 Skill 翻译关系。以上为可接入接口，不表示真实 WPML 插件已验证兼容。
+WPML 接入时应协调请求映射、URL 与语言关系，可关闭内置路由并自行刷新相应 rewrite；不能重复拥有 Core 的 Skill 翻译关系。Phase 4 在 wpml_object_id hook 可用时读取教程翻译，不回退原文来伪造对应翻译；同时继续验证本地语言元数据、公开状态和双向关系。Hub 的 hreflang 由主题统一输出，以 wpml_hreflangs filter 避免重复；这些接口不表示真实插件运行兼容已验收。
 
-主题仅提供语义标题、基础描述、canonical/hreflang 和面包屑。详情 hreflang 只列出实际可公开的译文；高级 Sitemap、搜索索引策略和完整 SEO 优化不在 Phase 3 范围。
+## Phase 4 SEO 配置、索引与 Sitemap
+
+AI Skills Hub → SEO 为中文/英文分别配置首页、Skills/教程列表、About/Contact、分类/标签的标题、描述、分享图片和 noindex；实体设置按真实 ID 选择。Skill 标题与描述仍在 Skills 双语编辑器的现有 SEO 字段维护并审核，SEO 子菜单只管理其分享图片/索引。教程与原生说明页编辑器另有 AI Skills Hub SEO 面板，配置作用于该文章语言；没有 SEO 文本时使用当前语言真实内容。
+
+Canonical 自动使用当前语言规范地址，不能在后台任意填成另一语言；Open Graph/Twitter 标题、描述共用该语言 SEO 配置，图片为可选 HTTPS URL。未配置图片不输出虚构图片，Twitter 使用 summary。真实可索引译文输出 hreflang，x-default 优先选实际可用的默认语言；缺译、noindex 或未经验证的分页不会产生伪语言链接。
+
+Hub SSR 路由由主题统一拥有标签，使用 Yoast public presenters、Rank Math frontend head action 和 WPML hreflang hooks 避免重复；其他原生页面继续由插件处理。若改用适配器输出，使用 aish_frontend_seo_enabled，但需同步处理标题、canonical、语言关系与 robots，不能只关闭主题后假设插件理解自定义 Skills 表。
+
+默认 noindex 包括搜索、任何筛选/排序参数（包含显式默认排序）、表单结果、投稿页、未知参数、无真实说明页的 About/Contact、空分类/标签及错误页。正常列表的合法纯 page 分页可 self-canonical，但不加入 Sitemap；筛选状态仍保留 URL，不通过删除参数损坏搜索体验。私有预览和后台继续要求权限，noindex 不是访问控制。
+
+XML 索引为 `/aish-sitemap.xml`，子文件形如 `/aish-sitemap-skills-zh-1.xml`，类型覆盖 skills/category/tag/tutorials/pages，两种语言独立、每文件 200 URL。仅收录已发布/当前审核有效/真实译文/允许索引的资源；分类标签需存在本语言公开 Skills，About/Contact 需有真实已发布说明页。页面无可靠日期时不伪造 lastmod；实体使用现有 UTC 更新日期。noindex 在 count/paging 前排除。
+
+原生 WordPress、Yoast、Rank Math 索引通过公开扩展点引用同一组 XML 子文件；原生 About/Contact/Submit 文章地址从其 Sitemap 排除，使用真实 Hub 路由避免重复。其他 Sitemap 提供者可由 aish_sitemaps_enabled 关闭本主题源后接管。第三方索引缓存、插件启停及撤稿生效需 Final QA 验证。
+
+不创建静态 robots.txt；使用 WordPress 虚拟输出，保留后台和已有 Sitemap 规则，公开站点缺少 Sitemap 行时补充 Hub 索引。搜索/参数 URL 保持可抓取，让爬虫读取 noindex；关闭站点搜索引擎可见性时 noindex、停用主题 Sitemap、robots.txt 输出 Disallow: /。服务器若已有物理 robots.txt 会绕过 WordPress filter，最终环境需要实际核查。详细维护说明见 [SEO.md](SEO.md)。
 
 ## 验证范围
 
-本文件描述当前实现和编辑方式，不作为集成通过证明。本阶段按用户策略仅做必要 PHP、构建及基础代码检查；实际执行结果由 Phase 3 报告记录。完整 MySQL、WordPress、WPML、浏览器、并发、表单滥用/缓存及端到端验收统一留到 Final QA。没有写入演示数据，也没有执行自动采集、AI 内容生成或外部部署。
+本文件描述当前实现和编辑方式，不作为集成通过证明。本阶段按用户策略仅做必要 PHP、构建及基础代码检查；历史前台结果见 Phase 3 报告，当前搜索与 SEO 的准确执行结果见 Phase 4 报告。完整 MySQL、WordPress、WPML、浏览器、并发、表单滥用/缓存及端到端验收统一留到 Final QA。没有写入演示数据，也没有执行自动采集、AI 内容生成或外部部署。

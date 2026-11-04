@@ -81,8 +81,8 @@ final class Forms {
 	private static function redirect( string $locale, string $kind, string $status ): never {
 		$language = 'en_US' === $locale ? 'en' : 'zh';
 		$route = 'submit' === $kind ? 'submit' : 'contact';
-		$url = apply_filters( 'aish_frontend_url', home_url( '/' . $language . '/' . $route . '/' ), $route, array(), $locale );
-		if ( ! is_string( $url ) ) { $url = home_url( '/' . $language . '/' . $route . '/' ); }
+		$url = Router::url( $route, array(), $locale );
+		if ( ! is_string( $url ) ) { $url = Router::siteUrl( '/' . $language . '/' . $route . '/' ); }
 		nocache_headers();
 		wp_safe_redirect( add_query_arg( 'form', $status, $url ), 303 );
 		exit;

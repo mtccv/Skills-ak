@@ -5,8 +5,9 @@
 | Phase 0 项目初始化 | 用户已验收 | PHASE_0_REPORT.md |
 | Phase 1 数据库与 Core | 用户已验收 | PHASE_1_REPORT.md；历史 CI 证据保留 |
 | Phase 2 WordPress 原生后台 | 用户已验收 | PHASE_2_REPORT.md |
-| Phase 3 中英文双语前台 | 代码、必要检查与 GitHub 同步完成，等待用户验收 | PHASE_3_REPORT.md / FRONTEND.md |
-| Phase 4 高级 SEO 等后续工作 | 未启动，等待用户安排 | 不自动进入 |
+| Phase 3 中英文双语前台 | 用户已验收 | PHASE_3_REPORT.md / FRONTEND.md |
+| Phase 4 搜索与 SEO | 开发和 Cloud 必要检查完成，正在提交同步 | PHASE_4_REPORT.md / SEO.md |
+| 后续阶段 | 未启动，等待用户安排 | 不自动进入采集或 AI |
 | Final QA | 待执行 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
 
 Phase 2 范围为菜单/统计、Skills 人工及来源录入、双语编辑、状态/归档、分类/标签、手动仓库、人工审核/风险/备注、私有阅读预览、列表/批量和 capability/nonce 安全控制。
@@ -20,3 +21,7 @@ Phase 2 代码提交 `e25da3241ab7830f0d34f8157063863b456d578a`；[CI 基本检�
 Phase 3 当前范围：原创响应式 SaaS 主题，12 类页面，中英文词典与路由、实际翻译跳转及缺译回退，真实公开 Skills 搜索/筛选/排序/分页，教程与私有来信，基础 Meta/Canonical/hreflang/面包屑。高阶 SEO 与 Sitemap 留 Phase 4，完整运行验收留 Final QA。用户已明确同意表单保存为后台私有待处理记录。
 
 Phase 3 代码提交 `6cdc701c5553129307656c458ec89a5d27a0c19f`；[CI 基本检查](https://github.com/mtccv/Skills-ak/actions/runs/41914648942) 的 PHP 8.3/8.4、隔离路由断言及 assets 通过。完整 WordPress/MySQL 任务按策略跳过，没有进入 Phase 4。
+
+Phase 4 在已验收 Phase 3 的 `729b0a92a7659d7bda5bbafe10a76a5f49a512b0` 上实现中英文 Skills/教程搜索、组合筛选、批量查询、双语 SEO 配置和 Meta、hreflang/x-default、分页 XML Sitemap、插件输出协调与 robots 策略。主题/Core 0.5.0；schema 1.3.0 仅增加两个非唯一索引，保留原八表和全部数据。没有提前实现自动采集或 AI。
+
+Cloud PHP 8.3.36 全部 51 个文件语法通过，342 项隔离基础断言通过，Tailwind/esbuild、资源及脚本检查通过。真实 MySQL、WordPress、WPML、SEO 插件、浏览器、并发和端到端均仍待 Final QA，隔离检查不作为集成验收。最终提交及 CI 证据在同步后补记。

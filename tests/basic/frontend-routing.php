@@ -5,9 +5,9 @@ if (PHP_SAPI !== 'cli') { exit(1); }
 define('ABSPATH', __DIR__ . '/');
 final class WP { public string $request = ''; public array $query_vars = array(); }
 function is_admin(): bool { return false; }
-function home_url(string $path = ''): string { return 'https://example.test' . ($GLOBALS['test_home_path'] ?? '') . $path; }
+function home_url(string $path = ''): string { return 'https://example.test' . ($GLOBALS['test_home_path'] ?? '') . ($GLOBALS['test_home_language'] ?? '') . $path; }
 function wp_parse_url(string $url, int $component = -1): mixed { return parse_url($url, $component); }
-function get_option(string $name, mixed $default = false): mixed { return $default; }
+function get_option(string $name, mixed $default = false): mixed { return $GLOBALS['test_options'][$name] ?? $default; }
 function apply_filters(string $hook, mixed $value, mixed ...$args): mixed { return 'aish_frontend_request' === $hook ? ($GLOBALS['test_mapped_request'] ?? $value) : $value; }
 function add_query_arg(array $args, string $url): string { return $url . '?' . http_build_query($args, '', '&', PHP_QUERY_RFC3986); }
 require dirname(__DIR__, 2) . '/wp-content/themes/ai-skills-hub/inc/core/Frontend/Router.php';
@@ -58,9 +58,23 @@ $url = Router::url('skills', array('q'=>'中文 & test','sort'=>'newest','page'=
 check(str_starts_with($url, 'https://example.test/site/en/skills/?'), 'Collection URL base');
 parse_str((string)parse_url($url,PHP_URL_QUERY), $query);
 check($query === array('q'=>'中文 & test'), 'Encoded search and omitted default parameters');
-foreach (array('/site/wp-json/wp/v2/posts', '/site/feed/', '/site/robots.txt', '/site/wp-sitemap.xml') as $uri) {
+foreach (array('/site/wp-json/wp/v2/posts', '/site/feed/', '/site/robots.txt', '/site/wp-sitemap.xml', '/site/aish-sitemap.xml', '/site/aish-sitemap-skills-zh-1.xml', '/site/sitemap_index.xml', '/site/post-sitemap2.xml', '/site/sitemap.xml', '/site/sitemap.xsl', '/site/main-sitemap.xsl', '/site/wp-sitemap-index.xsl') as $uri) {
     $router = (new ReflectionClass(Router::class))->newInstanceWithoutConstructor();
     $wp = new WP(); $_SERVER['REQUEST_URI'] = $uri; $router->parse($wp);
     check(!(new ReflectionProperty(Router::class, 'handled'))->getValue($router), 'Reserved route intercepted: ' . $uri);
+}
+// WPML can filter home_url() to the current language. The stored home option is the site root.
+$GLOBALS['test_options']['home'] = 'https://example.test/site';
+$GLOBALS['test_home_language'] = '/en';
+try {
+    check(home_url('/') === 'https://example.test/site/en/', 'Simulated current-language home URL');
+    check(Router::url('skill', array('id'=>27, 'slug'=>'actual-translation'), 'zh_CN') === 'https://example.test/site/zh/skills/27/actual-translation/', 'Chinese canonical URL must not inherit English home prefix');
+    check(Router::url('home', array(), 'en_US') === 'https://example.test/site/en/', 'English home URL must not duplicate language prefix');
+    check(Router::siteUrl('/aish-sitemap.xml') === 'https://example.test/site/aish-sitemap.xml', 'Sitemap URL stays outside translated home prefix');
+    parsePath('/site/zh/skills/', 'skills', 'zh_CN');
+    parsePath('/site/en/skills/', 'skills', 'en_US');
+    parsePath('/site/', 'root', 'zh_CN');
+} finally {
+    unset($GLOBALS['test_options']['home'], $GLOBALS['test_home_language']);
 }
 echo 'PASS: ' . $count . " isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).\n";

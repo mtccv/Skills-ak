@@ -96,6 +96,7 @@ final class Strings {
 		'tutorial.read' => array( '阅读教程', 'Read guide' ),
 		'tutorial.search' => array( '搜索教程…', 'Search tutorials…' ),
 		'tutorial.locale_note' => array( '当前语言的已发布教程。', 'Published guides in this language.' ),
+		'tutorial.filter_hint' => array( '分类、标签和平台按教程关联的公开 Skill 筛选。', 'Categories, tags and platforms match a guide’s linked public Skills.' ),
 		'page.home.title' => array( '发现适合你的 Agent Skills', 'Discover your next Agent Skill' ),
 		'page.home.description' => array( '发现中英文 Agent Skills，查看真实来源、分类与使用说明，在人工审核的资源库中找到实践起点。', 'Discover Agent Skills in Chinese and English. Explore original sources, categories, and documentation in an editorially reviewed library.' ),
 		'page.skills.title' => array( 'Skills 资源库', 'Skill library' ),

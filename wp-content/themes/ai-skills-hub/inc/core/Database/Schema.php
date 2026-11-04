@@ -6,7 +6,7 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.2.0';
+	public const VERSION = '1.3.0';
 
 	public const COLUMNS = array(
 		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d' ),
@@ -28,6 +28,12 @@ final class Schema {
 		'tags' => array( 'PRIMARY' => array( 'id' ), 'slug' => array( 'slug' ) ),
 		'skill_categories' => array( 'PRIMARY' => array( 'skill_id', 'category_id' ) ),
 		'skill_tags' => array( 'PRIMARY' => array( 'skill_id', 'tag_id' ) ),
+	);
+
+	/** Phase 4 non-unique access paths; existing identity constraints stay unchanged. */
+	public const SEARCH_KEYS = array(
+		'skills' => array( 'public_updated' => array( 'status', 'review_status', 'updated_at', 'id' ) ),
+		'skill_translations' => array( 'locale_title' => array( 'locale', 'title', 'skill_id' ) ),
 	);
 
 	public static function definitions( Database $db, string $version ): array {
@@ -102,6 +108,11 @@ KEY tag_id (tag_id)",
 				$bodies[ $entity ] = str_replace( 'created_at datetime NOT NULL,', "is_archived tinyint(1) unsigned NOT NULL DEFAULT 0,\ncreated_at datetime NOT NULL,", $bodies[ $entity ] );
 			}
 		}
+		if ( version_compare( $version, '1.3.0', '>=' ) ) {
+			$bodies['skills'] .= ",\nKEY public_updated (status,review_status,updated_at,id)";
+			$bodies['skill_translations'] .= ",\nKEY locale_title (locale,title,skill_id)";
+		}
+
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -139,7 +150,11 @@ KEY tag_id (tag_id)",
 				}
 			}
 			$indexes = array();
+			$searchIndexes = array();
 			foreach ( $db->rows( "SHOW INDEX FROM $table" ) as $index ) {
+				if ( version_compare( $version, '1.3.0', '>=' ) && isset( self::SEARCH_KEYS[ $entity ][ $index['Key_name'] ] ) && 1 === (int) $index['Non_unique'] && null === $index['Sub_part'] ) {
+					$searchIndexes[ $index['Key_name'] ][ (int) $index['Seq_in_index'] ] = $index['Column_name'];
+				}
 				if ( 0 === (int) $index['Non_unique'] ) {
 					if ( null !== $index['Sub_part'] ) {
 						throw new \RuntimeException( 'Core unique keys must not truncate identity columns.' );
@@ -152,6 +167,13 @@ KEY tag_id (tag_id)",
 				ksort( $parts );
 				if ( array_values( $parts ) !== $expected ) {
 					throw new \RuntimeException( 'Core schema unique indexes are incomplete.' );
+				}
+			}
+			if ( version_compare( $version, '1.3.0', '>=' ) ) {
+				foreach ( self::SEARCH_KEYS[ $entity ] ?? array() as $name => $expected ) {
+					$parts = $searchIndexes[ $name ] ?? array();
+					ksort( $parts );
+					if ( array_values( $parts ) !== $expected ) { throw new \RuntimeException( 'Core search indexes are incomplete.' ); }
 				}
 			}
 			$engine = $db->value( 'SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s', array( trim( $table, '`' ) ) );

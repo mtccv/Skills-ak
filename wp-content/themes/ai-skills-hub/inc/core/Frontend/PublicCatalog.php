@@ -12,6 +12,17 @@ defined( 'ABSPATH' ) || exit;
 
 /** Read-only public projection of Core data. Never expose the administrative Catalog directly. */
 final class PublicCatalog {
+	/** Request-local only: never retain published content across archive/review requests. */
+	private array $memo = array();
+
+	private function remember( string $key, callable $query ): mixed {
+		if ( array_key_exists( $key, $this->memo ) ) { return $this->memo[ $key ]; }
+		$value = $query();
+		if ( count( $this->memo ) >= 128 ) { array_shift( $this->memo ); }
+		$this->memo[ $key ] = $value;
+		return $value;
+	}
+
 	public function __construct( private Database $db, private Migrator $migrator ) {}
 
 	private function ready(): void {
@@ -43,15 +54,16 @@ final class PublicCatalog {
 		return implode( ' AND ', $checks );
 	}
 
-	private function tables(): string {
+	private function tables( bool $repositories = true ): string {
 		$skills = $this->db->table( 'skills' );
 		$translations = $this->db->table( 'skill_translations' );
-		$repositories = $this->db->table( 'repositories' );
-		return "$skills s INNER JOIN $translations tr ON tr.skill_id=s.id LEFT JOIN $repositories r ON r.id=s.repository_id";
+		$from = "$skills s INNER JOIN $translations tr ON tr.skill_id=s.id";
+		if ( $repositories ) { $from .= ' LEFT JOIN ' . $this->db->table( 'repositories' ) . ' r ON r.id=s.repository_id'; }
+		return $from;
 	}
 
 	private function fields( bool $detail = false ): string {
-		$fields = 's.id,s.updated_at,s.risk_level,tr.locale,tr.title,tr.slug,tr.summary,tr.content,r.owner AS repository_owner,r.name AS repository_name';
+		$fields = 's.id,GREATEST(s.updated_at,tr.updated_at) AS updated_at,s.risk_level,tr.locale,tr.title,tr.slug,tr.summary,tr.content,r.owner AS repository_owner,r.name AS repository_name';
 		if ( $detail ) {
 			$fields .= ',s.source_path,s.reviewed_at,tr.seo_title,tr.seo_description';
 		}
@@ -82,18 +94,16 @@ final class PublicCatalog {
 		return "EXISTS (SELECT 1 FROM $links sf INNER JOIN $terms tf ON tf.id=sf.$column WHERE sf.skill_id=s.id AND tf.is_archived=0 AND tf.slug=%s)";
 	}
 
-	/** Filters never accept status, SQL fragments, raw column names or unpublished IDs. */
-	public function skills( string $locale, array $filters = array() ): array {
-		$this->ready();
-		$locale = $this->locale( $locale );
-		list( $page, $limit, $offset ) = $this->pagination( $filters );
+	/** All values remain prepared; filters combine with AND and keywords are literal substrings. */
+	private function searchWhere( string $locale, array $filters ): array {
 		$clauses = array( $this->visibility(), 'tr.locale=%s', $this->translationVisibility() );
-		$values = array( $locale );
+		$values = array( $this->locale( $locale ) );
 		$query = trim( Input::utf8( $filters['q'] ?? '', 400 ) );
+		if ( preg_match_all( '/./us', $query ) > 100 ) { throw new \InvalidArgumentException( 'Query too long.' ); }
 		if ( '' !== $query ) {
 			$like = '%' . $this->db->connection()->esc_like( $query ) . '%';
-			$clauses[] = '(tr.title LIKE %s OR tr.summary LIKE %s)';
-			array_push( $values, $like, $like );
+			$clauses[] = '(tr.title LIKE %s OR tr.summary LIKE %s OR tr.content LIKE %s)';
+			array_push( $values, $like, $like, $like );
 		}
 		foreach ( array( 'category', 'tag', 'platform' ) as $filter ) {
 			$value = $filters[ $filter ] ?? '';
@@ -105,16 +115,100 @@ final class PublicCatalog {
 			$clauses[] = $this->termFilter( 'category' === $filter ? 'category' : 'tag' );
 			$values[] = $slug;
 		}
+		return array( implode( ' AND ', $clauses ), $values );
+	}
+
+	private function countMatches( string $where, array $values ): int {
+		$key = 'count:' . hash( 'sha256', $where . serialize( $values ) );
+		return $this->remember( $key, fn(): int => (int) $this->db->value( 'SELECT COUNT(*) FROM ' . $this->tables( false ) . " WHERE $where", $values ) );
+	}
+
+	/** Filters never accept status, SQL fragments, raw column names or unpublished IDs. */
+	public function skills( string $locale, array $filters = array() ): array {
+		$this->ready();
+		list( $page, $limit, $offset ) = $this->pagination( $filters );
+		list( $where, $values ) = $this->searchWhere( $locale, $filters );
 		$orders = array( 'newest' => 's.updated_at DESC,s.id DESC', 'oldest' => 's.updated_at ASC,s.id ASC', 'title' => 'tr.title ASC,s.id ASC' );
 		$sort = $filters['sort'] ?? 'newest';
-		if ( ! is_string( $sort ) || ! isset( $orders[ $sort ] ) ) {
-			throw new \InvalidArgumentException( 'Invalid public sort.' );
+		if ( ! is_string( $sort ) || ! isset( $orders[ $sort ] ) ) { throw new \InvalidArgumentException( 'Invalid public sort.' ); }
+		$key = 'skills:' . hash( 'sha256', $where . serialize( array( $values, $sort, $page, $limit ) ) );
+		return $this->remember( $key, function () use ( $where, $values, $orders, $sort, $page, $limit, $offset ): array {
+			$total = $this->countMatches( $where, $values );
+			if ( $offset >= $total ) { return array( 'items' => array(), 'total' => $total, 'page' => $page, 'per_page' => $limit ); }
+			$from = $this->tables();
+			$rows = $this->db->rows( 'SELECT ' . $this->fields() . " FROM $from WHERE $where ORDER BY {$orders[$sort]} LIMIT %d OFFSET %d", array_merge( $values, array( $limit, $offset ) ) );
+			return array( 'items' => $this->cards( $rows ), 'total' => $total, 'page' => $page, 'per_page' => $limit );
+		} );
+	}
+
+	/** Resolve related cards in one collection, without detail/version/translation queries per ID. */
+	public function cardsByIds( array $ids, string $locale ): array {
+		$this->ready();
+		$locale = $this->locale( $locale );
+		if ( count( $ids ) > 24 ) { throw new \InvalidArgumentException( 'Too many public IDs.' ); }
+		$ids = array_values( array_unique( array_map( array( Input::class, 'id' ), $ids ) ) );
+		if ( ! $ids ) { return array(); }
+		$key = 'cards:' . $locale . ':' . implode( ',', $ids );
+		return $this->remember( $key, function () use ( $ids, $locale ): array {
+			$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+			$from = $this->tables();
+			$where = $this->visibility() . ' AND tr.locale=%s AND ' . $this->translationVisibility() . " AND s.id IN ($placeholders)";
+			$rows = $this->db->rows( 'SELECT ' . $this->fields() . " FROM $from WHERE $where", array_merge( array( $locale ), $ids ) );
+			$cards = array_column( $this->cards( $rows ), null, 'id' );
+			return array_values( array_intersect_key( array_replace( array_fill_keys( $ids, null ), $cards ), $cards ) );
+		} );
+	}
+
+	/** Trusted SQL subquery for Editorial's query-scoped related-Skill filter; never accept caller SQL. */
+	public function matchingIdsSql( string $locale, array $filters ): string {
+		$this->ready();
+		list( $where, $values ) = $this->searchWhere( $locale, $filters );
+		return $this->db->connection()->prepare( 'SELECT s.id FROM ' . $this->tables( false ) . " WHERE $where", $values );
+	}
+
+	/** Shared sitemap source excludes editorial noindex before counting or applying LIMIT. */
+	private function sitemapSource( string $kind, string $locale ): array {
+		$this->ready();
+		$locale = $this->locale( $locale );
+		if ( 'skills' === $kind ) { $kind = 'skill'; }
+		if ( ! in_array( $kind, array( 'skill', 'category', 'tag' ), true ) ) { throw new \InvalidArgumentException( 'Invalid sitemap kind.' ); }
+		$values = array( $locale );
+		$where = $this->visibility() . ' AND tr.locale=%s AND ' . $this->translationVisibility();
+		$from = $this->tables( false );
+		$excluded = array_values( array_unique( array_map( array( Input::class, 'id' ), SeoSettings::excludedIds( $kind, $locale ) ) ) );
+		if ( 'skill' === $kind ) {
+			$fields = 's.id,tr.slug,GREATEST(s.updated_at,tr.updated_at) AS updated_at';
+			$identity = 's.id';
+			$group = '';
+		} else {
+			list( $entity, $link, $column ) = $this->termConfig( $kind );
+			$terms = $this->db->table( $entity );
+			$links = $this->db->table( $link );
+			$from .= " INNER JOIN $links l ON l.skill_id=s.id INNER JOIN $terms t ON t.id=l.$column";
+			$where .= ' AND t.is_archived=0';
+			$identity = 't.id';
+			$fields = 't.id,t.slug,MAX(GREATEST(t.created_at,s.updated_at,tr.updated_at)) AS updated_at';
+			$group = ' GROUP BY t.id,t.slug';
 		}
-		$from = $this->tables();
-		$where = implode( ' AND ', $clauses );
-		$total = (int) $this->db->value( "SELECT COUNT(*) FROM $from WHERE $where", $values );
-		$rows = $this->db->rows( 'SELECT ' . $this->fields() . " FROM $from WHERE $where ORDER BY {$orders[$sort]} LIMIT %d OFFSET %d", array_merge( $values, array( $limit, $offset ) ) );
-		return array( 'items' => $this->cards( $rows ), 'total' => $total, 'page' => $page, 'per_page' => $limit );
+		if ( $excluded ) {
+			$where .= " AND $identity NOT IN (" . implode( ',', array_fill( 0, count( $excluded ), '%d' ) ) . ')';
+			array_push( $values, ...$excluded );
+		}
+		return array( $fields, "$from WHERE $where", $group, $identity, $values );
+	}
+
+	public function sitemapCount( string $kind, string $locale ): int {
+		list( , $source, , $identity, $values ) = $this->sitemapSource( $kind, $locale );
+		$key = 'sitemap-count:' . hash( 'sha256', $source . serialize( $values ) );
+		return $this->remember( $key, fn(): int => (int) $this->db->value( "SELECT COUNT(DISTINCT $identity) FROM $source", $values ) );
+	}
+
+	/** Compact rows only: no association/version query per sitemap entry or full content transfer. */
+	public function sitemapItems( string $kind, string $locale, int $page, int $perPage = 200 ): array {
+		if ( $page < 1 || $page > 1000000 || $perPage < 1 || $perPage > 1000 ) { throw new \InvalidArgumentException( 'Invalid sitemap pagination.' ); }
+		list( $fields, $source, $group, $identity, $values ) = $this->sitemapSource( $kind, $locale );
+		$rows = $this->db->rows( "SELECT $fields FROM $source$group ORDER BY $identity ASC LIMIT %d OFFSET %d", array_merge( $values, array( $perPage, ( $page - 1 ) * $perPage ) ) );
+		return array_map( static fn( array $row ): array => array( 'id' => (int) $row['id'], 'slug' => $row['slug'], 'updated_at' => $row['updated_at'] ), $rows );
 	}
 
 	public function featured( string $locale, int $limit = 3 ): array {
@@ -129,54 +223,60 @@ final class PublicCatalog {
 	public function detail( int $id, string $locale ): ?array {
 		$this->ready();
 		$locale = $this->locale( $locale );
-		$from = $this->tables();
-		$where = $this->visibility() . ' AND tr.locale=%s AND s.id=%d AND ' . $this->translationVisibility();
-		$row = $this->db->row( 'SELECT ' . $this->fields( true ) . " FROM $from WHERE $where", array( $locale, Input::id( $id ) ) );
-		if ( ! $row || ! Management::translationComplete( $row ) ) { return null; }
-		$skill = $this->publicRow( $row, true );
-		$this->attachTerms( $skill );
-		$versions = $this->db->table( 'skill_versions' );
-		$skills = $this->db->table( 'skills' );
-		// Expose only metadata already recorded before this approval. Raw source snapshots and
-		// later versions remain internal; the schema has no reviewed snapshot foreign key.
-		$version = $this->db->row( "SELECT v.commit_sha,v.version_label,v.created_at FROM $versions v INNER JOIN $skills s ON s.id=v.skill_id WHERE s.id=%d AND " . $this->visibility() . ' AND v.created_at<s.reviewed_at ORDER BY v.created_at DESC,v.id DESC LIMIT 1', array( $id ) );
-		if ( $version && ! preg_match( '/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/D', $version['commit_sha'] ) ) { $version = null; }
-		$skill['version'] = $version;
-		$skill['latest_version'] = $version;
-		$skill['recorded_version'] = $version;
-		$skill['version_source_verified'] = false;
-		$skill['available_translations'] = $this->alternatives( $id );
-		$skill['repository_url'] = $this->repositoryUrl( $skill );
-		$skill['source_url'] = null;
-		if ( $skill['repository_url'] && $skill['source_path'] ) {
-			try {
-				$source = Input::sourcePath( $skill['source_path'] );
-				$path = implode( '/', array_map( 'rawurlencode', explode( '/', $source ) ) );
-				// Snapshots have no repository/path linkage; never pin a changed source to an old SHA.
-				$skill['source_url'] = $skill['repository_url'] . '/blob/HEAD/' . $path;
-			} catch ( \InvalidArgumentException $error ) {
-				$skill['source_url'] = null;
+		Input::id( $id );
+		return $this->remember( 'detail:' . $locale . ':' . $id, function () use ( $id, $locale ): ?array {
+			$from = $this->tables();
+			$where = $this->visibility() . ' AND tr.locale=%s AND s.id=%d AND ' . $this->translationVisibility();
+			$row = $this->db->row( 'SELECT ' . $this->fields( true ) . " FROM $from WHERE $where", array( $locale, Input::id( $id ) ) );
+			if ( ! $row || ! Management::translationComplete( $row ) ) { return null; }
+			$skill = $this->publicRow( $row, true );
+			$this->attachTerms( $skill );
+			$versions = $this->db->table( 'skill_versions' );
+			$skills = $this->db->table( 'skills' );
+			// Expose only metadata already recorded before this approval. Raw source snapshots and
+			// later versions remain internal; the schema has no reviewed snapshot foreign key.
+			$version = $this->db->row( "SELECT v.commit_sha,v.version_label,v.created_at FROM $versions v INNER JOIN $skills s ON s.id=v.skill_id WHERE s.id=%d AND " . $this->visibility() . ' AND v.created_at<s.reviewed_at ORDER BY v.created_at DESC,v.id DESC LIMIT 1', array( $id ) );
+			if ( $version && ! preg_match( '/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/D', $version['commit_sha'] ) ) { $version = null; }
+			$skill['version'] = $version;
+			$skill['latest_version'] = $version;
+			$skill['recorded_version'] = $version;
+			$skill['version_source_verified'] = false;
+			$skill['available_translations'] = $this->alternatives( $id );
+			$skill['repository_url'] = $this->repositoryUrl( $skill );
+			$skill['source_url'] = null;
+			if ( $skill['repository_url'] && $skill['source_path'] ) {
+				try {
+					$source = Input::sourcePath( $skill['source_path'] );
+					$path = implode( '/', array_map( 'rawurlencode', explode( '/', $source ) ) );
+					// Snapshots have no repository/path linkage; never pin a changed source to an old SHA.
+					$skill['source_url'] = $skill['repository_url'] . '/blob/HEAD/' . $path;
+				} catch ( \InvalidArgumentException $error ) {
+					$skill['source_url'] = null;
+				}
 			}
-		}
-		// These have no dedicated field in the accepted schema. Keep missing values explicit.
-		$skill['author'] = null;
-		$skill['usage_scenarios'] = null;
-		$skill['installation'] = null;
-		$skill['dependencies'] = null;
-		return $skill;
+			// These have no dedicated field in the accepted schema. Keep missing values explicit.
+			$skill['author'] = null;
+			$skill['usage_scenarios'] = null;
+			$skill['installation'] = null;
+			$skill['dependencies'] = null;
+			return $skill;
+		} );
 	}
 
 	/** Only public, complete translations appear in switching links/hreflang. */
 	public function alternatives( int $id ): array {
 		$this->ready();
-		$from = $this->tables();
-		$where = $this->visibility() . " AND s.id=%d AND tr.locale IN ('zh_CN','en_US') AND " . $this->translationVisibility();
-		$rows = $this->db->rows( "SELECT tr.locale,tr.slug,tr.title,tr.summary,tr.content FROM $from WHERE $where", array( Input::id( $id ) ) );
-		$alternatives = array();
-		foreach ( $rows as $row ) {
-			if ( Management::translationComplete( $row ) ) { $alternatives[ $row['locale'] ] = $row['slug']; }
-		}
-		return $alternatives;
+		Input::id( $id );
+		return $this->remember( 'alternatives:' . $id, function () use ( $id ): array {
+			$from = $this->tables( false );
+			$where = $this->visibility() . " AND s.id=%d AND tr.locale IN ('zh_CN','en_US') AND " . $this->translationVisibility();
+			$rows = $this->db->rows( "SELECT tr.locale,tr.slug,tr.title,tr.summary,tr.content FROM $from WHERE $where", array( Input::id( $id ) ) );
+			$alternatives = array();
+			foreach ( $rows as $row ) {
+				if ( Management::translationComplete( $row ) ) { $alternatives[ $row['locale'] ] = $row['slug']; }
+			}
+			return $alternatives;
+		} );
 	}
 
 	/** Counts are derived from publicly visible translations, never administrative totals. */
@@ -188,14 +288,16 @@ final class PublicCatalog {
 		$this->ready();
 		$locale = $this->locale( $locale );
 		list( $entity, $link, $column ) = $this->termConfig( $kind );
-		$terms = $this->db->table( $entity );
-		$links = $this->db->table( $link );
-		$from = $this->tables();
-		$where = $this->visibility() . ' AND tr.locale=%s AND ' . $this->translationVisibility();
-		$values = array( $locale );
-		if ( $platforms ) { $where .= ' AND t.slug LIKE %s'; $values[] = 'platform-%'; }
-		$rows = $this->db->rows( "SELECT t.id,t.name,t.slug,COUNT(DISTINCT s.id) AS skill_count FROM $from INNER JOIN $links l ON l.skill_id=s.id INNER JOIN $terms t ON t.id=l.$column WHERE $where AND t.is_archived=0 GROUP BY t.id,t.name,t.slug ORDER BY skill_count DESC,t.name ASC,t.id ASC LIMIT 200", $values );
-		return array_map( static fn( array $row ): array => array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'], 'skill_count' => (int) $row['skill_count'], 'count' => (int) $row['skill_count'] ), $rows );
+		return $this->remember( 'terms:' . $kind . ':' . $locale . ':' . (int) $platforms, function () use ( $entity, $link, $column, $locale, $platforms ): array {
+			$terms = $this->db->table( $entity );
+			$links = $this->db->table( $link );
+			$from = $this->tables( false );
+			$where = $this->visibility() . ' AND tr.locale=%s AND ' . $this->translationVisibility();
+			$values = array( $locale );
+			if ( $platforms ) { $where .= ' AND t.slug LIKE %s'; $values[] = 'platform-%'; }
+			$rows = $this->db->rows( "SELECT t.id,t.name,t.slug,COUNT(DISTINCT s.id) AS skill_count FROM $from INNER JOIN $links l ON l.skill_id=s.id INNER JOIN $terms t ON t.id=l.$column WHERE $where AND t.is_archived=0 GROUP BY t.id,t.name,t.slug ORDER BY skill_count DESC,t.name ASC,t.id ASC LIMIT 200", $values );
+			return array_map( static fn( array $row ): array => array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'], 'skill_count' => (int) $row['skill_count'], 'count' => (int) $row['skill_count'] ), $rows );
+		} );
 	}
 
 	public function platforms( string $locale ): array {
@@ -210,8 +312,9 @@ final class PublicCatalog {
 		$terms = $this->db->table( $entity );
 		$row = $this->db->row( "SELECT id,name,slug FROM $terms WHERE slug=%s AND is_archived=0", array( Input::slug( $slug ) ) );
 		if ( ! $row ) { return null; }
-		$result = $this->skills( $locale, array( $kind => $slug, 'per_page' => 1 ) );
-		return array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'], 'skill_count' => $result['total'], 'count' => $result['total'] );
+		list( $where, $values ) = $this->searchWhere( $locale, array( $kind => $slug ) );
+		$total = $this->countMatches( $where, $values );
+		return array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'], 'skill_count' => $total, 'count' => $total );
 	}
 
 	public function related( int $id, string $locale, int $limit = 3 ): array {
