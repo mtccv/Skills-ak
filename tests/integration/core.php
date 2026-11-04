@@ -199,6 +199,7 @@ try {
 	rejects( fn() => $db->insert( 'skills', array( 'evil_column' => 1 ) ), InvalidArgumentException::class, 'DAL columns allowlisted' );
 	rejects( fn() => $catalog->listSkills( 20, 0, 'id; DROP TABLE users' ), InvalidArgumentException::class, 'SQL sort injection rejected' );
 	rejects( fn() => $catalog->listSkills( 101 ), InvalidArgumentException::class, 'unbounded pagination rejected' );
+	rejects( fn() => $catalog->versionsForSkill( $skill, 101 ), InvalidArgumentException::class, 'unbounded version history rejected' );
 	$quoted_path = "quote' OR '1'='1/SKILL.md";
 	$quoted_id = $catalog->createSkill( $repo, $quoted_path );
 	check( $quoted_id === (int) $catalog->findSkillBySource( $repo, $quoted_path )['id'] && null === $catalog->findSkillBySource( $repo, 'not-found' ), 'bound SQL treats quotes and SQL fragments as literal path data' );
@@ -269,6 +270,8 @@ try {
 	check( '更新中文' === $catalog->getTranslation( $skill, 'zh' )['title'] && 1 === count( $catalog->versionsForSkill( $skill ) ), 'theme deactivation retains bilingual data and versions' );
 	switch_theme( $original_theme );
 	check( true === $migrator->migrate() && (int) $catalog->getSkill( $skill )['id'] === $skill, 'theme reactivation retains stable Skill ID' );
+	Schema::verify( $core->get( 'database' ), Schema::VERSION );
+	check( true, 'active site Core tables remain intact after theme switching' );
 	echo "Integration complete: $assertions assertions passed.\n";
 } catch ( Throwable $error ) {
 	fwrite( STDERR, get_class( $error ) . ': ' . $error->getMessage() . "\n" );

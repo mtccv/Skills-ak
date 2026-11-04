@@ -25,7 +25,7 @@ final class Catalog {
 	}
 
 	private function locale( string $locale ): string {
-		$locale = $this->languages->normalize( $locale );
+		$locale = $this->languages->normalize( Input::utf8( $locale, 10 ) );
 		if ( ! in_array( $locale, array( 'zh_CN', 'en_US' ), true ) || ! in_array( $locale, $this->languages->supportedLocales(), true ) ) {
 			throw new \InvalidArgumentException( 'Unsupported content locale.' );
 		}
@@ -89,7 +89,7 @@ final class Catalog {
 		$search = Input::utf8( $search, 768 );
 		$table  = $this->db->table( 'skills' );
 		$like   = '%' . $this->db->connection()->esc_like( $search ) . '%';
-		return $this->db->rows( "SELECT * FROM $table WHERE source_path LIKE %s ORDER BY $sort $direction, repository_id ASC LIMIT %d OFFSET %d", array( $like, $limit, $offset ) );
+		return $this->db->rows( "SELECT * FROM $table WHERE source_path LIKE %s ORDER BY $sort $direction, id $direction LIMIT %d OFFSET %d", array( $like, $limit, $offset ) );
 	}
 
 	public function saveTranslation( int $skill_id, string $locale, string $title, string $slug, string $summary = '', string $content = '' ): int {
@@ -143,10 +143,13 @@ final class Catalog {
 		} );
 	}
 
-	public function versionsForSkill( int $skill_id ): array {
+	public function versionsForSkill( int $skill_id, int $limit = 20, int $offset = 0 ): array {
 		$this->ready();
+		if ( $limit < 1 || $limit > 100 || $offset < 0 || $offset > 1000000 ) {
+			throw new \InvalidArgumentException( 'Invalid version pagination.' );
+		}
 		$table = $this->db->table( 'skill_versions' );
-		return $this->db->rows( "SELECT * FROM $table WHERE skill_id=%d ORDER BY id DESC", array( Input::id( $skill_id ) ) );
+		return $this->db->rows( "SELECT * FROM $table WHERE skill_id=%d ORDER BY id DESC LIMIT %d OFFSET %d", array( Input::id( $skill_id ), $limit, $offset ) );
 	}
 
 	public function createCategory( string $name, string $slug, ?int $parent_id = null ): int {
