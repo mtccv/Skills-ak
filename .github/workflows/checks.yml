@@ -44,13 +44,15 @@ jobs:
           Path('.env').write_text('MYSQL_DATABASE=ai_skills_hub\nMYSQL_USER=aish\nMYSQL_PASSWORD=' + secrets.token_hex(24) + '\nMYSQL_ROOT_PASSWORD=' + secrets.token_hex(24) + '\n')
           Path('.env').chmod(0o600)
           password = Path(os.environ['RUNNER_TEMP']) / 'aish-admin-password'
-          password.write_text(secrets.token_hex(24) + '\n')
+          admin_password = secrets.token_hex(24)
+          print('::add-mask::' + admin_password)
+          password.write_text(admin_password + '\n')
           password.chmod(0o600)
           PY
       - run: docker compose up -d --wait mysql wordpress
       - name: Install development WordPress and activate theme
         run: |
-          docker compose run --rm -T cli wp core install --url=http://localhost:8080 --title='AI Skills Hub Dev' --admin_user=cloud_admin --admin_email=dev@example.invalid --skip-email --prompt=admin_password < "$RUNNER_TEMP/aish-admin-password"
+          python3 scripts/install-wordpress.py --password-file "$RUNNER_TEMP/aish-admin-password"
           docker compose run --rm -T cli wp theme activate ai-skills-hub
       - run: npm run lint:php && npm run smoke:wp
       - name: Record runtime versions

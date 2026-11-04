@@ -1,6 +1,7 @@
 .env
 .env.*
 !.env.example
+.dev-admin-password
 node_modules/
 vendor/
 wp-content/themes/ai-skills-hub/assets/dist/*

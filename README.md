@@ -18,9 +18,7 @@ cp .env.example .env
 
 ```sh
 docker compose up -d --wait mysql wordpress
-docker compose run --rm cli wp core install \
-  --url=http://localhost:8080 --title='AI Skills Hub Dev' \
-  --admin_user=cloud_admin --admin_email=dev@example.invalid --prompt=admin_password
+python3 scripts/install-wordpress.py
 docker compose run --rm cli wp theme activate ai-skills-hub
 docker compose run --rm cli wp core version
 docker compose exec -T wordpress php -v
@@ -28,7 +26,7 @@ docker compose exec -T mysql mysql --version
 curl --fail http://localhost:8080/
 ```
 
-`--prompt` 在终端输入随机开发管理员密码，避免写入命令历史。只在 Cloud 内访问 `http://localhost:8080`；数据库没有宿主端口。WP-CLI 与 Web 使用同一数据库和 WordPress volume。初始站点默认英文；内置内容双语在 Phase 2 实施。
+安装脚本将随机管理员密码保存到被 Git 忽略的 `.dev-admin-password`（权限 0600），并对 WP-CLI 输出脱敏，避免密码进入终端日志。开发用户名为 `cloud_admin`；需要登录时在 Cloud 内私密查看密码文件，不要粘贴到聊天或提交。只在 Cloud 内访问 `http://localhost:8080`；数据库没有宿主端口。WP-CLI 与 Web 使用同一数据库和 WordPress volume。初始站点默认英文；内置内容双语在 Phase 2 实施。
 
 ```sh
 npm run check:assets
