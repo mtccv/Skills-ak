@@ -1,0 +1,49 @@
+{
+  "suite": "wp68_public_http_smoke",
+  "kind": "real_http",
+  "executed_at": "2026-11-05T07:26:09.559487+00:00",
+  "base": "http://127.0.0.1:18089",
+  "wordpress": "6.8",
+  "checks": [
+    {
+      "path": "/zh/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 30392,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 30506,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/en/skills/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 23598,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/aish-sitemap.xml",
+      "status": 200,
+      "content_type": "application/xml; charset=UTF-8",
+      "bytes": 283,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "bytes": 115,
+      "php_diagnostic": false
+    }
+  ],
+  "passed": 5,
+  "failed": 0,
+  "limits": [
+    "HTTP availability and PHP diagnostics smoke only; not SEO correctness or browser rendering."
+  ]
+}

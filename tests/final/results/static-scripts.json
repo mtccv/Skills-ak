@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "file": "scripts/install-wordpress.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "scripts/package-theme.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/package-baseline.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/package-fresh.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/package-http.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/package-report.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/performance-http.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/security-http.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/seo-http.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/seo-matrix.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/sources-http-cron.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/test-package-theme.py",
+      "check": "python_ast",
+      "status": "passed"
+    },
+    {
+      "file": "scripts/lint-php.sh",
+      "check": "bash_n",
+      "status": "passed"
+    },
+    {
+      "file": "scripts/smoke-wordpress.sh",
+      "check": "bash_n",
+      "status": "passed"
+    },
+    {
+      "file": "scripts/test-core.sh",
+      "check": "bash_n",
+      "status": "passed"
+    },
+    {
+      "file": "scripts/check-assets.mjs",
+      "check": "node_check",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/browser-compat.cjs",
+      "check": "node_check",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/browser-e2e.cjs",
+      "check": "node_check",
+      "status": "passed"
+    }
+  ]
+}

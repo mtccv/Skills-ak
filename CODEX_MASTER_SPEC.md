@@ -1,6 +1,6 @@
 # AI Skills Hub — 项目总规格
 
-版本：1.8（Phase 7 第二轮审查）；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
+版本：1.9（Final QA）；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
 
 ## 1. 目标与执行约束
 
@@ -8,11 +8,11 @@
 
 唯一开发环境为 Codex Cloud。不得引入宝塔、要求用户本机开发或部署外部服务器。Cloud 内的容器、数据库与 HTTP 预览只用于开发与验收，不构成生产部署。代码、规格和构建锁文件同步 GitHub；运行数据、密钥和依赖目录不入库。
 
-用户已验收 Phase 0–6，当前授权 **Phase 7：安全、性能、稳定性与功能完善**。第二轮以首轮完成后的 GitHub main 为基线，完整范围包括：跨模块兼容；事务、并发写入及重复任务；GitHub 中断/重试/状态；AI 批量、历史、JSON 与人工内容保护；后台 capability/nonce/REST/AJAX；私有预览及未审核内容；双语关系与 WPML adapter 异常；Canonical/hreflang/Sitemap/SEO 插件；查询、缓存与 N+1；Cron/租约/恢复；日志与密钥；主题生命周期及版本迁移。先记录证据再修复，不为增加修改数量重构稳定代码。
+用户已验收 Phase 0–7，当前正式授权 **Final QA：全站统一真实测试、问题修复及可安装交付**。基线为 GitHub main `d6401c2d6fb810605f5ba87524301ecc50418971`。完整范围包括 WordPress/PHP8.3/8.4/MySQL8.0、主题生命周期和升级、迁移/事务/并发、双语/WPML、浏览器/原生后台、SEO/第三方插件、采集/AI/Cron、安全与性能。先记录实际问题并分 P0–P3，再做必要修复与回归；不增加无关功能。
 
-主题/Core 仍为 0.7.0，schema 仍为 1.5.0。本轮不改变十四表定义或迁移序列；只加固迁移和事务的失败保护。保留稳定 Skill ID、双语关系、来源唯一键及 Phase 0–6 功能；AI 草稿只有人工确认才能填写空字段，不能覆盖人工内容或自动发布。Contact 与 Submit 继续保存私有待处理记录。首轮历史记录为 `docs/PHASE_7_REPORT.md`，第二轮覆盖、发现、修复、验证与未测边界为 `docs/PHASE_7_ROUND_2.md`。
+交付主题/Core 0.7.1，schema 仍为 1.5.0，不修改十四表设计、迁移序列或 Skill ID。保留双语关系、来源唯一键和 Phase 0–7 功能；AI 草稿采用不能覆盖人工字段或自动发布，Contact 与 Submit 保持私有待处理。Phase 7 两轮报告保留历史证据，不把历史 Mock 改写为真实集成。
 
-本阶段执行 PHP 语法、静态、隔离/Mock、安全与前端构建检查；真实 WordPress、MySQL、WPML、GitHub/AI API、浏览器和并发集成统一留 Final QA。重要代码问题处理完、文档更新、检查及 GitHub main 同步后暂停，等待用户安排 Final QA；不自动运行集成、部署或宣称真实环境验收通过。
+本阶段尽可能在 Cloud 独立容器中执行真实测试，不连接或清空生产数据。只有已有合法凭据/授权包才能进行真实 GitHub/AI/WPML 测试；没有时明确未执行，不购买服务、不提取仓库 Git 认证冒充应用 Token。全部结果区分真实环境、真实后端+Mock外部服务、纯 Mock、静态及未执行。关键依赖未验收不得宣布完全通过。完成后更新根目录 FINAL_QA_REPORT / SECURITY_AUDIT / COMPATIBILITY_REPORT / PERFORMANCE_REPORT / KNOWN_LIMITATIONS、开发进度与变更记录，提供主题 ZIP 和安装说明，提交并同步 main；不自动部署外部服务器。
 
 ## 2. 技术基线
 
@@ -20,7 +20,7 @@
 | --- | --- |
 | CMS | WordPress 官方当前稳定版本；主题声明最低 6.8，后续验收记录实际版本 |
 | 运行时 | PHP 8.3 起（满足 PHP 8.x），验收目标 8.3/8.4；上线前复核支持周期 |
-| 数据库 | MySQL 8.4 LTS，utf8mb4，统一以 UTC 存储任务时间 |
+| 数据库 | MySQL / InnoDB / utf8mb4，统一 UTC；现有开发 Compose 默认 8.4 LTS，本次按用户要求用独立 MySQL 8.0 真测，不降级或复用原 8.4 数据卷 |
 | 前台 | 原创 PHP WordPress 主题，语义 HTML、Tailwind CSS 3、Alpine.js 3 |
 | 构建 | Node.js 22 或 24 LTS、npm lock、Tailwind CLI + esbuild；不依赖 CDN |
 | 后台 | WordPress 原生菜单、列表表格、编辑器、Options API、角色与权限 |
@@ -57,7 +57,7 @@ wp-content/themes/ai-skills-hub/
 
 当前 Core 显式模块为 database、language、catalog、admin、frontend、sources、ai，PHP 命名空间 `AISkillsHub\Core`。Sources 保留 GitHub 发现、解析、静态检查及采集任务；AI 独立包含 Provider/Settings、Prompt/Output、来源上下文、GenerationStore/Service、Worker/Scheduler 及原生 Admin。ModuleLoader 校验依赖图后注册，各模块复用同一个 DAL/Migrator，不把 AI 混入 GitHub worker 或公开模板。主题函数使用 `aish_` 前缀，选项/元字段/表名使用 `aish_`，WordPress 数据表前缀从 `$wpdb->prefix` 获取；模板不直接请求外部网络。
 
-Core 随主题加载，切换主题时清除采集与 AI Cron 事件，但保留内容、任务和日志；不得自动删除表、选项或文章。文档说明此耦合，未来独立插件拆分须经用户确认。升级执行版本化、可重复的迁移，不在每个前台请求执行 DDL。仓库定期同步默认关闭，AI 队列默认暂停，均需授权后台明确配置和排队；本轮开发检查使用 Mock Provider，不调用真实 AI 或 GitHub 采集 API。
+Core 随主题加载，切换主题时清除采集与 AI Cron 事件，但保留内容、任务和日志；不得自动删除表、选项或文章。文档说明此耦合，未来独立插件拆分须经用户确认。升级执行版本化、可重复的迁移，不在每个前台请求执行 DDL。仓库定期同步默认关闭，AI 队列默认暂停，均需授权后台明确配置和排队；Final QA 未提供真实服务凭据时使用 Mock Provider，并单列真实 API 未执行。
 
 ## 5. 数据库与内容模型（保留八张核心表，采集与 AI 运营数据独立）
 
@@ -189,7 +189,7 @@ PublicCatalog 使用请求内结果/计数/语言/分类缓存，计数不关联
 
 仅为实际公开且可索引的译文输出 hreflang；Skill 仍以同一内部 ID 找译文，教程要求双向对应关系。About/Contact 需要真实的当前语言说明页，分类/标签需要当前语言有公开资源，才进入语言替代索引关系。x-default 优先使用实际可用的默认语言，没有默认语言译文时指向现有可用语言，绝不指向不存在的译文。分页没有未经验证的 hreflang。
 
-Hub SSR 路由由主题统一拥有 Meta 输出：通过 Yoast 的公开 presenter filter、Rank Math 的 frontend head action 和 WPML hreflang filter 避免重复；非 Hub 路由保留插件行为。`aish_frontend_seo_enabled` 可将标签输出交给适配器；安全 noindex HTTP 标记仍独立生效。WPML 教程关系使用公开 `wpml_object_id` API（缺译不返回原文），并继续验证站点本身的语言、发布和双向关系；URL/请求适配保留既有 filters。真实 WPML、Yoast 和 Rank Math 联调尚待 Final QA，不能把 hooks 存在等同插件运行兼容已验收。
+Hub SSR 路由由主题统一拥有 Meta 输出：通过 Yoast 的公开 presenter filter、Rank Math 的 frontend head action 和 WPML hreflang filter 避免重复；非 Hub 路由保留插件行为。`aish_frontend_seo_enabled` 可将标签输出交给适配器；安全 noindex HTTP 标记仍独立生效。WPML 教程关系使用公开 `wpml_object_id` API（缺译不返回原文），并继续验证站点本身的语言、发布和双向关系；URL/请求适配保留既有 filters。Final QA 已用实际 Yoast 28.8 / Rank Math 1.0.281 验证四种插件模式；WPML 缺合法安装包仍未验证，不能把 hooks 存在等同 WPML 运行验收。
 
 ### 6.6 Phase 4 Sitemap 与索引策略
 
@@ -305,7 +305,7 @@ AI 使用独立 WordPress Cron 队列，计划间隔 60 秒，每步最多一个
 
 任务记录 Provider、Model、Prompt Version、来源 SHA、状态、固定错误、耗时、输入/输出 Token 和估算费用。用量缺失保持未知，不写虚构零值；费用按管理员配置单价估算并明确标注，不冒充实际账单。输出 Token 和单请求时长有上限；配置费用上限时执行前做保守预算校验，价格未知不能假报预算已满足。价格变更不重写历史估算。
 
-说明见 `docs/AI_USAGE.md`、`docs/API_CONFIGURATION.md`、`docs/AI_SECURITY.md`；实际基本检查结果见 Phase 6 报告。没有真实 API Key 时只运行 Mock Provider，不能声称真实 AI API 成功；完整集成留 Final QA。
+说明见 `docs/AI_USAGE.md`、`docs/API_CONFIGURATION.md`、`docs/AI_SECURITY.md`；历史基本检查结果见 Phase 6 报告，当前真实集成见 FINAL_QA_REPORT。没有真实 API Key 时只运行 Mock Provider，不能声称真实 AI API 成功。
 
 ## 11. 安全与运维规范
 
@@ -329,7 +329,7 @@ AI 使用独立 WordPress Cron 队列，计划间隔 60 秒，每步最多一个
 | Phase 4 搜索与 SEO（已验收） | Skills/教程双语关键词、组合筛选、查询与索引优化、独立 SEO、多语言 Meta、XML Sitemap、robots 索引策略 | 用户已验收；历史检查及未测项目见 Phase 4 报告 |
 | Phase 5 GitHub Skills 自动采集（已验收） | 公开 GitHub API、完整树发现、安全 Frontmatter、去重/增量/不可变快照、原生采集后台、Cron 小任务/恢复、静态风险与人工处理 | 用户已验收；历史检查及未测项目见 Phase 5 报告 |
 | Phase 6 AI 智能内容生成（已验收） | 可替换 Provider、双语分析/安装/分类/风险草稿、原生 AI 后台、任务用量/预算和人工内容保护 | 用户已验收；历史检查及未测项目见 Phase 6 报告 |
-| **Phase 7 安全、性能、稳定性与完善** | 完成第一节十二项跨模块审查，修复实际问题并补隔离/Mock 回归 | 无已确认的重要代码遗留，更新审查/进度/变更记录，必要检查及 GitHub main 同步；暂停等待用户安排 Final QA |
+| Phase 7 安全、性能、稳定性与完善（已验收） | 完成两轮跨模块审查与必要修复 | 历史证据见 Phase 7 两份报告；用户已授权进入 Final QA |
 | Final QA 集成与交付 | 全站交互、可访问性、SEO、性能、安全回归、备份恢复说明 | 端到端流程及回滚通过、无阻断缺陷、测试限制清楚；不自动外部部署 |
 
 ### Phase 0 明确边界
@@ -351,9 +351,9 @@ AI 使用独立 WordPress Cron 队列，计划间隔 60 秒，每步最多一个
 
 ## 13. 验证策略与变更控制
 
-沿用用户 Phase 2 起调整后的要求，项目采用分阶段开发、最后统一全面测试：本阶段只执行必要 PHP 语法、前端构建和基本代码检查，修复发现的明显问题。CI 的 push/pull_request 自动运行 PHP 8.3/8.4 及资源构建，数据库/WordPress 基线保留为 workflow_dispatch 的 final_qa 手动任务，不随每次提交执行。
+Phase 2–7 使用分阶段基本检查；当前用户已正式启动 Final QA，执行真实集成并保留必要 PHP、构建和隔离回归。CI 的 push/pull_request 自动运行 PHP 8.3/8.4 及资源构建，数据库/WordPress 基线保留为 workflow_dispatch 的 final_qa 手动任务，不随每次提交执行。
 
-完整 MySQL、WordPress、WPML、浏览器兼容、并发和端到端验收统一放到 Final QA。至少包括：八表结构及 1.1→1.2 数据保留迁移、重复安装、并发修订/审核竞争、人工来源/去重、双语完整性、各角色与 nonce、编辑后审核失效、归档确认及恢复、分类循环、关联归档保留、私有预览、XSS/SQL 注入、主题切换数据保留、真实 WPML/多语言路由及浏览器操作流程。现有 tests/integration/core.php 为可复用基线，不等同完整 Final QA。
+当前 Final QA 的真实集成至少包括：八表结构及 1.1→1.2 数据保留迁移、重复安装、并发修订/审核竞争、人工来源/去重、双语完整性、各角色与 nonce、编辑后审核失效、归档确认及恢复、分类循环、关联归档保留、私有预览、XSS/SQL 注入、主题切换数据保留、真实 WPML/多语言路由及浏览器操作流程。现有 tests/integration/core.php 为可复用基线，不等同完整 Final QA。
 
 Phase 1 已完成测试作为历史证据保存在其报告，不能用于宣称新代码通过集成。接口替身不能证明真实 WPML 兼容；语法检查不能证明数据库迁移或后台运行成功。每个未执行项目须明确标记，禁止以“预计通过”代替证据。
 
@@ -365,8 +365,13 @@ Phase 4 Final QA 补充清单：MySQL 1.2→1.3 仅索引增量及可重复执�
 
 Phase 5 阶段检查以模拟 GitHub API、纯状态机和数据库替身覆盖仓库地址/公开身份、Git Tree/截断回退、多 SKILL.md、Frontmatter、SHA/重复扫描/增量、限流重试及不可信内容；不得描述为真实 GitHub 或 MySQL 验收。实际结果记录于 Phase 5 报告。
 
-Phase 5 Final QA 补充清单：真实 GitHub 认证/匿名限流/次限流、公开转私有/同名重建、分支/Tree/Blob 响应与超限；MySQL 1.3→1.4 与历史版本逐级迁移/重复安装/故障恢复、11 表物理结构及原八表 ID/双语/唯一键/内容保留；真实 WordPress Cron 触发、单 worker 锁、租约回收与过期 worker 拒写、断点崩溃恢复、并发排队/去重、5 次失败/48 小时截止；完整/截断/失败清单的 missing 规则、疑似移动、相同文件 SHA 的新树风险变化、人工编辑与采集并发、来源绑定修改、原生后台权限/nonce/归档确认、浏览器以及 Phase 0–4 搜索/SEO/WPML 回归。真实 API、MySQL、WordPress 和端到端本轮未执行，必须在 Final QA 逐项取得证据。
+Phase 5 Final QA 补充清单：真实 GitHub 认证/匿名限流/次限流、公开转私有/同名重建、分支/Tree/Blob 响应与超限；MySQL 1.3→1.4 与历史版本逐级迁移/重复安装/故障恢复、11 表物理结构及原八表 ID/双语/唯一键/内容保留；真实 WordPress Cron 触发、单 worker 锁、租约回收与过期 worker 拒写、断点崩溃恢复、并发排队/去重、5 次失败/48 小时截止；完整/截断/失败清单的 missing 规则、疑似移动、相同文件 SHA 的新树风险变化、人工编辑与采集并发、来源绑定修改、原生后台权限/nonce/归档确认、浏览器以及 Phase 0–4 搜索/SEO/WPML 回归。上述项目在 Phase 5 当时未执行；本次 Final QA 逐项记录实际覆盖和剩余边界。
 
 Phase 6 阶段检查使用 Mock Provider/HTTP 与存储替身，覆盖 Provider 切换、API 错误/超时/退避、Key 掩码与错误脱敏、结构化输出/无效 JSON、中文/英文模式、来源证据、人工字段保护、重复任务、暂停恢复和 Token 记录。断言通过不代表真实 AI 供应商或数据库已经验收，准确结果写入 Phase 6 报告。
 
 Phase 6 Final QA 补充清单：真实 OpenAI/兼容服务协议、模型/Temperature/Token 参数差异、Host/DNS/SSRF/TLS/重定向/大小边界和密钥轮换；MySQL 1.4→1.5 与历史逐级升级、重复迁移、原 11 表数据不变、任务唯一键/租约/事务、请求前后崩溃和不确定计费恢复；WordPress Cron、角色/nonce/批量部分失败、全局/单任务暂停取消；来源更新/管理员同时编辑/旧 AI 草稿采用竞争、空字段保护、采用后审核失效；Token 缺失、价格未知、预算边界、历史估算与供应商账单对照；真实双语质量、提示注入、安装证据、风险和术语建议的人工核验；浏览器、WPML/SEO 以及 Phase 0–5 全部端到端回归。无真实凭据时不得把 API 测试标为通过。
+
+
+### Final QA 已验证的 SEO 兼容规则
+
+当前主题对公开可索引的200页面输出安全编码的WebSite/WebPage/BreadcrumbList，不推测评分、作者或安全认证。Yoast移除的原生title renderer仅在Hub拥有SEO输出时恢复；robots最后优先级落实私站策略。两个插件公开Sitemap index hook均可按精确loc幂等追加Hub子图，不用插件常量猜测谁实际渲染端点；使用公开filters禁用其XML缓存以防缓存跳过自定义表动态索引，承担实时XML查询成本。RankMath stdClass和Yoast WP_Post均按有效post entry契约处理。详细真实状态变更与缓存证据见FINAL_QA_REPORT和docs/SEO。

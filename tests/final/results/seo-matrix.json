@@ -1,0 +1,603 @@
+{
+  "suite": "real-seo-plugin-transitions",
+  "transitions": [
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "plugins-yoast",
+        "ok": true,
+        "plugins": {
+          "yoast": {
+            "version": "28.8",
+            "active": true
+          }
+        }
+      }
+    },
+    {
+      "plugin_mode": "yoast",
+      "state": "final",
+      "counts": {
+        "cases": 1324,
+        "passed": 1324,
+        "failed": 0,
+        "http_requests": 280
+      },
+      "evidence": "seo-yoast-final.json"
+    },
+    {
+      "control": {
+        "action": "site-private",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "yoast",
+      "state": "private",
+      "counts": {
+        "cases": 21,
+        "passed": 21,
+        "failed": 0,
+        "http_requests": 5
+      },
+      "evidence": "seo-yoast-private.json"
+    },
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "pair-edit-withdraw",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "yoast",
+      "state": "withdrawn",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-yoast-withdrawn.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "yoast",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 6
+      },
+      "evidence": "seo-yoast-restored.json"
+    },
+    {
+      "control": {
+        "action": "pair-archive",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "yoast",
+      "state": "archived",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-yoast-archived.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "yoast",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 6
+      },
+      "evidence": "seo-yoast-restored-after-archive.json"
+    },
+    {
+      "control": {
+        "action": "default-en",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "yoast",
+      "state": "default-en",
+      "counts": {
+        "cases": 23,
+        "passed": 23,
+        "failed": 0,
+        "http_requests": 2
+      },
+      "evidence": "seo-yoast-default-en.json"
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "plugins-rankmath",
+        "ok": true,
+        "plugins": {
+          "rankmath": {
+            "version": "1.0.281",
+            "active": true
+          }
+        }
+      }
+    },
+    {
+      "plugin_mode": "rankmath",
+      "state": "final",
+      "counts": {
+        "cases": 1323,
+        "passed": 1323,
+        "failed": 0,
+        "http_requests": 279
+      },
+      "evidence": "seo-rankmath-final.json"
+    },
+    {
+      "control": {
+        "action": "site-private",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "rankmath",
+      "state": "private",
+      "counts": {
+        "cases": 21,
+        "passed": 21,
+        "failed": 0,
+        "http_requests": 5
+      },
+      "evidence": "seo-rankmath-private.json"
+    },
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "pair-edit-withdraw",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "rankmath",
+      "state": "withdrawn",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-rankmath-withdrawn.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "rankmath",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 6
+      },
+      "evidence": "seo-rankmath-restored.json"
+    },
+    {
+      "control": {
+        "action": "pair-archive",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "rankmath",
+      "state": "archived",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-rankmath-archived.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "rankmath",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 6
+      },
+      "evidence": "seo-rankmath-restored-after-archive.json"
+    },
+    {
+      "control": {
+        "action": "default-en",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "rankmath",
+      "state": "default-en",
+      "counts": {
+        "cases": 23,
+        "passed": 23,
+        "failed": 0,
+        "http_requests": 2
+      },
+      "evidence": "seo-rankmath-default-en.json"
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "plugins-both",
+        "ok": true,
+        "plugins": {
+          "yoast": {
+            "version": "28.8",
+            "active": true
+          },
+          "rankmath": {
+            "version": "1.0.281",
+            "active": true
+          }
+        }
+      }
+    },
+    {
+      "plugin_mode": "both",
+      "state": "final",
+      "counts": {
+        "cases": 1323,
+        "passed": 1323,
+        "failed": 0,
+        "http_requests": 279
+      },
+      "evidence": "seo-both-final.json"
+    },
+    {
+      "control": {
+        "action": "site-private",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "both",
+      "state": "private",
+      "counts": {
+        "cases": 21,
+        "passed": 21,
+        "failed": 0,
+        "http_requests": 5
+      },
+      "evidence": "seo-both-private.json"
+    },
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "pair-edit-withdraw",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "both",
+      "state": "withdrawn",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-both-withdrawn.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "both",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 6
+      },
+      "evidence": "seo-both-restored.json"
+    },
+    {
+      "control": {
+        "action": "pair-archive",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "both",
+      "state": "archived",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-both-archived.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "both",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 6
+      },
+      "evidence": "seo-both-restored-after-archive.json"
+    },
+    {
+      "control": {
+        "action": "default-en",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "both",
+      "state": "default-en",
+      "counts": {
+        "cases": 23,
+        "passed": 23,
+        "failed": 0,
+        "http_requests": 2
+      },
+      "evidence": "seo-both-default-en.json"
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "plugins-none",
+        "ok": true,
+        "plugins": []
+      }
+    },
+    {
+      "plugin_mode": "none",
+      "state": "final",
+      "counts": {
+        "cases": 1324,
+        "passed": 1324,
+        "failed": 0,
+        "http_requests": 280
+      },
+      "evidence": "seo-none-final.json"
+    },
+    {
+      "control": {
+        "action": "site-private",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "none",
+      "state": "private",
+      "counts": {
+        "cases": 21,
+        "passed": 21,
+        "failed": 0,
+        "http_requests": 5
+      },
+      "evidence": "seo-none-private.json"
+    },
+    {
+      "control": {
+        "action": "site-public",
+        "ok": true
+      }
+    },
+    {
+      "control": {
+        "action": "pair-edit-withdraw",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "none",
+      "state": "withdrawn",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 8
+      },
+      "evidence": "seo-none-withdrawn.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "none",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-none-restored.json"
+    },
+    {
+      "control": {
+        "action": "pair-archive",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "none",
+      "state": "archived",
+      "counts": {
+        "cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "http_requests": 8
+      },
+      "evidence": "seo-none-archived.json"
+    },
+    {
+      "control": {
+        "action": "pair-restore",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "none",
+      "state": "restored",
+      "counts": {
+        "cases": 47,
+        "passed": 47,
+        "failed": 0,
+        "http_requests": 7
+      },
+      "evidence": "seo-none-restored-after-archive.json"
+    },
+    {
+      "control": {
+        "action": "default-en",
+        "ok": true
+      }
+    },
+    {
+      "plugin_mode": "none",
+      "state": "default-en",
+      "counts": {
+        "cases": 23,
+        "passed": 23,
+        "failed": 0,
+        "http_requests": 2
+      },
+      "evidence": "seo-none-default-en.json"
+    },
+    {
+      "control": {
+        "action": "default-zh",
+        "ok": true
+      }
+    }
+  ],
+  "failed": 0,
+  "http_requests": 1254,
+  "assertions": 5990
+}

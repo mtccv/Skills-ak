@@ -63,6 +63,8 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run check:assets
+      - run: python3 tests/final/test-package-theme.py
+      - run: python3 scripts/package-theme.py --check
   wordpress-smoke:
     if: github.event_name == 'workflow_dispatch' && inputs.final_qa
     runs-on: ubuntu-latest

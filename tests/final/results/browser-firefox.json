@@ -1,0 +1,223 @@
+{
+  "engine": "firefox",
+  "version": "153.0",
+  "base": "http://127.0.0.1:18083",
+  "counts": {
+    "passed": 52,
+    "failed": 0,
+    "skipped": 0
+  },
+  "cases": [
+    {
+      "name": "desktop-en-0",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-1",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-2",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-3",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-4",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-5",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-6",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-7",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-8",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-9",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-10",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-en-11",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-0",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-1",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-2",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-3",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-4",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-5",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-6",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-7",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-8",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-9",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-10",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-zh-11",
+      "status": "passed"
+    },
+    {
+      "name": "desktop-language-and-keyboard-navigation",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-0",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-1",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-2",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-3",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-4",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-5",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-6",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-7",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-8",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-9",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-10",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-en-11",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-0",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-1",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-2",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-3",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-4",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-5",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-6",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-7",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-8",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-9",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-10",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-zh-11",
+      "status": "passed"
+    },
+    {
+      "name": "mobile-language-and-keyboard-navigation",
+      "status": "passed"
+    },
+    {
+      "name": "combined-search-and-pagination",
+      "status": "passed"
+    },
+    {
+      "name": "runtime-errors-and-assets",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "assets": [],
+  "limitation": "Cross-engine frontend only; full administrator mutations are tested separately with Chromium."
+}

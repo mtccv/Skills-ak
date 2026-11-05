@@ -9,14 +9,14 @@
 | Phase 4 搜索与 SEO | 用户已验收 | PHASE_4_REPORT.md / SEO.md |
 | Phase 5 GitHub Skills 自动采集 | 用户已验收 | PHASE_5_REPORT.md / GITHUB_IMPORT.md / IMPORT_SECURITY.md |
 | Phase 6 AI 双语内容 | 用户已验收 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
-| Phase 7 安全、性能与稳定性 | 两轮代码审查与修复完成；等待用户安排 Final QA | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
-| Final QA | 未开始，等待用户指令 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
+| Phase 7 安全、性能与稳定性 | 用户已验收 | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
+| Final QA | 已执行范围通过，外部验收有保留；20 通过 / 0 失败 / 5 未执行 | ../FINAL_QA_REPORT.md；真实 WPML / GitHub / AI 仍未验证 |
 
 Phase 2 范围为菜单/统计、Skills 人工及来源录入、双语编辑、状态/归档、分类/标签、手动仓库、人工审核/风险/备注、私有阅读预览、列表/批量和 capability/nonce 安全控制。
 
-数据沿用原八表及稳定 Skill ID，Phase 2 通过 1.2.0 增量迁移添加后台必要字段。Phase 3 实现公开前台与内置语言路由，使用既有标签和 WordPress 原生存储补充教程与私有投稿；不修改业务 schema。Phase 4 实现搜索、SEO 及 WPML 公开 API 接口，真实插件联调仍待 Final QA。Phase 5 增加 GitHub 自动采集；Phase 6 增加独立 AI 草稿、任务和人工处理，不自动发布。
+数据沿用原八表及稳定 Skill ID，Phase 2 通过 1.2.0 增量迁移添加后台必要字段。Phase 3 实现公开前台与内置语言路由，使用既有标签和 WordPress 原生存储补充教程与私有投稿；不修改业务 schema。Phase 4 实现搜索、SEO 及 WPML 公开 API 接口；Final QA 已验证免费 SEO 插件，真实 WPML 仍缺合法包。Phase 5 增加 GitHub 自动采集；Phase 6 增加独立 AI 草稿、任务和人工处理，不自动发布。
 
-当前策略：每阶段只执行必要 PHP 语法、前端构建、基本代码检查。完整测试在 Final QA 统一执行；历史通过不自动覆盖新代码。仓库 CI 默认只运行 PHP/资源检查，完整数据库/WordPress 基线须手动选择 `final_qa=true`。
+历史阶段只执行必要 PHP、构建及基本检查；当前已按用户授权执行 Final QA 真实集成，明确保留外部未验收项。历史通过不自动覆盖新代码。仓库 CI 默认只运行 PHP/资源检查，完整数据库/WordPress 基线须手动选择 `final_qa=true`。
 
 Phase 2 代码提交 `e25da3241ab7830f0d34f8157063863b456d578a`；[CI 基本检查](https://github.com/mtccv/Skills-ak/actions/runs/41904484033) PHP 8.3/8.4 与 assets 通过，数据库/WordPress 任务按策略跳过。
 
@@ -58,3 +58,16 @@ Phase 7 已获授权，基线为 main `b3295f643c167ab7a6b5bba60e01f58359253cc3`
 Cloud PHP 8.3.36 的 100 个 PHP 文件语法、29 组 2679 项隔离/Mock 断言、前端构建/资源、JS/Bash、Compose 及差异检查通过；npm audit 本次为 0 个已知漏洞。九个新增测试入口共 818 项，全部断言比首轮增加 940 项。所有真实 WordPress、MySQL、WPML、GitHub/AI API、浏览器、并发与端到端仍未执行。Phase 7 代码工作已完成并暂停，等待用户安排 Final QA，不自动运行或部署。
 
 实现提交 `49ee0a757e88f622cc4d37f0f07160e221bfb169` 已同步 GitHub main；[CI 41982408246](https://github.com/mtccv/Skills-ak/actions/runs/41982408246) 的 PHP 8.3、PHP 8.4、assets 全部通过，wordpress-smoke 按策略 skipped。最终证据补记为随后纯文档提交，不修改已验证代码。
+
+
+## Final QA（当前交付）
+
+以 `d6401c2d6fb810605f5ba87524301ecc50418971` 为基线，在 Codex Cloud 新建隔离 WordPress/MySQL/浏览器环境，未使用生产数据或部署外部服务器。主题/Core 0.7.1，schema 仍1.5.0。
+
+- 真实 WP 7.1.4 / PHP 8.3.36、8.4.27 / MySQL 8.0.46，及最低 WP 6.8：数据矩阵合计678断言通过；来源/AI多进程、事务、连接中断和真实HTTP Cron验证通过。外部Provider仍Mock。
+- Chromium112、Firefox52、WebKit52，实际后台/表单持久化13；安全207+28；SEO四模式5990，均通过。性能真实样本192/192 HTTP，记录实际SQL/EXPLAIN，不承诺生产容量。
+- 修复7个真实问题：搜索参数编码P1；Yoast标题、robots、Schema.org、RankMath entry对象、XML缓存和双插件索引六个P2。没有未修复P0/P1，不改核心表/ID/人工字段，不自动发布。
+- PHP两版本各120文件语法、29组2710隔离/Mock断言、前端构建、打包8测试和npm audit通过。构建包含非阻断Browserslist数据更新提示，未擅自升级依赖。
+- 最终ZIP直接全新安装12检查、原生升级/重装/切换33断言通过，十四表全记录指纹及78文件匹配；安装包 `release/ai-skills-hub-0.7.1.zip`，SHA256 `470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268`。
+
+按25个验收工作包：20通过、0失败、5未执行。缺少合法WPML包、GitHub/AI应用凭据及真实生成结果/账单，不能宣布全部验收通过。详见根目录 FINAL_QA_REPORT、SECURITY_AUDIT、COMPATIBILITY_REPORT、PERFORMANCE_REPORT、KNOWN_LIMITATIONS 与 INSTALLATION。完整无密证据在 tests/final/results；历史阶段报告中的未测记录不改写。完成代码与文档提交同步后暂停，等待用户安排剩余外部验收。

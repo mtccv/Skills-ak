@@ -1,0 +1,200 @@
+{
+  "suite": "sources-real-http-wp-cron",
+  "network": "Real localhost wp-cron.php HTTP; all external HTTP Mock/blocked; AI paused; no live GitHub/Provider credentials.",
+  "cases": [
+    {
+      "name": "both_due_events_registered_once",
+      "status": "passed"
+    },
+    {
+      "name": "real_wp_cron_http_200_empty_response",
+      "status": "passed"
+    },
+    {
+      "name": "production_callbacks_present_in_real_http_cron_chain",
+      "status": "passed"
+    },
+    {
+      "name": "importer_advances_one_real_database_step",
+      "status": "passed"
+    },
+    {
+      "name": "queued_checkpoint_and_repository_state_consistent",
+      "status": "passed"
+    },
+    {
+      "name": "one_mock_metadata_request_without_extra_business_http",
+      "status": "passed"
+    },
+    {
+      "name": "ai_pause_and_existing_attempt_history_preserved",
+      "status": "passed"
+    },
+    {
+      "name": "single_future_recurring_event_per_queue",
+      "status": "passed"
+    },
+    {
+      "name": "repeated_http_does_not_repeat_not_due_callbacks",
+      "status": "passed"
+    },
+    {
+      "name": "repeated_http_preserves_queue_and_schedule",
+      "status": "passed"
+    },
+    {
+      "name": "configuration_restored_fixture_history_retained",
+      "status": "passed"
+    }
+  ],
+  "run": "de626ad936",
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46",
+    "schema": "1.5.0",
+    "database": "qa_sources"
+  },
+  "first_http": {
+    "status": 200,
+    "body_bytes": 0
+  },
+  "first_observation": {
+    "counts": {
+      "mock_github_requests": 1,
+      "aish_import_tick": 1,
+      "contexts": {
+        "aish_import_tick": {
+          "doing_cron": true,
+          "sapi": "apache2handler",
+          "user_id": 0,
+          "production_callback_priority": 10,
+          "wp_cron_request": true
+        },
+        "aish_ai_tick": {
+          "doing_cron": true,
+          "sapi": "apache2handler",
+          "user_id": 0,
+          "production_callback_priority": 10,
+          "wp_cron_request": true
+        }
+      },
+      "aish_ai_tick": 1,
+      "blocked_external_requests": 6,
+      "blocked_hosts": {
+        "api.wordpress.org": 6
+      }
+    },
+    "events": {
+      "aish_import_tick": [
+        {
+          "timestamp": 1793870384,
+          "schedule": "aish_import_minute",
+          "interval": 60
+        }
+      ],
+      "aish_ai_tick": [
+        {
+          "timestamp": 1793870384,
+          "schedule": "aish_ai_minute",
+          "interval": 60
+        }
+      ]
+    },
+    "job": {
+      "status": "queued",
+      "stage": "commit",
+      "cursor": 0,
+      "available_at": "2026-11-05 09:19:49",
+      "state_hash": "40089ac84f0ce7922df763770db8f2aacb86b808bf94da3d43282b4c4300463a",
+      "active_key_retained": true,
+      "lease_released": true
+    },
+    "repository": {
+      "sync_status": "queued",
+      "sync_enabled": 0,
+      "github_identity_bound": true,
+      "last_sync_commit": ""
+    },
+    "ai_paused": true,
+    "ai_attempt_count_unchanged": true
+  },
+  "second_http": {
+    "status": 200,
+    "body_bytes": 0
+  },
+  "second_observation": {
+    "counts": {
+      "mock_github_requests": 1,
+      "aish_import_tick": 1,
+      "contexts": {
+        "aish_import_tick": {
+          "doing_cron": true,
+          "sapi": "apache2handler",
+          "user_id": 0,
+          "production_callback_priority": 10,
+          "wp_cron_request": true
+        },
+        "aish_ai_tick": {
+          "doing_cron": true,
+          "sapi": "apache2handler",
+          "user_id": 0,
+          "production_callback_priority": 10,
+          "wp_cron_request": true
+        }
+      },
+      "aish_ai_tick": 1,
+      "blocked_external_requests": 6,
+      "blocked_hosts": {
+        "api.wordpress.org": 6
+      }
+    },
+    "events": {
+      "aish_import_tick": [
+        {
+          "timestamp": 1793870384,
+          "schedule": "aish_import_minute",
+          "interval": 60
+        }
+      ],
+      "aish_ai_tick": [
+        {
+          "timestamp": 1793870384,
+          "schedule": "aish_ai_minute",
+          "interval": 60
+        }
+      ]
+    },
+    "job": {
+      "status": "queued",
+      "stage": "commit",
+      "cursor": 0,
+      "available_at": "2026-11-05 09:19:49",
+      "state_hash": "40089ac84f0ce7922df763770db8f2aacb86b808bf94da3d43282b4c4300463a",
+      "active_key_retained": true,
+      "lease_released": true
+    },
+    "repository": {
+      "sync_status": "queued",
+      "sync_enabled": 0,
+      "github_identity_bound": true,
+      "last_sync_commit": ""
+    },
+    "ai_paused": true,
+    "ai_attempt_count_unchanged": true
+  },
+  "cleanup": {
+    "restored": true,
+    "fixture_history_retained": true
+  },
+  "case_count": 11,
+  "assertions": 11,
+  "failed": 0,
+  "generated_at": "2026-11-05T09:18:49Z",
+  "boundaries": [
+    "This verifies actual HTTP wp-cron.php dispatch, not wall-clock schedule precision, low-traffic scheduling or load capacity.",
+    "AI callback remains paused; no Provider request is issued.",
+    "The Importer only performs one mocked metadata step; this does not verify live GitHub API.",
+    "Original Cron/AI-pause/source-sync settings are restored; only this fixture repository is archived and its queued task/history retained."
+  ]
+}

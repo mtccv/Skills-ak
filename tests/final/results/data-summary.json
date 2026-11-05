@@ -1,0 +1,92 @@
+{
+  "suite": "real_database_final_qa",
+  "baseline": "d6401c2d6fb810605f5ba87524301ecc50418971",
+  "runs": [
+    {
+      "runtime": "php83",
+      "environment": {
+        "php": "8.3.36",
+        "wordpress": "7.1.4",
+        "mysql": "8.0.46",
+        "isolation": "REPEATABLE-READ",
+        "lower_case_table_names": 0,
+        "database": "qa_data",
+        "theme": "ai-skills-hub"
+      },
+      "data_cases_passed": 11,
+      "data_cases_failed": 0,
+      "data_assertions": 102,
+      "core_assertions": 124,
+      "core_php_diagnostic_lines": 0,
+      "data_report": "/tmp/aish-final-qa/data-results.json",
+      "core_log": "/tmp/aish-final-qa/core-php83.log"
+    },
+    {
+      "runtime": "php84",
+      "environment": {
+        "php": "8.4.27",
+        "wordpress": "7.1.4",
+        "mysql": "8.0.46",
+        "isolation": "REPEATABLE-READ",
+        "lower_case_table_names": 0,
+        "database": "qa_php84",
+        "theme": "ai-skills-hub"
+      },
+      "data_cases_passed": 11,
+      "data_cases_failed": 0,
+      "data_assertions": 102,
+      "core_assertions": 124,
+      "core_php_diagnostic_lines": 0,
+      "data_report": "/tmp/aish-final-qa/php84/data-results.json",
+      "core_log": "/tmp/aish-final-qa/core-php84.log"
+    },
+    {
+      "runtime": "wp68",
+      "environment": {
+        "php": "8.3.36",
+        "wordpress": "6.8",
+        "mysql": "8.0.46",
+        "isolation": "REPEATABLE-READ",
+        "lower_case_table_names": 0,
+        "database": "qa_wp68",
+        "theme": "ai-skills-hub"
+      },
+      "data_cases_passed": 11,
+      "data_cases_failed": 0,
+      "data_assertions": 102,
+      "core_assertions": 124,
+      "core_php_diagnostic_lines": 0,
+      "data_report": "/tmp/aish-final-qa/wp68/data-results.json",
+      "core_log": "/tmp/aish-final-qa/core-wp68.log",
+      "http_smoke_report": "/tmp/aish-final-qa/data-wp68-http.json",
+      "http_smoke_passed": 5,
+      "http_smoke_failed": 0
+    }
+  ],
+  "production_findings": [],
+  "harness_corrections": [
+    {
+      "code": "H-D10",
+      "severity": "P3",
+      "reason": "Fresh test wpdb lacked WordPress prefix before global replacement; set_prefix now preserves native option table lookup."
+    },
+    {
+      "code": "H-D11",
+      "severity": "P3",
+      "reason": "Test AI profile used null for nonnullable max_cost; fixture corrected to 0.0."
+    }
+  ],
+  "production_files_changed": false,
+  "source_sha256": {
+    "wp-content/themes/ai-skills-hub/inc/core/Database/Database.php": "654c4dcba30452c9f5e87457fd016a8bdad2cee424c156dfd3ce189417195725",
+    "wp-content/themes/ai-skills-hub/inc/core/Database/Migrator.php": "d2d872aee434187a25dfc705a103dddb45a28b1c24a026b1acdf1080e48d0400",
+    "wp-content/themes/ai-skills-hub/inc/core/Database/Schema.php": "7fd8e3823971c9d3edbd03320375d2e226656dbe7e0effede171669a2cf1864a"
+  },
+  "limits": [
+    "No real GitHub or AI request was made; AI lifecycle data uses explicit database-only fixture output.",
+    "MySQL 8.0.46, InnoDB, REPEATABLE-READ, lower_case_table_names=0 only. MySQL 8.4 and table case modes 1/2 were not run in this subtask.",
+    "A connection killed after a durable COMMIT but before its acknowledgement was not induced; this remains an uncertain distributed outcome, not a rollback guarantee.",
+    "This is bounded concurrency (8 source writers / 2 editors), not sustained load or exhaustive interleaving coverage.",
+    "No arbitrary third-party db.php drivers or remote production environment was tested."
+  ]
+}

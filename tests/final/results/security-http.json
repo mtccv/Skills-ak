@@ -1,0 +1,1086 @@
+{
+  "kind": "real_wordpress_mysql_and_local_http",
+  "environment": {
+    "site": "http://127.0.0.1:18087",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "fixture": {
+    "run": "qa-d143129a",
+    "users": {
+      "administrator": {
+        "id": 2,
+        "login": "aish-security-administrator"
+      },
+      "subscriber": {
+        "id": 3,
+        "login": "aish-security-subscriber"
+      },
+      "contributor": {
+        "id": 4,
+        "login": "aish-security-contributor"
+      },
+      "author": {
+        "id": 5,
+        "login": "aish-security-author"
+      },
+      "editor": {
+        "id": 6,
+        "login": "aish-security-editor"
+      }
+    },
+    "skills": {
+      "published": 1046,
+      "draft": 1047,
+      "pending": 1048,
+      "rejected": 1049,
+      "archived": 1050,
+      "stale": 1051,
+      "unapproved": 1052,
+      "no_reviewer": 1053,
+      "no_review_time": 1054,
+      "partial": 1055,
+      "xss": 1056,
+      "withdrawal": 1057
+    },
+    "markers": {
+      "published": "QA_D143129A_PUBLISHED",
+      "draft": "QA_D143129A_DRAFT",
+      "pending": "QA_D143129A_PENDING",
+      "rejected": "QA_D143129A_REJECTED",
+      "archived": "QA_D143129A_ARCHIVED",
+      "stale": "QA_D143129A_STALE",
+      "unapproved": "QA_D143129A_UNAPPROVED",
+      "no_reviewer": "QA_D143129A_NO_REVIEWER",
+      "no_review_time": "QA_D143129A_NO_REVIEW_TIME",
+      "partial": "QA_D143129A_PARTIAL",
+      "xss": "QA_D143129A_XSS",
+      "withdrawal": "QA_D143129A_WITHDRAWAL"
+    },
+    "tutorials": {
+      "publish": 96,
+      "draft": 97,
+      "private": 98,
+      "password": 99
+    },
+    "inbox": 100,
+    "site": "http://127.0.0.1:18087",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "requests": 178,
+  "passed": 207,
+  "total": 207,
+  "checks": [
+    {
+      "name": "real_login_administrator",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "real_login_subscriber",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "real_login_contributor",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "real_login_author",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "real_login_editor",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "admin_invalid_nonce_aish_save_skill",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_save_skill",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_review",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_review",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_save_term",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_save_term",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_save_repository",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_save_repository",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_archive",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_archive",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_bulk",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_bulk",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_settings",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_import_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_import_action",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_ai_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_ai_action",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "admin_invalid_nonce_aish_save_seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_mutation_denied_aish_save_seo",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_save_skill",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_review",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_save_term",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_save_repository",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_archive",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_bulk",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_import_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_ai_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_subscriber_aish_save_seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-skills",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-skill-edit",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-reviews",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-repositories",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-ai-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-ai-generation",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_subscriber_aish-imports",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_save_skill",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_review",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_save_term",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_save_repository",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_archive",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_bulk",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_import_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_ai_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_contributor_aish_save_seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-skills",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-skill-edit",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-reviews",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-repositories",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-ai-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-ai-generation",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_contributor_aish-imports",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_save_skill",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_review",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_save_term",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_save_repository",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_archive",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_bulk",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_import_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_ai_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_author_aish_save_seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-skills",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-skill-edit",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-reviews",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-repositories",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-ai-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-ai-generation",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_author_aish-imports",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_save_skill",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_review",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_save_term",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_save_repository",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_archive",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_bulk",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_import_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_ai_action",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "valid_nonce_without_capability_editor_aish_save_seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-skills",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-skill-edit",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-reviews",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-repositories",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-seo",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-ai-settings",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-ai-generation",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "admin_page_denied_editor_aish-imports",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "all_denied_mutations_preserve_core_rows_and_settings",
+      "pass": true
+    },
+    {
+      "name": "authorized_valid_nonce_setting_write_positive_control",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "state_change_rejects_get",
+      "pass": true,
+      "status": 405
+    },
+    {
+      "name": "public_detail_denies_draft_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_draft_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_draft_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_draft_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_pending_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_pending_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_pending_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_pending_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_rejected_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_rejected_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_rejected_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_rejected_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_archived_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_archived_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_archived_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_archived_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_stale_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_stale_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_stale_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_stale_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_unapproved_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_unapproved_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_unapproved_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_unapproved_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_no_reviewer_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_no_reviewer_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_no_reviewer_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_no_reviewer_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_no_review_time_en",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_no_review_time_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_detail_denies_no_review_time_zh",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "public_search_hides_no_review_time_zh",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "incomplete_english_translation_redirects_to_real_chinese",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "real_chinese_translation_remains_public",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "stored_rich_text_xss_is_removed",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "literal_search_and_reflected_output_quoted_sql_literal",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "literal_search_and_reflected_output_literal_wildcards",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "literal_search_and_reflected_output_reflected_script",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "literal_search_and_reflected_output_spaces_and_ampersand",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "literal_search_and_reflected_output_chinese_spaces",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "invalid_query_rejected_148",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "invalid_query_rejected_149",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "invalid_query_rejected_150",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "invalid_query_rejected_151",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "invalid_query_rejected_152",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "private_tutorial_denied_draft",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "private_tutorial_denied_private",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "private_tutorial_denied_password",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "private_native_or_unregistered_rest_156",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "private_native_or_unregistered_rest_157",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "private_native_or_unregistered_rest_158",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "private_native_or_unregistered_rest_159",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "private_native_or_unregistered_rest_160",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "unregistered_ajax_cannot_mutate",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "public_contact_has_real_nonce",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "public_form_missing_nonce_preserves_inbox",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "public_form_saves_private_contact",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "public_form_saves_private_submit",
+      "pass": true,
+      "status": 303
+    },
+    {
+      "name": "contact_submit_create_only_private_inbox_rows",
+      "pass": true
+    },
+    {
+      "name": "submitted_record_not_public_101",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "submitted_record_not_public_102",
+      "pass": true,
+      "status": 302
+    },
+    {
+      "name": "public_submission_does_not_create_skill_or_ai_job",
+      "pass": true
+    },
+    {
+      "name": "authorized_private_preview",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "private_preview_cache_robots_csp",
+      "pass": true
+    },
+    {
+      "name": "preview_nonce_cannot_bypass_auth_anonymous",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "preview_nonce_cannot_bypass_auth_subscriber",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "preview_invalid_nonce_rejected",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "withdrawal_fixture_public_before_archive",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "next_request_archive_invalidates_public_visibility",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "source_path_0",
+      "pass": true
+    },
+    {
+      "name": "source_path_1",
+      "pass": true
+    },
+    {
+      "name": "source_path_2",
+      "pass": true
+    },
+    {
+      "name": "source_path_3",
+      "pass": true
+    },
+    {
+      "name": "source_path_4",
+      "pass": true
+    },
+    {
+      "name": "source_path_5",
+      "pass": true
+    },
+    {
+      "name": "source_path_6",
+      "pass": true
+    },
+    {
+      "name": "repository_url_0",
+      "pass": true
+    },
+    {
+      "name": "repository_url_1",
+      "pass": true
+    },
+    {
+      "name": "repository_url_2",
+      "pass": true
+    },
+    {
+      "name": "repository_url_3",
+      "pass": true
+    },
+    {
+      "name": "repository_url_4",
+      "pass": true
+    },
+    {
+      "name": "repository_url_5",
+      "pass": true
+    },
+    {
+      "name": "repository_url_6",
+      "pass": true
+    },
+    {
+      "name": "repository_url_7",
+      "pass": true
+    },
+    {
+      "name": "ai_base_url_0",
+      "pass": true
+    },
+    {
+      "name": "ai_base_url_1",
+      "pass": true
+    },
+    {
+      "name": "ai_base_url_2",
+      "pass": true
+    },
+    {
+      "name": "ai_base_url_3",
+      "pass": true
+    },
+    {
+      "name": "ai_base_url_4",
+      "pass": true
+    },
+    {
+      "name": "ai_base_url_5",
+      "pass": true
+    },
+    {
+      "name": "ai_base_url_6",
+      "pass": true
+    },
+    {
+      "name": "wordpress_safe_http_rejects_loopback",
+      "pass": true,
+      "error_code": "http_request_failed"
+    },
+    {
+      "name": "public_query_validation_0",
+      "pass": true
+    },
+    {
+      "name": "public_query_validation_1",
+      "pass": true
+    },
+    {
+      "name": "public_query_validation_2",
+      "pass": true
+    },
+    {
+      "name": "public_query_validation_3",
+      "pass": true
+    },
+    {
+      "name": "public_query_validation_4",
+      "pass": true
+    },
+    {
+      "name": "mysql_error_is_non_disclosing",
+      "pass": true
+    },
+    {
+      "name": "mysql_error_does_not_log_synthetic_secret",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "HTTP checks do not execute browser JavaScript",
+    "No live GitHub or AI provider requests",
+    "No metadata/private remote-network requests",
+    "No persistent object-cache plugin installed"
+  ]
+}

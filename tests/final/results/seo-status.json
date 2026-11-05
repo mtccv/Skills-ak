@@ -1,0 +1,43 @@
+{
+  "suite": "seo-final-qa-status",
+  "status": "completed_with_external_wpml_unexecuted",
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46",
+    "yoast": "28.8",
+    "rankmath": "1.0.281"
+  },
+  "final_matrix": {
+    "assertions": 5990,
+    "passed": 5990,
+    "failed": 0,
+    "http_requests": 1254,
+    "modes": [
+      "none",
+      "yoast",
+      "rankmath",
+      "both"
+    ],
+    "scenarios_per_mode": [
+      "full_route_and_225_sitemap_URL_crawl",
+      "private_site",
+      "edited_withdrawal",
+      "restore_review",
+      "archive",
+      "restore_archive",
+      "default_English"
+    ]
+  },
+  "isolated": {
+    "routing": 104,
+    "seo": 76,
+    "failure_boundaries": 83,
+    "sitemap": 49
+  },
+  "cache_fixture": "Real Rank Math caches retained from before fixes; QA-only MU configuration requests both plugins XML caching=true at priority99; theme public filters at PHP_INT_MAX keep projections fresh. No HTTP mocks, no manual cache flush on record transitions.",
+  "not_executed": {
+    "wpml": "No licensed package provided"
+  },
+  "transient_execution_blocker": "An automatic approval service quota failure temporarily prevented one command; service later recovered and all remaining listed SEO suites executed. No approval bypass."
+}

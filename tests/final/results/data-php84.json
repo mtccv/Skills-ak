@@ -1,0 +1,205 @@
+{
+    "suite": "data",
+    "kind": "real_wordpress_mysql",
+    "started_at": "2026-11-05T07:16:16+00:00",
+    "cases": [
+        {
+            "id": "D01-fresh-fourteen-table-install",
+            "status": "passed",
+            "evidence": {
+                "tables": [
+                    "repositories",
+                    "skills",
+                    "skill_translations",
+                    "skill_versions",
+                    "categories",
+                    "tags",
+                    "skill_categories",
+                    "skill_tags",
+                    "imports",
+                    "jobs",
+                    "import_logs",
+                    "ai_jobs",
+                    "ai_attempts",
+                    "ai_reviews"
+                ],
+                "schema": "1.5.0"
+            },
+            "elapsed_ms": 513
+        },
+        {
+            "id": "D02-historical-stepwise-upgrades-and-reinstall",
+            "status": "passed",
+            "evidence": {
+                "steps": [
+                    "1.1.0",
+                    "1.2.0",
+                    "1.3.0",
+                    "1.4.0",
+                    "1.5.0"
+                ],
+                "retained_counts": {
+                    "repositories": 1,
+                    "skills": 1,
+                    "skill_translations": 2,
+                    "skill_versions": 1,
+                    "categories": 0,
+                    "tags": 0,
+                    "skill_categories": 0,
+                    "skill_tags": 0,
+                    "imports": 0,
+                    "jobs": 0,
+                    "import_logs": 0,
+                    "ai_jobs": 0,
+                    "ai_attempts": 0,
+                    "ai_reviews": 0
+                },
+                "repeat_ddl": 0
+            },
+            "elapsed_ms": 468
+        },
+        {
+            "id": "D03-failed-upgrade-retains-version-and-recovers",
+            "status": "passed",
+            "evidence": {
+                "failed_version": "1.4.0",
+                "recovered_version": "1.5.0"
+            },
+            "elapsed_ms": 509
+        },
+        {
+            "id": "D04-identities-bilingual-unique-keys-and-history",
+            "status": "passed",
+            "evidence": {
+                "stable_skill_id": 1,
+                "translation_ids": [
+                    1,
+                    2
+                ],
+                "version_id": 1
+            },
+            "elapsed_ms": 529
+        },
+        {
+            "id": "D05-real-migration-advisory-lock",
+            "status": "passed",
+            "evidence": {
+                "sessions": 2
+            },
+            "elapsed_ms": 454
+        },
+        {
+            "id": "D06-real-concurrent-source-deduplication",
+            "status": "passed",
+            "evidence": {
+                "workers": 8,
+                "unique_ids": [
+                    1
+                ]
+            },
+            "elapsed_ms": 803
+        },
+        {
+            "id": "D07-real-concurrent-editor-revision-fence",
+            "status": "passed",
+            "evidence": {
+                "workers": 2,
+                "outcomes": [
+                    "conflict",
+                    "passed"
+                ],
+                "revision": 2
+            },
+            "elapsed_ms": 657
+        },
+        {
+            "id": "D08-transaction-rollback-and-real-lock-timeout",
+            "status": "passed",
+            "evidence": {
+                "lock_wait_timeout_seconds": 1,
+                "rollback_confirmed": true
+            },
+            "elapsed_ms": 1520
+        },
+        {
+            "id": "D09-real-disconnect-no-transaction-replay",
+            "status": "passed",
+            "evidence": {
+                "killed_connection": 2153,
+                "retained_rows": 0,
+                "reused_connection": false
+            },
+            "elapsed_ms": 488
+        },
+        {
+            "id": "D10-real-ddl-disconnect-and-additive-recovery",
+            "status": "passed",
+            "evidence": {
+                "partial_tables_retained": 4,
+                "recovered_tables": 14
+            },
+            "elapsed_ms": 487
+        },
+        {
+            "id": "D11-theme-switch-fresh-request-data-retention",
+            "status": "passed",
+            "evidence": {
+                "before_counts": {
+                    "repositories": 1,
+                    "skills": 1,
+                    "skill_translations": 2,
+                    "skill_versions": 1,
+                    "categories": 1,
+                    "tags": 1,
+                    "skill_categories": 1,
+                    "skill_tags": 1,
+                    "imports": 1,
+                    "jobs": 1,
+                    "import_logs": 2,
+                    "ai_jobs": 1,
+                    "ai_attempts": 1,
+                    "ai_reviews": 1
+                },
+                "after_counts": {
+                    "repositories": 1,
+                    "skills": 1,
+                    "skill_translations": 2,
+                    "skill_versions": 1,
+                    "categories": 1,
+                    "tags": 1,
+                    "skill_categories": 1,
+                    "skill_tags": 1,
+                    "imports": 1,
+                    "jobs": 1,
+                    "import_logs": 2,
+                    "ai_jobs": 1,
+                    "ai_attempts": 1,
+                    "ai_reviews": 1
+                },
+                "skill_id": 1,
+                "alternative_theme": "twentytwentyfive",
+                "api_calls": 0,
+                "seeded_records_retained_in_disposable_site": true
+            },
+            "elapsed_ms": 565
+        }
+    ],
+    "assertions": 102,
+    "limitations": [
+        "No live GitHub or AI Provider calls.",
+        "Unknown COMMIT response after server durability cannot be conclusively undone or guaranteed exactly once.",
+        "Case modes 1/2 require a separately configured MySQL service; this run records the actual mode only."
+    ],
+    "environment": {
+        "php": "8.4.27",
+        "wordpress": "7.1.4",
+        "mysql": "8.0.46",
+        "isolation": "REPEATABLE-READ",
+        "lower_case_table_names": 0,
+        "database": "qa_php84",
+        "theme": "ai-skills-hub"
+    },
+    "finished_at": "2026-11-05T07:16:23+00:00",
+    "passed": 11,
+    "failed": 0
+}

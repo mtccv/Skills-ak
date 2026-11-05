@@ -1,0 +1,222 @@
+{
+  "suite": "real-wordpress-seo-http",
+  "mode": "private",
+  "started_utc": "2026-11-05T09:29:38.726804+00:00",
+  "environment": {
+    "base": "http://127.0.0.1:18084",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "wpml": {
+    "status": "not_executed",
+    "reason": "No licensed WPML package supplied; builtin bilingual routing is not a real WPML test."
+  },
+  "cases": [
+    {
+      "name": "http://127.0.0.1:18084/en/ status",
+      "passed": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ index policy",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ no-store",
+      "passed": true,
+      "actual": "private, no-store, max-age=0",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single self canonical",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/en/"
+      ],
+      "expected": [
+        "http://127.0.0.1:18084/en/"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single H1",
+      "passed": true,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single nonempty document title",
+      "passed": true,
+      "actual": {
+        "count": 1,
+        "title": "English page SEO home"
+      },
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ excluded pages have no structured data",
+      "passed": true,
+      "actual": [],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ html language",
+      "passed": true,
+      "actual": "en",
+      "expected": [
+        "en",
+        "en-US"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ no duplicate hreflang",
+      "passed": true,
+      "actual": 0,
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single description",
+      "passed": true,
+      "actual": [
+        "English page description home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single og:title",
+      "passed": true,
+      "actual": [
+        "English page SEO home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single og:description",
+      "passed": true,
+      "actual": [
+        "English page description home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single og:url",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/en/"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single twitter:card",
+      "passed": true,
+      "actual": [
+        "summary"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single twitter:title",
+      "passed": true,
+      "actual": [
+        "English page SEO home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single twitter:description",
+      "passed": true,
+      "actual": [
+        "English page description home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ no private fixture body",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "private site disables XML",
+      "passed": true,
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "private site owner does not advertise Hub children /sitemap_index.xml",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "private site owner does not advertise Hub children /wp-sitemap.xml",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "private site robots disallows all",
+      "passed": true,
+      "actual": "User-agent: *\nDisallow: /\n",
+      "expected": null
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18084/en/",
+      "status": 200,
+      "body_sha256": "22ad7b538aef586f68d8745e17043545676c835fb076c777df95867374f816ec",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "x-robots-tag": "noindex, follow, noarchive",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap.xml",
+      "status": 404,
+      "body_sha256": "29c332801f9c713ed4815119bb58e5bd5f33d2d8d5945db6b7cc0cbed453e308",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "text/plain; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/robots.txt",
+      "status": 200,
+      "body_sha256": "331ea9090db0c9f6f597bd9840fd5b171830f6e0b3ba1cb24dfa91f0c95aedc1",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/sitemap_index.xml",
+      "status": 200,
+      "body_sha256": "38e2478e690811090ef916c67b8d8ff83331108dc29b49bfbe54189cd95c9b01",
+      "headers": {
+        "x-robots-tag": "noindex",
+        "cache-control": "no-cache, no-store, must-revalidate, max-age=0",
+        "content-type": "text/xml; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/wp-sitemap.xml",
+      "status": 301,
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headers": {
+        "location": "http://127.0.0.1:18084/sitemap_index.xml",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    }
+  ],
+  "counts": {
+    "cases": 21,
+    "passed": 21,
+    "failed": 0,
+    "http_requests": 5
+  }
+}

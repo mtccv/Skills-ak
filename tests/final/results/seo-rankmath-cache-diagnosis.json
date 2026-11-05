@@ -1,0 +1,38 @@
+{
+  "/sitemap_index.xml": {
+    "status": 200,
+    "zh_skill_advertised": true,
+    "children": [
+      "http://127.0.0.1:18084/post-sitemap.xml",
+      "http://127.0.0.1:18084/page-sitemap.xml",
+      "http://127.0.0.1:18084/category-sitemap.xml",
+      "http://127.0.0.1:18084/aish-sitemap-skills-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-category-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tag-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tutorials-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-pages-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-skills-en-2.xml",
+      "http://127.0.0.1:18084/aish-sitemap-category-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tag-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tutorials-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-pages-en-1.xml"
+    ]
+  },
+  "/aish-sitemap.xml": {
+    "status": 200,
+    "zh_skill_advertised": false,
+    "children": [
+      "http://127.0.0.1:18084/aish-sitemap-category-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tag-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tutorials-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-pages-zh-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-skills-en-2.xml",
+      "http://127.0.0.1:18084/aish-sitemap-category-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tag-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-tutorials-en-1.xml",
+      "http://127.0.0.1:18084/aish-sitemap-pages-en-1.xml"
+    ]
+  }
+}

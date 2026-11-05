@@ -1,0 +1,145 @@
+{
+  "kind": "actual_fresh_final_zip_wordpress_install",
+  "executed_at": "2026-11-05T09:40:21.908075+00:00",
+  "environment": {
+    "php": "8.4.27",
+    "wordpress": "7.1.4",
+    "mysql": "8.0.46",
+    "theme": "0.7.1",
+    "core": "0.7.1",
+    "schema": "1.5.0",
+    "tables": {
+      "repositories": 0,
+      "skills": 0,
+      "skill_translations": 0,
+      "skill_versions": 0,
+      "categories": 0,
+      "tags": 0,
+      "skill_categories": 0,
+      "skill_tags": 0,
+      "imports": 0,
+      "jobs": 0,
+      "import_logs": 0,
+      "ai_jobs": 0,
+      "ai_attempts": 0,
+      "ai_reviews": 0
+    }
+  },
+  "zip_sha256": "470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268",
+  "cases": [
+    {
+      "id": "fresh-final-version",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-schema-fourteen-empty",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/zh/",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/en/",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/en/skills/",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/en/tutorials/",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/en/search/?q=two%20words",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/aish-sitemap.xml",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/robots.txt",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/en/not-found/",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/wp-content/themes/ai-skills-hub/assets/dist/app.css",
+      "status": "passed"
+    },
+    {
+      "id": "fresh-http-/wp-content/themes/ai-skills-hub/assets/dist/app.js",
+      "status": "passed"
+    }
+  ],
+  "http": [
+    {
+      "path": "/zh/",
+      "status": 200,
+      "bytes": 35677,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "bytes": 35794,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/en/skills/",
+      "status": 200,
+      "bytes": 29218,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/en/tutorials/",
+      "status": 200,
+      "bytes": 29095,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/en/search/?q=two%20words",
+      "status": 200,
+      "bytes": 27953,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/aish-sitemap.xml",
+      "status": 200,
+      "bytes": 283,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "bytes": 115,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/en/not-found/",
+      "status": 404,
+      "bytes": 24603,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.css",
+      "status": 200,
+      "bytes": 47227,
+      "php_diagnostic": false
+    },
+    {
+      "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.js",
+      "status": 200,
+      "bytes": 56108,
+      "php_diagnostic": false
+    }
+  ],
+  "passed": 12,
+  "failed": 0,
+  "harness_correction": "Initial read-only verification mistakenly called a nonexistent Core getter; corrected to the registered database service before the successful run. No production code or data was changed.",
+  "boundary": "Fresh dedicated qa_fresh database, empty fourteen-table schema; no fixtures or real API calls. WP-CLI invokes the native theme installer."
+}

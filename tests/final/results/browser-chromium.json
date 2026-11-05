@@ -1,0 +1,1227 @@
+{
+  "browser": "155.0.8059.79",
+  "base": "http://127.0.0.1:18083",
+  "runId": "mw3c2xx6",
+  "counts": {
+    "passed": 112,
+    "failed": 0,
+    "skipped": 0
+  },
+  "cases": [
+    {
+      "name": "desktop-zh-route-0",
+      "status": "passed",
+      "ms": 924,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-1",
+      "status": "passed",
+      "ms": 659,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/skills/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-2",
+      "status": "passed",
+      "ms": 663,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/skills/1/qa-browser-1/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-3",
+      "status": "passed",
+      "ms": 649,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/category/qa-browser-category/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-4",
+      "status": "passed",
+      "ms": 670,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tag/qa-browser-tag/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-5",
+      "status": "passed",
+      "ms": 654,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tutorials/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-6",
+      "status": "passed",
+      "ms": 633,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tutorials/4/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-7",
+      "status": "passed",
+      "ms": 684,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/search/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-8",
+      "status": "passed",
+      "ms": 635,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/about/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-9",
+      "status": "passed",
+      "ms": 624,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/contact/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-10",
+      "status": "passed",
+      "ms": 715,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/submit/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-zh-route-11",
+      "status": "passed",
+      "ms": 619,
+      "evidence": {
+        "status": 404,
+        "url": "/zh/not-found/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-0",
+      "status": "passed",
+      "ms": 985,
+      "evidence": {
+        "status": 200,
+        "url": "/en/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-1",
+      "status": "passed",
+      "ms": 666,
+      "evidence": {
+        "status": 200,
+        "url": "/en/skills/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-2",
+      "status": "passed",
+      "ms": 720,
+      "evidence": {
+        "status": 200,
+        "url": "/en/skills/1/qa-browser-1/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-3",
+      "status": "passed",
+      "ms": 776,
+      "evidence": {
+        "status": 200,
+        "url": "/en/category/qa-browser-category/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-4",
+      "status": "passed",
+      "ms": 702,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tag/qa-browser-tag/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-5",
+      "status": "passed",
+      "ms": 642,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tutorials/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-6",
+      "status": "passed",
+      "ms": 606,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tutorials/8/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-7",
+      "status": "passed",
+      "ms": 683,
+      "evidence": {
+        "status": 200,
+        "url": "/en/search/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-8",
+      "status": "passed",
+      "ms": 615,
+      "evidence": {
+        "status": 200,
+        "url": "/en/about/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-9",
+      "status": "passed",
+      "ms": 620,
+      "evidence": {
+        "status": 200,
+        "url": "/en/contact/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-10",
+      "status": "passed",
+      "ms": 620,
+      "evidence": {
+        "status": 200,
+        "url": "/en/submit/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-en-route-11",
+      "status": "passed",
+      "ms": 602,
+      "evidence": {
+        "status": 404,
+        "url": "/en/not-found/",
+        "dimensions": {
+          "scroll": 1440,
+          "viewport": 1440
+        }
+      }
+    },
+    {
+      "name": "desktop-navigation",
+      "status": "passed",
+      "ms": 1720
+    },
+    {
+      "name": "tablet-zh-route-0",
+      "status": "passed",
+      "ms": 803,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-1",
+      "status": "passed",
+      "ms": 669,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/skills/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-2",
+      "status": "passed",
+      "ms": 678,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/skills/1/qa-browser-1/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-3",
+      "status": "passed",
+      "ms": 649,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/category/qa-browser-category/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-4",
+      "status": "passed",
+      "ms": 640,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tag/qa-browser-tag/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-5",
+      "status": "passed",
+      "ms": 609,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tutorials/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-6",
+      "status": "passed",
+      "ms": 590,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tutorials/4/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-7",
+      "status": "passed",
+      "ms": 660,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/search/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-8",
+      "status": "passed",
+      "ms": 609,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/about/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-9",
+      "status": "passed",
+      "ms": 601,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/contact/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-10",
+      "status": "passed",
+      "ms": 619,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/submit/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-zh-route-11",
+      "status": "passed",
+      "ms": 587,
+      "evidence": {
+        "status": 404,
+        "url": "/zh/not-found/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-0",
+      "status": "passed",
+      "ms": 714,
+      "evidence": {
+        "status": 200,
+        "url": "/en/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-1",
+      "status": "passed",
+      "ms": 664,
+      "evidence": {
+        "status": 200,
+        "url": "/en/skills/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-2",
+      "status": "passed",
+      "ms": 671,
+      "evidence": {
+        "status": 200,
+        "url": "/en/skills/1/qa-browser-1/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-3",
+      "status": "passed",
+      "ms": 639,
+      "evidence": {
+        "status": 200,
+        "url": "/en/category/qa-browser-category/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-4",
+      "status": "passed",
+      "ms": 657,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tag/qa-browser-tag/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-5",
+      "status": "passed",
+      "ms": 636,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tutorials/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-6",
+      "status": "passed",
+      "ms": 607,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tutorials/8/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-7",
+      "status": "passed",
+      "ms": 638,
+      "evidence": {
+        "status": 200,
+        "url": "/en/search/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-8",
+      "status": "passed",
+      "ms": 612,
+      "evidence": {
+        "status": 200,
+        "url": "/en/about/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-9",
+      "status": "passed",
+      "ms": 600,
+      "evidence": {
+        "status": 200,
+        "url": "/en/contact/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-10",
+      "status": "passed",
+      "ms": 602,
+      "evidence": {
+        "status": 200,
+        "url": "/en/submit/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-en-route-11",
+      "status": "passed",
+      "ms": 589,
+      "evidence": {
+        "status": 404,
+        "url": "/en/not-found/",
+        "dimensions": {
+          "scroll": 768,
+          "viewport": 768
+        }
+      }
+    },
+    {
+      "name": "tablet-navigation",
+      "status": "passed",
+      "ms": 1758
+    },
+    {
+      "name": "mobile-zh-route-0",
+      "status": "passed",
+      "ms": 704,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-1",
+      "status": "passed",
+      "ms": 662,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/skills/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-2",
+      "status": "passed",
+      "ms": 642,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/skills/1/qa-browser-1/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-3",
+      "status": "passed",
+      "ms": 661,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/category/qa-browser-category/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-4",
+      "status": "passed",
+      "ms": 679,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tag/qa-browser-tag/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-5",
+      "status": "passed",
+      "ms": 610,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tutorials/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-6",
+      "status": "passed",
+      "ms": 591,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/tutorials/4/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-7",
+      "status": "passed",
+      "ms": 683,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/search/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-8",
+      "status": "passed",
+      "ms": 618,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/about/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-9",
+      "status": "passed",
+      "ms": 600,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/contact/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-10",
+      "status": "passed",
+      "ms": 601,
+      "evidence": {
+        "status": 200,
+        "url": "/zh/submit/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-zh-route-11",
+      "status": "passed",
+      "ms": 591,
+      "evidence": {
+        "status": 404,
+        "url": "/zh/not-found/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-0",
+      "status": "passed",
+      "ms": 689,
+      "evidence": {
+        "status": 200,
+        "url": "/en/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-1",
+      "status": "passed",
+      "ms": 651,
+      "evidence": {
+        "status": 200,
+        "url": "/en/skills/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-2",
+      "status": "passed",
+      "ms": 639,
+      "evidence": {
+        "status": 200,
+        "url": "/en/skills/1/qa-browser-1/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-3",
+      "status": "passed",
+      "ms": 657,
+      "evidence": {
+        "status": 200,
+        "url": "/en/category/qa-browser-category/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-4",
+      "status": "passed",
+      "ms": 653,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tag/qa-browser-tag/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-5",
+      "status": "passed",
+      "ms": 607,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tutorials/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-6",
+      "status": "passed",
+      "ms": 595,
+      "evidence": {
+        "status": 200,
+        "url": "/en/tutorials/8/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-7",
+      "status": "passed",
+      "ms": 655,
+      "evidence": {
+        "status": 200,
+        "url": "/en/search/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-8",
+      "status": "passed",
+      "ms": 610,
+      "evidence": {
+        "status": 200,
+        "url": "/en/about/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-9",
+      "status": "passed",
+      "ms": 598,
+      "evidence": {
+        "status": 200,
+        "url": "/en/contact/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-10",
+      "status": "passed",
+      "ms": 602,
+      "evidence": {
+        "status": 200,
+        "url": "/en/submit/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-en-route-11",
+      "status": "passed",
+      "ms": 590,
+      "evidence": {
+        "status": 404,
+        "url": "/en/not-found/",
+        "dimensions": {
+          "scroll": 360,
+          "viewport": 360
+        }
+      }
+    },
+    {
+      "name": "mobile-navigation",
+      "status": "passed",
+      "ms": 1747
+    },
+    {
+      "name": "combined-filter-sort-pagination",
+      "status": "passed",
+      "ms": 2490
+    },
+    {
+      "name": "missing-translation-fallback",
+      "status": "passed",
+      "ms": 612
+    },
+    {
+      "name": "hidden-draft-public",
+      "status": "passed",
+      "ms": 573
+    },
+    {
+      "name": "hidden-pending-public",
+      "status": "passed",
+      "ms": 567
+    },
+    {
+      "name": "hidden-rejected-public",
+      "status": "passed",
+      "ms": 567
+    },
+    {
+      "name": "hidden-archived-public",
+      "status": "passed",
+      "ms": 566
+    },
+    {
+      "name": "forms-native-validation-and-success",
+      "status": "passed",
+      "ms": 2770
+    },
+    {
+      "name": "form-invalid-nonce-feedback",
+      "status": "passed",
+      "ms": 1218
+    },
+    {
+      "name": "frontend-console-and-assets",
+      "status": "passed",
+      "ms": 0,
+      "evidence": {
+        "failedAssets": 0,
+        "javascriptErrors": 0
+      }
+    },
+    {
+      "name": "admin-screen-aish",
+      "status": "passed",
+      "ms": 724
+    },
+    {
+      "name": "admin-screen-aish-skills",
+      "status": "passed",
+      "ms": 743
+    },
+    {
+      "name": "admin-screen-aish-skill-edit",
+      "status": "passed",
+      "ms": 722
+    },
+    {
+      "name": "admin-screen-aish-categories",
+      "status": "passed",
+      "ms": 689
+    },
+    {
+      "name": "admin-screen-aish-tags",
+      "status": "passed",
+      "ms": 671
+    },
+    {
+      "name": "admin-screen-aish-repositories",
+      "status": "passed",
+      "ms": 670
+    },
+    {
+      "name": "admin-screen-aish-reviews",
+      "status": "passed",
+      "ms": 678
+    },
+    {
+      "name": "admin-screen-aish-settings",
+      "status": "passed",
+      "ms": 653
+    },
+    {
+      "name": "admin-screen-aish-seo",
+      "status": "passed",
+      "ms": 696
+    },
+    {
+      "name": "admin-screen-aish-imports",
+      "status": "passed",
+      "ms": 680
+    },
+    {
+      "name": "admin-screen-aish-ai-settings",
+      "status": "passed",
+      "ms": 670
+    },
+    {
+      "name": "admin-screen-aish-ai-generation",
+      "status": "passed",
+      "ms": 683
+    },
+    {
+      "name": "admin-category-create-edit-archive",
+      "status": "passed",
+      "ms": 5497,
+      "evidence": {
+        "id": 5
+      }
+    },
+    {
+      "name": "admin-tag-create-edit-archive",
+      "status": "passed",
+      "ms": 5532,
+      "evidence": {
+        "id": 6
+      }
+    },
+    {
+      "name": "admin-repository-create-edit-archive",
+      "status": "passed",
+      "ms": 5876,
+      "evidence": {
+        "id": 3
+      }
+    },
+    {
+      "name": "native-tutorial-metabox-bilingual-save",
+      "status": "passed",
+      "ms": 2861
+    },
+    {
+      "name": "native-private-inbox-review",
+      "status": "passed",
+      "ms": 2869,
+      "evidence": {
+        "id": 19
+      }
+    },
+    {
+      "name": "admin-bilingual-create-pending",
+      "status": "passed",
+      "ms": 2377,
+      "evidence": {
+        "skillId": 22
+      }
+    },
+    {
+      "name": "admin-private-preview",
+      "status": "passed",
+      "ms": 877
+    },
+    {
+      "name": "admin-review-publish-edit-invalidation",
+      "status": "passed",
+      "ms": 4080
+    },
+    {
+      "name": "admin-archive-confirmation",
+      "status": "passed",
+      "ms": 3350
+    },
+    {
+      "name": "admin-invalid-nonce",
+      "status": "passed",
+      "ms": 21
+    },
+    {
+      "name": "admin-mobile-language-editor",
+      "status": "passed",
+      "ms": 964
+    },
+    {
+      "name": "subscriber-management-denied",
+      "status": "passed",
+      "ms": 176
+    },
+    {
+      "name": "ai_generate-single-capability-menu",
+      "status": "passed",
+      "ms": 866
+    },
+    {
+      "name": "ai_settings-single-capability-menu",
+      "status": "passed",
+      "ms": 780
+    },
+    {
+      "name": "mobile-no-javascript-navigation-search",
+      "status": "passed",
+      "ms": 1954
+    },
+    {
+      "name": "runtime-errors-and-assets-after-admin",
+      "status": "passed",
+      "ms": 0
+    }
+  ],
+  "resourceErrors": [],
+  "consoleErrors": [
+    {
+      "page": "http://127.0.0.1:18083/zh/not-found/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/not-found/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/zh/not-found/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/not-found/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/zh/not-found/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/not-found/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/skills/16/qa-browser-draft/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/skills/17/qa-browser-pending/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/skills/18/qa-browser-rejected/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/skills/19/qa-browser-archived/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/skills/22/qa-ui-mw3c2xx6/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/skills/22/qa-ui-mw3c2xx6/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "page": "http://127.0.0.1:18083/en/skills/22/qa-ui-mw3c2xx6/",
+      "error": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  ],
+  "limitations": [
+    "This file reports Chromium; separate browser-compat reports cover any additional engines.",
+    "Only isolated QA database content is used.",
+    "This script does not call GitHub or AI providers."
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "suite": "real-wordpress-seo-http",
+  "mode": "archived",
+  "started_utc": "2026-11-05T09:29:57.259092+00:00",
+  "environment": {
+    "base": "http://127.0.0.1:18084",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "wpml": {
+    "status": "not_executed",
+    "reason": "No licensed WPML package supplied; builtin bilingual routing is not a real WPML test."
+  },
+  "cases": [
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ status",
+      "passed": true,
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ index policy",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no-store",
+      "passed": true,
+      "actual": "private, no-store, max-age=0",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no error structured data",
+      "passed": true,
+      "actual": [],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no error canonical/hreflang",
+      "passed": true,
+      "actual": {
+        "canonical": [],
+        "alternates": {}
+      },
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no private fixture body",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "withdrawn edit never leaks",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ status",
+      "passed": true,
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ index policy",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ no-store",
+      "passed": true,
+      "actual": "private, no-store, max-age=0",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ no error structured data",
+      "passed": true,
+      "actual": [],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ no error canonical/hreflang",
+      "passed": true,
+      "actual": {
+        "canonical": [],
+        "alternates": {}
+      },
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ no private fixture body",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "withdrawn edit never leaks",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "archived pair immediately absent zh",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "archived pair immediately absent en",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "archived pair absent from search",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "owner index follows current bilingual chunks without flushing cache",
+      "passed": true,
+      "actual": {
+        "owner": [
+          "http://127.0.0.1:18084/aish-sitemap-category-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-2.xml",
+          "http://127.0.0.1:18084/aish-sitemap-category-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-en-1.xml"
+        ],
+        "current": [
+          "http://127.0.0.1:18084/aish-sitemap-category-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-2.xml",
+          "http://127.0.0.1:18084/aish-sitemap-category-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-en-1.xml"
+        ]
+      },
+      "expected": null
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+      "status": 404,
+      "body_sha256": "afed123fb63aae3e560a98ddaca3556925b05ba30c0ed4fd540fe5801419f5d0",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "x-robots-tag": "noindex, follow, noarchive",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/",
+      "status": 404,
+      "body_sha256": "a1faae8db03826b3fa138163af6f0e1494e899b029f643fa8fba584ab3276a66",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "x-robots-tag": "noindex, follow, noarchive",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap-skills-zh-1.xml",
+      "status": 404,
+      "body_sha256": "29c332801f9c713ed4815119bb58e5bd5f33d2d8d5945db6b7cc0cbed453e308",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "text/plain; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+      "status": 200,
+      "body_sha256": "1372310e8e8003dd88e9e31c71a8fc9aaaff3ecfa0b7aadf7dfb9dc9fb303754",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "application/xml; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/en/skills/?q=pair",
+      "status": 200,
+      "body_sha256": "d8ff6a6eb84fc40e60a5376e7bc5cdd2f31bc64b1610bdadc3c44f0f81daab4c",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "x-robots-tag": "noindex, follow, noarchive",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap.xml",
+      "status": 200,
+      "body_sha256": "5e93a92bdf5baabe7e8b5e4fb0d9159a952f242e5b040021059ead1a593bb811",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "application/xml; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/sitemap_index.xml",
+      "status": 404,
+      "body_sha256": "7a6d20c8ef413b41a8aec469815fb22ae66f1c89e95b923b05bfb48eb005ea81",
+      "headers": {
+        "cache-control": "no-cache, must-revalidate, max-age=0, no-store, private",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/wp-sitemap.xml",
+      "status": 200,
+      "body_sha256": "0cacacf18a38434e225b152e86721ddff84fd3c63d91475de6738d90b828abff",
+      "headers": {
+        "content-type": "application/xml; charset=UTF-8"
+      }
+    }
+  ],
+  "counts": {
+    "cases": 18,
+    "passed": 18,
+    "failed": 0,
+    "http_requests": 8
+  }
+}

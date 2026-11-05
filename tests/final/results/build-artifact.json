@@ -1,0 +1,46 @@
+{
+  "kind": "actual_build_and_artifact_checks",
+  "version": "0.7.1",
+  "checks": [
+    {
+      "id": "npm run build",
+      "status": "passed"
+    },
+    {
+      "id": "npm run check:assets",
+      "status": "passed"
+    },
+    {
+      "id": "python3 tests/final/test-package-theme.py (8 tests)",
+      "status": "passed"
+    },
+    {
+      "id": "python3 scripts/package-theme.py --check",
+      "status": "passed"
+    },
+    {
+      "id": "two independently written final ZIPs byte-identical",
+      "status": "passed"
+    },
+    {
+      "id": "git diff --check",
+      "status": "passed"
+    }
+  ],
+  "assets": {
+    "app.css": {
+      "bytes": 47227,
+      "sha256": "64edce7f5e8aedd395cd34971e3ec1b9a0c82a6edb074ca50373332ecd412036"
+    },
+    "app.js": {
+      "bytes": 56108,
+      "sha256": "45a7c7c90997a57df9df39ffec4aeba5da4439d4756d6ff55c3430b04c1b4c65"
+    }
+  },
+  "zip": {
+    "path": "release/ai-skills-hub-0.7.1.zip",
+    "bytes": 767776,
+    "sha256": "470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268"
+  },
+  "non_blocking_warning": "Browserslist reported caniuse-lite metadata outdated; dependency versions were not changed. Actual three-browser checks are recorded separately."
+}

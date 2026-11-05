@@ -299,7 +299,8 @@ final class Router {
 			$query[ $key ] = (string) $args[ $key ];
 		}
 		$url = self::siteUrl( '/' . $prefix . '/' . $path );
-		if ( $query ) { $url = add_query_arg( $query, $url ); }
+		// WordPress requires newly added query values to be URL encoded by the caller.
+		if ( $query ) { $url = add_query_arg( array_map( 'rawurlencode', $query ), $url ); }
 		if ( self::$adapterFailed ) { return $url; }
 		try {
 			$adjusted = apply_filters( 'aish_frontend_url', $url, $route, $args, $locale );

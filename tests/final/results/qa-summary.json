@@ -1,0 +1,208 @@
+{
+  "baseline": "d6401c2d6fb810605f5ba87524301ecc50418971",
+  "version": "0.7.1",
+  "schema": "1.5.0",
+  "conclusion": "verified_scope_passed_external_acceptance_incomplete",
+  "count_unit": "25 acceptance work packages, not a sum of assertions or HTTP requests",
+  "counts": {
+    "passed": 20,
+    "failed": 0,
+    "not_executed": 5,
+    "total": 25
+  },
+  "fixed_findings": {
+    "P0": 0,
+    "P1": 1,
+    "P2": 6,
+    "total": 7
+  },
+  "known_unresolved_P0_P1": 0,
+  "zip": {
+    "path": "release/ai-skills-hub-0.7.1.zip",
+    "sha256": "470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268",
+    "bytes": 767776,
+    "files": 78
+  },
+  "work_packages": [
+    {
+      "id": "T01",
+      "name": "真实 WordPress 全新安装与最终 ZIP 启用",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "package-fresh.json"
+    },
+    {
+      "id": "T02",
+      "name": "原生主题升级、重装及文件一致性",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "package-results.json"
+    },
+    {
+      "id": "T03",
+      "name": "停用、重新启用与数据保留",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "package-results.json"
+    },
+    {
+      "id": "T04",
+      "name": "十四表、旧版逐级迁移及重复安装",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "data-summary.json"
+    },
+    {
+      "id": "T05",
+      "name": "唯一键、事务、并发、锁及失败恢复",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "data-summary.json"
+    },
+    {
+      "id": "T06",
+      "name": "原生 Skills 双语编辑、审核与归档",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "browser-chromium.json"
+    },
+    {
+      "id": "T07",
+      "name": "分类、标签、仓库与权限操作",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "browser-persistence.json"
+    },
+    {
+      "id": "T08",
+      "name": "内置双语关联、切换及缺译门禁",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "seo-matrix.json"
+    },
+    {
+      "id": "T09",
+      "name": "教程、Contact/Submit 及私有 Inbox",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "browser-persistence.json"
+    },
+    {
+      "id": "T10",
+      "name": "三引擎与桌面/平板/手机视口",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "browser-summary.json"
+    },
+    {
+      "id": "T11",
+      "name": "中英搜索、组合筛选、排序和分页",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "browser-chromium.json"
+    },
+    {
+      "id": "T12",
+      "name": "Meta、Canonical、hreflang、Schema 和面包屑",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "seo-matrix.json"
+    },
+    {
+      "id": "T13",
+      "name": "Sitemap、robots、SEO 插件与缓存状态变化",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "seo-matrix.json"
+    },
+    {
+      "id": "T14",
+      "name": "权限/Nonce/SQL/XSS/私有门禁及安全 URL",
+      "kind": "real_plus_mock_edges",
+      "status": "passed",
+      "evidence": "security-http.json"
+    },
+    {
+      "id": "T15",
+      "name": "GitHub 来源发现/增量/恢复的真实后端",
+      "kind": "real_backend_mock_github",
+      "status": "passed",
+      "evidence": "sources-workflow-php83-mysql80.json"
+    },
+    {
+      "id": "T16",
+      "name": "AI 任务/并发/历史/人工审核的真实后端",
+      "kind": "real_backend_mock_provider",
+      "status": "passed",
+      "evidence": "ai-workflows-php84-mysql80.json"
+    },
+    {
+      "id": "T17",
+      "name": "真实 wp-cron.php 回调及重复任务保护",
+      "kind": "real_backend_mock_http",
+      "status": "passed",
+      "evidence": "sources-http-cron-php83-mysql80.json"
+    },
+    {
+      "id": "T18",
+      "name": "SQL/EXPLAIN、N+1、分页及有界并发计时",
+      "kind": "real",
+      "status": "passed",
+      "evidence": "performance-http.json"
+    },
+    {
+      "id": "T19",
+      "name": "两 PHP 版本语法与隔离/Mock 回归",
+      "kind": "static_and_mock",
+      "status": "passed",
+      "evidence": "static-php.json"
+    },
+    {
+      "id": "T20",
+      "name": "前端构建、依赖审计及可复现打包",
+      "kind": "static_and_artifact",
+      "status": "passed",
+      "evidence": "dependency-audit.json"
+    },
+    {
+      "id": "EXT-01",
+      "name": "真实 WPML 集成",
+      "kind": "external_integration",
+      "status": "not_executed",
+      "evidence": "KNOWN_LIMITATIONS.md",
+      "reason": "No authorized WPML package or configured dedicated real API credentials."
+    },
+    {
+      "id": "EXT-02",
+      "name": "真实 GitHub API",
+      "kind": "external_integration",
+      "status": "not_executed",
+      "evidence": "KNOWN_LIMITATIONS.md",
+      "reason": "No authorized WPML package or configured dedicated real API credentials."
+    },
+    {
+      "id": "EXT-03",
+      "name": "真实 OpenAI API",
+      "kind": "external_integration",
+      "status": "not_executed",
+      "evidence": "KNOWN_LIMITATIONS.md",
+      "reason": "No authorized WPML package or configured dedicated real API credentials."
+    },
+    {
+      "id": "EXT-04",
+      "name": "真实 OpenAI 兼容服务",
+      "kind": "external_integration",
+      "status": "not_executed",
+      "evidence": "KNOWN_LIMITATIONS.md",
+      "reason": "No authorized WPML package or configured dedicated real API credentials."
+    },
+    {
+      "id": "EXT-05",
+      "name": "真实生成质量/注入抗性/供应商账单",
+      "kind": "external_integration",
+      "status": "not_executed",
+      "evidence": "KNOWN_LIMITATIONS.md",
+      "reason": "No authorized WPML package or configured dedicated real API credentials."
+    }
+  ]
+}

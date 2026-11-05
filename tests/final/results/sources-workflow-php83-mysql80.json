@@ -1,0 +1,129 @@
+{
+    "suite": "sources-workflow-real-wordpress-mysql",
+    "run": "9ec0872a00",
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.5.0",
+        "database": "qa_sources"
+    },
+    "network": "mocked WordPress HTTP responses; no external GitHub requests",
+    "execution_notes": [
+        "Registered WordPress Cron callbacks are invoked directly; browser-triggered wp-cron.php timing is not measured.",
+        "Job due/lease times are advanced in disposable fixture rows to exercise recovery without long waits.",
+        "No configured dedicated GitHub credential: live GitHub API/authentication not verified; no gh credential was extracted.",
+        "Fixture records are retained and their repositories archived; no production data is touched."
+    ],
+    "cases": [
+        {
+            "name": "repository_validation_and_real_capability_boundary",
+            "status": "passed",
+            "assertions": 9,
+            "duration_ms": 1,
+            "error": null
+        },
+        {
+            "name": "multi_skill_incremental_versions_publication_and_human_content_protection",
+            "status": "passed",
+            "assertions": 22,
+            "duration_ms": 165,
+            "error": null
+        },
+        {
+            "name": "truncated_tree_fallback_and_incomplete_inventory_retention",
+            "status": "passed",
+            "assertions": 4,
+            "duration_ms": 61,
+            "error": null
+        },
+        {
+            "name": "invalid_frontmatter_oversize_and_untrusted_path_fail_closed",
+            "status": "passed",
+            "assertions": 4,
+            "duration_ms": 87,
+            "error": null
+        },
+        {
+            "name": "rate_limit_cooldown_retry_backoff_and_attempt_budget",
+            "status": "passed",
+            "assertions": 11,
+            "duration_ms": 57,
+            "error": null
+        },
+        {
+            "name": "public_identity_change_and_private_repository_stop",
+            "status": "passed",
+            "assertions": 4,
+            "duration_ms": 25,
+            "error": null
+        },
+        {
+            "name": "legacy_binding_same_head_repair_and_immutable_history",
+            "status": "passed",
+            "assertions": 12,
+            "duration_ms": 98,
+            "error": null
+        },
+        {
+            "name": "checkpoint_repository_failure_rolls_back_both_rows",
+            "status": "passed",
+            "assertions": 4,
+            "duration_ms": 10,
+            "error": null
+        },
+        {
+            "name": "finalization_failure_resumes_durable_missing_count",
+            "status": "passed",
+            "assertions": 4,
+            "duration_ms": 64,
+            "error": null
+        },
+        {
+            "name": "lease_expiry_budget_revoked_writes_and_archive_restore",
+            "status": "passed",
+            "assertions": 13,
+            "duration_ms": 17,
+            "error": null
+        },
+        {
+            "name": "real_cron_hook_global_mysql_lock_and_theme_retention",
+            "status": "passed",
+            "assertions": 8,
+            "duration_ms": 48,
+            "error": null
+        },
+        {
+            "name": "same_blob_risk_refresh_and_possible_move_preserve_original_identity",
+            "status": "passed",
+            "assertions": 4,
+            "duration_ms": 81,
+            "error": null
+        },
+        {
+            "name": "upstream_rollback_after_partial_import_invalidates_fast_baseline",
+            "status": "passed",
+            "assertions": 4,
+            "duration_ms": 92,
+            "error": null
+        },
+        {
+            "name": "http_error_timeout_redirect_and_response_limit_use_safe_states",
+            "status": "passed",
+            "assertions": 15,
+            "duration_ms": 45,
+            "error": null
+        },
+        {
+            "name": "deadline_expiration_releases_task_without_work",
+            "status": "passed",
+            "assertions": 2,
+            "duration_ms": 5,
+            "error": null
+        }
+    ],
+    "case_count": 15,
+    "assertions": 120,
+    "failed": 0,
+    "generated_at": "2026-11-05T07:19:21+00:00"
+}

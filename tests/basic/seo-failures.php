@@ -61,9 +61,10 @@ namespace {
 	function home_url( string $path = '/' ): string { return 'https://example.test' . $path; }
 	function add_query_arg( array|string $key, mixed $value, ?string $url = null ): string {
 		if ( is_array( $key ) ) { $url = $value; $values = $key; } else { $values = array( $key => $value ); }
-		return $url . ( str_contains( $url, '?' ) ? '&' : '?' ) . http_build_query( $values, '', '&', PHP_QUERY_RFC3986 );
+		return $url . ( str_contains( $url, '?' ) ? '&' : '?' ) . implode( '&', array_map( static fn( $key ) => $key . '=' . $values[ $key ], array_keys( $values ) ) );
 	}
 	function is_admin(): bool { return false; }
+	function add_action( mixed ...$args ): void {}
 	function remove_action( mixed ...$args ): void {}
 	function remove_all_actions( mixed ...$args ): void {}
 	function status_header( int $status ): void { $GLOBALS['status'] = $status; }

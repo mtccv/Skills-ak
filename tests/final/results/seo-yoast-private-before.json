@@ -1,0 +1,177 @@
+{
+  "suite": "real-wordpress-seo-http",
+  "mode": "private",
+  "started_utc": "2026-11-05T07:17:09.991415+00:00",
+  "environment": {
+    "base": "http://127.0.0.1:18084",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "wpml": {
+    "status": "not_executed",
+    "reason": "No licensed WPML package supplied; builtin bilingual routing is not a real WPML test."
+  },
+  "cases": [
+    {
+      "name": "http://127.0.0.1:18084/en/ status",
+      "passed": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ index policy",
+      "passed": true,
+      "actual": true,
+      "expected": true
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ no-store",
+      "passed": true,
+      "actual": "private, no-store, max-age=0",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single self canonical",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/en/"
+      ],
+      "expected": [
+        "http://127.0.0.1:18084/en/"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single H1",
+      "passed": true,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ html language",
+      "passed": true,
+      "actual": "en",
+      "expected": [
+        "en",
+        "en-US"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ no duplicate hreflang",
+      "passed": true,
+      "actual": 0,
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single description",
+      "passed": true,
+      "actual": [
+        "English page description home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single og:title",
+      "passed": true,
+      "actual": [
+        "English page SEO home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single og:description",
+      "passed": true,
+      "actual": [
+        "English page description home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single og:url",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/en/"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single twitter:card",
+      "passed": true,
+      "actual": [
+        "summary"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single twitter:title",
+      "passed": true,
+      "actual": [
+        "English page SEO home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ single twitter:description",
+      "passed": true,
+      "actual": [
+        "English page description home"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/ no private fixture body",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "private site disables XML",
+      "passed": true,
+      "actual": 404,
+      "expected": 404
+    },
+    {
+      "name": "private site robots disallows all",
+      "passed": false,
+      "actual": "User-agent: *\nDisallow: /\n\n# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: http://127.0.0.1:18084/sitemap_index.xml\n# ---------------------------\n# END YOAST BLOCK",
+      "expected": null
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18084/en/",
+      "status": 200,
+      "body_sha256": "09848304109b530565677d6621f008f73cde320e30a4eba3f4daaa99af761d9c",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "x-robots-tag": "noindex, follow, noarchive",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap.xml",
+      "status": 404,
+      "body_sha256": "29c332801f9c713ed4815119bb58e5bd5f33d2d8d5945db6b7cc0cbed453e308",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "text/plain; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/robots.txt",
+      "status": 200,
+      "body_sha256": "17030c189f07f37c0aa2edf2a88411ee73670c60ed12fa6061107879e2ff39a0",
+      "headers": {
+        "x-robots-tag": "noindex, follow",
+        "content-type": "text/plain; charset=utf-8"
+      }
+    }
+  ],
+  "counts": {
+    "cases": 17,
+    "passed": 16,
+    "failed": 1,
+    "http_requests": 3
+  }
+}

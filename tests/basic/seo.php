@@ -21,8 +21,11 @@ function wp_strip_all_tags( string $value ): string { return strip_tags( $value 
 function wp_parse_url( string $url, int $component = -1 ): mixed { return parse_url( $url, $component ); }
 function esc_attr( string $value ): string { return htmlspecialchars( $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' ); }
 function esc_url( string $value ): string { return esc_attr( $value ); }
+function wp_json_encode( mixed $value, int $flags = 0 ): string|false { return json_encode( $value, $flags ); }
+function _wp_render_title_tag(): void {}
+function site_url( string $path = '' ): string { return home_url( $path ); }
 function home_url( string $path = '' ): string { return 'https://example.test' . $path; }
-function add_query_arg( array $args, string $url ): string { return $url . '?' . http_build_query( $args, '', '&', PHP_QUERY_RFC3986 ); }
+function add_query_arg( array $args, string $url ): string { return $url . '?' . implode( '&', array_map( static fn( $key ) => $key . '=' . $args[ $key ], array_keys( $args ) ) ); }
 function add_filter( string $hook, callable $callback, int $priority = 10, int $accepted = 1 ): void { $GLOBALS['test_hooks'][ $hook ][ $priority ][] = array( $callback, $accepted ); }
 function add_action( string $hook, callable $callback, int $priority = 10, int $accepted = 1 ): void { add_filter( $hook, $callback, $priority, $accepted ); }
 function apply_filters( string $hook, mixed $value, mixed ...$args ): mixed {
@@ -36,6 +39,7 @@ function remove_action( string $hook, string $callback ): void { $GLOBALS['remov
 $root = dirname( __DIR__, 2 ) . '/wp-content/themes/ai-skills-hub/inc/core/';
 require $root . 'Security/Input.php';
 require $root . 'Frontend/Router.php';
+require $root . 'Frontend/Strings.php';
 require $root . 'Frontend/SeoSettings.php';
 require $root . 'Frontend/Seo.php';
 require $root . 'Frontend/Sitemap.php';
@@ -150,6 +154,8 @@ check( array() === apply_filters( 'wpseo_frontend_presenters', array( 'yoast-pre
 check( array() === apply_filters( 'wpml_hreflangs', array( 'unverified' => 'url' ) ), 'Theme ownership prevents duplicate WPML hreflang' );
 check( $outputContext['title'] === apply_filters( 'pre_get_document_title', 'plugin-title' ), 'Document title follows route SEO' );
 Seo::sendHeaders( $outputContext );
+check( isset( $GLOBALS['test_hooks']['wp_head'][1] ), 'Hub ownership restores native title renderer after plugin suppression' );
+check( isset( $GLOBALS['test_hooks']['robots_txt'][PHP_INT_MAX] ), 'Final robots policy runs after SEO plugins' );
 check( in_array( 'rank_math/head', $GLOBALS['removed_actions'], true ), 'Theme ownership disables Rank Math render action on Hub route' );
 $excluded = Seo::prepare( context( 'search' ), array( 'q' => 'anything' ) ); activeContext( $excluded );
 $robots = $seo->robots( array( 'index' => true, 'nofollow' => true ) );
@@ -167,10 +173,27 @@ $robotsText = "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.
 check( $robotsText === $seo->robotsTxt( $robotsText, '1' ), 'robots.txt preserves existing sitemap and admin directives' );
 check( ! str_contains( $seo->robotsTxt( $robotsText, '1' ), '?q=' ), 'robots.txt does not hide noindex URLs from crawlers' );
 check( "User-agent: *\nDisallow: /\n" === $seo->robotsTxt( $robotsText, '0' ), 'Private site robots.txt disallows all and advertises no sitemap' );
-$withoutSitemap = "User-agent: *\nDisallow: /wp-admin/\n";
+$withoutSitemap = "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n";
 check( str_contains( $seo->robotsTxt( $withoutSitemap, '1' ), 'Sitemap: https://example.test/aish-sitemap.xml' ), 'Standalone sitemap advertised when there is no existing owner' );
 add_filter( 'aish_sitemaps_enabled', static fn( bool $enabled ): bool => false );
 check( $withoutSitemap === $seo->robotsTxt( $withoutSitemap, '1' ), 'Disabled sitemap is not advertised in robots.txt' );
 unset( $GLOBALS['test_hooks']['aish_sitemaps_enabled'] );
+
+$unsafe = $skill; $unsafe['title'] = '</script><script>alert(1)</script>';
+$html = rendered( $seo, $unsafe );
+preg_match( '~<script type="application/ld\+json">(.*?)</script>~s', $html, $match );
+$schema = json_decode( $match[1] ?? '', true, 512, JSON_THROW_ON_ERROR );
+$types = array_column( $schema['@graph'], '@type' );
+check( array( 'WebSite', 'BreadcrumbList', 'WebPage' ) === $types, 'Published Skill has only factual website/page/breadcrumb schema' );
+$pageNode = $schema['@graph'][2];
+check( $skill['canonical'] === $pageNode['url'] && 'en' === $pageNode['inLanguage'], 'Schema uses verified same-language canonical' );
+check( $unsafe['title'] === $pageNode['name'] && ! str_contains( $match[1], '<script' ), 'JSON-LD safely encodes script delimiters without changing decoded data' );
+check( 3 === count( $schema['@graph'][1]['itemListElement'] ) && $skill['canonical'] === $schema['@graph'][1]['itemListElement'][2]['item'], 'Skill breadcrumb follows actual current URL' );
+foreach ( array( $excluded, $error, $unmanaged ) as $hidden ) { check( ! str_contains( rendered( $seo, $hidden ), 'application/ld+json' ), 'No schema for excluded/error/unmanaged page' ); }
+$pluginRobots = "User-agent: *\nDisallow:\nSitemap: https://example.test/sitemap_index.xml\n";
+$finalRobots = $seo->robotsTxt( $pluginRobots, '1' );
+check( str_contains( $finalRobots, 'Disallow: /wp-admin/' ) && str_contains( $finalRobots, 'Allow: /wp-admin/admin-ajax.php' ), 'Missing admin policy restored after plugin robots rewrite' );
+check( 1 === substr_count( $finalRobots, 'Sitemap:' ), 'Plugin sitemap remains sole robots sitemap owner' );
+check( "User-agent: *\nDisallow: /\n" === $seo->robotsTxt( $pluginRobots, '0' ), 'Final private policy removes plugin sitemap and permissive group' );
 
 echo 'PASS: ' . $count . " isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).\n";

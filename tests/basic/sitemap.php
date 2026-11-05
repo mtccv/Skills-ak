@@ -40,7 +40,9 @@ namespace {
 	function wp_parse_url( string $url, int $component = -1 ): mixed { return parse_url( $url, $component ); }
 	function get_option( string $name, mixed $default = false ): mixed { return $GLOBALS['options'][ $name ] ?? $default; }
 	function get_post_meta( int $id, string $key, bool $single = true ): mixed { return $GLOBALS['post_meta'][ $id ][ $key ] ?? ''; }
-	function apply_filters( string $hook, mixed $value ): mixed { return $value; }
+	function add_filter( string $hook, callable $callback, int $priority = 10, int $accepted = 1 ): void { $GLOBALS['hooks'][ $hook ][ $priority ][] = $callback; }
+	function add_action( mixed ...$args ): void {}
+	function apply_filters( string $hook, mixed $value ): mixed { $priorities = $GLOBALS['hooks'][ $hook ] ?? array(); ksort( $priorities ); foreach ( $priorities as $callbacks ) { foreach ( $callbacks as $callback ) { $value = $callback( $value ); } } return $value; }
 	function wp_strip_all_tags( string $value ): string { return strip_tags( $value ); }
 	require dirname( __DIR__, 2 ) . '/wp-content/themes/ai-skills-hub/inc/core/Frontend/Sitemap.php';
 
@@ -91,6 +93,9 @@ namespace {
 	$post = new WP_Post();
 	$GLOBALS['post_meta'][1]['_aish_page_kind'] = 'contact';
 	check( false === $sitemap->pluginPostEntry( array( 'loc' => 'native-url' ), 'post', $post ), 'Plugin duplicate managed page must be excluded.' );
+	$rawPost = (object) array( 'ID' => '1', 'post_type' => 'page' );
+	check( false === $sitemap->pluginPostEntry( 'native-url', 'post', $rawPost ), 'Rank Math database post object follows the same managed-page exclusion.' );
+	foreach ( array( array( 'user', $rawPost ), array( 'post', (object) array( 'ID' => 0, 'post_type' => 'page' ) ), array( 'post', (object) array( 'ID' => array( 1 ), 'post_type' => 'page' ) ), array( 'post', (object) array( 'ID' => 1 ) ), array( 'post', array( 'ID' => 1, 'post_type' => 'page' ) ) ) as $entry ) { check( 'keep' === $sitemap->pluginPostEntry( 'keep', ...$entry ), 'Unrelated or malformed plugin entry must remain untouched.' ); }
 	$post->post_type = 'post';
 	check( 'keep' === $sitemap->pluginPostEntry( 'keep', 'post', $post ), 'Plugin unrelated post must be preserved.' );
 	foreach ( array( '/aish-sitemap.xml' => 'index', '/aish-sitemap-skills-en-1.xml' => 'skills', '/aish-sitemap-skills-en-0.xml' => 'invalid', '/aish-sitemap-skills-fr-1.xml' => 'invalid', '/aish-sitemap-skills-en-99999999.xml' => 'invalid' ) as $path => $kind ) {
@@ -107,5 +112,16 @@ namespace {
 	check( str_contains( $xml, 'site&amp;safe' ) && ! str_contains( $xml, 'site&safe' ), 'XML URL escaping failed.' );
 	$GLOBALS['options']['blog_public'] = '0';
 	check( ! Sitemap::enabled() && $sitemap->indexEntries() === array() && $sitemap->urlEntries('pages','en_US',1) === array(), 'Private-site policy must override cached public counts.' );
+	$sitemap->register();
+	foreach ( array( 'rank_math/sitemap/enable_caching', 'wpseo_enable_xml_sitemap_transient_caching' ) as $hook ) {
+		add_filter( $hook, static fn( $enabled ): bool => true, 99 );
+		check( false === apply_filters( $hook, true ), 'XML cache cannot bypass dynamic custom-table projection: ' . $hook );
+	}
+	$GLOBALS['options']['blog_public'] = '1';
+	foreach ( array( array( 'wpseo_sitemap_index', 'rank_math/sitemap/index' ), array( 'rank_math/sitemap/index', 'wpseo_sitemap_index' ) ) as $indexHooks ) {
+		$xml = apply_filters( $indexHooks[0], '<sitemap><loc>https://example.test/native.xml</loc></sitemap>' );
+		check( str_contains( $xml, 'aish-sitemap-' ), 'Actual rendering plugin always receives Hub children.' );
+		check( $xml === apply_filters( $indexHooks[1], $xml ) && $xml === apply_filters( $indexHooks[0], $xml ), 'Both hook orders and repeat calls preserve exact child uniqueness.' );
+	}
 	echo 'PASS: ' . $count . " isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).\n";
 }

@@ -1,0 +1,148 @@
+{
+  "kind": "read_only_real_http_regression_after_final_seo_changes",
+  "requests": 28,
+  "passed": 28,
+  "total": 28,
+  "checks": [
+    {
+      "name": "final_public_route_en_",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_public_route_en_skills/",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_public_route_en_search/?q=QA%20Browser%20%26%20agent",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_public_route_en_search/?q=%E4%B8%AD%E6%96%87%20%E6%B5%8B%E8%AF%95%20%2B%20%25",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_private_gate_en_draft",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_pending",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_rejected",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_archived",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_stale",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_unapproved",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_no_reviewer",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_no_review_time",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_en_withdrawal",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_published_detail_en",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_public_route_zh_",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_public_route_zh_skills/",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_public_route_zh_search/?q=QA%20Browser%20%26%20agent",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_public_route_zh_search/?q=%E4%B8%AD%E6%96%87%20%E6%B5%8B%E8%AF%95%20%2B%20%25",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "final_private_gate_zh_draft",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_pending",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_rejected",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_archived",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_stale",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_unapproved",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_no_reviewer",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_no_review_time",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_private_gate_zh_withdrawal",
+      "pass": true,
+      "status": 404
+    },
+    {
+      "name": "final_published_detail_zh",
+      "pass": true,
+      "status": 200
+    }
+  ]
+}

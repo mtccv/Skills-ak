@@ -1,0 +1,66 @@
+{
+    "suite": "sources-concurrency-real-wordpress-mysql",
+    "run": "0d256a5c26",
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.5.0",
+        "database": "qa_sources"
+    },
+    "network": "Mock WordPress HTTP responses; real PHP processes/MySQL sessions, locks, transactions and KILL CONNECTION. No external GitHub requests.",
+    "execution_notes": [
+        "Registered WordPress Cron callbacks are invoked directly; browser-triggered wp-cron.php timing is not measured.",
+        "Job due/lease times are advanced in disposable fixture rows to exercise recovery without long waits.",
+        "No configured dedicated GitHub credential: live GitHub API/authentication not verified; no gh credential was extracted.",
+        "Fixture records are retained and their repositories archived; no production data is touched."
+    ],
+    "cases": [
+        {
+            "name": "parallel_enqueue_preserves_one_active_repository_job",
+            "status": "passed",
+            "assertions": 3,
+            "duration_ms": 164,
+            "error": null
+        },
+        {
+            "name": "parallel_claim_and_process_exit_recover_with_fenced_lease",
+            "status": "passed",
+            "assertions": 5,
+            "duration_ms": 332,
+            "error": null
+        },
+        {
+            "name": "concurrent_source_replay_preserves_unique_id_and_versions",
+            "status": "passed",
+            "assertions": 6,
+            "duration_ms": 168,
+            "error": null
+        },
+        {
+            "name": "actual_mysql_connection_loss_during_mock_response_preserves_recoverable_job",
+            "status": "passed",
+            "assertions": 5,
+            "duration_ms": 172,
+            "error": null
+        },
+        {
+            "name": "process_exit_after_source_commit_before_checkpoint_replays_once",
+            "status": "passed",
+            "assertions": 3,
+            "duration_ms": 172,
+            "error": null
+        },
+        {
+            "name": "archive_during_in_flight_response_revokes_worker_before_writeback",
+            "status": "passed",
+            "assertions": 3,
+            "duration_ms": 157,
+            "error": null
+        }
+    ],
+    "case_count": 6,
+    "assertions": 25,
+    "failed": 0,
+    "generated_at": "2026-11-05T07:19:23+00:00"
+}

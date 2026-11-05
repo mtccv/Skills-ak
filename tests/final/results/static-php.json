@@ -1,0 +1,1330 @@
+{
+  "kind": "static_lint_and_isolated_mock",
+  "runtimes": {
+    "data": {
+      "lint": [
+        {
+          "file": "tests/basic/admin-settings.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-content.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-locks.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-provider.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-source.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-store.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/database-transactions.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/editorial-management.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/editorial-projections.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/editorial-search.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/forms-management.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/frontend-locks.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/frontend-routing.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/github-client.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/github-discovery.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-scheduler.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-store.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/language-adapter.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/management-integrity.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/migration-recovery.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/public-search.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/seo-failures.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/seo.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/sitemap.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/skill-parser.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-common.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-concurrency.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-race-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-workflows.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/browser-fixtures.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/browser-persistence.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/data-suite.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/data-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/package-state.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/package-upgrade.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/performance-sql.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/security-fixtures.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/seo-cache-fixture.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/seo-control.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/seo-seed.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-concurrency.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-http-cron-mu.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-http-cron.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-support.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-workflow.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/integration/core.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/404.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/footer.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/functions.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/header.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/GenerationService.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/GenerationStore.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/OpenAIProvider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Output.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Prompt.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Provider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/ProviderException.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/ProviderRegistry.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Scheduler.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Settings.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/SourceContext.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Actions.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/ListTable.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Management.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Pages.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Content/Catalog.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Core.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Database.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Migrator.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Schema.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Editorial.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Forms.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/NativeMetadata.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/PublicCatalog.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Router.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Seo.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/SeoSettings.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Sitemap.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Strings.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/View.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Language/BuiltinLanguageProvider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Language/LanguageProvider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Module.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/ModuleLoader.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/AIModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/AdminModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/CatalogModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/DatabaseModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/FrontendModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/LanguageModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/SourcesModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Access.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Input.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Output.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Discovery.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Frontmatter.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/GitHubClient.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/GitHubException.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/ImportStore.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/RiskInspector.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Scheduler.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/bootstrap.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/index.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/template-parts/frontend/skill-card.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/template-parts/frontend/tutorial-card.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/home.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/listing.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/not-found.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/page.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/skill.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/tutorial.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/tutorials.php",
+          "status": "passed"
+        }
+      ],
+      "basic": [
+        {
+          "file": "tests/basic/admin-settings.php",
+          "status": "passed",
+          "output": "Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-admin.php",
+          "status": "passed",
+          "output": "PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-content.php",
+          "status": "passed",
+          "output": "PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-locks.php",
+          "status": "passed",
+          "output": "PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-provider.php",
+          "status": "passed",
+          "output": "PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-source.php",
+          "status": "passed",
+          "output": "PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-store.php",
+          "status": "passed",
+          "output": "PASS: 101 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-worker.php",
+          "status": "passed",
+          "output": "PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/database-transactions.php",
+          "status": "passed",
+          "output": "Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/editorial-management.php",
+          "status": "passed",
+          "output": "Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/editorial-projections.php",
+          "status": "passed",
+          "output": "Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/editorial-search.php",
+          "status": "passed",
+          "output": "Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/forms-management.php",
+          "status": "passed",
+          "output": "Inbox management: 56 isolated assertions passed.",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/frontend-locks.php",
+          "status": "passed",
+          "output": "Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/frontend-routing.php",
+          "status": "passed",
+          "output": "PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/github-client.php",
+          "status": "passed",
+          "output": "PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/github-discovery.php",
+          "status": "passed",
+          "output": "GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-admin.php",
+          "status": "passed",
+          "output": "PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-scheduler.php",
+          "status": "passed",
+          "output": "PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-store.php",
+          "status": "passed",
+          "output": "PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-worker.php",
+          "status": "passed",
+          "output": "PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/language-adapter.php",
+          "status": "passed",
+          "output": "Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/management-integrity.php",
+          "status": "passed",
+          "output": "Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/migration-recovery.php",
+          "status": "passed",
+          "output": "Migration recovery: 151 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/public-search.php",
+          "status": "passed",
+          "output": "PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/seo-failures.php",
+          "status": "passed",
+          "output": "SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/seo.php",
+          "status": "passed",
+          "output": "PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/sitemap.php",
+          "status": "passed",
+          "output": "PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/skill-parser.php",
+          "status": "passed",
+          "output": "PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).",
+          "stderr": ""
+        }
+      ],
+      "php": "8.3.36",
+      "isolated_assertions": 2710
+    },
+    "php84": {
+      "lint": [
+        {
+          "file": "tests/basic/admin-settings.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-content.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-locks.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-provider.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-source.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-store.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/ai-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/database-transactions.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/editorial-management.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/editorial-projections.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/editorial-search.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/forms-management.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/frontend-locks.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/frontend-routing.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/github-client.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/github-discovery.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-scheduler.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-store.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/import-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/language-adapter.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/management-integrity.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/migration-recovery.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/public-search.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/seo-failures.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/seo.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/sitemap.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/basic/skill-parser.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-common.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-concurrency.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-race-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/ai-workflows.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/browser-fixtures.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/browser-persistence.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/data-suite.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/data-worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/package-state.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/package-upgrade.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/performance-sql.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/security-fixtures.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/seo-cache-fixture.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/seo-control.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/seo-seed.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-concurrency.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-http-cron-mu.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-http-cron.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-support.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/final/sources-workflow.php",
+          "status": "passed"
+        },
+        {
+          "file": "tests/integration/core.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/404.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/footer.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/functions.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/header.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/GenerationService.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/GenerationStore.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/OpenAIProvider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Output.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Prompt.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Provider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/ProviderException.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/ProviderRegistry.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Scheduler.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Settings.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/SourceContext.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Actions.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/ListTable.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Management.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Pages.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Content/Catalog.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Core.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Database.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Migrator.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Schema.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Editorial.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Forms.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/NativeMetadata.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/PublicCatalog.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Router.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Seo.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/SeoSettings.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Sitemap.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Strings.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/View.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Language/BuiltinLanguageProvider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Language/LanguageProvider.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Module.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/ModuleLoader.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/AIModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/AdminModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/CatalogModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/DatabaseModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/FrontendModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/LanguageModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/SourcesModule.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Access.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Input.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Output.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Admin.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Discovery.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Frontmatter.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/GitHubClient.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/GitHubException.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/ImportStore.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/RiskInspector.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Scheduler.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Worker.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/inc/core/bootstrap.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/index.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/template-parts/frontend/skill-card.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/template-parts/frontend/tutorial-card.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/home.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/listing.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/not-found.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/page.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/skill.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/tutorial.php",
+          "status": "passed"
+        },
+        {
+          "file": "wp-content/themes/ai-skills-hub/templates/frontend/tutorials.php",
+          "status": "passed"
+        }
+      ],
+      "basic": [
+        {
+          "file": "tests/basic/admin-settings.php",
+          "status": "passed",
+          "output": "Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-admin.php",
+          "status": "passed",
+          "output": "PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-content.php",
+          "status": "passed",
+          "output": "PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-locks.php",
+          "status": "passed",
+          "output": "PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-provider.php",
+          "status": "passed",
+          "output": "PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-source.php",
+          "status": "passed",
+          "output": "PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-store.php",
+          "status": "passed",
+          "output": "PASS: 101 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/ai-worker.php",
+          "status": "passed",
+          "output": "PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/database-transactions.php",
+          "status": "passed",
+          "output": "Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/editorial-management.php",
+          "status": "passed",
+          "output": "Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/editorial-projections.php",
+          "status": "passed",
+          "output": "Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/editorial-search.php",
+          "status": "passed",
+          "output": "Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/forms-management.php",
+          "status": "passed",
+          "output": "Inbox management: 56 isolated assertions passed.",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/frontend-locks.php",
+          "status": "passed",
+          "output": "Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/frontend-routing.php",
+          "status": "passed",
+          "output": "PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/github-client.php",
+          "status": "passed",
+          "output": "PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/github-discovery.php",
+          "status": "passed",
+          "output": "GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-admin.php",
+          "status": "passed",
+          "output": "PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-scheduler.php",
+          "status": "passed",
+          "output": "PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-store.php",
+          "status": "passed",
+          "output": "PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/import-worker.php",
+          "status": "passed",
+          "output": "PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/language-adapter.php",
+          "status": "passed",
+          "output": "Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/management-integrity.php",
+          "status": "passed",
+          "output": "Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/migration-recovery.php",
+          "status": "passed",
+          "output": "Migration recovery: 151 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/public-search.php",
+          "status": "passed",
+          "output": "PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/seo-failures.php",
+          "status": "passed",
+          "output": "SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/seo.php",
+          "status": "passed",
+          "output": "PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/sitemap.php",
+          "status": "passed",
+          "output": "PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).",
+          "stderr": ""
+        },
+        {
+          "file": "tests/basic/skill-parser.php",
+          "status": "passed",
+          "output": "PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).",
+          "stderr": ""
+        }
+      ],
+      "php": "8.4.27",
+      "isolated_assertions": 2710
+    }
+  },
+  "files_per_runtime": 120
+}

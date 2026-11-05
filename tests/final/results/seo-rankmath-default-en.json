@@ -1,0 +1,353 @@
+{
+  "suite": "real-wordpress-seo-http",
+  "mode": "default-en",
+  "started_utc": "2026-11-05T09:29:41.211337+00:00",
+  "environment": {
+    "base": "http://127.0.0.1:18084",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "wpml": {
+    "status": "not_executed",
+    "reason": "No licensed WPML package supplied; builtin bilingual routing is not a real WPML test."
+  },
+  "cases": [
+    {
+      "name": "default English redirect",
+      "passed": true,
+      "actual": "http://127.0.0.1:18084/en/",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ status",
+      "passed": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ index policy",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no-store",
+      "passed": true,
+      "actual": "private, no-store, max-age=0",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single self canonical",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+      ],
+      "expected": [
+        "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single H1",
+      "passed": true,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single nonempty document title",
+      "passed": true,
+      "actual": {
+        "count": 1,
+        "title": "中文 SEO pair · AI Skills Hub"
+      },
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single valid JSON-LD graph",
+      "passed": true,
+      "actual": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": "http://127.0.0.1:18084/zh/#website",
+              "url": "http://127.0.0.1:18084/zh/",
+              "name": "AI Skills Hub",
+              "inLanguage": "zh-CN"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "首页",
+                  "item": "http://127.0.0.1:18084/zh/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Skills",
+                  "item": "http://127.0.0.1:18084/zh/skills/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "中文技能 pair",
+                  "item": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+                }
+              ]
+            },
+            {
+              "@type": "WebPage",
+              "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#webpage",
+              "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+              "name": "中文 SEO pair · AI Skills Hub",
+              "inLanguage": "zh-CN",
+              "isPartOf": {
+                "@id": "http://127.0.0.1:18084/zh/#website"
+              },
+              "description": "中文 SEO 描述 pair",
+              "breadcrumb": {
+                "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb"
+              }
+            }
+          ]
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema self canonical and language",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebPage",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#webpage",
+          "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+          "name": "中文 SEO pair · AI Skills Hub",
+          "inLanguage": "zh-CN",
+          "isPartOf": {
+            "@id": "http://127.0.0.1:18084/zh/#website"
+          },
+          "description": "中文 SEO 描述 pair",
+          "breadcrumb": {
+            "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb"
+          }
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema website same language",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebSite",
+          "@id": "http://127.0.0.1:18084/zh/#website",
+          "url": "http://127.0.0.1:18084/zh/",
+          "name": "AI Skills Hub",
+          "inLanguage": "zh-CN"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema no invented ratings or safety",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebSite",
+          "@id": "http://127.0.0.1:18084/zh/#website",
+          "url": "http://127.0.0.1:18084/zh/",
+          "name": "AI Skills Hub",
+          "inLanguage": "zh-CN"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "首页",
+              "item": "http://127.0.0.1:18084/zh/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Skills",
+              "item": "http://127.0.0.1:18084/zh/skills/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "中文技能 pair",
+              "item": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+            }
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#webpage",
+          "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+          "name": "中文 SEO pair · AI Skills Hub",
+          "inLanguage": "zh-CN",
+          "isPartOf": {
+            "@id": "http://127.0.0.1:18084/zh/#website"
+          },
+          "description": "中文 SEO 描述 pair",
+          "breadcrumb": {
+            "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb"
+          }
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema breadcrumb real current URL",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "BreadcrumbList",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "首页",
+              "item": "http://127.0.0.1:18084/zh/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Skills",
+              "item": "http://127.0.0.1:18084/zh/skills/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "中文技能 pair",
+              "item": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+            }
+          ]
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ html language",
+      "passed": true,
+      "actual": "zh-CN",
+      "expected": [
+        "zh-CN"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no duplicate hreflang",
+      "passed": true,
+      "actual": 3,
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single description",
+      "passed": true,
+      "actual": [
+        "中文 SEO 描述 pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single og:title",
+      "passed": true,
+      "actual": [
+        "中文 SEO pair · AI Skills Hub"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single og:description",
+      "passed": true,
+      "actual": [
+        "中文 SEO 描述 pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single og:url",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single twitter:card",
+      "passed": true,
+      "actual": [
+        "summary"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single twitter:title",
+      "passed": true,
+      "actual": [
+        "中文 SEO pair · AI Skills Hub"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single twitter:description",
+      "passed": true,
+      "actual": [
+        "中文 SEO 描述 pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no private fixture body",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "x-default tracks English",
+      "passed": true,
+      "actual": {
+        "en": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/",
+        "zh-CN": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+        "x-default": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/"
+      },
+      "expected": null
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18084/",
+      "status": 302,
+      "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headers": {
+        "location": "http://127.0.0.1:18084/en/",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+      "status": 200,
+      "body_sha256": "66a9e6283967741ea9c23a5f8c957f6b017516ece5cab2ba7e5dda1bb1dec506",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    }
+  ],
+  "counts": {
+    "cases": 23,
+    "passed": 23,
+    "failed": 0,
+    "http_requests": 2
+  }
+}

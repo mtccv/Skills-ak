@@ -1,0 +1,1477 @@
+{
+  "kind": "actual_bounded_local_http_measurement",
+  "base": "http://127.0.0.1:18087",
+  "fixture": {
+    "run": "bench-606a6c83",
+    "skills": 1000,
+    "translations": 2000,
+    "body_bytes": 16874528,
+    "large_skills": 24,
+    "large_body_bytes_approx": 262000,
+    "tutorials": 80,
+    "first_id": 46,
+    "last_id": 1045,
+    "last_slug": "bench-606a6c83-999",
+    "category": "bench-606a6c83-category-0",
+    "tag": "bench-606a6c83-group",
+    "platform": "platform-bench-606a6c83"
+  },
+  "runner_environment": {
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "cpu_count": 5,
+    "cpu_affinity_count": 5,
+    "cgroup_cpu_max": "400000 100000",
+    "cgroup_memory_max": "17179869184"
+  },
+  "groups": [
+    {
+      "route": "home_en",
+      "path": "/en/",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 7.7909,
+      "observed_completed_requests_per_second": 1.54,
+      "latency_ms": {
+        "median": 645.228,
+        "mean": 644.983,
+        "p95_nearest_rank": 656.453,
+        "max": 656.453
+      },
+      "samples": [
+        {
+          "ms": 635.148,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 648.293,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 653.349,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 656.123,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 647.169,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 638.798,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 643.288,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 637.233,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 640.624,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 656.453,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 651.249,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 632.073,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "home_en",
+      "path": "/en/",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 2.1145,
+      "observed_completed_requests_per_second": 5.675,
+      "latency_ms": {
+        "median": 690.026,
+        "mean": 692.577,
+        "p95_nearest_rank": 732.702,
+        "max": 732.702
+      },
+      "samples": [
+        {
+          "ms": 710.603,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 665.828,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 701.757,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 688.082,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 714.698,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 732.702,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 691.971,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 695.247,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 685.771,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 671.684,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 683.994,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        },
+        {
+          "ms": 668.585,
+          "status": 200,
+          "bytes": 58243,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "home_zh",
+      "path": "/zh/",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 3.3336,
+      "observed_completed_requests_per_second": 3.6,
+      "latency_ms": {
+        "median": 269.489,
+        "mean": 273.754,
+        "p95_nearest_rank": 309.5,
+        "max": 309.5
+      },
+      "samples": [
+        {
+          "ms": 267.616,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 268.746,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 269.957,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 280.571,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 269.241,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 309.5,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 267.137,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 275.014,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 275.217,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 266.047,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 266.263,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 269.737,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "home_zh",
+      "path": "/zh/",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 0.9393,
+      "observed_completed_requests_per_second": 12.776,
+      "latency_ms": {
+        "median": 295.656,
+        "mean": 302.155,
+        "p95_nearest_rank": 337.049,
+        "max": 337.049
+      },
+      "samples": [
+        {
+          "ms": 320.294,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 324.908,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 337.049,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 327.771,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 282.902,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 302.142,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 286.456,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 290.144,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 299.39,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 291.922,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 285.708,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        },
+        {
+          "ms": 277.175,
+          "status": 200,
+          "bytes": 58457,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "list",
+      "path": "/en/skills/",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 14.6045,
+      "observed_completed_requests_per_second": 0.822,
+      "latency_ms": {
+        "median": 1210.755,
+        "mean": 1212.385,
+        "p95_nearest_rank": 1241.242,
+        "max": 1241.242
+      },
+      "samples": [
+        {
+          "ms": 1207.041,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1201.911,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1241.242,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1215.526,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1201.709,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1212.952,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1213.03,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1212.299,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1202.868,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1230.81,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1200.02,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1209.21,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "list",
+      "path": "/en/skills/",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 3.7986,
+      "observed_completed_requests_per_second": 3.159,
+      "latency_ms": {
+        "median": 1244.139,
+        "mean": 1244.974,
+        "p95_nearest_rank": 1311.425,
+        "max": 1311.425
+      },
+      "samples": [
+        {
+          "ms": 1224.659,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1254.31,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1246.645,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1227.075,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1311.425,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1248.14,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1223.453,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1250.366,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1241.632,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1235.17,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1230.064,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        },
+        {
+          "ms": 1246.753,
+          "status": 200,
+          "bytes": 47458,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "detail",
+      "path": "/en/skills/1045/bench-606a6c83-999/",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 1.6029,
+      "observed_completed_requests_per_second": 7.486,
+      "latency_ms": {
+        "median": 127.104,
+        "mean": 128.336,
+        "p95_nearest_rank": 141.73,
+        "max": 141.73
+      },
+      "samples": [
+        {
+          "ms": 125.362,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 124.814,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 129.108,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 130.648,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 124.877,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 130.059,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 130.962,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 141.73,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 123.508,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 127.681,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 126.527,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 124.754,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "detail",
+      "path": "/en/skills/1045/bench-606a6c83-999/",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 0.4756,
+      "observed_completed_requests_per_second": 25.23,
+      "latency_ms": {
+        "median": 145.857,
+        "mean": 148.467,
+        "p95_nearest_rank": 165.187,
+        "max": 165.187
+      },
+      "samples": [
+        {
+          "ms": 155.687,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 152.886,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 141.338,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 158.11,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 163.831,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 147.834,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 133.242,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 165.187,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 143.88,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 143.672,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 142.392,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        },
+        {
+          "ms": 133.549,
+          "status": 200,
+          "bytes": 297522,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "search",
+      "path": "/en/search/?q=benchmark",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 16.4718,
+      "observed_completed_requests_per_second": 0.729,
+      "latency_ms": {
+        "median": 1353.296,
+        "mean": 1367.572,
+        "p95_nearest_rank": 1549.715,
+        "max": 1549.715
+      },
+      "samples": [
+        {
+          "ms": 1303.608,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1316.992,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1361.133,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1351.625,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1375.217,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1416.954,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1354.968,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1549.715,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1335.316,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1319.692,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1412.936,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1312.714,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "search",
+      "path": "/en/search/?q=benchmark",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 4.235,
+      "observed_completed_requests_per_second": 2.834,
+      "latency_ms": {
+        "median": 1386.377,
+        "mean": 1380.386,
+        "p95_nearest_rank": 1429.179,
+        "max": 1429.179
+      },
+      "samples": [
+        {
+          "ms": 1389.367,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1396.322,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1384.662,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1429.179,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1379.783,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1402.476,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1396.595,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1322.741,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1350.811,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1348.489,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1376.116,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        },
+        {
+          "ms": 1388.092,
+          "status": 200,
+          "bytes": 51476,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "combined",
+      "path": "/en/skills/?q=benchmark&category=bench-606a6c83-category-0&tag=bench-606a6c83-group&platform=platform-bench-606a6c83",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 12.7416,
+      "observed_completed_requests_per_second": 0.942,
+      "latency_ms": {
+        "median": 1057.232,
+        "mean": 1057.329,
+        "p95_nearest_rank": 1118.612,
+        "max": 1118.612
+      },
+      "samples": [
+        {
+          "ms": 1055.548,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1029.759,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1073.416,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1078.908,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1038.724,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1050.944,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1064.037,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1118.612,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1066.88,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1038.056,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1014.153,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1058.916,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "combined",
+      "path": "/en/skills/?q=benchmark&category=bench-606a6c83-category-0&tag=bench-606a6c83-group&platform=platform-bench-606a6c83",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 3.3643,
+      "observed_completed_requests_per_second": 3.567,
+      "latency_ms": {
+        "median": 1095.854,
+        "mean": 1098.035,
+        "p95_nearest_rank": 1152.372,
+        "max": 1152.372
+      },
+      "samples": [
+        {
+          "ms": 1152.372,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1089.361,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1110.084,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1131.65,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1099.563,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1099.096,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1121.418,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1059.048,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1078.322,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1075.149,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1067.748,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        },
+        {
+          "ms": 1092.612,
+          "status": 200,
+          "bytes": 48219,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "pagination",
+      "path": "/en/skills/?page=20",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 15.5682,
+      "observed_completed_requests_per_second": 0.771,
+      "latency_ms": {
+        "median": 1280.494,
+        "mean": 1292.19,
+        "p95_nearest_rank": 1384.689,
+        "max": 1384.689
+      },
+      "samples": [
+        {
+          "ms": 1293.987,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1318.058,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1384.689,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1331.201,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1281.377,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1264.83,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1272.575,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1279.611,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1263.733,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1288.931,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1275.106,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1252.181,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "pagination",
+      "path": "/en/skills/?page=20",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 4.0482,
+      "observed_completed_requests_per_second": 2.964,
+      "latency_ms": {
+        "median": 1310.88,
+        "mean": 1320.638,
+        "p95_nearest_rank": 1367.529,
+        "max": 1367.529
+      },
+      "samples": [
+        {
+          "ms": 1309.723,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1361.826,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1281.672,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1324.914,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1308.354,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1307.637,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1324.302,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1367.529,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1299.012,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1347.822,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1312.037,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        },
+        {
+          "ms": 1302.827,
+          "status": 200,
+          "bytes": 47558,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "tutorials",
+      "path": "/en/tutorials/",
+      "concurrency": 1,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 12.7724,
+      "observed_completed_requests_per_second": 0.94,
+      "latency_ms": {
+        "median": 1061.507,
+        "mean": 1060.227,
+        "p95_nearest_rank": 1078.87,
+        "max": 1078.87
+      },
+      "samples": [
+        {
+          "ms": 1041.555,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1067.354,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1053.866,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1039.657,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1077.557,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1048.503,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1078.87,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1073.189,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1059.991,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1063.732,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1063.023,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1055.423,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        }
+      ]
+    },
+    {
+      "route": "tutorials",
+      "path": "/en/tutorials/",
+      "concurrency": 4,
+      "requests": 12,
+      "successful": 12,
+      "warmup_status": 200,
+      "wall_seconds": 3.3108,
+      "observed_completed_requests_per_second": 3.624,
+      "latency_ms": {
+        "median": 1090.843,
+        "mean": 1086.063,
+        "p95_nearest_rank": 1109.069,
+        "max": 1109.069
+      },
+      "samples": [
+        {
+          "ms": 1109.069,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1108.685,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1089.296,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1075.536,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1054.212,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1093.299,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1097.232,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1101.466,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1088.66,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1092.391,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1063.989,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        },
+        {
+          "ms": 1058.917,
+          "status": 200,
+          "bytes": 44144,
+          "diagnostic": false
+        }
+      ]
+    }
+  ],
+  "total_measured_requests": 192,
+  "successful_requests": 192,
+  "limits": [
+    "Synthetic QA corpus; not real visitors or a production capacity guarantee.",
+    "Concurrency levels 1 and 4; one untimed warmup per route; no cold-cache claim.",
+    "Latency includes local HTTP transport and complete HTML response; no browser rendering or external network.",
+    "Observed request rate is measured count/wall time for each short group, not a maximum throughput estimate.",
+    "Other QA containers may share host resources; runner CPU/memory reporting is not a dedicated-server allocation."
+  ]
+}

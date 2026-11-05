@@ -1,0 +1,717 @@
+{
+  "suite": "real_zip_install_upgrade_lifecycle",
+  "kind": "real_wordpress_mysql_filesystem_http",
+  "verified_at": "2026-11-05T09:34:09.427833+00:00",
+  "environment": {
+    "php": "8.4.27",
+    "wordpress": "7.1.4",
+    "mysql": "8.0.46",
+    "database": "qa_package"
+  },
+  "baseline_provenance": {
+    "version": "0.7.0",
+    "files": 78,
+    "archive": "/tmp/aish-final-qa/package-baseline/ai-skills-hub-0.7.0.zip",
+    "sha256": "f2b7831f4683a973a6769e006664ff1ecacb98bf08b32d78d747e97164afa335",
+    "bytes": 763505,
+    "baseline_commit": "d6401c2d6fb810605f5ba87524301ecc50418971",
+    "package_type": "QA baseline reconstruction, not a historical release artifact",
+    "assets": "Current generated dist files included; baseline and working-tree app.css/app.js source match, Final QA build config may differ.",
+    "asset_sha256": {
+      "wp-content/themes/ai-skills-hub/assets/dist/app.css": "64edce7f5e8aedd395cd34971e3ec1b9a0c82a6edb074ca50373332ecd412036",
+      "wp-content/themes/ai-skills-hub/assets/dist/app.js": "45a7c7c90997a57df9df39ffec4aeba5da4439d4756d6ff55c3430b04c1b4c65"
+    },
+    "asset_source_equal_to_baseline": {
+      "wp-content/themes/ai-skills-hub/assets/src/app.css": true,
+      "wp-content/themes/ai-skills-hub/assets/src/app.js": true
+    }
+  },
+  "final_archive": {
+    "file": "release/ai-skills-hub-0.7.1.zip",
+    "sha256": "470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268",
+    "bytes": 767776,
+    "files": 78
+  },
+  "native_upgrade": {
+    "method": "Theme_Upgrader::upgrade",
+    "status": "passed",
+    "time": "2026-11-05T09:31:47+00:00",
+    "database": "qa_package",
+    "previous_version": "0.7.0",
+    "installed_version": "0.7.1",
+    "archive_sha256": "470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268",
+    "outbound_http_requests": 0
+  },
+  "fixture": {
+    "skill_id": 1,
+    "manual_draft_id": 2,
+    "repository_id": 1,
+    "version_id": 1,
+    "import_job_id": 1,
+    "generation_id": 1
+  },
+  "baseline_table_fingerprints": {
+    "repositories": {
+      "rows": 1,
+      "sha256": "cd7b747869a8cb5cd1097dc9330f83df549dafa20934c14dbb7cb9ef91d62d21"
+    },
+    "skills": {
+      "rows": 2,
+      "sha256": "be751a3ed49f42da65d2fde7105741f9bdaea7ee3c5eb774ae0113005b5bb386"
+    },
+    "skill_translations": {
+      "rows": 3,
+      "sha256": "dc64dfb63690c55297b308758b987e72a83b73162280a0e00ad77f83f4b5ee15"
+    },
+    "skill_versions": {
+      "rows": 1,
+      "sha256": "25e67fd29c26816ea4d621cbb0f8e96cbab733387b8993b3d8ad328bdd61cb2c"
+    },
+    "categories": {
+      "rows": 1,
+      "sha256": "eee31600f6ee6297144ee4d63464c531318a36be84896e9c68518bba796867ea"
+    },
+    "tags": {
+      "rows": 1,
+      "sha256": "0951cda7f7ece549a69970b0cb0b16193cf275742e4574b23169cb52bd5bc144"
+    },
+    "skill_categories": {
+      "rows": 1,
+      "sha256": "c0ab26b66fd9445c9f88d944ea1388e2fd3aa025e7b709116aa58867d7a66cda"
+    },
+    "skill_tags": {
+      "rows": 1,
+      "sha256": "c2f00bfe1dbf2879c1c17524150d5264d44a4f162598c3d117d1e8ed8f5107ba"
+    },
+    "imports": {
+      "rows": 1,
+      "sha256": "031d02d5834f9ab2b1f3f3b6bb716ac3e88bf3954767653c50c3c2259adc391e"
+    },
+    "jobs": {
+      "rows": 1,
+      "sha256": "4cc730703a93c94efb0d8803a379ab74cfe65ad9bef6232153934412c04791f3"
+    },
+    "import_logs": {
+      "rows": 2,
+      "sha256": "7cfeff83b99da40d2f6e8861c3628a2b063ca204c057b88c818800e4e86d2b02"
+    },
+    "ai_jobs": {
+      "rows": 1,
+      "sha256": "2e43544f9e07e0441b2f6e623e76f1391e4ea9e6a7d35c8ee04174e7240bc360"
+    },
+    "ai_attempts": {
+      "rows": 1,
+      "sha256": "db4477173e1aca15db239554e7c4e028573f34cf23d054767edec327c9a7cf1f"
+    },
+    "ai_reviews": {
+      "rows": 1,
+      "sha256": "c171fb6c2a549c85e554b8965ff0343ada529a05dd725259b80352d0a2d720f9"
+    }
+  },
+  "checks": [
+    {
+      "id": "exact_final_zip_sha256",
+      "passed": true
+    },
+    {
+      "id": "native_upgrade_from_070_to_071",
+      "passed": true
+    },
+    {
+      "id": "baseline_fourteen_nonempty_tables",
+      "passed": true
+    },
+    {
+      "id": "baseline_exact_installed_zip",
+      "passed": true
+    },
+    {
+      "id": "baseline_preserved_before_final",
+      "passed": true
+    },
+    {
+      "id": "upgraded_all_table_fingerprints_preserved",
+      "passed": true
+    },
+    {
+      "id": "upgraded_stable_identifiers_preserved",
+      "passed": true
+    },
+    {
+      "id": "upgraded_schema_retained",
+      "passed": true
+    },
+    {
+      "id": "upgraded_exact_final_installed_files",
+      "passed": true
+    },
+    {
+      "id": "upgraded_no_external_http",
+      "passed": true
+    },
+    {
+      "id": "upgraded_core_and_cron_restored",
+      "passed": true
+    },
+    {
+      "id": "reinstalled_all_table_fingerprints_preserved",
+      "passed": true
+    },
+    {
+      "id": "reinstalled_stable_identifiers_preserved",
+      "passed": true
+    },
+    {
+      "id": "reinstalled_schema_retained",
+      "passed": true
+    },
+    {
+      "id": "reinstalled_exact_final_installed_files",
+      "passed": true
+    },
+    {
+      "id": "reinstalled_no_external_http",
+      "passed": true
+    },
+    {
+      "id": "reinstalled_core_and_cron_restored",
+      "passed": true
+    },
+    {
+      "id": "inactive_all_table_fingerprints_preserved",
+      "passed": true
+    },
+    {
+      "id": "inactive_stable_identifiers_preserved",
+      "passed": true
+    },
+    {
+      "id": "inactive_schema_retained",
+      "passed": true
+    },
+    {
+      "id": "inactive_exact_final_installed_files",
+      "passed": true
+    },
+    {
+      "id": "inactive_no_external_http",
+      "passed": true
+    },
+    {
+      "id": "inactive_core_unloaded_and_cron_cleared",
+      "passed": true
+    },
+    {
+      "id": "reactivated_all_table_fingerprints_preserved",
+      "passed": true
+    },
+    {
+      "id": "reactivated_stable_identifiers_preserved",
+      "passed": true
+    },
+    {
+      "id": "reactivated_schema_retained",
+      "passed": true
+    },
+    {
+      "id": "reactivated_exact_final_installed_files",
+      "passed": true
+    },
+    {
+      "id": "reactivated_no_external_http",
+      "passed": true
+    },
+    {
+      "id": "reactivated_core_and_cron_restored",
+      "passed": true
+    },
+    {
+      "id": "baseline_ten_real_http_checks",
+      "passed": true
+    },
+    {
+      "id": "upgraded_ten_real_http_checks",
+      "passed": true
+    },
+    {
+      "id": "reinstalled_ten_real_http_checks",
+      "passed": true
+    },
+    {
+      "id": "reactivated_ten_real_http_checks",
+      "passed": true
+    }
+  ],
+  "passed": 33,
+  "failed": 0,
+  "http": {
+    "baseline": {
+      "suite": "installed_zip_http",
+      "stage": "baseline",
+      "kind": "real_http",
+      "time": "2026-11-05T09:18:43.303621+00:00",
+      "base": "http://127.0.0.1:18090",
+      "checks": [
+        {
+          "path": "/zh/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/zh/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/2/package-private-draft/",
+          "status": 404,
+          "expected_status": 404,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/aish-sitemap.xml",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "application/xml; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/robots.txt",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/plain; charset=utf-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.css",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/css",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.js",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/javascript",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        }
+      ],
+      "passed": 10,
+      "failed": 0,
+      "limits": [
+        "Availability, curated markers, private fixture exclusion and asset delivery; not a replacement for full browser/SEO acceptance."
+      ]
+    },
+    "upgraded": {
+      "suite": "installed_zip_http",
+      "stage": "upgraded",
+      "kind": "real_http",
+      "time": "2026-11-05T09:32:15.522652+00:00",
+      "base": "http://127.0.0.1:18090",
+      "checks": [
+        {
+          "path": "/zh/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/zh/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/2/package-private-draft/",
+          "status": 404,
+          "expected_status": 404,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/aish-sitemap.xml",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "application/xml; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/robots.txt",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/plain; charset=utf-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.css",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/css",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.js",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/javascript",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        }
+      ],
+      "passed": 10,
+      "failed": 0,
+      "limits": [
+        "Availability, curated markers, private fixture exclusion and asset delivery; not a replacement for full browser/SEO acceptance."
+      ]
+    },
+    "reinstalled": {
+      "suite": "installed_zip_http",
+      "stage": "reinstalled",
+      "kind": "real_http",
+      "time": "2026-11-05T09:33:01.377703+00:00",
+      "base": "http://127.0.0.1:18090",
+      "checks": [
+        {
+          "path": "/zh/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/zh/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/2/package-private-draft/",
+          "status": 404,
+          "expected_status": 404,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/aish-sitemap.xml",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "application/xml; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/robots.txt",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/plain; charset=utf-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.css",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/css",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.js",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/javascript",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        }
+      ],
+      "passed": 10,
+      "failed": 0,
+      "limits": [
+        "Availability, curated markers, private fixture exclusion and asset delivery; not a replacement for full browser/SEO acceptance."
+      ]
+    },
+    "reactivated": {
+      "suite": "installed_zip_http",
+      "stage": "reactivated",
+      "kind": "real_http",
+      "time": "2026-11-05T09:34:08.814122+00:00",
+      "base": "http://127.0.0.1:18090",
+      "checks": [
+        {
+          "path": "/zh/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/zh/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/1/package-retained/",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/en/skills/2/package-private-draft/",
+          "status": 404,
+          "expected_status": 404,
+          "content_type": "text/html; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/aish-sitemap.xml",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "application/xml; charset=UTF-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/robots.txt",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/plain; charset=utf-8",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.css",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/css",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        },
+        {
+          "path": "/wp-content/themes/ai-skills-hub/assets/dist/app.js",
+          "status": 200,
+          "expected_status": 200,
+          "content_type": "text/javascript",
+          "php_diagnostics": false,
+          "private_fixture_leaked": false,
+          "required_marker_present": true,
+          "passed": true
+        }
+      ],
+      "passed": 10,
+      "failed": 0,
+      "limits": [
+        "Availability, curated markers, private fixture exclusion and asset delivery; not a replacement for full browser/SEO acceptance."
+      ]
+    }
+  },
+  "harness_corrections": [
+    "Static Alpine Warning string originally matched the diagnostic regex; asset diagnostic matching corrected and all HTTP stages rerun.",
+    "Initial native upgrade remained at 0.7.0 because root-owned CLI installation selected a non-direct filesystem method. Only dedicated QA theme/scratch ownership was corrected; final runs use www-data and native direct selection without forcing the method.",
+    "Native Theme_Upgrader::upgrade success contract is true, not the array returned by bulk/run; test assertion corrected before final acceptance."
+  ],
+  "production_findings": [],
+  "limits": [
+    "Baseline 0.7.0 was reconstructed from the declared commit with current built assets; it is not a historical original distribution.",
+    "Uses native WordPress Theme_Upgrader and WP-CLI; this is not the browser Upload Theme UI test.",
+    "No GitHub/AI external API calls or unknown script execution. AI history records are explicit database-only fixtures.",
+    "The fourteen-table schema remains 1.5.0 in this theme upgrade; historical schema migration cases are separately covered by the data suite."
+  ]
+}

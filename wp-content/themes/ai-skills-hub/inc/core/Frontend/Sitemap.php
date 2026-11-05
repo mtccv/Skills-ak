@@ -27,8 +27,12 @@ final class Sitemap {
 		}, 1, 2 );
 		add_filter( 'pre_handle_404', fn( $preempt ) => null !== $this->request ? true : $preempt );
 		add_action( 'wp_sitemaps_init', array( $this, 'nativeProvider' ) );
-		add_filter( 'wpseo_sitemap_index', fn( string $xml ): string => self::owner() === 'yoast' ? $this->pluginIndex( $xml ) : $xml );
-		add_filter( 'rank_math/sitemap/index', fn( string $xml ): string => self::owner() === 'rankmath' ? $this->pluginIndex( $xml ) : $xml );
+		add_filter( 'wpseo_sitemap_index', fn( string $xml ): string => $this->pluginIndex( $xml ) );
+		add_filter( 'rank_math/sitemap/index', fn( string $xml ): string => $this->pluginIndex( $xml ) );
+		// Plugin XML cache hits bypass index/entry hooks; custom-table changes do not
+		// trigger their native-post invalidation. Keep this dynamic projection fresh.
+		add_filter( 'rank_math/sitemap/enable_caching', static fn( $enabled ): bool => false, PHP_INT_MAX );
+		add_filter( 'wpseo_enable_xml_sitemap_transient_caching', static fn( $enabled ): bool => false, PHP_INT_MAX );
 		// Managed pages are represented by their real bilingual Hub URL, never their native duplicate.
 		add_filter( 'wp_sitemaps_posts_query_args', array( $this, 'nativePostArguments' ), 10, 2 );
 		add_filter( 'wpseo_sitemap_entry', array( $this, 'pluginPostEntry' ), 10, 3 );
@@ -39,7 +43,7 @@ final class Sitemap {
 		return SeoSettings::indexableSite() && (bool) apply_filters( 'aish_sitemaps_enabled', true );
 	}
 
-	/** Detection uses public plugin constants; when both are active one owns our index entries. */
+	/** Detect a plugin owner only to avoid registering a parallel native provider. */
 	public static function owner(): string {
 		if ( defined( 'WPSEO_VERSION' ) ) { return 'yoast'; }
 		if ( defined( 'RANK_MATH_VERSION' ) ) { return 'rankmath'; }
@@ -93,7 +97,8 @@ final class Sitemap {
 	}
 
 	public function pluginPostEntry( mixed $url, mixed $type, mixed $object ): mixed {
-		if ( $object instanceof \WP_Post && 'page' === $object->post_type && in_array( get_post_meta( $object->ID, '_aish_page_kind', true ), array( 'about', 'contact', 'submit' ), true ) ) { return false; }
+		// Yoast supplies WP_Post; Rank Math's public entry hook supplies a database object.
+		if ( 'post' === $type && is_object( $object ) && isset( $object->ID, $object->post_type ) && is_scalar( $object->ID ) && preg_match( '/^[1-9][0-9]*$/D', (string) $object->ID ) && 'page' === $object->post_type && in_array( get_post_meta( (int) $object->ID, '_aish_page_kind', true ), array( 'about', 'contact', 'submit' ), true ) ) { return false; }
 		return $url;
 	}
 
@@ -185,7 +190,19 @@ final class Sitemap {
 	}
 
 	private function pluginIndex( string $xml ): string {
-		try { return $xml . $this->indexEntriesXml(); }
+		try {
+			// Either plugin may actually render the shared endpoint. Both public hooks
+			// can run on one buffer, so append each exact XML location only once.
+			preg_match_all( '/<loc>([^<]*)<\/loc>/', $xml, $matches );
+			$seen = array_fill_keys( $matches[1], true );
+			foreach ( $this->indexEntries() as $entry ) {
+				$location = self::xml( $entry['loc'] );
+				if ( isset( $seen[ $location ] ) ) { continue; }
+				$xml .= '<sitemap><loc>' . $location . '</loc></sitemap>' . "\n";
+				$seen[ $location ] = true;
+			}
+			return $xml;
+		}
 		catch ( \Throwable $error ) { $this->unavailable(); }
 	}
 

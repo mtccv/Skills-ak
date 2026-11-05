@@ -1,0 +1,63 @@
+{
+    "runId": "mw3c2xx6",
+    "environment": "Actual WordPress\/MySQL after real Chromium actions",
+    "counts": {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+    },
+    "cases": [
+        {
+            "name": "two-browser-submissions-persisted",
+            "status": "passed"
+        },
+        {
+            "name": "submission-private-18",
+            "status": "passed"
+        },
+        {
+            "name": "submission-metadata-18",
+            "status": "passed"
+        },
+        {
+            "name": "submission-private-19",
+            "status": "passed"
+        },
+        {
+            "name": "submission-metadata-19",
+            "status": "passed"
+        },
+        {
+            "name": "ui-skill-archive-preserves-stable-record",
+            "status": "passed"
+        },
+        {
+            "name": "ui-skill-bilingual-same-id",
+            "status": "passed"
+        },
+        {
+            "name": "ui-skill-human-edit-preserved",
+            "status": "passed"
+        },
+        {
+            "name": "ui-skill-original-slug-preserved",
+            "status": "passed"
+        },
+        {
+            "name": "ui-category-archive-persistence",
+            "status": "passed"
+        },
+        {
+            "name": "ui-tag-archive-persistence",
+            "status": "passed"
+        },
+        {
+            "name": "ui-repository-archive-persistence",
+            "status": "passed"
+        },
+        {
+            "name": "ui-native-tutorial-metadata-persistence",
+            "status": "passed"
+        }
+    ]
+}

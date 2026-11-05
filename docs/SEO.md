@@ -46,7 +46,7 @@ Hub 虚拟 SSR 页面由主题统一拥有 Meta 输出：Yoast 使用公开 `wps
 
 静态项包括两种语言的首页、Skills/教程列表，以及确有该语言说明正文的 About/Contact。排除 Submit、搜索、排序/筛选 URL、分页 URL、预览、私有收件箱、404 和缺译。详情使用稳定 ID 和实际语言 slug。实体 lastmod 使用实际数据库 UTC 时间；分类/标签聚合公开关联更新时间；生成型列表不伪造 lastmod。修改 SEO 配置不会伪造正文更新时间。
 
-WordPress 原生 Sitemap provider、Yoast 的 `wpseo_sitemap_index`、Rank Math 的 `rank_math/sitemap/index` 引用同一批子图，优先 Yoast、其次 Rank Math、否则 WordPress；不再生成平行 URL 集合。托管的 About/Contact/Submit 原生 page 从这些 Sitemap 的默认文章入口排除，避免原生永久链接重复。站点应只选择一个通用 SEO 插件；此代码只协调 Hub 内容所有权，不替其他插件处理互相之间的全部冲突。
+WordPress 原生 Sitemap provider、Yoast 的 `wpseo_sitemap_index`、Rank Math 的 `rank_math/sitemap/index` 引用同一批子图。无 SEO 插件时注册 WordPress provider；有插件时在其公开 index hook 中按精确 URL 幂等追加，实际渲染的插件包含 Hub 子图，重复 hook 不生成平行 URL 集合。托管的 About/Contact/Submit 原生 page 从这些 Sitemap 的默认文章入口排除，避免原生永久链接重复。站点应只选择一个通用 SEO 插件；此代码只协调 Hub 内容所有权，不替其他插件处理互相之间的全部冲突。
 
 `blog_public=0` 或 `aish_sitemaps_enabled=false` 时关闭 Hub Sitemap。无效/越界子图返回 404；数据库失败返回 503 + Retry-After，不把半份 XML 当成功结果。XML 转义，返回 no-store 和 noindex/follow；Sitemap 本身不作为普通内容收录。
 
@@ -78,3 +78,11 @@ SEO options/postmeta 和站点 blog_public 读取失败时，清理可能被原�
 请求、URL、hreflang adapter 抛错或返回无效形状时使用受控错误，不回显异常或伪造翻译。模板导航及已经成功保存表单的重定向在 URL adapter 失效后只生成内置同语言地址，不重复保存。原生 Sitemap provider 在策略读取暂时出错时保留惰性 provider，让持续错误在生成索引时显式 503，避免静默输出不完整的成功索引。SEO 配置锁也阻止断线自动重连后整值覆盖。
 
 教程 Sitemap 使用 ID 与 modified 的有界投影，并复核公开状态、无密码、完整正文、精确首个语言值和 noindex；不批量装载正文或全部 postmeta。WordPress/WPML/SEO 插件的真实行为与缓存联调仍留 Final QA，见 [第二轮报告](PHASE_7_ROUND_2.md)。
+
+### Final QA 兼容修正
+
+Hub 拥有 SEO 的公开可索引页面输出单个 `WebSite` / `WebPage` JSON-LD 图；详情及列表同时提供与可见导航一致的 `BreadcrumbList`。使用当前语言 Canonical，不生成评分、作者或安全认证；搜索、私有、无翻译、错误及其他 noindex 页面不输出该结构化数据。Yoast 接管原生标题输出时，主题在 Hub 路由恢复 WordPress title-tag renderer，避免页面没有标题。
+
+主题启用期间，通过 Yoast `wpseo_enable_xml_sitemap_transient_caching` 与 Rank Math `rank_math/sitemap/enable_caching` 公开过滤器关闭插件 XML Sitemap 缓存。原因是插件缓存命中会跳过 Hub 索引与条目过滤器，八张核心表的发布、撤回和归档不会触发插件原生文章缓存失效；旧 XML 可能保留已失效子文件或遗漏新语言/分页块。代价是 XML 请求需要重新生成插件索引/原生条目；普通 HTML 页面缓存不受此设置影响。Hub 的 XML 仍按 200 个 URL 分块并进行请求内去重。部署修复时无需手动删除已有插件缓存，主题过滤器使缓存不再被读取；切换主题后过滤器自然停止。
+
+真实联调版本：WordPress 7.1.4、Yoast SEO 28.8、Rank Math 1.0.281。双插件同时开启用于冲突回归，日常配置仍应选择一个 SEO 插件。没有合法 WPML 包时，公开 Adapter 的隔离检查不代表真实 WPML 联调通过。

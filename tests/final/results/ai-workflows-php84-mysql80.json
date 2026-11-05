@@ -1,0 +1,230 @@
+{
+  "suite": "ai-workflows",
+  "php": "8.4.27",
+  "wordpress": "7.1.4",
+  "mysql": "8.0.46",
+  "database": "qa_ai",
+  "provider": "Mock Provider, no real API calls",
+  "api_credentials_configured": false,
+  "real_ai_api": "not_executed",
+  "assertions": 121,
+  "cases": [
+    {
+      "id": "AI-SCOPE-both",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 8,
+      "elapsed_ms": 35
+    },
+    {
+      "id": "AI-SCOPE-zh_CN",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 8,
+      "elapsed_ms": 17
+    },
+    {
+      "id": "AI-SCOPE-en_US",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 8,
+      "elapsed_ms": 18
+    },
+    {
+      "id": "AI-SCOPE-summary",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 8,
+      "elapsed_ms": 15
+    },
+    {
+      "id": "AI-SCOPE-use_cases",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 9,
+      "elapsed_ms": 15
+    },
+    {
+      "id": "AI-EDIT-ACCEPT-HISTORY",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 12,
+      "elapsed_ms": 34
+    },
+    {
+      "id": "AI-HUMAN-BASELINE-PROTECTION",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 4,
+      "elapsed_ms": 18
+    },
+    {
+      "id": "AI-SOURCE-CHANGE-PROTECTION",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 2,
+      "elapsed_ms": 17
+    },
+    {
+      "id": "AI-PUBLISHED-HUMAN-CONTENT",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 3,
+      "elapsed_ms": 22
+    },
+    {
+      "id": "AI-IDEMPOTENCY-AND-BATCH-RECOVERY",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 8,
+      "elapsed_ms": 50
+    },
+    {
+      "id": "AI-PAUSE-RESUME-CANCEL",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 3,
+      "elapsed_ms": 29
+    },
+    {
+      "id": "AI-RESPONSE-invalid",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 4,
+      "elapsed_ms": 14
+    },
+    {
+      "id": "AI-RESPONSE-duplicate",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 4,
+      "elapsed_ms": 14
+    },
+    {
+      "id": "AI-RESPONSE-unknown",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 2,
+      "elapsed_ms": 14
+    },
+    {
+      "id": "AI-RESPONSE-error",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 4,
+      "elapsed_ms": 13
+    },
+    {
+      "id": "AI-RESPONSE-timeout",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 4,
+      "elapsed_ms": 13
+    },
+    {
+      "id": "AI-RETRY-BACKOFF-AND-LIMIT",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 4,
+      "elapsed_ms": 23
+    },
+    {
+      "id": "AI-MANUAL-RETRY-UNKNOWN-COST",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 2,
+      "elapsed_ms": 20
+    },
+    {
+      "id": "AI-EXPIRED-LEASE-RECOVERY",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 5,
+      "elapsed_ms": 17
+    },
+    {
+      "id": "AI-CONFIG-SWITCH-AND-BUDGET",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 4,
+      "elapsed_ms": 49
+    },
+    {
+      "id": "AI-KEY-MASK-AND-STORAGE",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 3,
+      "elapsed_ms": 1
+    },
+    {
+      "id": "AI-CONNECTION-STRICT-JSON",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 6,
+      "elapsed_ms": 16
+    },
+    {
+      "id": "AI-HISTORY-PAGINATION-PERMISSIONS",
+      "status": "passed",
+      "provider": "mock",
+      "wordpress_mysql": "real",
+      "assertions": 6,
+      "elapsed_ms": 279
+    }
+  ],
+  "fixture_jobs": [
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106
+  ]
+}

@@ -9,7 +9,8 @@ function home_url(string $path = ''): string { return 'https://example.test' . (
 function wp_parse_url(string $url, int $component = -1): mixed { return parse_url($url, $component); }
 function get_option(string $name, mixed $default = false): mixed { return $GLOBALS['test_options'][$name] ?? $default; }
 function apply_filters(string $hook, mixed $value, mixed ...$args): mixed { return 'aish_frontend_request' === $hook ? ($GLOBALS['test_mapped_request'] ?? $value) : $value; }
-function add_query_arg(array $args, string $url): string { return $url . '?' . http_build_query($args, '', '&', PHP_QUERY_RFC3986); }
+// Match WordPress: new values are not encoded by add_query_arg().
+function add_query_arg(array $args, string $url): string { return $url . '?' . implode('&', array_map(static fn($key) => $key . '=' . $args[$key], array_keys($args))); }
 require dirname(__DIR__, 2) . '/wp-content/themes/ai-skills-hub/inc/core/Frontend/Router.php';
 use AISkillsHub\Core\Frontend\Router;
 $count = 0;
@@ -58,6 +59,11 @@ $url = Router::url('skills', array('q'=>'中文 & test','sort'=>'newest','page'=
 check(str_starts_with($url, 'https://example.test/site/en/skills/?'), 'Collection URL base');
 parse_str((string)parse_url($url,PHP_URL_QUERY), $query);
 check($query === array('q'=>'中文 & test'), 'Encoded search and omitted default parameters');
+foreach (array('two words', 'a&b=c', '#part', 'C++', '100%_', '中文 空格', 'a?b/c') as $input) {
+    $url = Router::url('search', array('q'=>$input), 'en_US');
+    parse_str((string)parse_url($url,PHP_URL_QUERY), $actual);
+    check($actual === array('q'=>$input) && null === parse_url($url,PHP_URL_FRAGMENT) && ! preg_match('/[\x00-\x20]/', $url), 'Search query preserves literal delimiters and Unicode: ' . $input);
+}
 foreach (array('/site/wp-json/wp/v2/posts', '/site/feed/', '/site/robots.txt', '/site/wp-sitemap.xml', '/site/aish-sitemap.xml', '/site/aish-sitemap-skills-zh-1.xml', '/site/sitemap_index.xml', '/site/post-sitemap2.xml', '/site/sitemap.xml', '/site/sitemap.xsl', '/site/main-sitemap.xsl', '/site/wp-sitemap-index.xsl') as $uri) {
     $router = (new ReflectionClass(Router::class))->newInstanceWithoutConstructor();
     $wp = new WP(); $_SERVER['REQUEST_URI'] = $uri; $router->parse($wp);

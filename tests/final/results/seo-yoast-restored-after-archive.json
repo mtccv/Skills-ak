@@ -1,0 +1,728 @@
+{
+  "suite": "real-wordpress-seo-http",
+  "mode": "restored",
+  "started_utc": "2026-11-05T09:29:32.226984+00:00",
+  "environment": {
+    "base": "http://127.0.0.1:18084",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "wpml": {
+    "status": "not_executed",
+    "reason": "No licensed WPML package supplied; builtin bilingual routing is not a real WPML test."
+  },
+  "cases": [
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ status",
+      "passed": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ index policy",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no-store",
+      "passed": true,
+      "actual": "private, no-store, max-age=0",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single self canonical",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+      ],
+      "expected": [
+        "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single H1",
+      "passed": true,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single nonempty document title",
+      "passed": true,
+      "actual": {
+        "count": 1,
+        "title": "中文 SEO pair · AI Skills Hub"
+      },
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single valid JSON-LD graph",
+      "passed": true,
+      "actual": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": "http://127.0.0.1:18084/zh/#website",
+              "url": "http://127.0.0.1:18084/zh/",
+              "name": "AI Skills Hub",
+              "inLanguage": "zh-CN"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "首页",
+                  "item": "http://127.0.0.1:18084/zh/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Skills",
+                  "item": "http://127.0.0.1:18084/zh/skills/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "中文技能 pair",
+                  "item": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+                }
+              ]
+            },
+            {
+              "@type": "WebPage",
+              "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#webpage",
+              "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+              "name": "中文 SEO pair · AI Skills Hub",
+              "inLanguage": "zh-CN",
+              "isPartOf": {
+                "@id": "http://127.0.0.1:18084/zh/#website"
+              },
+              "description": "中文 SEO 描述 pair",
+              "breadcrumb": {
+                "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb"
+              }
+            }
+          ]
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema self canonical and language",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebPage",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#webpage",
+          "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+          "name": "中文 SEO pair · AI Skills Hub",
+          "inLanguage": "zh-CN",
+          "isPartOf": {
+            "@id": "http://127.0.0.1:18084/zh/#website"
+          },
+          "description": "中文 SEO 描述 pair",
+          "breadcrumb": {
+            "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb"
+          }
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema website same language",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebSite",
+          "@id": "http://127.0.0.1:18084/zh/#website",
+          "url": "http://127.0.0.1:18084/zh/",
+          "name": "AI Skills Hub",
+          "inLanguage": "zh-CN"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema no invented ratings or safety",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebSite",
+          "@id": "http://127.0.0.1:18084/zh/#website",
+          "url": "http://127.0.0.1:18084/zh/",
+          "name": "AI Skills Hub",
+          "inLanguage": "zh-CN"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "首页",
+              "item": "http://127.0.0.1:18084/zh/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Skills",
+              "item": "http://127.0.0.1:18084/zh/skills/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "中文技能 pair",
+              "item": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+            }
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#webpage",
+          "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+          "name": "中文 SEO pair · AI Skills Hub",
+          "inLanguage": "zh-CN",
+          "isPartOf": {
+            "@id": "http://127.0.0.1:18084/zh/#website"
+          },
+          "description": "中文 SEO 描述 pair",
+          "breadcrumb": {
+            "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb"
+          }
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ schema breadcrumb real current URL",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "BreadcrumbList",
+          "@id": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "首页",
+              "item": "http://127.0.0.1:18084/zh/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Skills",
+              "item": "http://127.0.0.1:18084/zh/skills/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "中文技能 pair",
+              "item": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+            }
+          ]
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ html language",
+      "passed": true,
+      "actual": "zh-CN",
+      "expected": [
+        "zh-CN"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no duplicate hreflang",
+      "passed": true,
+      "actual": 3,
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single description",
+      "passed": true,
+      "actual": [
+        "中文 SEO 描述 pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single og:title",
+      "passed": true,
+      "actual": [
+        "中文 SEO pair · AI Skills Hub"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single og:description",
+      "passed": true,
+      "actual": [
+        "中文 SEO 描述 pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single og:url",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single twitter:card",
+      "passed": true,
+      "actual": [
+        "summary"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single twitter:title",
+      "passed": true,
+      "actual": [
+        "中文 SEO pair · AI Skills Hub"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ single twitter:description",
+      "passed": true,
+      "actual": [
+        "中文 SEO 描述 pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/ no private fixture body",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "restored hreflang immediately reflects both languages zh_CN",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ status",
+      "passed": true,
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ index policy",
+      "passed": true,
+      "actual": false,
+      "expected": false
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ no-store",
+      "passed": true,
+      "actual": "private, no-store, max-age=0",
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single self canonical",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/en/skills/1/qa-pair-en/"
+      ],
+      "expected": [
+        "http://127.0.0.1:18084/en/skills/1/qa-pair-en/"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single H1",
+      "passed": true,
+      "actual": 1,
+      "expected": 1
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single nonempty document title",
+      "passed": true,
+      "actual": {
+        "count": 1,
+        "title": "English SEO pair · AI Skills Hub"
+      },
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single valid JSON-LD graph",
+      "passed": true,
+      "actual": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": "http://127.0.0.1:18084/en/#website",
+              "url": "http://127.0.0.1:18084/en/",
+              "name": "AI Skills Hub",
+              "inLanguage": "en"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "http://127.0.0.1:18084/en/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Skills",
+                  "item": "http://127.0.0.1:18084/en/skills/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "English skill pair",
+                  "item": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/"
+                }
+              ]
+            },
+            {
+              "@type": "WebPage",
+              "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#webpage",
+              "url": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/",
+              "name": "English SEO pair · AI Skills Hub",
+              "inLanguage": "en",
+              "isPartOf": {
+                "@id": "http://127.0.0.1:18084/en/#website"
+              },
+              "description": "English SEO description pair",
+              "breadcrumb": {
+                "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#breadcrumb"
+              }
+            }
+          ]
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ schema self canonical and language",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebPage",
+          "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#webpage",
+          "url": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/",
+          "name": "English SEO pair · AI Skills Hub",
+          "inLanguage": "en",
+          "isPartOf": {
+            "@id": "http://127.0.0.1:18084/en/#website"
+          },
+          "description": "English SEO description pair",
+          "breadcrumb": {
+            "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#breadcrumb"
+          }
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ schema website same language",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebSite",
+          "@id": "http://127.0.0.1:18084/en/#website",
+          "url": "http://127.0.0.1:18084/en/",
+          "name": "AI Skills Hub",
+          "inLanguage": "en"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ schema no invented ratings or safety",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "WebSite",
+          "@id": "http://127.0.0.1:18084/en/#website",
+          "url": "http://127.0.0.1:18084/en/",
+          "name": "AI Skills Hub",
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://127.0.0.1:18084/en/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Skills",
+              "item": "http://127.0.0.1:18084/en/skills/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "English skill pair",
+              "item": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/"
+            }
+          ]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#webpage",
+          "url": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/",
+          "name": "English SEO pair · AI Skills Hub",
+          "inLanguage": "en",
+          "isPartOf": {
+            "@id": "http://127.0.0.1:18084/en/#website"
+          },
+          "description": "English SEO description pair",
+          "breadcrumb": {
+            "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#breadcrumb"
+          }
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ schema breadcrumb real current URL",
+      "passed": true,
+      "actual": [
+        {
+          "@type": "BreadcrumbList",
+          "@id": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "http://127.0.0.1:18084/en/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Skills",
+              "item": "http://127.0.0.1:18084/en/skills/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "English skill pair",
+              "item": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/"
+            }
+          ]
+        }
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ html language",
+      "passed": true,
+      "actual": "en",
+      "expected": [
+        "en",
+        "en-US"
+      ]
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ no duplicate hreflang",
+      "passed": true,
+      "actual": 3,
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single description",
+      "passed": true,
+      "actual": [
+        "English SEO description pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single og:title",
+      "passed": true,
+      "actual": [
+        "English SEO pair · AI Skills Hub"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single og:description",
+      "passed": true,
+      "actual": [
+        "English SEO description pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single og:url",
+      "passed": true,
+      "actual": [
+        "http://127.0.0.1:18084/en/skills/1/qa-pair-en/"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single twitter:card",
+      "passed": true,
+      "actual": [
+        "summary_large_image"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single twitter:title",
+      "passed": true,
+      "actual": [
+        "English SEO pair · AI Skills Hub"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ single twitter:description",
+      "passed": true,
+      "actual": [
+        "English SEO description pair"
+      ],
+      "expected": null
+    },
+    {
+      "name": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/ no private fixture body",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "restored hreflang immediately reflects both languages en_US",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "restored pair immediately present zh",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "restored pair immediately present en",
+      "passed": true,
+      "actual": null,
+      "expected": null
+    },
+    {
+      "name": "owner index follows current bilingual chunks without flushing cache",
+      "passed": true,
+      "actual": {
+        "owner": [
+          "http://127.0.0.1:18084/aish-sitemap-skills-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-category-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-2.xml",
+          "http://127.0.0.1:18084/aish-sitemap-category-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-en-1.xml"
+        ],
+        "current": [
+          "http://127.0.0.1:18084/aish-sitemap-skills-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-category-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-zh-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-skills-en-2.xml",
+          "http://127.0.0.1:18084/aish-sitemap-category-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tag-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-tutorials-en-1.xml",
+          "http://127.0.0.1:18084/aish-sitemap-pages-en-1.xml"
+        ]
+      },
+      "expected": null
+    }
+  ],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18084/zh/skills/1/qa-pair-zh/",
+      "status": 200,
+      "body_sha256": "fb9e2d8add2df8dab2c54b1b9627bf371f95781935e5bedf12b51ec84a33b9f7",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/en/skills/1/qa-pair-en/",
+      "status": 200,
+      "body_sha256": "62e603b52ced2b3952957f35c8efcc31428dbfad8f0b5b6118476b228ceac74b",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap-skills-zh-1.xml",
+      "status": 200,
+      "body_sha256": "17edd3054e749684e597af84743295673d4d723c7b81ee28c069e652a452e864",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "application/xml; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap-skills-en-1.xml",
+      "status": 200,
+      "body_sha256": "11066cbf2919c0917e4702f082a6910abe87d9bfa56ce81dcdb9e793a942dec5",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "application/xml; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/aish-sitemap.xml",
+      "status": 200,
+      "body_sha256": "5f5fd692ea2b785e238a61b0cd8c8b7e273aa762d6bb46a769c72d1441439293",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "x-robots-tag": "noindex, follow",
+        "content-type": "application/xml; charset=UTF-8"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:18084/sitemap_index.xml",
+      "status": 200,
+      "body_sha256": "21f26b6bf43e3bf394a08e346d0fd549a43496d7c670e293949aa4d06139f2d9",
+      "headers": {
+        "x-robots-tag": "noindex, follow",
+        "content-type": "text/xml; charset=UTF-8"
+      }
+    }
+  ],
+  "counts": {
+    "cases": 47,
+    "passed": 47,
+    "failed": 0,
+    "http_requests": 6
+  }
+}

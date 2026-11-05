@@ -1,0 +1,58 @@
+{
+    "suite": "ai-concurrency",
+    "php": "8.3.36",
+    "wordpress": "7.1.4",
+    "mysql": "8.0.46",
+    "provider": "Mock Provider; real parallel PHP\/MySQL sessions",
+    "assertions": 20,
+    "cases": [
+        {
+            "id": "AI-CONCURRENT-ENQUEUE-same",
+            "status": "passed",
+            "provider": "mock",
+            "wordpress_mysql": "real",
+            "assertions": 3,
+            "elapsed_ms": 2039
+        },
+        {
+            "id": "AI-CONCURRENT-ENQUEUE-different",
+            "status": "passed",
+            "provider": "mock",
+            "wordpress_mysql": "real",
+            "assertions": 3,
+            "elapsed_ms": 2026
+        },
+        {
+            "id": "AI-CONCURRENT-GLOBAL-WORKER",
+            "status": "passed",
+            "provider": "mock",
+            "wordpress_mysql": "real",
+            "assertions": 3,
+            "elapsed_ms": 3787
+        },
+        {
+            "id": "AI-CONCURRENT-ADOPTION",
+            "status": "passed",
+            "provider": "mock",
+            "wordpress_mysql": "real",
+            "assertions": 3,
+            "elapsed_ms": 2032
+        },
+        {
+            "id": "AI-CONCURRENT-EDITOR-ADOPTION",
+            "status": "passed",
+            "provider": "mock",
+            "wordpress_mysql": "real",
+            "assertions": 3,
+            "elapsed_ms": 2042
+        },
+        {
+            "id": "AI-REAL-CONNECTION-LOSS-RECOVERY",
+            "status": "passed",
+            "provider": "mock",
+            "wordpress_mysql": "real",
+            "assertions": 5,
+            "elapsed_ms": 2033
+        }
+    ]
+}

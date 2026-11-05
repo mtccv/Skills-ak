@@ -14,7 +14,7 @@ final class Seo {
 		// Yoast's public presenter API: do not duplicate metadata on our virtual routes.
 		add_filter( 'wpseo_frontend_presenters', static fn( array $presenters ): array => self::active() ? array() : $presenters, PHP_INT_MAX );
 		add_filter( 'wpml_hreflangs', static fn( $links ) => self::active() ? array() : $links, PHP_INT_MAX );
-		add_filter( 'robots_txt', array( $this, 'robotsTxt' ), 99, 2 );
+		add_filter( 'robots_txt', array( $this, 'robotsTxt' ), PHP_INT_MAX, 2 );
 		foreach ( array( 'admin_init', 'login_init' ) as $hook ) {
 			add_action( $hook, static function (): void { if ( ! headers_sent() ) { header( 'X-Robots-Tag: noindex, nofollow, noarchive' ); } }, 0 );
 		}
@@ -89,6 +89,8 @@ final class Seo {
 	public static function sendHeaders( array $context ): void {
 		if ( $context['noindex'] && ! headers_sent() ) { header( 'X-Robots-Tag: noindex, follow, noarchive' ); }
 		if ( ! empty( $context['seo_managed'] ) ) {
+			// Yoast removes this native renderer; Hub ownership also suppresses its title presenter.
+			add_action( 'wp_head', '_wp_render_title_tag', 1 );
 			// Rank Math exposes its frontend render action publicly. Limit ownership to Hub routes.
 			remove_all_actions( 'rank_math/head' );
 			remove_action( 'wp_head', 'rel_canonical' );
@@ -121,11 +123,48 @@ final class Seo {
 		foreach ( $c['seo_alternates'] as $locale => $url ) { if ( $locale !== $c['locale'] ) { echo '<meta property="og:locale:alternate" content="' . esc_attr( $locale ) . '">' . "\n"; } }
 		$twitter = array( 'card' => $c['image'] ? 'summary_large_image' : 'summary', 'title' => $c['title'], 'description' => $c['description'], 'image' => $c['image'] );
 		foreach ( $twitter as $name => $value ) { if ( $value ) { echo '<meta name="twitter:' . esc_attr( $name ) . '" content="' . esc_attr( $value ) . '">' . "\n"; } }
+		$schema = self::structuredData( $c );
+		if ( $schema ) {
+			$json = wp_json_encode( $schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT );
+			if ( false !== $json ) { echo '<script type="application/ld+json">' . $json . '</script>' . "\n"; }
+		}
+	}
+
+	/** Describe only the current verified public page; never infer authors, ratings or safety. */
+	private static function structuredData( array $context ): array {
+		if ( $context['noindex'] || ! $context['canonical'] ) { return array(); }
+		$locale = $context['locale']; $zh = 'zh_CN' === $locale; $canonical = $context['canonical'];
+		try {
+			$home = Router::url( 'home', array(), $locale );
+			$items = array( array( $zh ? '首页' : 'Home', $home ) );
+			if ( in_array( $context['route'], array( 'skill', 'category', 'tag' ), true ) ) { $items[] = array( 'Skills', Router::url( 'skills', array(), $locale ) ); }
+			if ( 'tutorial' === $context['route'] ) { $items[] = array( $zh ? '教程' : 'Tutorials', Router::url( 'tutorials', array(), $locale ) ); }
+		} catch ( \Throwable $error ) { return array(); }
+		$language = $zh ? 'zh-CN' : 'en';
+		$website = array( '@type' => 'WebSite', '@id' => $home . '#website', 'url' => $home, 'name' => 'AI Skills Hub', 'inLanguage' => $language );
+		$page = array( '@type' => 'WebPage', '@id' => $canonical . '#webpage', 'url' => $canonical, 'name' => $context['title'], 'inLanguage' => $language, 'isPartOf' => array( '@id' => $website['@id'] ) );
+		if ( $context['description'] ) { $page['description'] = $context['description']; }
+		$graph = array( $website );
+		if ( 'home' !== $context['route'] ) {
+			$title = $context['data']['skill']['title'] ?? $context['data']['tutorial']['title'] ?? $context['data']['term']['name'] ?? $context['data']['page']['title'] ?? Strings::get( 'page.' . $context['route'] . '.title', $locale );
+			$items[] = array( $title, $canonical );
+			$breadcrumbs = array( '@type' => 'BreadcrumbList', '@id' => $canonical . '#breadcrumb', 'itemListElement' => array() );
+			foreach ( $items as $position => list( $label, $url ) ) { $breadcrumbs['itemListElement'][] = array( '@type' => 'ListItem', 'position' => $position + 1, 'name' => wp_strip_all_tags( $label ), 'item' => $url ); }
+			$page['breadcrumb'] = array( '@id' => $breadcrumbs['@id'] );
+			$graph[] = $breadcrumbs;
+		}
+		$graph[] = $page;
+		return array( '@context' => 'https://schema.org', '@graph' => $graph );
 	}
 
 	public function robotsTxt( string $output, bool|string $public ): string {
 		try {
 			if ( ! (bool) $public || ! SeoSettings::indexableSite() ) { return "User-agent: *\nDisallow: /\n"; }
+			// Some plugins replace WordPress' group; retain its administrative crawl policy.
+			$adminPath = (string) wp_parse_url( site_url( '/wp-admin/' ), PHP_URL_PATH );
+			$required = array( 'Disallow: ' . $adminPath, 'Allow: ' . $adminPath . 'admin-ajax.php' );
+			$missing = array_filter( $required, static fn( string $rule ): bool => ! preg_match( '/^' . preg_quote( $rule, '/' ) . '\s*$/mi', $output ) );
+			if ( $missing ) { $output = rtrim( $output ) . "\n\nUser-agent: *\n" . implode( "\n", $missing ) . "\n"; }
 			// Keep WordPress/plugin directives and do not block query URLs that carry noindex.
 			if ( ! preg_match( '/^Sitemap:/mi', $output ) && class_exists( Sitemap::class ) && Sitemap::enabled() ) { $output = rtrim( $output ) . "\nSitemap: " . Sitemap::url() . "\n"; }
 			return $output;

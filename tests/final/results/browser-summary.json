@@ -1,0 +1,64 @@
+{
+  "environment": {
+    "site": "isolated qa_browser on Cloud loopback",
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "recorded_at_utc": "2026-11-05T09:21:53.305766+00:00",
+  "results": {
+    "chromium": {
+      "report": "browser-chromium.json",
+      "counts": {
+        "passed": 112,
+        "failed": 0,
+        "skipped": 0
+      },
+      "version": "155.0.8059.79",
+      "expected_document_404_console_messages": 13,
+      "unexpected_runtime_errors": 0,
+      "failed_assets": 0
+    },
+    "firefox": {
+      "report": "browser-firefox.json",
+      "counts": {
+        "passed": 52,
+        "failed": 0,
+        "skipped": 0
+      },
+      "version": "153.0"
+    },
+    "webkit": {
+      "report": "browser-webkit.json",
+      "counts": {
+        "passed": 52,
+        "failed": 0,
+        "skipped": 0
+      },
+      "version": "26.5"
+    },
+    "persistence": {
+      "report": "browser-persistence.json",
+      "counts": {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "limitations": [
+    "Linux browser engines with emulated viewport sizes; no physical mobile or macOS/iOS Safari test.",
+    "Additional Firefox/WebKit matrices cover public frontend; full native admin mutations run in Chromium.",
+    "No GitHub/AI API or WPML calls in these browser suites.",
+    "No formal accessibility certification."
+  ],
+  "php_log": {
+    "new_application_diagnostics_after_setup": 0,
+    "retained_setup_diagnostic": "One initial WP-CLI eval-file strict_types harness failure; require-based commands subsequently passed."
+  },
+  "screenshots": [
+    "browser-desktop-home.png",
+    "browser-mobile-skill.png",
+    "browser-admin-mobile.png"
+  ]
+}
