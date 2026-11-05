@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace AISkillsHub\Core\Frontend;
 
 use AISkillsHub\Core\Security\Input;
+use AISkillsHub\Core\Database\Database;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -14,7 +15,7 @@ final class Editorial {
 	private const PAGE_KINDS = array( 'about', 'contact', 'submit' );
 	private array $cache = array();
 
-	public function __construct( private ?PublicCatalog $catalog = null ) {}
+	public function __construct( private ?PublicCatalog $catalog = null, private ?Database $writeDatabase = null ) {}
 
 	public function clearCache(): void { $this->cache = array(); }
 
@@ -335,17 +336,21 @@ final class Editorial {
 	}
 
 	public function saveMeta( int $id, \WP_Post $post ): void {
-		if ( ! in_array( $post->post_type, array( self::TUTORIAL, 'page' ), true ) || wp_is_post_revision( $id ) || wp_is_post_autosave( $id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ! current_user_can( 'edit_post', $id ) ) { return; }
+		if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) || $id !== $post->ID || ! in_array( $post->post_type, array( self::TUTORIAL, 'page' ), true ) || wp_is_post_revision( $id ) || wp_is_post_autosave( $id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ! current_user_can( 'edit_post', $id ) ) { return; }
 		$nonce = $_POST['_aish_editorial_nonce'] ?? null;
 		if ( ! is_string( $nonce ) || ! wp_verify_nonce( wp_unslash( $nonce ), 'aish_editorial_' . $id ) ) { return; }
 		try {
+			if ( ! $this->writeDatabase ) { throw new \RuntimeException( 'Editorial writes are unavailable.' ); }
+			$metadata = new NativeMetadata( $this->writeDatabase );
 			$locale = wp_unslash( $_POST['aish_editorial_locale'] ?? '' );
 			if ( ! is_string( $locale ) || ( '' !== $locale && ! in_array( $locale, self::LOCALES, true ) ) ) { throw new \InvalidArgumentException(); }
 			if ( 'page' === $post->post_type ) {
 				$kind = wp_unslash( $_POST['aish_page_kind'] ?? '' );
 				if ( ! is_string( $kind ) || ( '' !== $kind && ! in_array( $kind, self::PAGE_KINDS, true ) ) ) { throw new \InvalidArgumentException(); }
-				update_post_meta( $id, '_aish_locale', $locale );
-				update_post_meta( $id, '_aish_page_kind', $kind );
+				$metadata->transaction( static function ( NativeMetadata $metadata ) use ( $id, $locale, $kind ): void {
+					$metadata->set( $id, '_aish_locale', $locale );
+					$metadata->set( $id, '_aish_page_kind', $kind );
+				} );
 				return;
 			}
 			$skills = self::ids( wp_unslash( $_POST['aish_editorial_skills'] ?? '' ) );
@@ -353,21 +358,36 @@ final class Editorial {
 			if ( ! is_string( $value ) ) { throw new \InvalidArgumentException(); }
 			$other_id = '' === $value ? 0 : filter_var( $value, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
 			if ( false === $other_id || $other_id === $id ) { throw new \InvalidArgumentException(); }
-			if ( $other_id ) {
-				$other = get_post( $other_id );
-				$other_locale = get_post_meta( $other_id, '_aish_locale', true );
-				$existing_pair = (int) get_post_meta( $other_id, '_aish_translation_id', true );
-				if ( ! $other instanceof \WP_Post || self::TUTORIAL !== $other->post_type || ! current_user_can( 'edit_post', $other_id ) || ! in_array( $other_locale, self::LOCALES, true ) || '' === $locale || $locale === $other_locale || ( $existing_pair && $existing_pair !== $id ) ) { throw new \InvalidArgumentException(); }
-			}
-			$previous = (int) get_post_meta( $id, '_aish_translation_id', true );
-			if ( $previous && $previous !== $other_id && (int) get_post_meta( $previous, '_aish_translation_id', true ) === $id ) { delete_post_meta( $previous, '_aish_translation_id', $id ); }
-			update_post_meta( $id, '_aish_locale', $locale );
-			if ( $other_id ) { update_post_meta( $id, '_aish_translation_id', $other_id ); update_post_meta( $other_id, '_aish_translation_id', $id ); }
-			else { delete_post_meta( $id, '_aish_translation_id' ); }
-			delete_post_meta( $id, '_aish_related_skill' );
-			foreach ( $skills as $skill_id ) { add_post_meta( $id, '_aish_related_skill', $skill_id ); }
+			$metadata->transaction( function ( NativeMetadata $metadata ) use ( $id, $locale, $other_id, $skills ): void {
+				// Pair validation must use fresh metadata while all Hub pair writes share the lock.
+				$metadata->touch( $id );
+				if ( $other_id ) {
+					$metadata->touch( $other_id );
+					$other = self::post( $other_id );
+					$other_locale = self::meta( $other_id, '_aish_locale' );
+					$existing_pair = (int) self::meta( $other_id, '_aish_translation_id' );
+					if ( ! $other instanceof \WP_Post || self::TUTORIAL !== $other->post_type || ! current_user_can( 'edit_post', $other_id ) || ! in_array( $other_locale, self::LOCALES, true ) || '' === $locale || $locale === $other_locale || ( $existing_pair && $existing_pair !== $id ) ) { throw new \InvalidArgumentException(); }
+				}
+				if ( $skills ) {
+					$placeholders = implode( ',', array_fill( 0, count( $skills ), '%d' ) );
+					$rows = $this->writeDatabase->rows( 'SELECT id FROM ' . $this->writeDatabase->table( 'skills' ) . " WHERE id IN ($placeholders) FOR SHARE", $skills );
+					if ( count( $rows ) !== count( $skills ) ) { throw new \InvalidArgumentException( 'Related Skill does not exist.' ); }
+				}
+				$previous = (int) self::meta( $id, '_aish_translation_id' );
+				if ( $previous && $previous !== $other_id ) {
+					$metadata->touch( $previous );
+					if ( (int) self::meta( $previous, '_aish_translation_id' ) === $id ) {
+						if ( ! current_user_can( 'edit_post', $previous ) ) { throw new \InvalidArgumentException(); }
+						$metadata->remove( $previous, '_aish_translation_id' );
+					}
+				}
+				$metadata->set( $id, '_aish_locale', $locale );
+				if ( $other_id ) { $metadata->set( $id, '_aish_translation_id', (string) $other_id ); $metadata->set( $other_id, '_aish_translation_id', (string) $id ); }
+				else { $metadata->remove( $id, '_aish_translation_id' ); }
+				$metadata->replace( $id, '_aish_related_skill', array_map( 'strval', $skills ) );
+			} );
 		} catch ( \Throwable $error ) {
-			set_transient( 'aish_editorial_error_' . get_current_user_id(), __( '正文已由 WordPress 保存，但 AI Skills Hub 语言或关联信息无效，未更新这些元数据。检查语言、对应教程权限和 Skill ID 后重新保存。', 'ai-skills-hub' ), 120 );
-		}
+			set_transient( 'aish_editorial_error_' . get_current_user_id(), __( '正文已由 WordPress 保存，但 AI Skills Hub 语言或关联元数据未能整体保存。检查权限、语言、对应教程、Skill ID 和数据库状态后重试。', 'ai-skills-hub' ), 120 );
+		} finally { $this->clearCache(); }
 	}
 }

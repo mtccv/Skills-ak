@@ -128,7 +128,11 @@ final class Admin {
 		self::authorize( self::GENERATE ); echo '<div class="wrap"><h1>AI Skills Hub · AI Generation</h1>';
 		try {
 			$this->notices(); $id = self::id( $_GET, 'id' );
-			if ( $id ) { $this->detail( $id ); }
+			if ( $id ) {
+				$reviewPage = self::id( $_GET, 'review_page', 1 );
+				if ( $reviewPage < 1 || $reviewPage > 10000 ) { throw new \InvalidArgumentException( 'Invalid review page.' ); }
+				$this->detail( $id, $reviewPage, self::id( $_GET, 'review_id' ) );
+			}
 			else {
 				$this->generationForm(); $page = self::id( $_GET, 'paged', 1 ); if ( $page < 1 || $page > 10000 ) { throw new \InvalidArgumentException( 'Invalid page.' ); }
 				$this->jobs( $page, self::input( $_GET, 'status', '', 30 ), self::id( $_GET, 'skill_id' ) );
@@ -175,8 +179,9 @@ final class Admin {
 		}
 	}
 	private static function json( mixed $value ): string { return (string) wp_json_encode( $value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ); }
-	private function detail( int $id ): void {
-		$job = $this->store->job( $id ); $source = is_array( $job['source'] ?? null ) ? $job['source'] : array();
+	private function detail( int $id, int $reviewPage = 1, int $reviewId = 0 ): void {
+		$job = $this->store->job( $id, $reviewPage ); $source = is_array( $job['source'] ?? null ) ? $job['source'] : array();
+		$selectedReview = $reviewId ? $this->store->reviewSnapshot( $id, $reviewId ) : null;
 		echo '<p><a href="' . esc_url( self::url() ) . '">返回生成历史</a></p><h2>' . esc_html( '任务 #' . $id . ' · ' . self::state( (string) $job['status'] ) ) . '</h2>';
 		echo '<p>' . esc_html( 'Provider / Model：' . self::text( $job['provider'] ?? '' ) . ' / ' . self::text( $job['model'] ?? '' ) . '；Prompt：' . self::text( $job['prompt_version'] ?? '' ) ) . '</p><p>' . esc_html( self::usage( $job ) . '；执行耗时：' . (int) ( $job['elapsed_ms'] ?? 0 ) . ' ms' ) . '</p><p><code>' . esc_html( self::text( $job['last_error'] ?? '' ) ) . '</code></p>';
 		if ( ! empty( $job['skill_id'] ) ) {
@@ -228,7 +233,22 @@ final class Admin {
 		}
 		echo '<h3>请求尝试与用量记录</h3><table class="widefat striped"><thead><tr><th>尝试 / 状态</th><th>用量与耗时</th><th>错误 / 时间</th></tr></thead><tbody>';
 		foreach ( $job['attempts_history'] ?? array() as $attempt ) { echo '<tr><td>' . (int) ( $attempt['attempt_number'] ?? $attempt['id'] ?? 0 ) . ' / ' . esc_html( self::text( $attempt['status'] ?? '' ) ) . '</td><td>' . esc_html( self::usage( $attempt ) . '；' . (int) ( $attempt['elapsed_ms'] ?? 0 ) . ' ms' ) . '</td><td><code>' . esc_html( self::text( $attempt['error_code'] ?? '' ) ) . '</code><br>' . esc_html( '开始：' . ( self::text( $attempt['started_at'] ?? '' ) ?: '—' ) . '；完成：' . ( self::text( $attempt['completed_at'] ?? '' ) ?: '—' ) ) . ' UTC</td></tr>'; }
-		echo '</tbody></table><h3>人工操作历史</h3><details><summary>查看保存、采用和拒绝记录</summary><pre>' . esc_html( self::json( $job['reviews'] ?? array() ) ) . '</pre></details>';
+		echo '</tbody></table><h3 id="aish-ai-review-history">人工操作历史</h3><p>历史记录全部保留；列表分页显示操作信息，选择一条记录后查看其内容快照。</p><table class="widefat striped"><thead><tr><th>修订 / 操作</th><th>操作者 / 时间</th><th>快照</th></tr></thead><tbody>';
+		foreach ( $job['reviews'] as $review ) {
+			$url = self::url( 'generation', array( 'id' => $id, 'review_page' => $reviewPage, 'review_id' => (int) $review['id'] ) ) . '#aish-ai-review-snapshot';
+			echo '<tr><td>' . (int) $review['revision'] . ' / ' . esc_html( self::state( (string) $review['action'] ) ) . '</td><td>' . (int) $review['actor_id'] . ' / ' . esc_html( (string) $review['created_at'] ) . ' UTC</td><td><a href="' . esc_url( $url ) . '">查看此修订快照</a></td></tr>';
+		}
+		if ( ! $job['reviews'] ) { echo '<tr><td colspan="3">此页暂无人工操作记录。</td></tr>'; }
+		echo '</tbody></table>';
+		$pages = max( 1, (int) ceil( (int) $job['reviews_total'] / (int) $job['reviews_per_page'] ) );
+		echo '<div class="tablenav"><div class="tablenav-pages">';
+		foreach ( array( $reviewPage - 1 => '上一页', $reviewPage + 1 => '下一页' ) as $target => $label ) {
+			if ( $target >= 1 && $target <= min( 10000, $pages ) ) { echo '<a class="button" href="' . esc_url( self::url( 'generation', array( 'id' => $id, 'review_page' => $target ) ) . '#aish-ai-review-history' ) . '">' . esc_html( $label ) . '</a> '; }
+		}
+		echo esc_html( $reviewPage . ' / ' . $pages . '（' . (int) $job['reviews_total'] . ' 条）' ) . '</div></div>';
+		if ( $selectedReview ) {
+			echo '<h4 id="aish-ai-review-snapshot">' . esc_html( '修订 #' . (int) $selectedReview['revision'] . ' 的历史快照（只读）' ) . '</h4><pre>' . esc_html( self::json( $selectedReview['snapshot'] ) ) . '</pre>';
+		}
 	}
 
 	private static function ids( mixed $raw ): array {

@@ -171,7 +171,7 @@ AI 是独立模块和命名空间目录，复用原数据库、来源及人工�
 | ai_attempts | 每次 HTTP 请求前创建的尝试，绑定 job 和请求标识，保存结果状态、用量/耗时/估算费用及固定错误；未确定结果不能按成功或零费用处理 |
 | ai_reviews | 人工保存、采用、拒绝的追加快照，关联原 job、操作者、UTC 时间和所选字段；不覆盖最初 AI 输出 |
 
-`ai_jobs` 的 `request_key` 唯一，`active_key` 可空且唯一；另有 `(status,available_at)`、`(skill_id,id)`、`(status,locked_until)` 索引。`ai_attempts` 唯一 `(job_id,attempt_number)` 与 request_key，`ai_reviews` 唯一 `(job_id,revision)`。Token 与估算费用列允许 NULL 表示未知，费用使用 decimal(20,8)；时间沿用 UTC。JSON 列有应用层大小限制，不存凭据。
+`ai_jobs` 的 `request_key` 唯一，`active_key` 可空且唯一；另有 `(status,available_at)`、`(skill_id,id)`、`(status,locked_until)` 索引。`ai_attempts` 唯一 `(job_id,attempt_number)` 与 request_key，`ai_reviews` 唯一 `(job_id,revision)`。Token 与估算费用列允许 NULL 表示未知，费用使用 decimal(20,8)；时间沿用 UTC。JSON 列有应用层大小限制，不存凭据。Phase 7 首批加固的 `GenerationStore::job(id, reviewPage)` 只读取每页 25 条审稿操作元信息；`reviewSnapshot(jobId, reviewId)` 在独立能力校验后按双 ID 读取一份快照，避免将所有历史正文装入内存。原记录保留，不迁移表。
 
 当前共 14 张 Core 管理表：原八张业务表、三张采集表和三张 AI 表。原 11 表不重建，原八表字段不变；AI 译文最终仍写入原 skill_translations 的相同 skill_id/locale 唯一行。数据库不存 API Key。版本化迁移、源码权限与历史数据保留规则适用于这三表；不能把表定义检查当作真实 MySQL 安装成功。
 

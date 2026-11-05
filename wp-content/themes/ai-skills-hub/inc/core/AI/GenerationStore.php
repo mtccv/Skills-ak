@@ -17,6 +17,7 @@ final class GenerationStore {
 	public const STATUSES = array( 'queued', 'running', 'retry', 'paused', 'needs_review', 'failed', 'cancelled', 'complete' );
 	public const LEASE_SECONDS = 120;
 	public const MAX_ATTEMPTS = 3;
+	public const REVIEW_PAGE_SIZE = 25;
 	private const PROFILE_FIELDS = array( 'id', 'provider', 'base_url', 'model', 'temperature', 'timeout', 'max_output_tokens', 'token_parameter', 'input_price', 'output_price', 'max_cost', 'enabled' );
 	public function __construct( private Database $db, private Migrator $migrator ) {}
 	private static function now( int $offset = 0 ): string { return gmdate( 'Y-m-d H:i:s', time() + $offset ); }
@@ -238,13 +239,25 @@ final class GenerationStore {
 		$items = $this->db->rows( "SELECT id,skill_id,mode,provider,model,prompt_version,status,review_status,revision,attempts,input_tokens,output_tokens,cost_estimate,elapsed_ms,last_error,created_at,updated_at FROM $table WHERE $where ORDER BY id DESC LIMIT %d OFFSET %d", array_merge( $values, array( 25, ( $page - 1 ) * 25 ) ) );
 		return array( 'items' => $items, 'total' => $total, 'page' => $page, 'per_page' => 25 );
 	}
-	public function job( int $id ): array {
+	/** History lists contain metadata only; large immutable snapshots are read one at a time. */
+	public function job( int $id, int $reviewPage = 1 ): array {
+		if ( $reviewPage < 1 || $reviewPage > 10000 ) { throw new \InvalidArgumentException( 'ai_review_page_invalid' ); }
 		$this->authorize(); $job = self::unpack( $this->row( 'ai_jobs', $id ) ); unset( $job['lease_token'] );
 		$attempts = $this->db->table( 'ai_attempts' ); $reviews = $this->db->table( 'ai_reviews' );
 		$job['attempts_history'] = $this->db->rows( "SELECT * FROM $attempts WHERE job_id=%d ORDER BY attempt_number", array( $id ) );
-		$job['reviews'] = $this->db->rows( "SELECT * FROM $reviews WHERE job_id=%d ORDER BY revision DESC LIMIT 100", array( $id ) );
-		foreach ( $job['reviews'] as &$review ) { $review['snapshot'] = self::decode( $review['snapshot_json'] ); unset( $review['snapshot_json'] ); }
+		$job['reviews_total'] = (int) $this->db->value( "SELECT COUNT(*) FROM $reviews WHERE job_id=%d", array( $id ) );
+		$job['reviews_page'] = $reviewPage;
+		$job['reviews_per_page'] = self::REVIEW_PAGE_SIZE;
+		$job['reviews'] = $this->db->rows( "SELECT id,job_id,revision,action,actor_id,created_at FROM $reviews WHERE job_id=%d ORDER BY revision DESC LIMIT %d OFFSET %d", array( $id, self::REVIEW_PAGE_SIZE, ( $reviewPage - 1 ) * self::REVIEW_PAGE_SIZE ) );
 		$job['current_translations'] = empty( $job['skill_id'] ) ? array() : self::translationSnapshot( $this->translations( (int) $job['skill_id'] ) ); return $job;
+	}
+	public function reviewSnapshot( int $jobId, int $reviewId ): array {
+		$this->authorize(); Input::id( $jobId ); Input::id( $reviewId );
+		$table = $this->db->table( 'ai_reviews' );
+		$review = $this->db->row( "SELECT id,job_id,revision,action,actor_id,created_at,snapshot_json FROM $table WHERE job_id=%d AND id=%d", array( $jobId, $reviewId ) );
+		if ( ! $review ) { throw new \DomainException( 'ai_review_missing' ); }
+		$review['snapshot'] = self::decode( $review['snapshot_json'] ); unset( $review['snapshot_json'] );
+		return $review;
 	}
 	private function reviewable( int $id, int $revision ): array {
 		$this->authorize(); Access::write( 'aish_review_skills' );

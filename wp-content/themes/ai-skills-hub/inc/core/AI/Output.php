@@ -126,21 +126,30 @@ final class Output {
 		return $data;
 	}
 
-	/** json_decode discards duplicate keys; reject them before they can mask a field. */
+	/** Scan already-valid JSON in linear time; json_decode otherwise discards duplicate keys. */
 	private static function duplicates( string $json ): void {
-		preg_match_all( '/"(?:[^"\\\\]|\\\\.)*"|[{}\[\]:,]|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?|true|false|null/s', $json, $matches );
 		$stack = array();
-		foreach ( $matches[0] as $token ) {
+		$length = strlen( $json );
+		for ( $offset = 0; $offset < $length; ++$offset ) {
+			$token = $json[ $offset ];
+			if ( '"' === $token ) {
+				// Skip escaped bytes in both keys and values, including escaped quotes/backslashes.
+				$end = $offset + 1;
+				while ( $end < $length && '"' !== $json[ $end ] ) { $end += '\\' === $json[ $end ] ? 2 : 1; }
+				if ( $end >= $length ) { throw new \InvalidArgumentException( 'ai_output_invalid_json' ); }
+				$index = count( $stack ) - 1;
+				if ( $index >= 0 && $stack[ $index ]['key'] ) {
+					$key = json_decode( substr( $json, $offset, $end - $offset + 1 ), true, 4, JSON_THROW_ON_ERROR );
+					if ( isset( $stack[ $index ]['keys'][ $key ] ) ) { throw new \InvalidArgumentException( 'ai_output_duplicate_key' ); }
+					$stack[ $index ]['keys'][ $key ] = true; $stack[ $index ]['key'] = false;
+				}
+				$offset = $end; continue;
+			}
 			if ( '{' === $token || '[' === $token ) { $stack[] = array( 'object' => '{' === $token, 'key' => '{' === $token, 'keys' => array() ); continue; }
 			if ( '}' === $token || ']' === $token ) { array_pop( $stack ); continue; }
 			$index = count( $stack ) - 1; if ( $index < 0 ) { continue; }
 			if ( ',' === $token ) { $stack[ $index ]['key'] = $stack[ $index ]['object']; continue; }
 			if ( ':' === $token ) { $stack[ $index ]['key'] = false; continue; }
-			if ( $stack[ $index ]['key'] && '"' === $token[0] ) {
-				$key = json_decode( $token, true, 4, JSON_THROW_ON_ERROR );
-				if ( isset( $stack[ $index ]['keys'][ $key ] ) ) { throw new \InvalidArgumentException( 'ai_output_duplicate_key' ); }
-				$stack[ $index ]['keys'][ $key ] = true; $stack[ $index ]['key'] = false;
-			}
 		}
 	}
 

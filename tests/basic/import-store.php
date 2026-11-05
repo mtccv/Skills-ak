@@ -8,7 +8,7 @@ function current_user_can( string $cap ): bool { return $GLOBALS['allow_import_a
 function sanitize_text_field( string $value ): string { return trim( strip_tags( $value ) ); }
 final class wpdb {
 	public string $prefix = 't_'; public string $last_error = ''; public int $insert_id = 0;
-	public array $tables = array(); public array $prepared = array(); public array $executed = array(); private ?array $snapshot = null;
+	public array $tables = array(); public array $prepared = array(); public array $executed = array(); public int $failFinish = 0; private ?array $snapshot = null;
 	public function suppress_errors( bool $value ): bool { return false; }
 	public function prepare( string $sql, array $args ): string { $this->prepared[] = array( $sql, $args ); return 'prepared:' . ( count( $this->prepared ) - 1 ); }
 	private function unpack( string $sql ): array { return str_starts_with( $sql, 'prepared:' ) ? $this->prepared[ (int) substr( $sql, 9 ) ] : array( $sql, array() ); }
@@ -20,6 +20,7 @@ final class wpdb {
 	}
 	public function update( string $table, array $data, array $where, array $formats, array $whereFormats ): int {
 		$table = $this->entity( $table ); $id = $where['id'];
+		if ( 'jobs' === $table && 'complete' === ( $data['status'] ?? '' ) && $this->failFinish > 0 ) { --$this->failFinish; throw new RuntimeException( 'Fixture finalization write failed.' ); }
 		if ( ! isset( $this->tables[ $table ][ $id ] ) ) { return 0; }
 		$this->tables[ $table ][ $id ] = array_merge( $this->tables[ $table ][ $id ], $data );
 		$this->executed[] = array( 'update', $table, $data ); return 1;
@@ -215,4 +216,46 @@ check( str_contains( $current['jobs'], 'UNIQUE KEY active_repository (active_key
 check( str_contains( $current['skills'], 'UNIQUE KEY skill_source (repository_id,source_path)' ), 'Stable source identity constraint remains unchanged.' );
 check( str_contains( $current['imports'], 'UNIQUE KEY import_source (repository_id,source_path)' ), 'Import metadata uses the same stable source identity.' );
 check( str_contains( $current['repositories'], 'github_id bigint(20) unsigned DEFAULT NULL' ), 'Existing repository rows keep a nullable external identity.' );
+
+// The reconciliation transaction can commit before a later finalization write fails.
+// Exercise the real store, rather than a worker fixture which counts the same missing source repeatedly.
+$recoveryDb = new wpdb(); $recoveryDal = new Database( $recoveryDb ); $recovery = new ImportStore( $recoveryDal, new Migrator( $recoveryDal ) );
+$recoveryDb->tables['repositories'][1] = $wpdb->tables['repositories'][1];
+$recoveryDb->tables['imports'][1] = $wpdb->tables['imports'][1];
+$recoveryDb->tables['imports'][1]['source_status'] = 'present'; $recoveryDb->tables['imports'][1]['last_seen_job'] = null;
+$recoveryState = array( 'stage' => 'finalize', 'inventory_complete' => true, 'files_complete' => true, 'errors' => 0, 'commit_sha' => str_repeat( 'e', 40 ), 'inventory_paths' => array(), 'repository' => array( 'license' => 'MIT' ), 'stats' => array( 'missing' => 0 ) );
+$recoveryToken = runningJob( $recoveryDb, 1, $recoveryState );
+$recoveryState['stats']['missing'] = $recovery->completeInventory( 1, $recoveryToken, array(), $recoveryState['commit_sha'] );
+check( 1 === $recoveryState['stats']['missing'], 'Reconciliation records the initial missing source before finalization.' );
+$recoveryDb->failFinish = 1; $failed = false;
+try { $recovery->finish( 1, $recoveryToken, $recoveryState ); } catch ( RuntimeException $error ) { $failed = true; }
+check( $failed && 'running' === $recoveryDb->tables['jobs'][1]['status'], 'An injected finalization failure does not publish a completed task.' );
+check( $recoveryDb->tables['repositories'][1]['last_sync_commit'] !== $recoveryState['commit_sha'], 'Failed finalization does not advance the successful repository baseline.' );
+$changedCommit = $recoveryState; $changedCommit['commit_sha'] = str_repeat( 'f', 40 );
+rejects( fn() => $recovery->retry( 1, $recoveryToken, $changedCommit, 'import_stage_failed', 1 ), 'Retry cannot move durable reconciliation to another Commit.' );
+rejects( fn() => $recovery->checkpoint( 1, $recoveryToken, $changedCommit ), 'Checkpoint cannot move durable reconciliation to another Commit.' );
+rejects( fn() => $recovery->finish( 1, $recoveryToken, $changedCommit ), 'Finalization cannot move durable reconciliation to another Commit.' );
+$recovery->retry( 1, $recoveryToken, $recoveryState, 'import_stage_failed', 1 );
+$saved = json_decode( $recoveryDb->tables['jobs'][1]['state_json'], true );
+check( true === ( $saved['inventory_reconciled'] ?? false ) && 1 === ( $saved['missing_count'] ?? null ), 'Stale worker state cannot erase committed reconciliation when scheduling a retry.' );
+$recoveryDb->tables['jobs'][1]['available_at'] = '2000-01-01 00:00:00';
+$resumed = $recovery->claim();
+check( 1 === $recovery->completeInventory( 1, $resumed['lease_token'], array(), $recoveryState['commit_sha'] ), 'Resumed reconciliation returns the original missing count rather than recounting zero.' );
+$recoveryState['stats']['missing'] = 999;
+$recovery->checkpoint( 1, $resumed['lease_token'], $recoveryState );
+$saved = json_decode( $recoveryDb->tables['jobs'][1]['state_json'], true );
+check( true === ( $saved['inventory_reconciled'] ?? false ) && 1 === $saved['stats']['missing'], 'A later stale checkpoint retains authoritative inventory statistics.' );
+$recoveryDb->tables['jobs'][1]['available_at'] = '2000-01-01 00:00:00'; $resumed = $recovery->claim();
+$recovery->finish( 1, $resumed['lease_token'], $recoveryState );
+$saved = json_decode( $recoveryDb->tables['jobs'][1]['state_json'], true );
+check( 'complete' === $recoveryDb->tables['jobs'][1]['status'] && 1 === $saved['stats']['missing'] && 1 === $saved['missing_count'], 'Final job history preserves the actual missing count after recovery.' );
+$reconciliations = array_filter( $recoveryDb->executed, static fn( array $query ): bool => str_contains( (string) $query[0], "SET source_status='missing'" ) );
+check( 1 === count( $reconciliations ), 'The missing-source update executes once across failed finalization, retry and checkpoint.' );
+$forgedToken = runningJob( $recoveryDb, 2, $recoveryState );
+$forgedState = $recoveryState + array( 'inventory_reconciled' => true, 'missing_count' => 123 );
+$recovery->checkpoint( 2, $forgedToken, $forgedState );
+$saved = json_decode( $recoveryDb->tables['jobs'][2]['state_json'], true );
+check( ! isset( $saved['inventory_reconciled'], $saved['missing_count'] ), 'Caller-provided reconciliation flags cannot create proof of a database inventory update.' );
+$recoveryDb->tables['jobs'][2]['available_at'] = '2000-01-01 00:00:00'; $resumed = $recovery->claim();
+rejects( fn() => $recovery->finish( 2, $resumed['lease_token'], $forgedState ), 'Forged checkpoint proof cannot authorize successful completion.' );
 echo 'PASS: ' . $count . " import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).\n";

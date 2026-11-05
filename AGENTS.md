@@ -2,7 +2,7 @@
 
 先阅读根目录 CODEX_MASTER_SPEC.md 和已有阶段报告。
 
-- Phase 0–5 已获用户验收；当前授权为 Phase 6 AI 智能内容生成。完成检查、提交并同步 GitHub main 后暂停，等待 Phase 7 指令；不得提前开发后续阶段。用户新指令优先。
+- Phase 0–6 已获用户验收；当前授权为 Phase 7 安全、性能、稳定性与功能完善。已收到安全审计、数据库完整性、GitHub 稳定性要求，用户明确表示还会补充后续条目。先完成这些审查及必要修复，不把阶段标为完成，不自动进入 Final QA 或部署。用户新指令优先。
 - 开发仅限 Codex Cloud，不部署外部服务，不要求用户本机开发。
 - 原创 WordPress 主题；Core 内置于主题。不得修改 WordPress 核心。
 - PHP 8.3+、MySQL、Tailwind CSS、Alpine.js；WordPress 原生后台。

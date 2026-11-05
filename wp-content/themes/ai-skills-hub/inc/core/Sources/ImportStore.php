@@ -170,19 +170,21 @@ final class ImportStore {
 	}
 
 	public function checkpoint( int $jobId, string $token, array $state, int $delay = 1 ): void {
-		$json = self::json( $state );
+		self::json( $state );
 		if ( $delay < 1 || $delay > 86400 ) { throw new \InvalidArgumentException( 'Invalid checkpoint delay.' ); }
-		$this->db->transaction( function () use ( $jobId, $token, $json, $delay ): void {
-			$this->leased( $jobId, $token );
+		$this->db->transaction( function () use ( $jobId, $token, $state, $delay ): void {
+			$job = $this->leased( $jobId, $token );
+			$json = self::json( self::preserveReconciliation( $state, self::decoded( $job['state_json'] ) ) );
 			$this->db->updateById( 'jobs', $jobId, array( 'state_json' => $json, 'status' => 'queued', 'attempts' => 0, 'available_at' => self::now( $delay ), 'lease_token' => '', 'locked_until' => null, 'updated_at' => self::now(), 'last_error' => '' ) );
 		} );
 	}
 
 	public function retry( int $jobId, string $token, array $state, string $code, int $delay ): void {
-		$json = self::json( $state ); self::code( $code );
+		self::json( $state ); self::code( $code );
 		if ( $delay < 1 || $delay > 172800 ) { throw new \InvalidArgumentException( 'Invalid retry delay.' ); }
-		$this->db->transaction( function () use ( $jobId, $token, $state, $json, $code, $delay ): void {
+		$this->db->transaction( function () use ( $jobId, $token, $state, $code, $delay ): void {
 			$job = $this->leased( $jobId, $token ); $attempts = (int) $job['attempts'] + 1;
+			$json = self::json( self::preserveReconciliation( $state, self::decoded( $job['state_json'] ) ) );
 			$failed = $attempts >= 5 || self::now( $delay ) >= $job['deadline_at'];
 			$data = array( 'state_json' => $json, 'status' => $failed ? 'failed' : 'retry', 'attempts' => $attempts, 'available_at' => self::now( $delay ), 'lease_token' => '', 'locked_until' => null, 'updated_at' => self::now(), 'last_error' => $code );
 			if ( $failed ) { $data += array( 'active_key' => null, 'completed_at' => self::now() ); }
@@ -194,6 +196,21 @@ final class ImportStore {
 
 	private static function completeState( array $state ): bool {
 		return true === ( $state['inventory_complete'] ?? false ) && true === ( $state['files_complete'] ?? false ) && 0 === ( $state['errors'] ?? null );
+	}
+
+	/** Inventory reconciliation commits separately from finalization; stale worker state cannot erase it. */
+	private static function preserveReconciliation( array $state, array $stored ): array {
+		// Only completeInventory may establish this proof, never a supplied checkpoint.
+		unset( $state['inventory_reconciled'], $state['missing_count'] );
+		if ( true !== ( $stored['inventory_reconciled'] ?? false ) ) { return $state; }
+		if ( ! is_string( $stored['commit_sha'] ?? null ) || $stored['commit_sha'] !== ( $state['commit_sha'] ?? null ) ) { throw new \DomainException( 'Reconciled inventory cannot change its Commit identity.' ); }
+		$count = $stored['missing_count'] ?? null;
+		if ( ! is_int( $count ) || $count < 0 ) { throw new \RuntimeException( 'Invalid stored inventory reconciliation.' ); }
+		$state['inventory_reconciled'] = true;
+		$state['missing_count'] = $count;
+		$state['stats'] = is_array( $state['stats'] ?? null ) ? $state['stats'] : array();
+		$state['stats']['missing'] = $count;
+		return $state;
 	}
 
 	private function reusableBaseline( array $job, string $commit ): bool {
@@ -212,15 +229,16 @@ final class ImportStore {
 
 	public function finish( int $jobId, string $token, array $state, string $status = 'complete' ): void {
 		if ( ! in_array( $status, self::TERMINAL, true ) || ( 'complete' === $status && ! self::completeState( $state ) ) ) { throw new \DomainException( 'Incomplete imports cannot be reported complete.' ); }
-		$json = self::json( $state );
-		$this->db->transaction( function () use ( $jobId, $token, $state, $status, $json ): void {
+		self::json( $state );
+		$this->db->transaction( function () use ( $jobId, $token, $state, $status ): void {
 			$job = $this->leased( $jobId, $token );
+			$storedState = self::decoded( $job['state_json'] );
+			$json = self::json( self::preserveReconciliation( $state, $storedState ) );
 			$repoUpdate = array( 'sync_status' => $status );
 			if ( 'complete' === $status ) {
 				$sha = self::sha( $state['commit_sha'] ?? '' );
 				$license = Input::plain( $state['repository']['license'] ?? '', 100, true );
 				if ( ! empty( $state['unchanged_head'] ) && ! $this->reusableBaseline( $job, $sha ) ) { throw new \DomainException( 'No trusted unchanged-head baseline exists.' ); }
-				$storedState = self::decoded( $job['state_json'] );
 				if ( empty( $state['unchanged_head'] ) && ( true !== ( $storedState['inventory_reconciled'] ?? false ) || $sha !== ( $storedState['commit_sha'] ?? '' ) ) ) { throw new \DomainException( 'A successful import requires durable inventory reconciliation.' ); }
 				$repoUpdate += array( 'last_sync_commit' => $sha, 'last_sync_at' => self::now(), 'license_spdx' => $license );
 			}

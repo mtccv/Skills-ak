@@ -21,11 +21,17 @@ namespace AISkillsHub\Core\AI {
 		public array $calls = array();
 		public string $mode = 'both';
 		public function listJobs( int $page, string $status, int $skill ): array { $this->calls[] = array( 'list', $page, $status, $skill ); return array( 'items' => array(), 'total' => 75, 'per_page' => 25 ); }
-		public function job( int $id ): array {
+		public function job( int $id, int $reviewPage = 1 ): array {
+			$this->calls[] = array( 'job', $id, $reviewPage );
 			return array( 'id' => $id, 'skill_id' => 9, 'mode' => $this->mode, 'provider' => 'openai', 'model' => 'fixture-model', 'prompt_version' => 'test-1', 'status' => 'needs_review', 'review_status' => 'pending', 'revision' => 7, 'source_commit' => str_repeat( 'a', 40 ), 'file_sha' => str_repeat( 'b', 40 ), 'input_tokens' => 0, 'output_tokens' => null, 'cost_estimate' => null, 'elapsed_ms' => 321,
 				'source' => array( 'repository' => array( 'owner' => 'owner', 'name' => 'repo' ), 'source_path' => '<script>path</script>', 'raw' => '</textarea><script>raw()</script>', 'static_findings' => array( 'risk_level' => 'medium', 'message' => '<script>static()</script>' ) ), 'output' => array( 'risk' => array( 'level' => 'high', 'findings' => array( 'explanation' => '<img src=x onerror=bad()>' ), 'limitations' => array( '未执行脚本，不是安全认证。' ) ) ),
 				'edited' => array( 'zh_CN' => array( 'title' => '中文草稿', 'summary' => '</textarea><script>draft()</script>', 'content' => '<h2>草稿正文</h2>' ), 'en_US' => array( 'title' => 'English draft', 'summary' => 'Summary', 'content' => '<h2>Use cases</h2>' ) ),
-				'current_translations' => array( 'zh_CN' => array( 'title' => '人工标题', 'summary' => '', 'content' => '<h2>人工正文</h2>' ), 'en_US' => array( 'title' => ' ' ) ), 'attempts_history' => array( array( 'id' => 4, 'attempt_number' => 2, 'status' => 'failed', 'input_tokens' => null, 'output_tokens' => null, 'cost_estimate' => null, 'elapsed_ms' => 200, 'error_code' => 'ai_timeout', 'started_at' => '2026-11-05 01:02:03', 'completed_at' => '2026-11-05 01:02:04' ) ), 'reviews' => array( array( 'action' => 'edited', 'snapshot' => '<script>audit()</script>' ) ) );
+				'current_translations' => array( 'zh_CN' => array( 'title' => '人工标题', 'summary' => '', 'content' => '<h2>人工正文</h2>' ), 'en_US' => array( 'title' => ' ' ) ), 'attempts_history' => array( array( 'id' => 4, 'attempt_number' => 2, 'status' => 'failed', 'input_tokens' => null, 'output_tokens' => null, 'cost_estimate' => null, 'elapsed_ms' => 200, 'error_code' => 'ai_timeout', 'started_at' => '2026-11-05 01:02:03', 'completed_at' => '2026-11-05 01:02:04' ) ), 'reviews' => $reviewPage > 3 ? array() : array( array( 'id' => 71, 'revision' => 4, 'action' => 'edited', 'actor_id' => 7, 'created_at' => '2026-11-05 01:02:03' ) ), 'reviews_total' => 75, 'reviews_page' => $reviewPage, 'reviews_per_page' => 25 );
+		}
+		public function reviewSnapshot( int $jobId, int $reviewId ): array {
+			$this->calls[] = array( 'snapshot', $jobId, $reviewId );
+			if ( 71 !== $reviewId ) { throw new \DomainException( 'private snapshot SQL must not leak' ); }
+			return array( 'id' => 71, 'job_id' => $jobId, 'revision' => 4, 'snapshot' => array( 'text' => '<script>audit()</script>' ) );
 		}
 		public function saveReview( int $id, int $revision, array $translations ): void { $this->calls[] = array( 'save_review', $id, $revision, $translations ); }
 		public function accept( int $id, int $revision, array $fields ): void { $this->calls[] = array( 'accept', $id, $revision, $fields ); }
@@ -162,6 +168,25 @@ namespace {
 	check( str_contains( $html, '开始：2026-11-05 01:02:03' ) && str_contains( $html, '完成：2026-11-05 01:02:04' ), 'Attempt times use actual started/completed schema fields.' );
 	check( str_contains( $html, 'name="revision" value="7"' ), 'Review forms carry current draft revision.' );
 	check( str_contains( $html, '不是安全认证' ) && str_contains( $html, 'aish-skill-edit' ), 'Risk limits and normal manual editing workflow visible.' );
+	check( str_contains( $html, 'review_page=2' ) && str_contains( $html, 'review_id=71' ) && ! str_contains( $html, 'audit()' ), 'Detail links to history pages and one snapshot without loading snapshot bodies by default.' );
+	check( ! array_filter( $store->calls, fn( $call ) => 'snapshot' === $call[0] ), 'Ordinary detail rendering performs no snapshot lookup.' );
+	$_GET = array( 'id' => '9', 'review_page' => '2', 'review_id' => '71' ); $store->calls = array();
+	ob_start(); $admin->generationScreen(); $html = ob_get_clean();
+	check( array( array( 'job', 9, 2 ), array( 'snapshot', 9, 71 ) ) === $store->calls, 'Selected review page and single snapshot keep the parent job identity.' );
+	check( str_contains( $html, '&lt;script&gt;audit()&lt;/script&gt;' ) && ! str_contains( $html, '<script>' ), 'Historical snapshot content is escaped before rendering.' );
+	check( str_contains( $html, 'review_page=1' ) && str_contains( $html, 'review_page=3' ) && str_contains( $html, '2 / 3' ), 'History navigation preserves its job and renders previous/next pages.' );
+	foreach ( array( array( 'review_page' => '0' ), array( 'review_page' => '10001' ), array( 'review_page' => array( '1' ) ), array( 'review_id' => array( '71' ) ), array( 'review_id' => '1 OR 1=1' ), array( 'review_id' => '-1' ) ) as $invalid ) {
+		$_GET = array_merge( array( 'id' => '9' ), $invalid ); $store->calls = array();
+		ob_start(); $admin->generationScreen(); $html = ob_get_clean();
+		check( ! $store->calls && str_contains( $html, '无法完成操作' ), 'Malformed history parameters are rejected before storage access.' );
+	}
+	$_GET = array( 'id' => '9', 'review_id' => '99' ); ob_start(); $admin->generationScreen(); $html = ob_get_clean();
+	check( str_contains( $html, '无法完成操作' ) && ! str_contains( $html, 'private snapshot SQL' ), 'Missing or mismatched snapshot errors remain generic.' );
+	$_GET = array( 'id' => '9', 'review_page' => '4' ); ob_start(); $admin->generationScreen(); $html = ob_get_clean();
+	check( str_contains( $html, '此页暂无人工操作记录' ), 'History pages with no records show an explicit empty state.' );
+	$_GET = array( 'id' => '9', 'review_id' => '71' ); $GLOBALS['caps'] = array( 'read' ); $store->calls = array();
+	try { $admin->generationScreen(); throw new RuntimeException( 'Unauthorized detail was shown.' ); } catch ( Stop $error ) { check( 403 === $error->status && ! $store->calls, 'Unauthorized snapshot URL is blocked before any lookup.' ); }
+	$GLOBALS['caps'] = array( 'manage_options' ); $_GET = array();
 	$store->mode = 'use_cases'; ob_start(); ( new ReflectionMethod( Admin::class, 'detail' ) )->invoke( $admin, 9 ); $html = ob_get_clean();
 	check( ! str_contains( $html, 'name="fields[]"' ) && ! str_contains( $html, 'value="accept"' ) && str_contains( $html, '使用场景是局部正文建议' ), 'Partial use-case draft cannot replace any content.' );
 	ob_start(); ( new ReflectionMethod( Admin::class, 'jobs' ) )->invoke( $admin, 2, 'failed', 9 ); $html = ob_get_clean();

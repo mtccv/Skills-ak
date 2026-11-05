@@ -24,8 +24,11 @@ jobs:
           coverage: none
       - run: bash scripts/lint-php.sh
       - run: php tests/basic/frontend-routing.php
+      - run: php tests/basic/management-integrity.php
       - run: php tests/basic/public-search.php
       - run: php tests/basic/editorial-search.php
+      - run: php tests/basic/editorial-management.php
+      - run: php tests/basic/forms-management.php
       - run: php tests/basic/seo.php
       - run: php tests/basic/sitemap.php
       - run: php tests/basic/github-client.php

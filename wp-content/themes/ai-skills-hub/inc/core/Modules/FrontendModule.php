@@ -20,11 +20,11 @@ final class FrontendModule implements Module {
 	public function dependencies(): array { return array( 'database', 'language', 'catalog' ); }
 	public function register( Core $core ): void {
 		$catalog = new PublicCatalog( $core->get( 'database' ), $core->migrator() );
-		$editorial = new Editorial( $catalog );
+		$editorial = new Editorial( $catalog, $core->get( 'database' ) );
 		$core->set( 'public_catalog', $catalog );
 		$core->set( 'editorial', $editorial );
 		$editorial->register();
-		( new Forms() )->register();
+		( new Forms( $core->get( 'database' ) ) )->register();
 		( new SeoSettings( $core->get( 'database' ) ) )->register();
 		( new Seo() )->register();
 		( new Sitemap( $catalog, $editorial ) )->register();

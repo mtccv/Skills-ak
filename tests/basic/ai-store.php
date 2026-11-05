@@ -18,6 +18,15 @@ final class wpdb {
 	public function get_results( string $prepared, string $format ): array {
 		list( $sql, $args ) = $this->unpack( $prepared ); $this->queries[] = $sql;
 		preg_match( '/FROM `t_aish_([a-z_]+)`/', $sql, $match ); $rows = array_values( $this->tables[ $match[1] ?? '' ] ?? array() );
+		if ( 'ai_reviews' === ( $match[1] ?? '' ) && str_contains( $sql, 'WHERE job_id=%d' ) ) {
+			$rows = array_values( array_filter( $rows, fn( $r ) => (int) $r['job_id'] === $args[0] && ( ! str_contains( $sql, 'AND id=%d' ) || (int) $r['id'] === $args[1] ) ) );
+			if ( str_contains( $sql, 'ORDER BY revision DESC' ) ) { usort( $rows, static fn( $a, $b ) => $b['revision'] <=> $a['revision'] ); }
+			if ( str_contains( $sql, 'LIMIT %d OFFSET %d' ) ) { $rows = array_slice( $rows, $args[2], $args[1] ); }
+			if ( str_contains( $sql, 'snapshot_json' ) || str_starts_with( $sql, 'SELECT *' ) ) {
+				if ( ! str_contains( $sql, 'AND id=%d' ) ) { throw new RuntimeException( 'History may not bulk-read snapshot bodies.' ); }
+			} else { $rows = array_map( static fn( $r ) => array_intersect_key( $r, array_flip( array( 'id', 'job_id', 'revision', 'action', 'actor_id', 'created_at' ) ) ), $rows ); }
+			return $rows;
+		}
 		if ( str_contains( $sql, "status IN ('queued','retry')" ) ) { return array_slice( array_values( array_filter( $rows, fn( $r ) => ( in_array( $r['status'], array( 'queued', 'retry' ), true ) && $r['available_at'] <= $args[0] ) || ( 'running' === $r['status'] && $r['locked_until'] <= $args[1] ) ) ), 0, 1 ); }
 		if ( str_contains( $sql, 'WHERE id=%d' ) ) { return array_values( array_filter( $rows, fn( $r ) => $r['id'] === $args[0] ) ); }
 		if ( str_contains( $sql, 'WHERE request_key=%s' ) ) { return array_values( array_filter( $rows, fn( $r ) => ( $r['request_key'] ?? null ) === $args[0] ) ); }
@@ -162,8 +171,35 @@ $id2 = $store->enqueue( $source, $profile, 'summary', str_repeat( 'e', 64 ), 'v1
 rejects( fn() => $store->completeAttempt( $id2, $job2['lease_token'], $a2['id'], $output, array( 'zh_CN' => array( 'content' => 'Not a summary' ) ), array() ), 'Summary regeneration is confined to summary fields.' );
 $store->completeAttempt( $id2, $job2['lease_token'], $a2['id'], $output, array( 'zh_CN' => array( 'summary' => '仅摘要' ) ), array() );
 rejects( fn() => $store->saveReview( $id2, 1, array( 'zh_CN' => array( 'title' => 'Wrong scope' ) ) ), 'Manual review cannot silently broaden a summary regeneration.' );
+
+// A long editing history never transfers every large snapshot into the detail response.
+list( $wpdb, $db, $store, $source, $profile ) = fixture();
+$id = $store->enqueue( $source, $profile, 'both', str_repeat( 'f', 64 ), 'v1' ); $job = $store->claim(); $attempt = $store->beginAttempt( $id, $job['lease_token'] );
+$store->completeAttempt( $id, $job['lease_token'], $attempt['id'], $output, $draft, array() );
+$largeDraft = array( 'zh_CN' => array( 'content' => str_repeat( 'z', 450000 ) ), 'en_US' => array( 'content' => str_repeat( 'e', 450000 ) ) );
+$store->saveReview( $id, 1, $largeDraft );
+$review = $wpdb->tables['ai_reviews'][1];
+check( strlen( $review['snapshot_json'] ) > 900000, 'Large bilingual reviews are legal, so bounding only the row count is insufficient.' );
+// Reuse the fixture string in memory; the recording adapter must project bodies out of SQL results.
+for ( $i = 2; $i <= 103; ++$i ) { $wpdb->tables['ai_reviews'][$i] = array_replace( $review, array( 'id' => $i, 'revision' => $i + 1 ) ); }
+$wpdb->tables['ai_reviews'][104] = array_replace( $review, array( 'id' => 104, 'job_id' => 2, 'snapshot_json' => '{invalid-other-job' ) );
+$wpdb->tables['ai_reviews'][103]['snapshot_json'] = '{invalid-unselected-snapshot';
+$details = $store->job( $id );
+check( 103 === $details['reviews_total'] && 25 === count( $details['reviews'] ) && 103 === $details['reviews'][0]['id'] && 79 === $details['reviews'][24]['id'], 'History metadata is ordered and limited to the requested job and page.' );
+check( ! isset( $details['reviews'][0]['snapshot'], $details['reviews'][0]['snapshot_json'] ) && strlen( json_encode( $details['reviews'] ) ) < 10000, 'Detail transfers compact metadata regardless of snapshot body size or validity.' );
+$lastPage = $store->job( $id, 5 );
+check( 3 === count( $lastPage['reviews'] ) && array( 3, 2, 1 ) === array_column( $lastPage['reviews'], 'id' ), 'Records older than the former 100-row cap remain reachable through pagination.' );
+check( array() === $store->job( $id, 6 )['reviews'], 'Out-of-range history pages return an honest empty list.' );
+check( $largeDraft === $store->reviewSnapshot( $id, 1 )['snapshot'], 'An explicitly selected snapshot is decoded intact.' );
+rejects( fn() => $store->reviewSnapshot( $id, 104 ), 'Snapshot IDs belonging to another job cannot be read through this job.' );
+rejects( fn() => $store->reviewSnapshot( $id, 999 ), 'Missing snapshots are rejected without fabricating content.' );
+rejects( fn() => $store->reviewSnapshot( 0, 1 ), 'Snapshot lookup requires valid job identity.' );
+rejects( fn() => $store->job( $id, 0 ), 'History page zero is rejected.' );
+rejects( fn() => $store->job( $id, 10001 ), 'History offsets have a fixed upper bound.' );
+check( 104 === count( $wpdb->tables['ai_reviews'] ), 'Viewing history does not delete old or unselected snapshots.' );
 $GLOBALS['caps'] = array( 'aish_generate_content' => false, 'manage_options' => false );
 rejects( fn() => $store->job( 1 ), 'Login alone cannot read source and draft history.' );
+rejects( fn() => $store->reviewSnapshot( 1, 1 ), 'Direct single-snapshot reads independently enforce generation capability.' );
 rejects( fn() => $store->enqueue( $source, $profile, 'both', str_repeat( 'c', 64 ), 'v1' ), 'Unauthorized users cannot enqueue paid jobs.' );
 $GLOBALS['caps'] = array( 'aish_generate_content' => true, 'aish_review_skills' => false, 'manage_options' => false );
 rejects( fn() => $store->saveReview( 1, 1, array() ), 'Generation permission is not review permission.' );

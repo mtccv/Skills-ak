@@ -8,8 +8,8 @@
 | Phase 3 中英文双语前台 | 用户已验收 | PHASE_3_REPORT.md / FRONTEND.md |
 | Phase 4 搜索与 SEO | 用户已验收 | PHASE_4_REPORT.md / SEO.md |
 | Phase 5 GitHub Skills 自动采集 | 用户已验收 | PHASE_5_REPORT.md / GITHUB_IMPORT.md / IMPORT_SECURITY.md |
-| Phase 6 AI 双语内容 | 实现、必要检查与 GitHub 同步完成，等待用户验收 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
-| Phase 7 | 未启动，等待用户安排 | 不自动进入下一阶段 |
+| Phase 6 AI 双语内容 | 用户已验收 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
+| Phase 7 安全、性能与稳定性 | 进行中，已按已知范围开始审查和修复；用户待补充后续条目 | PHASE_7_REPORT.md；当前批次不代表阶段完成 |
 | Final QA | 待执行 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
 
 Phase 2 范围为菜单/统计、Skills 人工及来源录入、双语编辑、状态/归档、分类/标签、手动仓库、人工审核/风险/备注、私有阅读预览、列表/批量和 capability/nonce 安全控制。
@@ -39,3 +39,7 @@ Phase 6 以 GitHub main `4a7d70c3eeda9c4d4f1f668508ea7d036b4bb4fe` 为基线，�
 本轮 Cloud PHP 8.3 语法检查 87 文件、1466 项隔离/模拟断言、前端构建与资源、脚本及 Compose 配置检查通过。实现提交 `b5c159bf8befb6a4fdc941f5d2384bffccb3b8ac` 已同步 GitHub main；[CI 41927463668](https://github.com/mtccv/Skills-ak/actions/runs/41927463668) 的 PHP 8.3/8.4 和 assets 均 success，WordPress/MySQL 按策略 skipped。Git/CI 补记为随后纯文档提交。
 
 没有执行真实 AI API、MySQL、WordPress、WPML、浏览器或端到端测试；完整验收仍留 Final QA。文件、限制及证据见 [Phase 6 报告](PHASE_6_REPORT.md)。Phase 6 完成后暂停，等待 Phase 7 指令。
+
+Phase 7 已获授权，基线为 main `b3295f643c167ab7a6b5bba60e01f58359253cc3`。用户明确表示还会补充“任务重复”之后的条目，本批仅先处理已知安全、数据完整性与采集稳定性范围，不代表阶段完成。
+
+首批修复统一仓库归档、仓库身份并发读取、采集对账恢复、AI 长 JSON 重复键检查、审稿历史按需读取，以及原生语言/配对/来信元数据的原子保存。schema 1.5.0 和十四表未变，数据保留。Cloud 91 个 PHP 文件语法、1739 项隔离断言、前端构建/资源/脚本/Compose 检查通过；npm audit 本次报告零个已知漏洞。真实 API、WordPress/MySQL、插件、浏览器和并发仍未执行。审查覆盖、证据、限制与文件见 [Phase 7 进行中记录](PHASE_7_REPORT.md)，等待补充要求后继续。

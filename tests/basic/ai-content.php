@@ -58,6 +58,22 @@ rejects( fn() => Output::parse( str_repeat( ' ', Output::MAX_BYTES + 1 ), $sourc
 rejects( fn() => Output::parse( "\xff", $source, 'both' ), 'output invalid encoding' );
 rejects( fn() => Output::parse( str_replace( '"title":"代码审查助手"', '"title":"代码审查助手","title":"另一标题"', encode( fixture() ) ), $source, 'both' ), 'duplicate field rejected', 'ai_output_duplicate_key' );
 rejects( fn() => Output::parse( str_replace( '"title":"代码审查助手"', '"title":"代码审查助手","\u0074itle":"另一标题"', encode( fixture() ) ), $source, 'both' ), 'escaped duplicate key rejected', 'ai_output_duplicate_key' );
+$long = fixture();
+$long['locales']['zh_CN']['description'] = str_repeat( '中', 12000 );
+$long['locales']['en_US']['description'] = str_repeat( 'x', 12000 );
+$longJson = encode( $long );
+$longParsed = Output::parse( $longJson, $source, 'both' );
+check( $longParsed['locales'] === $long['locales'], 'long legal descriptions and same keys in separate locale objects remain valid' );
+foreach ( array( 'title', '\u0074itle' ) as $duplicateKey ) {
+	$duplicate = str_replace( '"title":"代码审查助手"', '"title":"' . str_repeat( 'x', 12000 ) . '","' . $duplicateKey . '":"代码审查助手"', $longJson );
+	rejects( fn() => Output::parse( $duplicate, $source, 'both' ), 'long overwritten value cannot bypass duplicate-key validation', 'ai_output_duplicate_key' );
+}
+$duplicate = str_replace( '"category":"prompt_injection"', '"category":"other","category":"prompt_injection"', $longJson );
+rejects( fn() => Output::parse( $duplicate, $source, 'both' ), 'nested object duplicate after long strings is rejected', 'ai_output_duplicate_key' );
+$quoted = fixture();
+$quoted['locales']['en_US']['description'] = 'Quoted JSON is data: {"title":"first","title":"second"}, ["item"], backslashes \\\\ and an escaped quote \\".';
+$quoted['locales']['en_US']['limitations'][] = 'Brackets },{ and punctuation : , stay inside a string.';
+check( Output::parse( encode( $quoted ), $source, 'both' )['locales']['en_US'] === $quoted['locales']['en_US'], 'escaped quotes, backslashes and apparent duplicate JSON inside string values are inert' );
 $bad = fixture(); $bad['publish'] = true; rejects( fn() => Output::parse( encode( $bad ), $source, 'both' ), 'output cannot authorize publication' );
 $bad = fixture(); $bad['locales']['fr_FR'] = localeFixture( false ); rejects( fn() => Output::parse( encode( $bad ), $source, 'both' ), 'unexpected language rejected' );
 $bad = fixture(); unset( $bad['locales']['en_US'] ); rejects( fn() => Output::parse( encode( $bad ), $source, 'both' ), 'missing requested language rejected' );

@@ -7,6 +7,7 @@ use AISkillsHub\Core\Content\Catalog;
 use AISkillsHub\Core\Database\Database;
 use AISkillsHub\Core\Database\Migrator;
 use AISkillsHub\Core\Security\Input;
+use AISkillsHub\Core\Sources\ImportStore;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -376,10 +377,12 @@ final class Management {
 		list( $owner, $name ) = Input::repository( $owner, $name );
 		return $this->db->transaction( function () use ( $id, $owner, $name ) {
 			$table = $this->db->table( 'repositories' );
+			// Lock the identity before the first consistent read. Under REPEATABLE READ,
+			// an earlier snapshot could hide bindings committed while this lock waited.
+			$old = null === $id ? null : $this->row( 'repositories', $id, true );
 			$duplicate = $this->db->value( "SELECT id FROM $table WHERE owner=%s AND name=%s", array( $owner, $name ) );
 			if ( null !== $duplicate && (int) $duplicate !== $id ) { throw new \DomainException( '该 GitHub 仓库已存在，请编辑已有记录。' ); }
 			if ( null === $id ) { return $this->db->insert( 'repositories', array( 'owner' => $owner, 'name' => $name, 'created_at' => gmdate( 'Y-m-d H:i:s' ) ) ); }
-			$old = $this->row( 'repositories', $id, true );
 			$skills = $this->db->table( 'skills' );
 			$jobs = $this->db->table( 'jobs' );
 			if ( ( $old['owner'] !== $owner || $old['name'] !== $name ) && ( ! empty( $old['github_id'] ) || (int) $this->db->value( "SELECT COUNT(*) FROM $skills WHERE repository_id=%d", array( $id ) ) > 0 || (int) $this->db->value( "SELECT COUNT(*) FROM $jobs WHERE repository_id=%d", array( $id ) ) > 0 ) ) { throw new \DomainException( '仓库已绑定来源或采集记录，不能更换身份；请新建仓库。' ); }
@@ -390,9 +393,8 @@ final class Management {
 
 	public function archiveRepository( int $id ): void {
 		$this->ready( array( 'aish_manage_repositories' ) );
-		$this->db->transaction( function () use ( $id ) {
-			$this->row( 'repositories', $id, true );
-			$this->db->updateById( 'repositories', $id, array( 'is_archived' => 1 ) );
-		} );
+		$this->row( 'repositories', $id );
+		// Both administrative menus must fence leases and cancel the same queue.
+		( new ImportStore( $this->db, $this->migrator ) )->archiveRepository( $id );
 	}
 }

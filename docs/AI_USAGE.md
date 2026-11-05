@@ -53,6 +53,6 @@ Token 来自供应商响应，缺失时显示未知。已获得响应但草稿 J
 
 配置及全局暂停需要 `aish_manage_ai_settings`；任务生成/历史需要 `aish_generate_content`。连接测试同时需要这两种能力。人工草稿编辑/采用/拒绝 UI 还需要 `aish_manage_skills` 和 `aish_review_skills`。`manage_options` 管理员兼容这些能力；所有写操作要求 POST、nonce，采用/重试有明确确认。
 
-`ai_jobs` 保存冻结输入、原始 AI 草稿、当前人工草稿及任务状态；`ai_attempts` 保留每次请求的用量/状态；`ai_reviews` 追加人工修改、采用或拒绝的快照、操作者、时间和修订。没有第二套 Skill ID。后台默认每页 25 个任务，详情显示最近 100 条人工操作，历史行不会自动删除。
+`ai_jobs` 保存冻结输入、原始 AI 草稿、当前人工草稿及任务状态；`ai_attempts` 保留每次请求的用量/状态；`ai_reviews` 追加人工修改、采用或拒绝的快照、操作者、时间和修订。没有第二套 Skill ID。后台默认每页 25 个任务。Phase 7 首批加固将详情中的人工操作历史改为每页 25 条简要记录，点击某一修订后才读取其完整只读快照；不再一次载入 100 份正文。原有历史全部保留，可分页访问，快照按任务及记录双重 ID 查询并检查权限。
 
 本阶段仅完成 PHP、构建和隔离 Mock 检查，**没有运行真实 AI API、MySQL、WordPress、浏览器或端到端验收**。准确结果见 [Phase 6 报告](PHASE_6_REPORT.md)；真实运行验证留 Final QA。

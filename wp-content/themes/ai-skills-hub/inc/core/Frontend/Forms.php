@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace AISkillsHub\Core\Frontend;
 
+use AISkillsHub\Core\Database\Database;
 use AISkillsHub\Core\Security\Input;
 
 defined( 'ABSPATH' ) || exit;
@@ -12,6 +13,8 @@ final class Forms {
 	public const POST_TYPE = 'aish_message';
 	private const GLOBAL_LIMIT = 120;
 	private const ADDRESS_LIMIT = 5;
+
+	public function __construct( private ?Database $database = null ) {}
 
 	public function register(): void {
 		add_action( 'init', array( $this, 'registerType' ) );
@@ -28,6 +31,13 @@ final class Forms {
 			add_meta_box( 'aish-message-details', __( '来信与人工处理', 'ai-skills-hub' ), array( $this, 'metaBox' ), self::POST_TYPE, 'normal', 'high' );
 		} );
 		add_action( 'save_post_' . self::POST_TYPE, array( $this, 'saveState' ) );
+		add_action( 'admin_notices', static function (): void {
+			if ( ! current_user_can( 'aish_manage_settings' ) && ! current_user_can( 'manage_options' ) ) { return; }
+			$key = 'aish_message_error_' . get_current_user_id();
+			if ( '1' !== get_transient( $key ) ) { return; }
+			delete_transient( $key );
+			echo '<div class="notice notice-error"><p>' . esc_html__( '来信处理状态和内部备注未保存。请刷新页面，核对输入后重试。', 'ai-skills-hub' ) . '</p></div>';
+		} );
 		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', static function ( array $columns ): array {
 			return array( 'cb' => $columns['cb'] ?? '', 'title' => __( '来信', 'ai-skills-hub' ), 'aish_kind' => __( '类型', 'ai-skills-hub' ), 'aish_state' => __( '处理状态', 'ai-skills-hub' ), 'date' => __( '收到时间', 'ai-skills-hub' ) );
 		} );
@@ -68,14 +78,23 @@ final class Forms {
 	}
 
 	public function saveState( int $id ): void {
-		if ( wp_is_post_revision( $id ) || wp_is_post_autosave( $id ) || ! current_user_can( 'edit_post', $id ) ) { return; }
+		if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) || $id < 1 || wp_is_post_revision( $id ) || wp_is_post_autosave( $id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ! current_user_can( 'edit_post', $id ) || ( ! current_user_can( 'aish_manage_settings' ) && ! current_user_can( 'manage_options' ) ) ) { return; }
+		$post = get_post( $id );
+		if ( ! $post instanceof \WP_Post || self::POST_TYPE !== $post->post_type ) { return; }
 		$nonce = $_POST['_aish_message_nonce'] ?? null;
 		if ( ! is_string( $nonce ) || ! wp_verify_nonce( wp_unslash( $nonce ), 'aish_message_state_' . $id ) ) { return; }
-		$state = wp_unslash( $_POST['aish_message_state'] ?? '' );
-		$notes = wp_unslash( $_POST['aish_message_notes'] ?? '' );
-		if ( ! is_string( $state ) || ! isset( self::states()[ $state ] ) || ! is_string( $notes ) || strlen( $notes ) > 12000 || ! preg_match( '//u', $notes ) ) { return; }
-		update_post_meta( $id, '_aish_message_state', $state );
-		update_post_meta( $id, '_aish_message_notes', sanitize_textarea_field( $notes ) );
+		$key = 'aish_message_error_' . get_current_user_id();
+		try {
+			$state = wp_unslash( $_POST['aish_message_state'] ?? '' );
+			$notes = Input::utf8( wp_unslash( $_POST['aish_message_notes'] ?? '' ), 12000 );
+			if ( ! is_string( $state ) || ! isset( self::states()[ $state ] ) || preg_match_all( '/./us', $notes ) > 3000 ) { throw new \InvalidArgumentException( 'Invalid inbox metadata.' ); }
+			if ( ! $this->database ) { throw new \RuntimeException( 'Inbox metadata storage is unavailable.' ); }
+			( new NativeMetadata( $this->database ) )->transaction( static function ( NativeMetadata $metadata ) use ( $id, $state, $notes ): void {
+				$metadata->set( $id, '_aish_message_state', $state );
+				$metadata->set( $id, '_aish_message_notes', sanitize_textarea_field( $notes ) );
+			} );
+			delete_transient( $key );
+		} catch ( \Throwable $error ) { set_transient( $key, '1', 120 ); }
 	}
 
 	private static function redirect( string $locale, string $kind, string $status ): never {
