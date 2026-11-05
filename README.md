@@ -6,6 +6,8 @@ WordPress 原创中英文主题，内置 AI Skills Hub Core。Phase 0–7 已完
 
 完整需求见 [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md)，技术说明见 [Core](docs/CORE.md)、[前台](docs/FRONTEND.md)、[SEO](docs/SEO.md)、[GitHub 采集](docs/GITHUB_IMPORT.md)、[AI 使用](docs/AI_USAGE.md)、[API 配置](docs/API_CONFIGURATION.md)。最终 [安全](SECURITY_AUDIT.md)、[兼容](COMPATIBILITY_REPORT.md)、[性能](PERFORMANCE_REPORT.md) 报告与 [开发进度](docs/PROGRESS.md) 分开记录真实、Mock、静态及未测范围；Phase 0–7 报告保留历史事实。
 
+当前新增的是 **V2 产品扩展规划，尚未开始 Phase 8 编码**：[产品规格](PRODUCT_SPEC_V2.md)、[数据库设计](docs/PRODUCT_DATABASE_DESIGN.md)、[模块审查](docs/PRODUCT_MODULE_AUDIT.md)、[Phase 8–14 路线图](docs/PRODUCT_ROADMAP.md)。规划使用 WordPress 原生用户，复用私有投稿和原十四表，分阶段设计账户、收藏评价、开发者、发现、运营及免费商业化预留；所有新表/页面均为待实施建议，当前主题和 schema 不变。
+
 ## Codex Cloud 开发
 
 仅在 Codex Cloud 运行，不需要本机环境、宝塔或外部服务器。要求 Docker Compose、Node.js 22/24、npm、Python 3；PHP 和 MySQL 运行在容器内。

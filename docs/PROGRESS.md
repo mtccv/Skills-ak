@@ -11,6 +11,18 @@
 | Phase 6 AI 双语内容 | 用户已验收 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
 | Phase 7 安全、性能与稳定性 | 用户已验收 | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
 | Final QA | 已执行范围通过，外部验收有保留；20 通过 / 0 失败 / 5 未执行 | ../FINAL_QA_REPORT.md；真实 WPML / GitHub / AI 仍未验证 |
+| V2 产品扩展准备 | 规划文档待用户审核；没有开始 Phase 8 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
+| Phase 8–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
+
+## V2 规划（当前工作，2026-11-06 Asia/Shanghai）
+
+以 main `1c27f8770fc3bd20b2ffd92d8873444ba92d54c8` 为基线，只读审查总规格、技术文档、Phase 0–7 及 Final QA 报告和相关模块；新增四份产品/数据库/复用/路线图 Markdown。当前代码定义 **14 张自定义表、151 个列定义**，schema **1.5.0**；WordPress 原生用户、文章、元数据与其他插件表不计入。没有启动服务、连接运行数据库或迁移，未将静态盘点称为本轮数据库运行测试。
+
+建议保留原十四表，资料/偏好复用 usermeta，投稿继续私有 `aish_message`，新数据按 1.6.0→1.7.0→1.8.0→1.9.0→1.10.0 分阶段增加；P12/P13 无 DDL 不虚增 schema。最终建议新增20表、累计34表，均未实施。明确三个 Reviews 语义、匿名投稿不能按邮箱认领、待审评价不计分、收藏重加不刷热度、真实统计/邮件前置、原生删号隐私边界及分类标签旁挂翻译。
+
+本轮仅检查文档一致性、源码表清单、相对链接和 Markdown 差异：8 个 Markdown 变更、71 个本地链接、新增设计20表/现有14表151列核对通过，`git diff --check` 通过。PHP/构建/数据库/浏览器/API 测试不在纯规划执行范围，未重新运行。原主题/Core 0.7.1、安装包、CODEX_MASTER_SPEC.md、运行代码和历史验收不变。规划提交同步后暂停，等待用户审核，不自动进入 Phase 8。
+
+## 已完成阶段的历史记录
 
 Phase 2 范围为菜单/统计、Skills 人工及来源录入、双语编辑、状态/归档、分类/标签、手动仓库、人工审核/风险/备注、私有阅读预览、列表/批量和 capability/nonce 安全控制。
 

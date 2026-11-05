@@ -2,7 +2,7 @@
 
 先阅读根目录 CODEX_MASTER_SPEC.md 和已有阶段报告。
 
-- Phase 0–7 已完成，用户已正式授权 Final QA：以 main d6401c2d6fb810605f5ba87524301ecc50418971 为基线建立独立真实 WordPress/PHP8.3/8.4/MySQL8.0/浏览器环境，完整测试并修复实际问题。测试必须区分真实、Mock、静态、未执行和失败；不得触碰生产数据、购买服务或暴露凭据。更新最终 QA/安全/兼容/性能/限制报告、进度和变更记录，构建可安装主题 ZIP，提交并同步 main；不部署外部服务器。
+- 当前任务仅为 V2 产品扩展准备：以 main `1c27f8770fc3bd20b2ffd92d8873444ba92d54c8` 为基线，阅读现有代码、设计数据库和 Phase 8–14 计划，只编写 Markdown。规格见根 `PRODUCT_SPEC_V2.md` 及 docs 下 PRODUCT_DATABASE_DESIGN / PRODUCT_MODULE_AUDIT / PRODUCT_ROADMAP。不得修改业务代码、数据库结构、执行迁移、启动 Phase 8 或自动进入后续阶段；规划提交同步 main 后等待用户审核。原 CODEX_MASTER_SPEC.md 和历史 QA 证据保留。
 - 开发仅限 Codex Cloud，不部署外部服务，不要求用户本机开发。
 - 原创 WordPress 主题；Core 内置于主题。不得修改 WordPress 核心。
 - PHP 8.3+、MySQL、Tailwind CSS、Alpine.js；WordPress 原生后台。
