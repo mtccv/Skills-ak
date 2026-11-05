@@ -204,5 +204,8 @@
       "evidence": "KNOWN_LIMITATIONS.md",
       "reason": "No authorized WPML package or configured dedicated real API credentials."
     }
-  ]
+  ],
+  "implementation_commit": "c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81",
+  "ci_evidence": "ci-final.json",
+  "remote_zip_evidence": "remote-package.json"
 }

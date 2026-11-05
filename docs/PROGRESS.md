@@ -71,3 +71,5 @@ Cloud PHP 8.3.36 的 100 个 PHP 文件语法、29 组 2679 项隔离/Mock 断�
 - 最终ZIP直接全新安装12检查、原生升级/重装/切换33断言通过，十四表全记录指纹及78文件匹配；安装包 `release/ai-skills-hub-0.7.1.zip`，SHA256 `470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268`。
 
 按25个验收工作包：20通过、0失败、5未执行。缺少合法WPML包、GitHub/AI应用凭据及真实生成结果/账单，不能宣布全部验收通过。详见根目录 FINAL_QA_REPORT、SECURITY_AUDIT、COMPATIBILITY_REPORT、PERFORMANCE_REPORT、KNOWN_LIMITATIONS 与 INSTALLATION。完整无密证据在 tests/final/results；历史阶段报告中的未测记录不改写。完成代码与文档提交同步后暂停，等待用户安排剩余外部验收。
+
+实现与ZIP提交 `c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81` 已同步main；自动CI [42005401099](https://github.com/mtccv/Skills-ak/actions/runs/42005401099) PHP8.3/8.4及assets通过，另手动Final QA CI [42005492777](https://github.com/mtccv/Skills-ak/actions/runs/42005492777)四任务全部通过。后者真实WP7.1.4/PHP8.3.36/MySQL8.4.13的124条Core基线与HTTP资源检查通过；完整并发/浏览器/插件仍以Cloud MySQL8.0证据为准。此后补记仅文档/证据，不修改已测主题或ZIP。

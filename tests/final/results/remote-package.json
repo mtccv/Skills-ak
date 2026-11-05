@@ -1,0 +1,10 @@
+{
+  "kind": "github_contents_api_exact_committed_zip_bytes",
+  "commit": "c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81",
+  "path": "release/ai-skills-hub-0.7.1.zip",
+  "bytes": 767776,
+  "sha256": "470e2ef14fc8c1692baf9fe8b4487483101c61f54bfbd5ab4f549e7b52c8f268",
+  "git_blob_sha": "dd43bdcb102d768cac19dd5c987f3965e2539855",
+  "matches_tested_local_zip": true,
+  "retrieval_note": "Raw-binary API response encountered a Cloud transform short-buffer error; GitHub JSON/base64 Contents API retrieval succeeded with TLS and authentication unchanged."
+}

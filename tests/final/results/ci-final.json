@@ -1,0 +1,1314 @@
+{
+  "repository": "mtccv/Skills-ak",
+  "tested_head": "c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81",
+  "runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T09:48:19Z",
+      "event": "push",
+      "headSha": "c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81",
+      "jobs": [
+        {
+          "completedAt": "2026-11-05T09:48:48Z",
+          "conclusion": "success",
+          "databaseId": 127170743432,
+          "name": "php (8.3)",
+          "startedAt": "2026-11-05T09:48:23Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run shivammathur/setup-php@v2",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run bash scripts/lint-php.sh",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-routing.php",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/management-integrity.php",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/public-search.php",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-search.php",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-management.php",
+              "number": 9,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/forms-management.php",
+              "number": 10,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo.php",
+              "number": 11,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/sitemap.php",
+              "number": 12,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-client.php",
+              "number": 13,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-discovery.php",
+              "number": 14,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/skill-parser.php",
+              "number": 15,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-store.php",
+              "number": 16,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-admin.php",
+              "number": 17,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-worker.php",
+              "number": 18,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-provider.php",
+              "number": 19,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-content.php",
+              "number": 20,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-source.php",
+              "number": 21,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-store.php",
+              "number": 22,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-admin.php",
+              "number": 23,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-worker.php",
+              "number": 24,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/database-transactions.php",
+              "number": 25,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/migration-recovery.php",
+              "number": 26,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/language-adapter.php",
+              "number": 27,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-projections.php",
+              "number": 28,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo-failures.php",
+              "number": 29,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/admin-settings.php",
+              "number": 30,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-scheduler.php",
+              "number": 31,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-locks.php",
+              "number": 32,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-locks.php",
+              "number": 33,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 66,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 67,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005401099/job/127170743432"
+        },
+        {
+          "completedAt": "2026-11-05T09:48:45Z",
+          "conclusion": "success",
+          "databaseId": 127170743846,
+          "name": "php (8.4)",
+          "startedAt": "2026-11-05T09:48:23Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run shivammathur/setup-php@v2",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run bash scripts/lint-php.sh",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-routing.php",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/management-integrity.php",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/public-search.php",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-search.php",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-management.php",
+              "number": 9,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/forms-management.php",
+              "number": 10,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo.php",
+              "number": 11,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/sitemap.php",
+              "number": 12,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-client.php",
+              "number": 13,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-discovery.php",
+              "number": 14,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/skill-parser.php",
+              "number": 15,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-store.php",
+              "number": 16,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-admin.php",
+              "number": 17,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-worker.php",
+              "number": 18,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-provider.php",
+              "number": 19,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-content.php",
+              "number": 20,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-source.php",
+              "number": 21,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-store.php",
+              "number": 22,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-admin.php",
+              "number": 23,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-worker.php",
+              "number": 24,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/database-transactions.php",
+              "number": 25,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/migration-recovery.php",
+              "number": 26,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/language-adapter.php",
+              "number": 27,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-projections.php",
+              "number": 28,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo-failures.php",
+              "number": 29,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/admin-settings.php",
+              "number": 30,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-scheduler.php",
+              "number": 31,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-locks.php",
+              "number": 32,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-locks.php",
+              "number": 33,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 66,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 67,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005401099/job/127170743846"
+        },
+        {
+          "completedAt": "2026-11-05T09:48:35Z",
+          "conclusion": "success",
+          "databaseId": 127170743997,
+          "name": "assets",
+          "startedAt": "2026-11-05T09:48:23Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm ci",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm run build",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm run check:assets",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run python3 tests/final/test-package-theme.py",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run python3 scripts/package-theme.py --check",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 15,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 16,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 17,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005401099/job/127170743997"
+        },
+        {
+          "completedAt": "2026-11-05T09:48:19Z",
+          "conclusion": "skipped",
+          "databaseId": 127170745629,
+          "name": "wordpress-smoke",
+          "startedAt": "2026-11-05T09:48:20Z",
+          "status": "completed",
+          "steps": [],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005401099/job/127170745629"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-11-05T09:48:48Z",
+      "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005401099",
+      "selected_runtime_and_test_lines": [
+        "2026-11-05T09:48:29.1221896Z \u001b[32;1m\u2713 \u001b[0m\u001b[34;1mPHP \u001b[0m\u001b[90;1mUpdated to PHP 8.3.36\u001b[0m",
+        "2026-11-05T09:48:35.4099751Z PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).",
+        "2026-11-05T09:48:35.4705650Z Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).",
+        "2026-11-05T09:48:35.5334610Z PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).",
+        "2026-11-05T09:48:35.5936967Z Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:48:35.6548062Z Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).",
+        "2026-11-05T09:48:35.7871430Z PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).",
+        "2026-11-05T09:48:35.8488427Z PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).",
+        "2026-11-05T09:48:35.9107330Z PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:48:35.9772266Z GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:48:36.0526086Z PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).",
+        "2026-11-05T09:48:36.1267831Z PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).",
+        "2026-11-05T09:48:36.1869276Z PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).",
+        "2026-11-05T09:48:36.2525498Z PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).",
+        "2026-11-05T09:48:36.3172219Z PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).",
+        "2026-11-05T09:48:36.3932095Z PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).",
+        "2026-11-05T09:48:36.4530973Z PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).",
+        "2026-11-05T09:48:36.5267477Z PASS: 101 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).",
+        "2026-11-05T09:48:36.5895441Z PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).",
+        "2026-11-05T09:48:36.6545557Z PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).",
+        "2026-11-05T09:48:36.7118353Z Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).",
+        "2026-11-05T09:48:36.7741608Z Migration recovery: 151 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).",
+        "2026-11-05T09:48:36.8318725Z Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).",
+        "2026-11-05T09:48:36.9039782Z Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark).",
+        "2026-11-05T09:48:37.0691279Z SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:48:37.6982202Z Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).",
+        "2026-11-05T09:48:37.7553932Z PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).",
+        "2026-11-05T09:48:37.8137411Z PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).",
+        "2026-11-05T09:48:37.8718779Z Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).",
+        "2026-11-05T09:48:28.7575961Z \u001b[32;1m\u2713 \u001b[0m\u001b[34;1mPHP \u001b[0m\u001b[90;1mInstalled PHP 8.4.27\u001b[0m",
+        "2026-11-05T09:48:36.4371514Z PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).",
+        "2026-11-05T09:48:36.5160295Z Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).",
+        "2026-11-05T09:48:36.5889325Z PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).",
+        "2026-11-05T09:48:36.6602687Z Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:48:36.7337683Z Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).",
+        "2026-11-05T09:48:36.8758738Z PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).",
+        "2026-11-05T09:48:36.9441706Z PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).",
+        "2026-11-05T09:48:37.0177726Z PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:48:37.0976010Z GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:48:37.1851290Z PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).",
+        "2026-11-05T09:48:37.2703355Z PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).",
+        "2026-11-05T09:48:37.3482793Z PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).",
+        "2026-11-05T09:48:37.4325570Z PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).",
+        "2026-11-05T09:48:37.5084328Z PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).",
+        "2026-11-05T09:48:37.6043461Z PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).",
+        "2026-11-05T09:48:37.6769449Z PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).",
+        "2026-11-05T09:48:37.7646870Z PASS: 101 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).",
+        "2026-11-05T09:48:37.8328279Z PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).",
+        "2026-11-05T09:48:37.9078824Z PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).",
+        "2026-11-05T09:48:37.9757173Z Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).",
+        "2026-11-05T09:48:38.0416028Z Migration recovery: 151 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).",
+        "2026-11-05T09:48:38.1093748Z Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).",
+        "2026-11-05T09:48:38.1969891Z Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark).",
+        "2026-11-05T09:48:38.3961298Z SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:48:39.1613910Z Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).",
+        "2026-11-05T09:48:39.2295546Z PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).",
+        "2026-11-05T09:48:39.3006216Z PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).",
+        "2026-11-05T09:48:39.3719954Z Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration)."
+      ]
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T09:48:58Z",
+      "event": "workflow_dispatch",
+      "headSha": "c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81",
+      "jobs": [
+        {
+          "completedAt": "2026-11-05T09:50:01Z",
+          "conclusion": "success",
+          "databaseId": 127171057849,
+          "name": "wordpress-smoke",
+          "startedAt": "2026-11-05T09:49:02Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm ci && npm run build && npm run check:assets",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Generate temporary development credentials",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run docker compose up -d --wait mysql wordpress",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Install development WordPress and activate theme",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm run lint:php && npm run test:core && npm run smoke:wp",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Record runtime versions",
+              "number": 9,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Stop temporary test containers",
+              "number": 10,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 19,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 20,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 21,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005492777/job/127171057849"
+        },
+        {
+          "completedAt": "2026-11-05T09:49:25Z",
+          "conclusion": "success",
+          "databaseId": 127171058091,
+          "name": "php (8.4)",
+          "startedAt": "2026-11-05T09:49:02Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run shivammathur/setup-php@v2",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run bash scripts/lint-php.sh",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-routing.php",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/management-integrity.php",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/public-search.php",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-search.php",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-management.php",
+              "number": 9,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/forms-management.php",
+              "number": 10,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo.php",
+              "number": 11,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/sitemap.php",
+              "number": 12,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-client.php",
+              "number": 13,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-discovery.php",
+              "number": 14,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/skill-parser.php",
+              "number": 15,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-store.php",
+              "number": 16,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-admin.php",
+              "number": 17,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-worker.php",
+              "number": 18,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-provider.php",
+              "number": 19,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-content.php",
+              "number": 20,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-source.php",
+              "number": 21,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-store.php",
+              "number": 22,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-admin.php",
+              "number": 23,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-worker.php",
+              "number": 24,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/database-transactions.php",
+              "number": 25,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/migration-recovery.php",
+              "number": 26,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/language-adapter.php",
+              "number": 27,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-projections.php",
+              "number": 28,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo-failures.php",
+              "number": 29,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/admin-settings.php",
+              "number": 30,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-scheduler.php",
+              "number": 31,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-locks.php",
+              "number": 32,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-locks.php",
+              "number": 33,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 66,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 67,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005492777/job/127171058091"
+        },
+        {
+          "completedAt": "2026-11-05T09:49:11Z",
+          "conclusion": "success",
+          "databaseId": 127171058344,
+          "name": "assets",
+          "startedAt": "2026-11-05T09:49:02Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/setup-node@v4",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm ci",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm run build",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run npm run check:assets",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run python3 tests/final/test-package-theme.py",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run python3 scripts/package-theme.py --check",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/setup-node@v4",
+              "number": 15,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 16,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 17,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005492777/job/127171058344"
+        },
+        {
+          "completedAt": "2026-11-05T09:49:20Z",
+          "conclusion": "success",
+          "databaseId": 127171058370,
+          "name": "php (8.3)",
+          "startedAt": "2026-11-05T09:49:02Z",
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run shivammathur/setup-php@v2",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run bash scripts/lint-php.sh",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-routing.php",
+              "number": 5,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/management-integrity.php",
+              "number": 6,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/public-search.php",
+              "number": 7,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-search.php",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-management.php",
+              "number": 9,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/forms-management.php",
+              "number": 10,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo.php",
+              "number": 11,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/sitemap.php",
+              "number": 12,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-client.php",
+              "number": 13,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/github-discovery.php",
+              "number": 14,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/skill-parser.php",
+              "number": 15,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-store.php",
+              "number": 16,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-admin.php",
+              "number": 17,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-worker.php",
+              "number": 18,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-provider.php",
+              "number": 19,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-content.php",
+              "number": 20,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-source.php",
+              "number": 21,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-store.php",
+              "number": 22,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-admin.php",
+              "number": 23,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-worker.php",
+              "number": 24,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/database-transactions.php",
+              "number": 25,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/migration-recovery.php",
+              "number": 26,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/language-adapter.php",
+              "number": 27,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/editorial-projections.php",
+              "number": 28,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/seo-failures.php",
+              "number": 29,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/admin-settings.php",
+              "number": 30,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/import-scheduler.php",
+              "number": 31,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/ai-locks.php",
+              "number": 32,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run php tests/basic/frontend-locks.php",
+              "number": 33,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 66,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 67,
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005492777/job/127171058370"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-11-05T09:50:02Z",
+      "url": "https://github.com/mtccv/Skills-ak/actions/runs/42005492777",
+      "selected_runtime_and_test_lines": [
+        "2026-11-05T09:49:03.8065020Z Complete job name: wordpress-smoke",
+        "2026-11-05T09:49:23.6496522Z  Volume \"ai-skills-hub_wordpress_data\"  Creating",
+        "2026-11-05T09:49:23.6511154Z  Volume \"ai-skills-hub_wordpress_data\"  Created",
+        "2026-11-05T09:49:23.6737758Z  Container ai-skills-hub-wordpress-1  Creating",
+        "2026-11-05T09:49:23.6863679Z  Container ai-skills-hub-wordpress-1  Created",
+        "2026-11-05T09:49:34.3651955Z  Container ai-skills-hub-wordpress-1  Starting",
+        "2026-11-05T09:49:34.5075924Z  Container ai-skills-hub-wordpress-1  Started",
+        "2026-11-05T09:49:34.5077508Z  Container ai-skills-hub-wordpress-1  Waiting",
+        "2026-11-05T09:49:40.0089203Z  Container ai-skills-hub-wordpress-1  Healthy",
+        "2026-11-05T09:49:44.4334022Z  Container ai-skills-hub-wordpress-1  Running",
+        "2026-11-05T09:49:44.4402137Z Success: WordPress installed successfully.",
+        "2026-11-05T09:49:44.5311077Z  Container ai-skills-hub-wordpress-1  Running",
+        "2026-11-05T09:49:55.1999378Z > ai-skills-hub@0.1.0 smoke:wp",
+        "2026-11-05T09:49:55.2000083Z > bash scripts/smoke-wordpress.sh",
+        "2026-11-05T09:49:56.0314186Z WordPress HTTP and CSS/JS smoke checks passed.",
+        "2026-11-05T09:49:56.2018727Z PHP 8.3.36 (cli) (built: Nov  5 2026 07:26:44) (NTS)",
+        "2026-11-05T09:49:56.3402684Z mysql  Ver 8.4.13 for Linux on x86_64 (MySQL Community Server - GPL)",
+        "2026-11-05T09:49:56.4330291Z  Container ai-skills-hub-wordpress-1  Running",
+        "2026-11-05T09:49:58.2043298Z  Container ai-skills-hub-wordpress-1  Stopping",
+        "2026-11-05T09:49:59.3426901Z  Container ai-skills-hub-wordpress-1  Stopped",
+        "2026-11-05T09:49:59.3427726Z  Container ai-skills-hub-wordpress-1  Removing",
+        "2026-11-05T09:49:59.3480101Z  Container ai-skills-hub-wordpress-1  Removed",
+        "2026-11-05T09:49:08.8684329Z \u001b[32;1m\u2713 \u001b[0m\u001b[34;1mPHP \u001b[0m\u001b[90;1mInstalled PHP 8.4.27\u001b[0m",
+        "2026-11-05T09:49:15.3275378Z PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).",
+        "2026-11-05T09:49:15.3882504Z Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).",
+        "2026-11-05T09:49:15.4482642Z PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).",
+        "2026-11-05T09:49:15.5085870Z Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:49:15.5679711Z Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).",
+        "2026-11-05T09:49:15.6939289Z PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).",
+        "2026-11-05T09:49:15.7528733Z PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).",
+        "2026-11-05T09:49:15.8143297Z PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:49:15.8801743Z GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:49:15.9551275Z PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).",
+        "2026-11-05T09:49:16.0262259Z PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).",
+        "2026-11-05T09:49:16.0857934Z PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).",
+        "2026-11-05T09:49:16.1512816Z PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).",
+        "2026-11-05T09:49:16.2128733Z PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).",
+        "2026-11-05T09:49:16.3009004Z PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).",
+        "2026-11-05T09:49:16.3619160Z PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).",
+        "2026-11-05T09:49:16.4377177Z PASS: 101 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).",
+        "2026-11-05T09:49:16.4984077Z PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).",
+        "2026-11-05T09:49:16.5627311Z PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).",
+        "2026-11-05T09:49:16.6199239Z Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).",
+        "2026-11-05T09:49:16.6859229Z Migration recovery: 151 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).",
+        "2026-11-05T09:49:16.7438317Z Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).",
+        "2026-11-05T09:49:16.8192671Z Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark).",
+        "2026-11-05T09:49:16.9957852Z SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:49:17.6332820Z Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).",
+        "2026-11-05T09:49:17.6942026Z PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).",
+        "2026-11-05T09:49:17.7563816Z PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).",
+        "2026-11-05T09:49:17.8162561Z Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).",
+        "2026-11-05T09:49:07.9579721Z \u001b[32;1m\u2713 \u001b[0m\u001b[34;1mPHP \u001b[0m\u001b[90;1mUpdated to PHP 8.3.36\u001b[0m",
+        "2026-11-05T09:49:13.0733227Z PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).",
+        "2026-11-05T09:49:13.1236245Z Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).",
+        "2026-11-05T09:49:13.1724547Z PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).",
+        "2026-11-05T09:49:13.2228229Z Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:49:13.2699863Z Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).",
+        "2026-11-05T09:49:13.3654189Z PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).",
+        "2026-11-05T09:49:13.4135812Z PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).",
+        "2026-11-05T09:49:13.4641623Z PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:49:13.5191379Z GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).",
+        "2026-11-05T09:49:13.5788131Z PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).",
+        "2026-11-05T09:49:13.6394400Z PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).",
+        "2026-11-05T09:49:13.6876482Z PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).",
+        "2026-11-05T09:49:13.7383048Z PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).",
+        "2026-11-05T09:49:13.7880352Z PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).",
+        "2026-11-05T09:49:13.8480955Z PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).",
+        "2026-11-05T09:49:13.8963429Z PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).",
+        "2026-11-05T09:49:13.9578314Z PASS: 101 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).",
+        "2026-11-05T09:49:14.0083602Z PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).",
+        "2026-11-05T09:49:14.0603652Z PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).",
+        "2026-11-05T09:49:14.1096880Z Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).",
+        "2026-11-05T09:49:14.1559653Z Migration recovery: 151 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).",
+        "2026-11-05T09:49:14.2158916Z Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).",
+        "2026-11-05T09:49:14.2741020Z Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark).",
+        "2026-11-05T09:49:14.4097429Z SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).",
+        "2026-11-05T09:49:14.9125227Z Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).",
+        "2026-11-05T09:49:14.9600103Z PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).",
+        "2026-11-05T09:49:15.0063708Z PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).",
+        "2026-11-05T09:49:15.0527825Z Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).",
+        "2026-11-05T09:49:58.0274188Z 7.1.4"
+      ]
+    }
+  ],
+  "integration_environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.4.13",
+    "scope": "Existing Core 124-assertion baseline plus WordPress install/activation/HTTP smoke; not the full Cloud MySQL8.0 fault/browser matrix."
+  }
+}

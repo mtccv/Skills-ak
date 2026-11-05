@@ -10,7 +10,7 @@
 | --- | --- |
 | WordPress | 主题声明最低 6.8；使用受维护版本，具体已验版本见本次交付测试记录 |
 | PHP | 8.3+；启用 mysqli、JSON、mbstring、DOM/XML，支持 WordPress HTTPS 请求；核对所用 PHP 版本的实际验收记录 |
-| 数据库 | MySQL、InnoDB、utf8mb4；Compose 默认 MySQL 8.4。使用 8.0 的实测结果不能代替 8.4 验收 |
+| 数据库 | MySQL、InnoDB、utf8mb4；Compose 默认 MySQL 8.4。Cloud完成8.0真实矩阵，独立CI另通过8.4.13的Core基线；两者覆盖范围分别记录 |
 | Web | 正常运行的 WordPress；Apache 允许 `.htaccess` 重写，或实例现有 Web 层具有等效 WordPress 路由规则 |
 | 权限 | 管理员安装主题；数据库用户能执行正常读写、版本化 CREATE / ALTER / 索引和连接锁操作 |
 | 源码构建 | 仅从源码制作安装包时需要 Node.js 22/24、npm、Python 3.10+；安装现成 ZIP 不需要 Node.js |

@@ -39,3 +39,7 @@ Cloud 使用 VFS 存储，官方多层镜像拉取时曾耗尽临时磁盘，发
 ## 外部依赖
 
 Yoast SEO 28.8 与 Rank Math 1.0.281 从官方免费发行包安装到 seo 站。Rank Math 使用其免费向导的公开 Skip 选项完成初始化，不能只检测 active 状态就声称兼容。没有合法 WPML 包，真实 WPML 未执行。没有专用 GitHub Token/真实 AI Key，不提取 Git 仓库认证用于应用 API，也不购买服务；真实供应商协议、质量与账单仍未验证。
+
+## 验收结束状态
+
+Cloud真实测试和远端CI完成后，仅停止本次Compose project的十个WordPress容器及MySQL服务；数据卷、源码、安装包和证据均保留，没有执行down -v或删除业务数据。需要复查时先按原私有配置恢复对应测试服务；报告中的localhost地址不是仍在运行的公网部署。

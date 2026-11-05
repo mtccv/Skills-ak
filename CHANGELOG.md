@@ -9,6 +9,8 @@
 - 更新Final QA、安全、兼容、性能、限制及进度报告；25工作包20通过、0失败、5个外部工作包未执行，不宣称完整验收通过。
 - schema保持1.5.0，核心表/ID/双语关系不变；未增加依赖、真实API费用、自动发布或未知脚本执行。
 
+Final QA实现提交 `c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81` 已推送；自动PHP/资源CI及手动WordPress/MySQL8.4.13基线CI全部通过，证据见最终报告。后续仅补记实际结果。
+
 ## 0.7.0 — Phase 7（2026-11-05，历史）
 
 Phase 0–6 已验收；本阶段仅审查和加固已有功能。主题/Core 保持 0.7.0，schema 保持 1.5.0。详细证据见 [首轮](docs/PHASE_7_REPORT.md) 和 [第二轮](docs/PHASE_7_ROUND_2.md)；真实集成须等待用户安排 Final QA。

@@ -88,3 +88,12 @@ Docker 已实际启动并运行测试。Cloud VFS 镜像存储问题在业务数
 - 数据、浏览器、采集、AI、SEO、安全/性能及安装包复现说明位于 tests/final；测试凭据、数据库、第三方插件和 WordPress 核心不随 Git 或 ZIP 交付。
 
 GitHub main 的最终 SHA 在交付回复和提交记录提供；本文件包含在对应提交中，不以自引用占位 SHA 冒充实际提交。远端 CI 结果如有补充，独立记录实际 SHA/环境，不能替代这里的 Cloud 实测。
+
+
+## 远端 CI 补充（同一实现提交）
+
+实现与安装包提交 `c483a54ae2c492fdb8adb2fe3fcf0ac12d14ce81` 已同步 main。[自动检查 42005401099](https://github.com/mtccv/Skills-ak/actions/runs/42005401099) 的 PHP8.3/8.4、assets/打包检查通过，WordPress任务按默认条件跳过；另显式触发 [Final QA CI 42005492777](https://github.com/mtccv/Skills-ak/actions/runs/42005492777)，四个任务全部通过。
+
+独立 CI 实际使用 **WordPress7.1.4 / PHP8.3.36 / MySQL8.4.13**，全新安装/主题启用、124条Core集成断言和HTTP/CSS/JS冒烟通过。这是额外8.4数据库基线，不能替代Cloud中8.0的并发、故障、浏览器和插件完整矩阵；不增加对真实WPML/API的通过声明。精确作业/步骤与版本证据：[ci-final.json](tests/final/results/ci-final.json)。随后只补记报告和证据，不改变已检查主题代码或ZIP。
+
+通过GitHub官方Contents API取回已提交ZIP，逐字节SHA256与已验收本地包一致，见 [remote-package.json](tests/final/results/remote-package.json)。Cloud测试容器已停止以释放资源，全部测试卷与证据保留，未执行删除数据操作。
