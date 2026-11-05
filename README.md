@@ -1,6 +1,6 @@
 # AI Skills Hub
 
-WordPress 原创主题项目，内置 AI Skills Hub Core。Phase 0–6 已验收；当前 Phase 7 对已有双语前台、原生后台、搜索、SEO、采集和 AI 系统进行安全、性能与稳定性加固。第二轮按用户补充的十二项范围审查，记录见 [Phase 7 第二轮报告](docs/PHASE_7_ROUND_2.md)。代码工作完成后暂停，等待用户安排 Final QA。主题/Core 为 0.7.0、schema 1.5.0；本批不修改十四张表的结构。Skill ID、来源唯一键和双语关系不变；AI 不能自动发布或覆盖人工内容。
+WordPress 原创主题项目，内置 AI Skills Hub Core。Phase 0–6 已验收；Phase 7 两轮代码审查与加固已完成，覆盖已有双语前台、原生后台、搜索、SEO、采集和 AI 系统。第二轮按用户补充的十二项范围审查，记录见 [Phase 7 第二轮报告](docs/PHASE_7_ROUND_2.md)。当前暂停，等待用户安排 Final QA；真实集成尚未执行。主题/Core 为 0.7.0、schema 1.5.0；本批不修改十四张表的结构。Skill ID、来源唯一键和双语关系不变；AI 不能自动发布或覆盖人工内容。
 
 完整需求及阶段门禁见 [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md)，Core 说明见 [docs/CORE.md](docs/CORE.md)，本轮记录见 [docs/PHASE_7_REPORT.md](docs/PHASE_7_REPORT.md)。AI 操作、API 配置及安全边界分别见 [AI_USAGE.md](docs/AI_USAGE.md)、[API_CONFIGURATION.md](docs/API_CONFIGURATION.md)、[AI_SECURITY.md](docs/AI_SECURITY.md)。采集维护见 [GITHUB_IMPORT.md](docs/GITHUB_IMPORT.md)、[IMPORT_SECURITY.md](docs/IMPORT_SECURITY.md)，前台见 [FRONTEND.md](docs/FRONTEND.md)，搜索与 SEO 见 [SEO.md](docs/SEO.md)，进度见 [PROGRESS.md](docs/PROGRESS.md)。Phase 0–6 报告保留历史证据，不改写为本轮验收；完整真实集成仍待 Final QA。
 

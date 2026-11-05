@@ -37,7 +37,7 @@ R2-01 交叉复核：旧任务曾 complete 且 HEAD 未变时，增量 fastpath 
 | R2-02 | checkpoint 在同一事务将任务与仓库同时置为 queued；失败整体回滚 |
 | R2-03 | 卡片只投影所需摘要；教程 Sitemap 按页取 ID，再取 ID/modified 并复核公开/密码/语言/正文/noindex，不装载全量正文和 postmeta；无实际性能基准声明 |
 | R2-04 | 原生 mysqli 严格模式阻止事务内 wpdb 断线重放；失败回滚，回滚无法确认则关闭并隔离连接。未知 COMMIT 不假称撤销，所有出口恢复调用方驱动模式 |
-| R2-05 | SEO option/postmeta/blog_public 读取错误清除失败缓存并受控失败；持续错误的页面/XML/robots 为 503/no-store，不把异常当可索引缺省值 |
+| R2-05 | SEO option/postmeta/blog_public 读取错误清除失败缓存并受控失败；检测到持续读取错误的页面/XML/robots 为 503/no-store，不把异常当可索引缺省值 |
 | R2-06 | Router 请求、URL 与 SEO adapter 异常进入固定 503/noindex 错误上下文，不含实体/错误文本/Canonical/hreflang；模板与已保存表单仅回退地址，不重复写入 |
 | R2-07 | 原 request key 保持幂等；不同 request key 遇活动任务明确报告忙，不假称新表单已受理。批量部分成功保留原任务与人工内容 |
 | R2-08 | 普通后台 Settings 保存检查写入错误并读取持久值；合法无变化仍成功，错误/不一致清理缓存并给通用失败提示 |
@@ -81,7 +81,7 @@ R2-01 至 R2-14 中确认并处理 13 项基线问题，R2-11 排除；R2-15 是
 | 数据结构 | Schema.php 对基线无差异；Migrator 只修复故障与缺表创建边界，schema 版本、定义和迁移顺序未变 |
 | 安全模式检查 | 未找到实际凭据字面量；私钥标题命中经检查为既有脱敏测试假内容；生产 PHP 未新增 REST/AJAX 管理注册或 shell/eval 执行入口 |
 | npm audit | 本次 0 个已知依赖漏洞，未新增或升级依赖；不证明应用不存在漏洞 |
-| GitHub Actions | 提交后的结果另见下方 Git/CI 补记；不得把本地 PHP 8.3 检查当作 8.4 运行证明 |
+| GitHub Actions | [Core checks 41982408246](https://github.com/mtccv/Skills-ak/actions/runs/41982408246)：实现提交的 PHP 8.3、PHP 8.4、assets 均 success；wordpress-smoke 为 skipped |
 
 Cloud Node 24.22.1、npm 11.9.0。Browserslist 仍提示数据日期较旧，构建成功。部分新增连接测试另用 php -n 的驱动替身通过，不重复计入 2679，也不解释为另一套真实数据库测试。两个 SEO 子进程另外核对实际 exit 响应分支，主汇总仍只记其 83 项断言。没有运行全栈服务或 Final QA。
 
@@ -111,3 +111,10 @@ Cloud Node 24.22.1、npm 11.9.0。Browserslist 仍提示数据日期较旧，构
 - 安全模式检查和 npm audit 不能证明不存在未知漏洞；长期备份恢复、日志/版本/AI 历史运维容量留 Final QA。
 
 Phase 7 代码工作完成后暂停，等待用户安排 Final QA，不自动执行集成或部署。
+
+
+## Git / CI 补记
+
+实现提交 `49ee0a757e88f622cc4d37f0f07160e221bfb169` 已正常推送 GitHub main，未强推。[Core checks 41982408246](https://github.com/mtccv/Skills-ak/actions/runs/41982408246) 的 headSha 与该提交完全一致；PHP 8.3、PHP 8.4 和 assets 全部 success，wordpress-smoke 按 Final QA gate 为 skipped。本补记与当前状态说明随后仅作纯文档提交，不改变已通过检查的运行代码、测试或 CI 配置；最终远端同步 SHA 见交付消息及 `git log -1`。
+
+Phase 7 两轮代码层审查和修复已完成，未进入 Final QA，等待用户安排。真实集成待验清单保持上述未执行状态。

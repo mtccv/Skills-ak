@@ -2,7 +2,7 @@
 
 先阅读根目录 CODEX_MASTER_SPEC.md 和已有阶段报告。
 
-- Phase 0–6 已获用户验收；当前授权为 Phase 7 第二轮全面审查。用户已补充十二项跨模块兼容、安全、事务/并发模型、采集/AI/Cron恢复、多语言/SEO、性能与生命周期任务。先记录实际问题，再做必要修复；不为修改数量重构稳定代码。更新审查记录、PROGRESS、CHANGELOG，检查并同步 GitHub main；代码层重要问题处理完后暂停，等待用户安排 Final QA，不自动执行真实集成或部署。
+- Phase 0–6 已获用户验收；Phase 7 两轮代码审查与修复已完成，当前暂停等待用户安排 Final QA。第二轮授权为全面审查。用户已补充十二项跨模块兼容、安全、事务/并发模型、采集/AI/Cron恢复、多语言/SEO、性能与生命周期任务。先记录实际问题，再做必要修复；不为修改数量重构稳定代码。更新审查记录、PROGRESS、CHANGELOG，检查并同步 GitHub main；代码层重要问题处理完后暂停，等待用户安排 Final QA，不自动执行真实集成或部署。
 - 开发仅限 Codex Cloud，不部署外部服务，不要求用户本机开发。
 - 原创 WordPress 主题；Core 内置于主题。不得修改 WordPress 核心。
 - PHP 8.3+、MySQL、Tailwind CSS、Alpine.js；WordPress 原生后台。

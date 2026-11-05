@@ -55,4 +55,6 @@ Phase 7 已获授权，基线为 main `b3295f643c167ab7a6b5bba60e01f58359253cc3`
 
 主题/Core 仍为 0.7.0，schema 仍为 1.5.0；没有改表定义、删除数据或重建数据库，Skill ID、双语关联、人工内容及历史保留。未增加依赖、自动发布或未知脚本执行。九个新隔离检查加入默认 PHP CI，完整集成开关仍未开启。
 
-Cloud PHP 8.3.36 的 100 个 PHP 文件语法、29 组 2679 项隔离/Mock 断言、前端构建/资源、JS/Bash、Compose 及差异检查通过；npm audit 本次为 0 个已知漏洞。九个新增测试入口共 818 项，全部断言比首轮增加 940 项。Git/CI 证据在本轮提交后补记；所有真实 WordPress、MySQL、WPML、GitHub/AI API、浏览器、并发与端到端仍未执行。Phase 7 代码工作完成后暂停，等待用户安排 Final QA，不自动运行或部署。
+Cloud PHP 8.3.36 的 100 个 PHP 文件语法、29 组 2679 项隔离/Mock 断言、前端构建/资源、JS/Bash、Compose 及差异检查通过；npm audit 本次为 0 个已知漏洞。九个新增测试入口共 818 项，全部断言比首轮增加 940 项。所有真实 WordPress、MySQL、WPML、GitHub/AI API、浏览器、并发与端到端仍未执行。Phase 7 代码工作已完成并暂停，等待用户安排 Final QA，不自动运行或部署。
+
+实现提交 `49ee0a757e88f622cc4d37f0f07160e221bfb169` 已同步 GitHub main；[CI 41982408246](https://github.com/mtccv/Skills-ak/actions/runs/41982408246) 的 PHP 8.3、PHP 8.4、assets 全部通过，wordpress-smoke 按策略 skipped。最终证据补记为随后纯文档提交，不修改已验证代码。
