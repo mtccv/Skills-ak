@@ -1,6 +1,6 @@
 # AI Skills Hub
 
-WordPress 原创主题项目，内置 AI Skills Hub Core。Phase 0–6 已验收；当前 Phase 7 对已有双语前台、原生后台、搜索、SEO、采集和 AI 系统进行安全、性能与稳定性加固。用户还将补充本阶段后续要求，当前批次不代表阶段完成。主题/Core 为 0.7.0、schema 1.5.0；本批不修改十四张表的结构。Skill ID、来源唯一键和双语关系不变；AI 不能自动发布或覆盖人工内容。
+WordPress 原创主题项目，内置 AI Skills Hub Core。Phase 0–6 已验收；当前 Phase 7 对已有双语前台、原生后台、搜索、SEO、采集和 AI 系统进行安全、性能与稳定性加固。第二轮按用户补充的十二项范围审查，记录见 [Phase 7 第二轮报告](docs/PHASE_7_ROUND_2.md)。代码工作完成后暂停，等待用户安排 Final QA。主题/Core 为 0.7.0、schema 1.5.0；本批不修改十四张表的结构。Skill ID、来源唯一键和双语关系不变；AI 不能自动发布或覆盖人工内容。
 
 完整需求及阶段门禁见 [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md)，Core 说明见 [docs/CORE.md](docs/CORE.md)，本轮记录见 [docs/PHASE_7_REPORT.md](docs/PHASE_7_REPORT.md)。AI 操作、API 配置及安全边界分别见 [AI_USAGE.md](docs/AI_USAGE.md)、[API_CONFIGURATION.md](docs/API_CONFIGURATION.md)、[AI_SECURITY.md](docs/AI_SECURITY.md)。采集维护见 [GITHUB_IMPORT.md](docs/GITHUB_IMPORT.md)、[IMPORT_SECURITY.md](docs/IMPORT_SECURITY.md)，前台见 [FRONTEND.md](docs/FRONTEND.md)，搜索与 SEO 见 [SEO.md](docs/SEO.md)，进度见 [PROGRESS.md](docs/PROGRESS.md)。Phase 0–6 报告保留历史证据，不改写为本轮验收；完整真实集成仍待 Final QA。
 
@@ -105,4 +105,4 @@ AI 队列默认暂停。管理员配置后可排队连接测试或对已采集 S
 
 AI Generation 显示来源原文、SHA、结构化输出、任务与失败历史、Token 和估算费用，并允许单独编辑双语审稿草稿、接受或拒绝。AI 输出和人工编辑草稿分开留档；采用前核对来源和内容版本，只能填入所选仍为空的标题、摘要或正文，已存在人工字段不会覆盖。使用场景等部分结果保留为建议，由编辑在正常 Skills 编辑器有意识地合并；采用后仍为 pending，补充真实 Slug/内容并按 Reviews 审核后才可公开。
 
-分类/标签/平台和安装说明都要求来源依据，新增术语只提供建议，不自动创建或关联；未知安装步骤、依赖和 License 标为待核实。模型没有执行 Skill 命令或读取密钥的工具权限。AI 风险结果是人工线索，不能替代静态检查或安全认证。准确操作与限制见 AI_USAGE.md / AI_SECURITY.md；模拟检查和真实 AI API 未执行范围见 Phase 6 报告。完成后暂停，不自动进入 Phase 7。
+分类/标签/平台和安装说明都要求来源依据，新增术语只提供建议，不自动创建或关联；未知安装步骤、依赖和 License 标为待核实。模型没有执行 Skill 命令或读取密钥的工具权限。AI 风险结果是人工线索，不能替代静态检查或安全认证。准确操作与限制见 AI_USAGE.md / AI_SECURITY.md；模拟检查和真实 AI API 未执行范围见 Phase 6 报告。Phase 6 历史交付见阶段报告，当前加固进度见 [PROGRESS.md](docs/PROGRESS.md)。

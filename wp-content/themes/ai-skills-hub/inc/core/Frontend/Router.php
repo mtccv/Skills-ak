@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 final class Router {
 	private const ROUTES = array( 'home', 'skills', 'skill', 'category', 'tag', 'tutorials', 'tutorial', 'search', 'about', 'contact', 'submit', '404' );
 	private static array $context = array( 'route' => '404', 'locale' => 'zh_CN', 'language' => 'zh', 'title' => 'AI Skills Hub', 'description' => '', 'canonical' => '', 'alternates' => array(), 'data' => array(), 'error' => false, 'status' => 404 );
+	private static bool $adapterFailed = false;
 	private bool $handled = false;
 	private array $request = array();
 
@@ -42,21 +43,39 @@ final class Router {
 	}
 
 	public function rewrites(): void {
-		if ( ! apply_filters( 'aish_frontend_builtin_routing', true ) ) { return; }
+		try { if ( ! apply_filters( 'aish_frontend_builtin_routing', true ) ) { return; } }
+		catch ( \Throwable $error ) { self::$adapterFailed = true; return; }
 		// Request parsing below also supports newly activated themes before a rewrite flush.
 		add_rewrite_rule( '^(zh|en)(?:/.*)?/?$', 'index.php?aish_language=$matches[1]&aish_route=frontend', 'top' );
 	}
 
 	public function refreshRewrites(): void {
-		if ( ! current_user_can( 'manage_options' ) || ! apply_filters( 'aish_frontend_builtin_routing', true ) || '2' === get_option( 'aish_frontend_routes_version' ) ) { return; }
+		if ( ! current_user_can( 'manage_options' ) || self::$adapterFailed ) { return; }
+		try { if ( ! apply_filters( 'aish_frontend_builtin_routing', true ) || '2' === get_option( 'aish_frontend_routes_version' ) ) { return; } }
+		catch ( \Throwable $error ) { self::$adapterFailed = true; return; }
 		// Only the former plain-permalink setup needs a structure; preserve an existing choice.
 		if ( '' === (string) get_option( 'permalink_structure' ) ) { $GLOBALS['wp_rewrite']->set_permalink_structure( '/%postname%/' ); }
 		$this->rewrites();
+		if ( self::$adapterFailed ) { return; }
 		flush_rewrite_rules( true );
 		update_option( 'aish_frontend_routes_version', '2', false );
 	}
 
 	public function parse( \WP $wp ): void {
+		try { $this->parseRequest( $wp ); }
+		catch ( \Throwable $error ) {
+			self::$adapterFailed = true;
+			$locale = $this->request['locale'] ?? self::$context['locale'];
+			$locale = in_array( $locale, array( 'zh_CN', 'en_US' ), true ) ? $locale : 'zh_CN';
+			$this->request = array( 'route' => '404', 'locale' => $locale );
+			$this->handled = true;
+			self::$context['locale'] = $locale;
+			self::$context['language'] = 'zh_CN' === $locale ? 'zh' : 'en';
+			$wp->query_vars = array( 'aish_route' => '404', 'aish_language' => self::$context['language'] );
+		}
+	}
+
+	private function parseRequest( \WP $wp ): void {
 		if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || isset( $wp->query_vars['rest_route'] ) || isset( $wp->query_vars['robots'] ) || isset( $wp->query_vars['sitemap'] ) || isset( $wp->query_vars['feed'] ) ) { return; }
 		$path = trim( (string) $wp->request, '/' );
 		// WP may leave request empty before pretty permalinks are configured. Never redirect /en/ to itself.
@@ -68,7 +87,10 @@ final class Router {
 			$path = preg_replace( '#^index\.php(?:/|$)#', '', $path );
 		}
 		if ( preg_match( '#^(wp-json|wp-admin|wp-login\.php|[a-z0-9_-]*sitemap[a-z0-9_-]*\.(?:xml|xsl)|robots\.txt|favicon\.ico|feed)(/|$)#', $path ) ) { return; }
+		$this->request = array( 'route' => '404', 'locale' => preg_match( '#^en(?:/|$)#D', $path ) ? 'en_US' : self::defaultLocale() );
+		if ( self::$adapterFailed ) { throw new \RuntimeException( 'Frontend adapter is unavailable.' ); }
 		$mapped = apply_filters( 'aish_frontend_request', null, $path );
+		if ( null !== $mapped && ! is_array( $mapped ) ) { throw new \RuntimeException( 'Frontend request adapter is unavailable.' ); }
 		if ( is_array( $mapped ) ) { $this->request = $mapped; }
 		elseif ( ! apply_filters( 'aish_frontend_builtin_routing', true ) ) { return; }
 		elseif ( '' === $path ) { $this->request = array( 'route' => 'root', 'locale' => self::defaultLocale() ); }
@@ -123,6 +145,32 @@ final class Router {
 
 	public function resolve(): void {
 		if ( ! $this->handled ) { return; }
+		try {
+			if ( self::$adapterFailed ) { throw new \RuntimeException( 'Frontend adapter is unavailable.' ); }
+			$this->resolveRequest();
+		} catch ( \Throwable $error ) { $this->unavailable(); }
+	}
+
+	/** The error response must not read failing storage or call the same adapter again. */
+	private function unavailable(): void {
+		self::$adapterFailed = true;
+		$locale = 'en_US' === ( $this->request['locale'] ?? '' ) ? 'en_US' : 'zh_CN';
+		self::$context = array(
+			'route' => '404', 'locale' => $locale, 'language' => 'zh_CN' === $locale ? 'zh' : 'en',
+			'title' => ( 'zh_CN' === $locale ? '暂时无法加载' : 'Temporarily unavailable' ) . ' · AI Skills Hub',
+			'description' => '', 'canonical' => '', 'alternates' => array(), 'alternate_ids' => array(), 'data' => array(),
+			'error' => true, 'status' => 503, 'noindex' => true, 'image' => '', 'og_type' => 'website',
+			'seo_managed' => true, 'seo_alternates' => array(), 'x_default' => '',
+		);
+		$GLOBALS['wp_query']->is_404 = false;
+		$GLOBALS['wp_query']->is_home = false;
+		status_header( 503 ); nocache_headers();
+		header( 'Cache-Control: private, no-store, max-age=0' );
+		header( 'Retry-After: 60' );
+		Seo::sendHeaders( self::$context );
+	}
+
+	private function resolveRequest(): void {
 		$locale = $this->request['locale'];
 		$route = $this->request['route'];
 		if ( 'root' === $route ) {
@@ -220,6 +268,7 @@ final class Router {
 		if ( $status >= 500 ) { $title = 'zh_CN' === $locale ? '暂时无法加载' : 'Temporarily unavailable'; $description = ''; }
 		self::$context = array( 'route' => $route, 'locale' => $locale, 'language' => 'zh_CN' === $locale ? 'zh' : 'en', 'title' => $title . ' · AI Skills Hub', 'description' => wp_strip_all_tags( $description ), 'canonical' => 200 === $status ? self::url( $route, $canonicalArgs, $locale ) : '', 'alternates' => 200 === $status ? $alternates : array(), 'data' => $data, 'error' => $status >= 500, 'status' => $status );
 		self::$context['alternate_ids'] = 'tutorial' === $route ? ( $available ?? array() ) : array();
+		if ( self::$adapterFailed ) { throw new \RuntimeException( 'Frontend adapter is unavailable.' ); }
 		self::$context = Seo::prepare( self::$context, $_GET );
 		$GLOBALS['wp_query']->is_404 = 404 === $status;
 		$GLOBALS['wp_query']->is_home = 'home' === $route;
@@ -251,7 +300,13 @@ final class Router {
 		}
 		$url = self::siteUrl( '/' . $prefix . '/' . $path );
 		if ( $query ) { $url = add_query_arg( $query, $url ); }
-		return (string) apply_filters( 'aish_frontend_url', $url, $route, $args, $locale );
+		if ( self::$adapterFailed ) { return $url; }
+		try {
+			$adjusted = apply_filters( 'aish_frontend_url', $url, $route, $args, $locale );
+			$parts = is_string( $adjusted ) && ! preg_match( '/[\x00-\x20\x7f]/', $adjusted ) ? wp_parse_url( $adjusted ) : false;
+			if ( ! is_array( $parts ) || ! in_array( $parts['scheme'] ?? '', array( 'http', 'https' ), true ) || empty( $parts['host'] ) || isset( $parts['user'] ) || isset( $parts['pass'] ) || isset( $parts['fragment'] ) ) { throw new \RuntimeException( 'Invalid frontend URL.' ); }
+			return $adjusted;
+		} catch ( \Throwable $error ) { self::$adapterFailed = true; throw new \RuntimeException( 'Frontend URL adapter is unavailable.' ); }
 	}
 
 }

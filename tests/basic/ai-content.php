@@ -11,7 +11,7 @@ use AISkillsHub\Core\AI\Output;
 $checks = 0;
 function check( bool $condition, string $message ): void { global $checks; ++$checks; if ( ! $condition ) { throw new RuntimeException( $message ); } }
 function rejects( callable $operation, string $message, ?string $code = null ): void {
-	try { $operation(); } catch ( InvalidArgumentException $error ) { check( null === $code || $error->getMessage() === $code, $message . ': ' . $error->getMessage() ); return; }
+	try { $operation(); } catch ( InvalidArgumentException | DomainException $error ) { check( null === $code || $error->getMessage() === $code, $message . ': ' . $error->getMessage() ); return; }
 	throw new RuntimeException( 'Expected rejection: ' . $message );
 }
 function encode( array $value ): string { return json_encode( $value, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ); }
@@ -43,6 +43,17 @@ $redacted = Prompt::source( $secretSource );
 foreach ( array( 'abcdef1234567890', 'abcdef0123456789', str_repeat( 'x', 24 ), str_repeat( 'y', 24 ), 'secret material' ) as $secret ) { check( ! str_contains( encode( $redacted ), $secret ), 'common credential pattern redacted' ); }
 check( Prompt::source( $redacted ) === $redacted, 'source redaction idempotent' );
 $result = Output::parse( encode( fixture() ), $source, 'both' );
+check( Output::connection( '{"ok":true}' ) === array( 'ok' => true ), 'connection response requires one affirmative field' );
+check( Output::connection( '{"\u006f\u006b":true}' ) === array( 'ok' => true ), 'unique escaped connection key remains valid JSON' );
+foreach ( array( '{"ok":false,"ok":true}', '{"ok":false,"\u006f\u006b":true}', '{"ok":"' . str_repeat( 'x', 12000 ) . '","ok":true}' ) as $json ) {
+	rejects( fn() => Output::connection( $json ), 'connection duplicate cannot become a successful last-write value', 'ai_output_duplicate_key' );
+}
+foreach ( array( '[]', 'null', 'true', '"ok"', '{}', '{"ok":false}', '{"ok":1}', '{"ok":true,"extra":1}' ) as $json ) {
+	rejects( fn() => Output::connection( $json ), 'connection shape or boolean value rejected', 'ai_invalid_connection_response' );
+}
+foreach ( array( '{', 'not json', '```json {"ok":true} ```' ) as $json ) { rejects( fn() => Output::connection( $json ), 'connection non-JSON rejected', 'ai_output_invalid_json' ); }
+rejects( fn() => Output::connection( str_repeat( ' ', Output::MAX_BYTES ) . '{"ok":true}' ), 'connection output bound', 'ai_output_size_or_encoding' );
+rejects( fn() => Output::connection( "\xff" ), 'connection invalid UTF-8', 'ai_output_size_or_encoding' );
 check( count( $result['locales'] ) === 2 && $result['locales']['zh_CN']['title'] === '代码审查助手', 'bilingual normalized draft shares source Skill' );
 check( $result['locales']['en_US']['title'] === 'Code review helper', 'English draft retained independently' );
 check( $result['suggestions']['categories'][0]['existing_id'] === 11, 'existing category suggestion retained without creating terms' );

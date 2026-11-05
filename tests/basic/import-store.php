@@ -8,7 +8,7 @@ function current_user_can( string $cap ): bool { return $GLOBALS['allow_import_a
 function sanitize_text_field( string $value ): string { return trim( strip_tags( $value ) ); }
 final class wpdb {
 	public string $prefix = 't_'; public string $last_error = ''; public int $insert_id = 0;
-	public array $tables = array(); public array $prepared = array(); public array $executed = array(); public int $failFinish = 0; private ?array $snapshot = null;
+	public array $tables = array(); public array $prepared = array(); public array $executed = array(); public int $failFinish = 0; public int $failQueuedRepository = 0; public bool $failBindingRead = false; private ?array $snapshot = null;
 	public function suppress_errors( bool $value ): bool { return false; }
 	public function prepare( string $sql, array $args ): string { $this->prepared[] = array( $sql, $args ); return 'prepared:' . ( count( $this->prepared ) - 1 ); }
 	private function unpack( string $sql ): array { return str_starts_with( $sql, 'prepared:' ) ? $this->prepared[ (int) substr( $sql, 9 ) ] : array( $sql, array() ); }
@@ -21,6 +21,7 @@ final class wpdb {
 	public function update( string $table, array $data, array $where, array $formats, array $whereFormats ): int {
 		$table = $this->entity( $table ); $id = $where['id'];
 		if ( 'jobs' === $table && 'complete' === ( $data['status'] ?? '' ) && $this->failFinish > 0 ) { --$this->failFinish; throw new RuntimeException( 'Fixture finalization write failed.' ); }
+		if ( 'repositories' === $table && 'queued' === ( $data['sync_status'] ?? '' ) && $this->failQueuedRepository > 0 ) { --$this->failQueuedRepository; throw new RuntimeException( 'Fixture repository checkpoint failed.' ); }
 		if ( ! isset( $this->tables[ $table ][ $id ] ) ) { return 0; }
 		$this->tables[ $table ][ $id ] = array_merge( $this->tables[ $table ][ $id ], $data );
 		$this->executed[] = array( 'update', $table, $data ); return 1;
@@ -29,8 +30,17 @@ final class wpdb {
 		list( $sql, $args ) = $this->unpack( $prepared ); $this->executed[] = array( $sql, $args );
 		preg_match( '/FROM `t_aish_([a-z_]+)`/', $sql, $match ); $table = $match[1] ?? '';
 		$rows = array_values( $this->tables[ $table ] ?? array() );
+		if ( str_contains( $sql, 'SELECT 1 AS missing_binding' ) ) {
+			if ( $this->failBindingRead ) { throw new RuntimeException( 'Fixture binding query failed.' ); }
+			foreach ( $rows as $row ) {
+				if ( $row['repository_id'] !== $args[0] || 'present' !== $row['source_status'] ) { continue; }
+				$matches = array_filter( $this->tables['skill_versions'] ?? array(), fn( $version ) => $version['skill_id'] === $row['skill_id'] && $version['commit_sha'] === $row['commit_sha'] && $version['file_sha'] === $row['file_sha'] && $version['repository_id'] === $row['repository_id'] && $version['source_path'] === $row['source_path'] );
+				if ( ! $matches ) { return array( array( 'missing_binding' => 1 ) ); }
+			}
+			return array();
+		}
 		if ( str_contains( $sql, 'SELECT v.source_content' ) ) {
-            foreach ( $rows as $row ) { if ( $row['repository_id'] === $args[0] && $row['source_path'] === $args[1] && $row['file_sha'] === $args[2] ) { foreach ( $this->tables['skill_versions'] as $version ) { if ( $version['skill_id'] === $row['skill_id'] && $version['commit_sha'] === $row['commit_sha'] ) { return array( array( 'source_content' => $version['source_content'] ) ); } } } } return array();
+            foreach ( $rows as $row ) { if ( $row['repository_id'] === $args[0] && $row['source_path'] === $args[1] && $row['file_sha'] === $args[2] ) { foreach ( $this->tables['skill_versions'] as $version ) { if ( $version['skill_id'] === $row['skill_id'] && $version['commit_sha'] === $row['commit_sha'] && ( ! str_contains( $sql, 'v.file_sha=i.file_sha' ) || ( $version['file_sha'] === $row['file_sha'] && $version['repository_id'] === $row['repository_id'] && $version['source_path'] === $row['source_path'] ) ) ) { return array( array( 'source_content' => $version['source_content'] ) ); } } } } return array();
         }
         if ( 'import_logs' === $table && str_contains( $sql, 'code IN (' ) ) { return array_slice( array_values( array_filter( $rows, fn( $row ) => $row['job_id'] === $args[0] && $row['source_path'] === $args[1] && in_array( $row['code'], array( 'source_new', 'source_updated', 'source_unchanged' ), true ) ) ), 0, 1 ); }
         if ( 'import_logs' === $table && str_contains( $sql, 'COALESCE(source_path' ) ) { return array_values( array_filter( $rows, fn( $row ) => $row['job_id'] === $args[0] && $row['code'] === $args[1] && ( $row['source_path'] ?? '' ) === $args[2] ) ); }
@@ -43,7 +53,7 @@ final class wpdb {
 		if ( str_contains( $sql, 'WHERE repository_id=%d AND source_path=%s' ) ) { return array_values( array_filter( $rows, fn( $row ) => $row['repository_id'] === $args[0] && $row['source_path'] === $args[1] ) ); }
 		if ( str_contains( $sql, 'WHERE skill_id=%d AND commit_sha=%s' ) ) { return array_values( array_filter( $rows, fn( $row ) => $row['skill_id'] === $args[0] && $row['commit_sha'] === $args[1] ) ); }
 		if ( str_contains( $sql, 'WHERE repository_id=%d AND file_sha=%s' ) ) { return array_values( array_filter( $rows, fn( $row ) => $row['repository_id'] === $args[0] && $row['file_sha'] === $args[1] && $row['skill_id'] !== $args[2] ) ); }
-		if ( str_contains( $sql, "status IN ('queued','retry')" ) ) { return array_slice( array_values( array_filter( $rows, fn( $row ) => in_array( $row['status'], array( 'queued', 'retry' ), true ) && $row['available_at'] <= $args[0] ) ), 0, 1 ); }
+		if ( str_contains( $sql, "status IN ('queued','retry')" ) ) { return array_slice( array_values( array_filter( $rows, fn( $row ) => ( in_array( $row['status'], array( 'queued', 'retry' ), true ) && $row['available_at'] <= $args[0] ) || ( 'running' === $row['status'] && $row['locked_until'] <= $args[1] ) ) ), 0, 1 ); }
 		return $rows;
 	}
 	public function get_var( string $prepared ): mixed {
@@ -258,4 +268,97 @@ $saved = json_decode( $recoveryDb->tables['jobs'][2]['state_json'], true );
 check( ! isset( $saved['inventory_reconciled'], $saved['missing_count'] ), 'Caller-provided reconciliation flags cannot create proof of a database inventory update.' );
 $recoveryDb->tables['jobs'][2]['available_at'] = '2000-01-01 00:00:00'; $resumed = $recovery->claim();
 rejects( fn() => $recovery->finish( 2, $resumed['lease_token'], $forgedState ), 'Forged checkpoint proof cannot authorize successful completion.' );
+
+// Legacy Phase 1 snapshots must be verified against a fresh, pinned Blob before AI can use them.
+$compatDb = new wpdb(); $compatDal = new Database( $compatDb ); $compat = new ImportStore( $compatDal, new Migrator( $compatDal ) );
+$compatDb->tables['repositories'][1] = array( 'id' => 1, 'owner' => 'owner', 'name' => 'repo', 'is_archived' => 0, 'sync_enabled' => 1, 'sync_status' => 'running' );
+$compatDb->tables['skills'][1] = array( 'id' => 1, 'repository_id' => 1, 'source_path' => 'sample/SKILL.md', 'status' => 'published', 'revision' => 9 );
+$compatDb->tables['skill_translations'][1] = array( 'skill_id' => 1, 'locale' => 'en_US', 'slug' => 'human-slug', 'content' => 'Human content' );
+$legacyVersion = array( 'id' => 1, 'skill_id' => 1, 'commit_sha' => $commit1, 'content_hash' => hash( 'sha256', $raw ), 'source_content' => $raw, 'version_label' => 'Manual legacy label', 'created_at' => '2025-01-01 00:00:00', 'file_sha' => '', 'repository_id' => null, 'source_path' => null );
+$compatDb->tables['skill_versions'][1] = $legacyVersion;
+$legacySkill = $compatDb->tables['skills']; $legacyTranslations = $compatDb->tables['skill_translations'];
+$compatToken = runningJob( $compatDb, 1 );
+rejects( fn() => $compat->record( 1, $compatToken, 'sample/SKILL.md', blobSha( $raw ), $commit1, $raw, $parsed, array() ), 'Cached evidence cannot silently bind a legacy version.' );
+check( $compatDb->tables['skill_versions'][1] === $legacyVersion && empty( $compatDb->tables['imports'] ), 'Missing fresh proof leaves the old snapshot and source inventory untouched.' );
+$compatResult = $compat->record( 1, $compatToken, 'sample/SKILL.md', blobSha( $raw ), $commit1, $raw, $parsed, array(), true );
+$verifiedVersion = $compatDb->tables['skill_versions'][1];
+check( 1 === $compatResult['skill_id'] && 1 === count( $compatDb->tables['skill_versions'] ), 'Verified same-Commit legacy scan keeps Skill and version IDs.' );
+check( blobSha( $raw ) === $verifiedVersion['file_sha'] && 1 === $verifiedVersion['repository_id'] && 'sample/SKILL.md' === $verifiedVersion['source_path'], 'Fresh pinned Blob completes only missing source identity metadata.' );
+foreach ( array( 'id', 'skill_id', 'commit_sha', 'content_hash', 'source_content', 'version_label', 'created_at' ) as $field ) { check( $legacyVersion[ $field ] === $verifiedVersion[ $field ], 'Legacy immutable snapshot field remains unchanged: ' . $field ); }
+check( $compatDb->tables['skills'] === $legacySkill && $compatDb->tables['skill_translations'] === $legacyTranslations, 'Legacy verification cannot overwrite published or human content.' );
+check( $raw === $compat->sourceContent( 1, 'sample/SKILL.md', blobSha( $raw ) ), 'Verified snapshot is eligible for future exact-source reuse.' );
+$compat->record( 1, $compatToken, 'sample/SKILL.md', blobSha( $raw ), $commit1, $raw, $parsed, array(), true );
+check( 1 === count( $compatDb->tables['skills'] ) && 1 === count( $compatDb->tables['skill_versions'] ), 'Repeated verified scans do not duplicate legacy identities.' );
+foreach ( array( 'file_sha' => str_repeat( 'f', 40 ), 'repository_id' => 2, 'source_path' => 'other/SKILL.md' ) as $field => $conflict ) {
+	$compatDb->tables['skill_versions'][1] = $verifiedVersion; $compatDb->tables['skill_versions'][1][ $field ] = $conflict;
+	$beforeConflict = $compatDb->tables;
+	rejects( fn() => $compat->record( 1, $compatToken, 'sample/SKILL.md', blobSha( $raw ), $commit1, $raw, $parsed, array(), true ), 'A fresh fetch never overwrites known version identity: ' . $field );
+	check( $beforeConflict === $compatDb->tables, 'Conflicting version identity rolls back all writes: ' . $field );
+}
+$compatDb->tables['skill_versions'][1] = $legacyVersion;
+check( null === $compat->sourceContent( 1, 'sample/SKILL.md', blobSha( $raw ) ), 'Unbound legacy content forces a fresh Blob request instead of cached reuse.' );
+rejects( fn() => $compat->record( 1, $compatToken, 'sample/SKILL.md', blobSha( $raw ), $commit2, $raw, $parsed, array() ), 'A new Commit cannot repair an old unbound source using cached evidence.' );
+$compat->record( 1, $compatToken, 'sample/SKILL.md', blobSha( $raw ), $commit2, $raw, $parsed, array(), true );
+check( $compatDb->tables['skill_versions'][1] === $legacyVersion, 'A later Commit never backfills unverifiable historical source binding.' );
+check( 2 === count( $compatDb->tables['skill_versions'] ) && $compatDb->tables['skill_versions'][2]['commit_sha'] === $commit2 && $compatDb->tables['imports'][1]['commit_sha'] === $commit2, 'Fresh later-Commit proof creates a bound snapshot and updates only the incoming source pointer.' );
+check( $raw === $compat->sourceContent( 1, 'sample/SKILL.md', blobSha( $raw ) ), 'The replacement snapshot satisfies all exact-source join constraints.' );
+$compat->record( 1, $compatToken, 'sample/SKILL.md', blobSha( $raw ), str_repeat( 'c', 40 ), $raw, $parsed, array() );
+check( 2 === count( $compatDb->tables['skill_versions'] ) && $commit2 === $compatDb->tables['imports'][1]['commit_sha'], 'Already-bound unchanged Blobs still reuse history without unnecessary versions.' );
+
+// Repository status and the recoverable job checkpoint must commit together.
+$beforeCheckpoint = $compatDb->tables; $compatDb->failQueuedRepository = 1; $checkpointFailed = false;
+try { $compat->checkpoint( 1, $compatToken, array( 'stage' => 'files' ) ); } catch ( RuntimeException $error ) { $checkpointFailed = true; }
+check( $checkpointFailed && $compatDb->tables === $beforeCheckpoint, 'Repository status failure rolls back the job checkpoint and lease release.' );
+$compat->checkpoint( 1, $compatToken, array( 'stage' => 'files' ) );
+check( 'queued' === $compatDb->tables['jobs'][1]['status'] && 'queued' === $compatDb->tables['repositories'][1]['sync_status'], 'A successful checkpoint reports queued consistently in both admin views.' );
+
+// A same-HEAD successful baseline cannot hide missing current snapshot bindings.
+$compatDb->tables['repositories'][1]['last_sync_commit'] = $commit2;
+$compatDb->tables['jobs'][1]['status'] = 'complete'; $compatDb->tables['jobs'][1]['active_key'] = null;
+$baselineToken = runningJob( $compatDb, 2 );
+check( $compat->baselineReusable( 2, $baselineToken, $commit2 ), 'A bound present source retains the fast path despite unrelated unbound historical versions.' );
+$bindingQuery = end( $compatDb->prepared );
+check( str_contains( $bindingQuery[0], 'LIMIT 1' ) && ! str_contains( $bindingQuery[0], 'source_content' ) && array( 1 ) === $bindingQuery[1], 'Baseline validation projects one existence result for this repository without loading source bodies.' );
+$boundCurrent = $compatDb->tables['skill_versions'][2];
+foreach ( array( array( 'file_sha', '' ), array( 'repository_id', null ), array( 'source_path', null ), array( 'file_sha', str_repeat( 'f', 40 ) ), array( 'repository_id', 2 ), array( 'source_path', 'other/SKILL.md' ) ) as list( $field, $value ) ) {
+	$compatDb->tables['skill_versions'][2] = $boundCurrent; $compatDb->tables['skill_versions'][2][ $field ] = $value;
+	check( ! $compat->baselineReusable( 2, $baselineToken, $commit2 ), 'Incomplete or conflicting current source binding prevents a same-HEAD shortcut: ' . $field );
+}
+rejects( fn() => $compat->finish( 2, $baselineToken, $state + array( 'unchanged_head' => true ) ), 'Completion rechecks current snapshot binding before trusting unchanged HEAD.' );
+unset( $compatDb->tables['skill_versions'][2] );
+check( ! $compat->baselineReusable( 2, $baselineToken, $commit2 ), 'A missing referenced snapshot prevents the successful-baseline shortcut.' );
+$compatDb->tables['skill_versions'][2] = $boundCurrent;
+$compatDb->tables['imports'][2] = array_replace( $compatDb->tables['imports'][1], array( 'id' => 2, 'skill_id' => 2, 'source_path' => 'old/SKILL.md', 'source_status' => 'missing' ) );
+check( $compat->baselineReusable( 2, $baselineToken, $commit2 ), 'Missing historical sources do not force repeated full scans.' );
+$beforeBindingRead = $compatDb->tables; $compatDb->failBindingRead = true; $bindingReadFailed = false;
+try { $compat->baselineReusable( 2, $baselineToken, $commit2 ); } catch ( RuntimeException $error ) { $bindingReadFailed = true; }
+check( $bindingReadFailed && $beforeBindingRead === $compatDb->tables, 'A binding-query failure fails closed and never repairs history or reports a usable baseline.' );
+$compatDb->failBindingRead = false;
+
+// A lost lease consumes the same bounded failure budget as an explicit retry.
+$leaseDb = new wpdb(); $leaseDal = new Database( $leaseDb ); $leases = new ImportStore( $leaseDal, new Migrator( $leaseDal ) );
+$leaseDb->tables['repositories'][1] = array( 'id' => 1, 'is_archived' => 0, 'sync_status' => 'running' );
+$oldToken = runningJob( $leaseDb, 1 );
+for ( $attempt = 1; $attempt < 5; ++$attempt ) {
+	$leaseDb->tables['jobs'][1]['locked_until'] = '2000-01-01 00:00:00';
+	$reclaimed = $leases->claim();
+	check( $attempt === $reclaimed['attempts'] && $oldToken !== $reclaimed['lease_token'], 'Each recoverable lease expiry consumes one failure and replaces the fencing token.' );
+	rejects( fn() => $leases->checkpoint( 1, $oldToken, array() ), 'A recovered worker cannot checkpoint with its old token.' );
+	$oldToken = $reclaimed['lease_token'];
+}
+$leaseDb->tables['jobs'][1]['locked_until'] = '2000-01-01 00:00:00';
+check( null === $leases->claim(), 'The fifth consecutive lost lease cannot start a sixth execution.' );
+$terminalLease = $leaseDb->tables['jobs'][1];
+check( 5 === $terminalLease['attempts'] && 'failed' === $terminalLease['status'] && null === $terminalLease['active_key'] && '' === $terminalLease['lease_token'] && null === $terminalLease['locked_until'] && 'failed' === $leaseDb->tables['repositories'][1]['sync_status'], 'Exhausted lease recovery persists the failure count and releases all active ownership.' );
+rejects( fn() => $leases->checkpoint( 1, $oldToken, array() ), 'An exhausted worker cannot resurrect its terminal job.' );
+$progressToken = runningJob( $leaseDb, 2 ); $leaseDb->tables['jobs'][2]['attempts'] = 3;
+$leases->checkpoint( 2, $progressToken, array( 'stage' => 'files' ) );
+$leaseDb->tables['jobs'][2]['available_at'] = '2000-01-01 00:00:00'; $progressClaim = $leases->claim();
+check( 0 === $progressClaim['attempts'] && 2 === $progressClaim['id'], 'A successful checkpoint still resets consecutive failures before the next step.' );
+$deadlineToken = runningJob( $leaseDb, 3 ); $leaseDb->tables['jobs'][3]['locked_until'] = '2000-01-01 00:00:00'; $leaseDb->tables['jobs'][3]['deadline_at'] = gmdate( 'Y-m-d H:i:s' );
+check( null === $leases->claim() && 'failed' === $leaseDb->tables['jobs'][3]['status'] && null === $leaseDb->tables['jobs'][3]['active_key'], 'A lease at its deadline expires without another execution.' );
+rejects( fn() => $leases->checkpoint( 3, $deadlineToken, array() ), 'A deadline-expired worker cannot checkpoint its old lease.' );
+$cancelledToken = runningJob( $leaseDb, 4 ); $leaseDb->tables['jobs'][4]['status'] = 'cancelled'; $leaseDb->tables['jobs'][4]['active_key'] = null; $leaseDb->tables['jobs'][4]['locked_until'] = '2000-01-01 00:00:00';
+check( null === $leases->claim() && 'cancelled' === $leaseDb->tables['jobs'][4]['status'], 'Claim cannot resurrect an already cancelled job.' );
+rejects( fn() => $leases->checkpoint( 4, $cancelledToken, array() ), 'A cancelled worker cannot resume with its old lease.' );
 echo 'PASS: ' . $count . " import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).\n";

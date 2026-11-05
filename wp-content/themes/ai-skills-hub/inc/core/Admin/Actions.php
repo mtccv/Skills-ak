@@ -220,6 +220,24 @@ final class Actions {
 		);
 	}
 
+	/** A false Options API result may mean unchanged; verify durable storage, not its cache. */
+	private static function saveSettings( int $perPage, string $locale ): void {
+		global $wpdb;
+		$settings = array( 'per_page' => $perPage, 'default_locale' => $locale );
+		$previous = $wpdb->suppress_errors( true );
+		try {
+			$wpdb->last_error = '';
+			update_option( 'aish_admin_settings', $settings, false );
+			if ( '' !== $wpdb->last_error ) { throw new \RuntimeException( 'Settings could not be stored.' ); }
+			$stored = $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name=%s", 'aish_admin_settings' ) );
+			if ( '' !== $wpdb->last_error || $stored !== maybe_serialize( $settings ) ) { throw new \RuntimeException( 'Settings could not be verified.' ); }
+		} catch ( \Throwable $error ) {
+			// Do not leave an optimistic/corrupt option cache masking the persisted value.
+			foreach ( array( 'aish_admin_settings', 'alloptions', 'notoptions' ) as $key ) { wp_cache_delete( $key, 'options' ); }
+			throw $error;
+		} finally { $wpdb->suppress_errors( $previous ); }
+	}
+
 	private function dispatch( string $action ): never {
 		if ( 'aish_preview' === $action ) {
 			$this->preview();
@@ -297,7 +315,7 @@ final class Actions {
 					$per_page = self::number( $data['per_page'] ?? null );
 					$locale = self::text( $data, 'default_locale', 10 );
 					if ( $per_page > 100 || ! in_array( $locale, array( 'zh_CN', 'en_US' ), true ) ) { throw new \InvalidArgumentException( 'Invalid settings.' ); }
-					update_option( 'aish_admin_settings', array( 'per_page' => $per_page, 'default_locale' => $locale ), false );
+					self::saveSettings( $per_page, $locale );
 					break;
 			}
 			self::redirect( $page, array( 'aish_notice' => 'saved' ) );

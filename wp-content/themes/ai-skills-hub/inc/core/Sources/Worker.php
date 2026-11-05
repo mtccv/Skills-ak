@@ -76,13 +76,13 @@ final class Worker {
 						break;
 					}
 					$previous = $this->store->source( (int) $job['repository_id'], $path );
-					$raw = null;
+					$raw = null; $freshBlob = false;
 					if ( 'sync' === $job['kind'] && $previous && hash_equals( (string) ( $previous['file_sha'] ?? '' ), $entry['sha'] ) ) {
 						$raw = $this->store->sourceContent( (int) $job['repository_id'], $path, $entry['sha'] );
 					}
 					if ( null === $raw ) {
 						$this->verifyIdentity( $client, $repository, $state );
-						try { $raw = $client->blob( $owner, $name, $entry['sha'] ); }
+						try { $raw = $client->blob( $owner, $name, $entry['sha'] ); $freshBlob = true; }
 						catch ( GitHubException $error ) {
 							if ( $error->retryable || ! in_array( $error->codeName, array( 'file_too_large', 'invalid_blob_response', 'blob_sha_mismatch', 'response_too_large' ), true ) ) { throw $error; }
 							$this->fileError( $id, $token, $state, $error->codeName, $path );
@@ -100,7 +100,7 @@ final class Worker {
 						$this->fileError( $id, $token, $state, $code, $path );
 						break;
 					}
-					$result = $this->store->record( $id, $token, $path, $entry['sha'], $state['commit_sha'], $raw, $parsed, $inspection );
+					$result = $this->store->record( $id, $token, $path, $entry['sha'], $state['commit_sha'], $raw, $parsed, $inspection, $freshBlob );
 					++$state['stats'][ $result['change'] ]; ++$state['cursor'];
 					break;
 				case 'finalize':

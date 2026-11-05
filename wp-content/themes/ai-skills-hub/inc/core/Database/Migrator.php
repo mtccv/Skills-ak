@@ -27,6 +27,11 @@ final class Migrator {
 			return new \WP_Error( 'aish_schema_target', 'Unsupported migration target.' );
 		}
 		$locked = false;
+		// A wpdb reconnect would discard the migration advisory lock and replay
+		// DDL on a new session. Stop before that branch, keeping partial additive
+		// DDL retryable without claiming the unverified version was installed.
+		$driver_mode = class_exists( '\\mysqli_driver' ) ? ( new \mysqli_driver() )->report_mode : null;
+		if ( null !== $driver_mode ) { mysqli_report( MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT ); }
 		try {
 			if ( 1 !== (int) $this->db->value( 'SELECT GET_LOCK(%s, 0)', array( $this->lockName() ) ) ) {
 				return new \WP_Error( 'aish_schema_busy', 'Another Core migration is running. Retry later.' );
@@ -51,7 +56,15 @@ final class Migrator {
 				}
 				$previous = $this->db->connection()->suppress_errors( true );
 				try {
-					foreach ( Schema::definitions( $this->db, $version ) as $definition ) {
+					foreach ( Schema::definitions( $this->db, $version ) as $entity => $definition ) {
+						// dbDelta expects DESCRIBE on a missing table to return an empty
+						// result. Under strict mysqli that expected 1146 would throw. Create
+						// only missing trusted definitions first; keep all connection-loss
+						// and DDL errors fatal while retaining dbDelta's normal upgrade path.
+						$table = trim( $this->db->table( $entity ), '`' );
+						if ( null === $this->db->value( 'SELECT 1 FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND IF(@@lower_case_table_names=0, BINARY TABLE_NAME=BINARY %s, LOWER(TABLE_NAME)=LOWER(%s)) LIMIT 1', array( $table, $table ) ) ) {
+							$this->db->execute( $definition );
+						}
 						dbDelta( $definition );
 						if ( '' !== $this->db->connection()->last_error ) {
 							throw new \RuntimeException( 'Schema DDL failed.' );
@@ -87,6 +100,7 @@ final class Migrator {
 					// A disconnected MySQL session releases its advisory locks automatically.
 				}
 			}
+			if ( null !== $driver_mode ) { mysqli_report( $driver_mode ); }
 		}
 	}
 }

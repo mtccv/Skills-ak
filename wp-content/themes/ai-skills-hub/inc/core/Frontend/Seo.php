@@ -44,7 +44,8 @@ final class Seo {
 		$context['og_type'] = in_array( $route, array( 'skill', 'tutorial' ), true ) ? 'article' : 'website';
 		$context['seo_managed'] = (bool) apply_filters( 'aish_frontend_seo_enabled', true, $context );
 		// Extensions may adjust existing URLs, but cannot invent a missing translation.
-		$adjusted = (array) apply_filters( 'aish_frontend_alternates', $context['alternates'], $context );
+		$adjusted = apply_filters( 'aish_frontend_alternates', $context['alternates'], $context );
+		if ( ! is_array( $adjusted ) ) { throw new \RuntimeException( 'Frontend language links are unavailable.' ); }
 		$alternates = array();
 		if ( ! $context['noindex'] && 1 === $page ) {
 			foreach ( $context['alternates'] as $language => $url ) {
@@ -62,7 +63,7 @@ final class Seo {
 	}
 
 	public static function allows( string $route, string $locale, int $id = 0 ): bool {
-		if ( ! (bool) get_option( 'blog_public', true ) || self::settings( $route, $locale, $id )['noindex'] ) { return false; }
+		if ( ! SeoSettings::indexableSite() || self::settings( $route, $locale, $id )['noindex'] ) { return false; }
 		return 'tutorial' !== $route || ( $id > 0 && ! SeoSettings::postValues( $id )['noindex'] );
 	}
 
@@ -74,7 +75,7 @@ final class Seo {
 
 	/** Search/filter URLs stay crawlable so crawlers can actually see the noindex directive. */
 	public static function noindex( array $context, array $query, bool $configured = false ): bool {
-		if ( $configured || ! (bool) get_option( 'blog_public', true ) || 200 !== $context['status'] || in_array( $context['route'], array( 'search', 'submit', '404' ), true ) ) { return true; }
+		if ( $configured || ! SeoSettings::indexableSite() || 200 !== $context['status'] || in_array( $context['route'], array( 'search', 'submit', '404' ), true ) ) { return true; }
 		if ( in_array( $context['route'], array( 'about', 'contact' ), true ) && empty( $context['data']['page'] ) ) { return true; }
 		if ( isset( $context['data']['term'] ) && (int) ( $context['data']['term']['count'] ?? 0 ) < 1 ) { return true; }
 		foreach ( $query as $key => $value ) {
@@ -123,9 +124,15 @@ final class Seo {
 	}
 
 	public function robotsTxt( string $output, bool|string $public ): string {
-		if ( ! (bool) $public || ! (bool) get_option( 'blog_public', true ) ) { return "User-agent: *\nDisallow: /\n"; }
-		// Keep WordPress/plugin directives and do not block query URLs that carry noindex.
-		if ( ! preg_match( '/^Sitemap:/mi', $output ) && class_exists( Sitemap::class ) && Sitemap::enabled() ) { $output = rtrim( $output ) . "\nSitemap: " . Sitemap::url() . "\n"; }
-		return $output;
+		try {
+			if ( ! (bool) $public || ! SeoSettings::indexableSite() ) { return "User-agent: *\nDisallow: /\n"; }
+			// Keep WordPress/plugin directives and do not block query URLs that carry noindex.
+			if ( ! preg_match( '/^Sitemap:/mi', $output ) && class_exists( Sitemap::class ) && Sitemap::enabled() ) { $output = rtrim( $output ) . "\nSitemap: " . Sitemap::url() . "\n"; }
+			return $output;
+		} catch ( \Throwable $error ) {
+			status_header( 503 ); nocache_headers();
+			if ( ! headers_sent() ) { header( 'Cache-Control: no-store, max-age=0' ); header( 'Retry-After: 60' ); }
+			return "User-agent: *\nDisallow: /\n";
+		}
 	}
 }

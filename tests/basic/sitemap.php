@@ -19,6 +19,7 @@ namespace AISkillsHub\Core\Frontend {
 	final class SeoSettings {
 		public static array $settings = array();
 		public static array $posts = array();
+		public static function indexableSite(): bool { return '1' === (string) \get_option( 'blog_public', '1' ); }
 		public static function values( string $route, string $locale, int $id = 0 ): array { return self::$settings[ $route ][ $locale ][ $id ] ?? array(); }
 		public static function postValues( int $id ): array { return self::$posts[ $id ] ?? array(); }
 	}

@@ -39,8 +39,31 @@ final class SeoSettings {
 		return array( 'title' => '', 'description' => '', 'image' => '', 'noindex' => false );
 	}
 
+	/** Missing settings are valid; a failed native read is not permission to index. */
+	private static function read( callable $operation ): mixed {
+		global $wpdb;
+		$previous = $wpdb->suppress_errors( true );
+		try {
+			$wpdb->last_error = '';
+			$value = $operation();
+			if ( '' !== $wpdb->last_error ) { throw new \RuntimeException( 'SEO storage is unavailable.' ); }
+			return $value;
+		} finally { $wpdb->suppress_errors( $previous ); }
+	}
+
+	private static function option( string $name, mixed $default ): mixed {
+		try { return self::read( static fn() => get_option( $name, $default ) ); }
+		catch ( \Throwable $error ) {
+			// The native API may cache a failed database read as a missing option.
+			wp_cache_delete( $name, 'options' ); wp_cache_delete( 'notoptions', 'options' ); wp_cache_delete( 'alloptions', 'options' );
+			throw new \RuntimeException( 'SEO storage is unavailable.' );
+		}
+	}
+
+	public static function indexableSite(): bool { return '1' === (string) self::option( 'blog_public', '1' ); }
+
 	private static function stored(): array {
-		$data = get_option( self::OPTION, array() );
+		$data = self::option( self::OPTION, array() );
 		return is_array( $data ) ? $data : array();
 	}
 
@@ -67,10 +90,12 @@ final class SeoSettings {
 	public static function postValues( int $postId ): array {
 		Input::id( $postId );
 		$result = self::defaults();
-		foreach ( array_keys( $result ) as $field ) {
-			$value = get_post_meta( $postId, '_aish_seo_' . $field, true );
-			$result[ $field ] = 'noindex' === $field ? '1' === $value : ( is_string( $value ) ? $value : '' );
-		}
+		try {
+			foreach ( array_keys( $result ) as $field ) {
+				$value = self::read( static fn() => get_post_meta( $postId, '_aish_seo_' . $field, true ) );
+				$result[ $field ] = 'noindex' === $field ? '1' === $value : ( is_string( $value ) ? $value : '' );
+			}
+		} catch ( \Throwable $error ) { wp_cache_delete( $postId, 'post_meta' ); throw new \RuntimeException( 'SEO storage is unavailable.' ); }
 		return $result;
 	}
 
@@ -187,8 +212,14 @@ final class SeoSettings {
 			$key = self::key( $route, $locale, $id );
 			$lock = 'aish_seo_' . hash( 'sha256', $this->database->prefix() . '|' . ( defined( 'DB_NAME' ) ? DB_NAME : '' ) );
 			$lock = substr( $lock, 0, 64 );
-			if ( '1' !== (string) $this->database->value( 'SELECT GET_LOCK(%s, 0)', array( $lock ) ) ) { throw new \RuntimeException( 'SEO settings are busy.' ); }
+			// Native option reads/writes share this connection lock. Do not let wpdb
+			// reconnect and replay a whole-option write after that lock has been lost.
+			$driverMode = class_exists( '\\mysqli_driver' ) ? ( new \mysqli_driver() )->report_mode : null;
+			if ( null !== $driverMode ) { mysqli_report( MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT ); }
+			$locked = false;
 			try {
+				if ( '1' !== (string) $this->database->value( 'SELECT GET_LOCK(%s, 0)', array( $lock ) ) ) { throw new \RuntimeException( 'SEO settings are busy.' ); }
+				$locked = true;
 				wp_cache_delete( self::OPTION, 'options' );
 				wp_cache_delete( 'notoptions', 'options' );
 				$current = self::values( $route, $locale, $id );
@@ -202,7 +233,10 @@ final class SeoSettings {
 					update_option( self::OPTION, $settings, false );
 					if ( '' !== $this->database->connection()->last_error || self::stored() !== $settings ) { throw new \RuntimeException( 'SEO settings could not be stored.' ); }
 				} finally { $this->database->connection()->suppress_errors( $previous ); }
-			} finally { $this->database->value( 'SELECT RELEASE_LOCK(%s)', array( $lock ) ); }
+			} finally {
+				try { if ( $locked ) { $this->database->value( 'SELECT RELEASE_LOCK(%s)', array( $lock ) ); } }
+				finally { if ( null !== $driverMode ) { mysqli_report( $driverMode ); } }
+			}
 			$redirect = add_query_arg( 'seo_saved', '1', $redirect );
 		} catch ( \Throwable $error ) { set_transient( 'aish_seo_error_' . get_current_user_id(), '1', 120 ); }
 		wp_safe_redirect( $redirect, 303 );
@@ -217,9 +251,11 @@ final class SeoSettings {
 
 	public function metaBox( \WP_Post $post ): void {
 		if ( ! current_user_can( 'edit_post', $post->ID ) ) { return; }
+		try { $value = self::postValues( $post->ID ); }
+		catch ( \Throwable $error ) { echo '<p>' . esc_html__( 'SEO 配置暂时无法读取，请刷新后重试。', 'ai-skills-hub' ) . '</p>'; return; }
 		wp_nonce_field( 'aish_post_seo_' . $post->ID, 'aish_seo_nonce' );
 		echo '<p>' . esc_html__( '设置仅用于当前文章的语言。页面需要先在双语内容面板指定 About、Contact 或 Submit 用途。', 'ai-skills-hub' ) . '</p>';
-		self::fields( self::postValues( $post->ID ) );
+		self::fields( $value );
 	}
 
 	public function savePost( int $postId, \WP_Post $post ): void {

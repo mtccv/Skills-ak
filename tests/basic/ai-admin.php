@@ -14,8 +14,8 @@ namespace AISkillsHub\Core\AI {
 	}
 	final class GenerationService {
 		public array $calls = array();
-		public function enqueue( int $skill, string $profile, string $mode, string $key ): int { $this->calls[] = array( 'enqueue', $skill, $profile, $mode, $key ); if ( 2 === $skill ) { throw new \RuntimeException( 'sk-secret-do-not-echo private response' ); } return 30 + $skill; }
-		public function enqueueConnection( string $profile, string $key ): int { $this->calls[] = array( 'connection', $profile, $key ); return 31; }
+		public function enqueue( int $skill, string $profile, string $mode, string $key ): int { $this->calls[] = array( 'enqueue', $skill, $profile, $mode, $key ); if ( 2 === $skill ) { throw new \RuntimeException( 'sk-secret-do-not-echo private response' ); } if ( 3 === $skill ) { throw new \DomainException( 'ai_other_job_active' ); } return 30 + $skill; }
+		public function enqueueConnection( string $profile, string $key ): int { $this->calls[] = array( 'connection', $profile, $key ); if ( 'busy' === $profile ) { throw new \DomainException( 'ai_other_job_active' ); } return 31; }
 	}
 	final class GenerationStore {
 		public array $calls = array();
@@ -100,6 +100,10 @@ namespace {
 	check( ! str_contains( json_encode( $notice ), 'sk-secret' ), 'Provider or storage details excluded from notice.' );
 	check( array( 'aish_ai_wake' ) === $GLOBALS['actions'], 'Controller only wakes background scheduler.' );
 	$stableKey = $service->calls[0][4];
+	list( $settings, $store, $service, $status, $notice ) = request( array_merge( $generate, array( 'skill_ids' => '1,3' ) ) );
+	check( 1 === $notice['success'] && 1 === $notice['failed'], 'A different active request is not reported as batch acceptance.' );
+	ob_start(); ( new Admin( $settings, $store, $service ) )->generationScreen(); $busyBatch = ob_get_clean();
+	check( str_contains( $busyBatch, '存在其他活动任务时，本次不受理' ), 'Batch notice explains the rejected active conflict without promising reuse.' );
 	list( $settings, $store, $service ) = request( $generate );
 	check( $stableKey === $service->calls[0][4] && 64 === strlen( $stableKey ), 'Same form has stable per-Skill idempotency key.' );
 	foreach ( array( 'zh_CN', 'en_US', 'summary', 'use_cases' ) as $mode ) {
@@ -125,6 +129,10 @@ namespace {
 	check( ! $service->calls && 'error' === $notice['kind'], 'Potentially billed connection test requires confirmation.' );
 	list( $settings, $store, $service, $status, $notice ) = request( $connection + array( 'confirmed' => '1' ), array( 'manage_options' ) );
 	check( 'connection' === $service->calls[0][0] && 'queued' === $notice['kind'], 'Connection test only queues a job.' );
+	list( $settings, $store, $service, $status, $notice ) = request( array_replace( $connection, array( 'profile_id' => 'busy', 'confirmed' => '1' ) ), array( 'manage_options' ) );
+	check( 'busy' === $notice['kind'] && 0 === $notice['success'] && 1 === $notice['failed'], 'Connection conflict is explicitly rejected rather than reported as accepted.' );
+	ob_start(); ( new Admin( $settings, $store, $service ) )->settingsScreen(); $busyConnection = ob_get_clean();
+	check( str_contains( $busyConnection, '本次未受理' ) && ! str_contains( $busyConnection, 'ai_other_job_active' ), 'Connection notice gives a fixed safe explanation.' );
 	$control = array( 'operation' => 'batch_control', 'control' => 'retry', 'ids' => array( '1', '2' ) );
 	list( $settings, $store, $service, $status, $notice ) = request( $control );
 	check( ! $store->calls && 'error' === $notice['kind'], 'Manual retry requires billing acknowledgement.' );

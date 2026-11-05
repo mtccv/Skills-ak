@@ -12,10 +12,7 @@ final class Output {
 	private const RISK_CATEGORIES = array( 'command', 'shell', 'filesystem', 'sensitive_data', 'network', 'dependency', 'privilege', 'download', 'prompt_injection', 'other' );
 
 	public static function parse( string $json, array $source, string $mode ): array {
-		if ( strlen( $json ) > self::MAX_BYTES || ! preg_match( '//u', $json ) ) { throw new \InvalidArgumentException( 'ai_output_size_or_encoding' ); }
-		try { $data = json_decode( $json, false, 32, JSON_THROW_ON_ERROR ); }
-		catch ( \JsonException $error ) { throw new \InvalidArgumentException( 'ai_output_invalid_json' ); }
-		self::duplicates( $json );
+		$data = self::decode( $json );
 		$source = Prompt::source( $source ); $locales = Prompt::locales( $mode );
 		$data = self::object( $data, array( 'locales', 'suggestions', 'risk' ) );
 		$data['locales'] = self::object( $data['locales'], $locales );
@@ -48,6 +45,21 @@ final class Output {
 		$risk['limitations'] = self::texts( $risk['limitations'], 12, 2000 );
 		if ( ! $risk['limitations'] || ( in_array( $risk['level'], array( 'medium', 'high' ), true ) && ! $risk['findings'] ) ) { throw new \InvalidArgumentException( 'ai_output_risk_evidence_required' ); }
 		$data['risk'] = $risk;
+		return $data;
+	}
+
+	/** Connection checks use the same bounded, duplicate-free JSON contract as drafts. */
+	public static function connection( string $json ): array {
+		$data = self::decode( $json );
+		if ( ! $data instanceof \stdClass || array( 'ok' => true ) !== get_object_vars( $data ) ) { throw new \DomainException( 'ai_invalid_connection_response' ); }
+		return array( 'ok' => true );
+	}
+
+	private static function decode( string $json ): mixed {
+		if ( strlen( $json ) > self::MAX_BYTES || ! preg_match( '//u', $json ) ) { throw new \InvalidArgumentException( 'ai_output_size_or_encoding' ); }
+		try { $data = json_decode( $json, false, 32, JSON_THROW_ON_ERROR ); }
+		catch ( \JsonException $error ) { throw new \InvalidArgumentException( 'ai_output_invalid_json' ); }
+		self::duplicates( $json );
 		return $data;
 	}
 

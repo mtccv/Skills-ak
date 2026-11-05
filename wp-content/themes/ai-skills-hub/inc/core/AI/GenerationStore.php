@@ -96,7 +96,9 @@ final class GenerationStore {
 				if ( 'connection' !== $mode ) { $this->liveSource( $source ); }
 				$active = hash( 'sha256', 'connection' === $mode ? 'connection:' . $profile['id'] : 'skill:' . $source['skill_id'] );
 				$existing = $this->db->row( "SELECT id FROM $table WHERE active_key=%s FOR UPDATE", array( $active ) );
-				if ( $existing ) { return (int) $existing['id']; }
+				// A different request key has no durable alias to this job. Reporting it as
+				// accepted would allow its later replay to create another paid generation.
+				if ( $existing ) { throw new \DomainException( 'ai_other_job_active' ); }
 				return $this->db->insert( 'ai_jobs', array( 'skill_id' => $source['skill_id'] ?? null, 'mode' => $mode, 'request_key' => $requestKey, 'active_key' => $active, 'profile_json' => $profileJson, 'profile_hash' => $profileHash, 'provider' => $provider, 'model' => $model, 'prompt_version' => $promptVersion, 'source_json' => self::json( $source ), 'source_commit' => $source['commit_sha'] ?? '', 'file_sha' => $source['file_sha'] ?? '', 'status' => 'queued', 'review_status' => 'pending', 'revision' => 1, 'output_json' => null, 'edited_json' => null, 'attempts' => 0, 'input_tokens' => null, 'output_tokens' => null, 'cost_estimate' => '0.00000000', 'elapsed_ms' => 0, 'requester_id' => get_current_user_id(), 'lease_token' => '', 'locked_until' => null, 'available_at' => self::now(), 'deadline_at' => self::now( 172800 ), 'created_at' => self::now(), 'updated_at' => self::now(), 'completed_at' => null, 'last_error' => '' ) );
 			} );
 		} );

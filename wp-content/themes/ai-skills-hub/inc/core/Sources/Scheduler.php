@@ -31,6 +31,10 @@ final class Scheduler {
 	public function tick(): void {
 		if ( ! ( ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) || ! $this->migrator->isCurrent() ) { return; }
 		$lock = 'aish_worker:' . substr( hash( 'sha256', ( defined( 'DB_NAME' ) ? DB_NAME : '' ) . ':' . $this->db->prefix() ), 0, 48 );
+		// The worker lock belongs to this connection. Do not let wpdb reconnect
+		// and continue after losing it, including native rate-limit transient reads.
+		$driver_mode = class_exists( '\\mysqli_driver' ) ? ( new \mysqli_driver() )->report_mode : null;
+		if ( null !== $driver_mode ) { mysqli_report( MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT ); }
 		$held = false;
 		try {
 			$held = 1 === (int) $this->db->value( 'SELECT GET_LOCK(%s, 0)', array( $lock ) );
@@ -45,6 +49,7 @@ final class Scheduler {
 			// Do not send SQL, credentials, response bodies or a false-success notice to Cron output.
 		} finally {
 			if ( $held ) { try { $this->db->value( 'SELECT RELEASE_LOCK(%s)', array( $lock ) ); } catch ( \Throwable $error ) {} }
+			if ( null !== $driver_mode ) { mysqli_report( $driver_mode ); }
 		}
 	}
 }

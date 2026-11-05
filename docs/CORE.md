@@ -1,6 +1,6 @@
 # AI Skills Hub Core 使用与维护
 
-Phase 0–5 已验收；Phase 6 在既有数据、后台、双语前台、搜索、SEO 和 GitHub 采集基础上增加 AI 内容生成。当前主题/Core 为 0.7.0，schema 为 1.5.0：保留原八张核心表及三张采集运营表，新增 ai_jobs/ai_attempts/ai_reviews，用于私有草稿、尝试用量和人工修改记录。Skill ID、译文唯一关系、来源与人工审核不变。完整字段与索引见总规格第 5 节及 `inc/core/Database/Schema.php`；表前缀来自当前 WordPress 站点，不固定为 `wp_`。
+Phase 0–6 已验收，Phase 7 加固已有跨模块、数据与异常边界。当前主题/Core 为 0.7.0，schema 为 1.5.0：原八张核心表及三张采集运营表，加上 Phase 6 的 ai_jobs/ai_attempts/ai_reviews，共十四表。本轮不改变表定义；AI 表用于私有草稿、尝试用量和人工修改记录。Skill ID、译文唯一关系、来源与人工审核不变。完整字段与索引见总规格第 5 节及 `inc/core/Database/Schema.php`；表前缀来自当前 WordPress 站点，不固定为 `wp_`。
 
 ## 数据所有权
 
@@ -208,4 +208,15 @@ AI 队列默认暂停，后台显式排队和开启后运行；`aish_ai_tick` �
 
 每次尝试记录已知输入/输出 Token、耗时与按档案价格计算的估算费用，缺失用量/价格保持未知。任务冻结 Provider/Model/Prompt Version 和价格，当前配置变化不能静默修改已排队目标或历史估算。设置费用上限时执行前按保守输入上界及最大输出检查预算；没有价格时不能假报通过。连接测试使用同一队列和计量逻辑，也可能收费。
 
-本轮 Mock Provider/HTTP/内存存储检查的真实数量与结果见 PHASE_6_REPORT.md。真实 AI API、MySQL 1.4→1.5/重复迁移/并发、WordPress Cron/后台、浏览器、WPML 和端到端均留 Final QA；没有凭据不代表 API 测试通过。操作见 [AI_USAGE.md](AI_USAGE.md)，配置见 [API_CONFIGURATION.md](API_CONFIGURATION.md)，信任边界见 [AI_SECURITY.md](AI_SECURITY.md)。完成后暂停，等待 Phase 7 指令。
+本轮 Mock Provider/HTTP/内存存储检查的真实数量与结果见 PHASE_6_REPORT.md。真实 AI API、MySQL 1.4→1.5/重复迁移/并发、WordPress Cron/后台、浏览器、WPML 和端到端均留 Final QA；没有凭据不代表 API 测试通过。操作见 [AI_USAGE.md](AI_USAGE.md)，配置见 [API_CONFIGURATION.md](API_CONFIGURATION.md)，信任边界见 [AI_SECURITY.md](AI_SECURITY.md)。当前阶段见 [PROGRESS.md](PROGRESS.md)，不自动进入 Final QA。
+
+
+## Phase 7 第二轮：故障边界与兼容
+
+DAL 事务在 START、业务操作、COMMIT 和 ROLLBACK 期间临时启用原生 mysqli 严格模式，防止 wpdb 检测断连后自动重连并重放已失去事务/行锁的语句；结束恢复原驱动模式。无法确认 ROLLBACK 时关闭并隔离该请求的连接，拒绝继续写入，避免下一次 START 隐式提交旧部分写入。未知 COMMIT 响应可能已经持久化，不能承诺回滚成功，也不盲目重发事务。对外错误不包含驱动 SQL 或敏感值。
+
+迁移整个 GET_LOCK→dbDelta→结构验证→版本保存→释放锁作用域同样阻止断线重放。部分 DDL 仍可能存在，只保留最后验证成功的 schema 版本，修复故障后按既有幂等流程重试；不删表、不重建现有数据、不改变 schema 1.5.0。Cron 全局锁、AI/SEO 配置读改写及表单限频锁也保护其事务外操作。保护针对项目支持的原生 WordPress mysqli 路径，不能承诺任意第三方 db.php 的行为，也不能撤回已发出的 HTTP。
+
+Phase 1 旧快照缺少来源绑定时，同 HEAD 的增量基线拒绝复用并走正常扫描；也可人工发起仓库完整扫描。只有本次从固定 Commit/Tree 获取并核实的 Blob，才允许补齐同 Commit、同原文快照的空 File SHA/repository/path；已知身份冲突拒绝处理，其他 Commit 的历史未知值保持未知。版本 ID、原文、时间、标签和 Skill ID 均不变。完整已绑定来源仍保留同 HEAD 的增量快路径，不读取全部历史正文。
+
+语言 Provider 注册回调异常或错误类型时仅回退到内置语言规范化，向有 manage_options 的管理员显示固定诊断；不创建译文或改变映射。运行期路由/SEO adapter 异常使用受控失败响应，不能把失效适配器产生的地址当正常语言关系。具体回归及真实运行待验项目见 [第二轮报告](PHASE_7_ROUND_2.md)。

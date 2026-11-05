@@ -117,9 +117,19 @@ final class Settings {
 			$this->db = new Database( $wpdb );
 		}
 		$name = 'aish_ai_settings_' . substr( hash( 'sha256', ( defined( 'DB_NAME' ) ? DB_NAME : '' ) . ':' . $this->db->prefix() ), 0, 40 );
-		if ( 1 !== (int) $this->db->value( 'SELECT GET_LOCK(%s, 0)', array( $name ) ) ) { throw new \DomainException( 'AI settings are busy.' ); }
-		try { wp_cache_delete( self::OPTION, 'options' ); wp_cache_delete( self::PAUSED, 'options' ); wp_cache_delete( 'notoptions', 'options' ); $operation(); }
-		finally { $this->db->value( 'SELECT RELEASE_LOCK(%s)', array( $name ) ); }
+		$held = false;
+		// Native option reads/writes must not reconnect and continue a read-modify-write
+		// after MySQL has released the settings lock with the old connection.
+		$driver_mode = class_exists( '\\mysqli_driver' ) ? ( new \mysqli_driver() )->report_mode : null;
+		if ( null !== $driver_mode ) { mysqli_report( MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT ); }
+		try {
+			if ( 1 !== (int) $this->db->value( 'SELECT GET_LOCK(%s, 0)', array( $name ) ) ) { throw new \DomainException( 'AI settings are busy.' ); }
+			$held = true;
+			wp_cache_delete( self::OPTION, 'options' ); wp_cache_delete( self::PAUSED, 'options' ); wp_cache_delete( 'notoptions', 'options' ); $operation();
+		} finally {
+			try { if ( $held ) { $this->db->value( 'SELECT RELEASE_LOCK(%s)', array( $name ) ); } }
+			finally { if ( null !== $driver_mode ) { mysqli_report( $driver_mode ); } }
+		}
 	}
 	private static function writeOption( string $name, mixed $value ): void {
 		update_option( $name, $value, false );

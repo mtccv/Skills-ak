@@ -64,7 +64,8 @@ foreach ( Schema::definitions( $db, '1.4.0' ) as $table => $definition ) { check
 $id = $store->enqueue( $source, $profile, 'both', str_repeat( '1', 64 ), 'v1' );
 check( 1 === $id && 1 === count( $wpdb->tables['ai_jobs'] ), 'Generation is queued once.' );
 check( $id === $store->enqueue( $source, $profile, 'both', str_repeat( '1', 64 ), 'v1' ), 'Repeated form requests preserve idempotency.' );
-check( $id === $store->enqueue( $source, $profile, 'summary', str_repeat( '2', 64 ), 'v1' ), 'One active generation per Skill prevents overlapping modes.' );
+rejects( fn() => $store->enqueue( $source, $profile, 'summary', str_repeat( '2', 64 ), 'v1' ), 'A different form cannot be falsely accepted as an existing active generation.' );
+check( 1 === count( $wpdb->tables['ai_jobs'] ) && 'both' === $wpdb->tables['ai_jobs'][1]['mode'], 'Active conflicts preserve the original task and scope.' );
 rejects( fn() => $store->enqueue( $source, $profile, 'summary', str_repeat( '1', 64 ), 'v1' ), 'Reusing a request key for a different mode is rejected.' );
 check( '0.00000000' === $wpdb->tables['ai_jobs'][1]['cost_estimate'], 'A fresh job has no spent budget.' );
 $job = $store->claim(); $token = $job['lease_token'];
@@ -97,6 +98,47 @@ check( null === $wpdb->tables['skill_translations'][1]['slug'] && '人工校订�
 check( count( $wpdb->tables['ai_reviews'] ) === 2 && 'accepted' === $wpdb->tables['ai_jobs'][1]['review_status'], 'Review edits and adoption leave provenance history.' );
 rejects( fn() => $store->accept( 1, 3, array( 'en_US.summary' ) ), 'Accepted draft cannot be applied twice.' );
 check( 1 === $store->listJobs()['total'], 'Job history is paginated through the private store.' );
+
+// A coalesced-but-unrecorded request key must never be reported as accepted.
+foreach ( array( 'both', 'connection' ) as $mode ) {
+	list( $wpdb, $db, $store, $source, $profile ) = fixture();
+	$input = 'connection' === $mode ? array() : $source;
+	$firstKey = hash( 'sha256', 'first-' . $mode ); $secondKey = hash( 'sha256', 'second-' . $mode );
+	$first = $store->enqueue( $input, $profile, $mode, $firstKey, 'v1' );
+	try { $store->enqueue( $input, $profile, $mode, $secondKey, 'v1' ); throw new RuntimeException( 'Another form was falsely accepted.' ); }
+	catch ( DomainException $error ) { check( 'ai_other_job_active' === $error->getMessage(), 'Different form explicitly reports active conflict: ' . $mode ); }
+	$changedProfile = array_replace( $profile, array( 'model' => 'other-model' ) );
+	rejects( fn() => $store->enqueue( $input, $changedProfile, $mode, $secondKey, 'v1' ), 'A new model cannot take over active work: ' . $mode );
+	check( $first === $store->enqueue( $input, $profile, $mode, $firstKey, 'v1' ) && 1 === count( $wpdb->tables['ai_jobs'] ), 'Same accepted form remains idempotent while active: ' . $mode );
+	$job = $store->claim(); $attempt = $store->beginAttempt( $first, $job['lease_token'] );
+	$store->completeAttempt( $first, $job['lease_token'], $attempt['id'], array( 'ok' => true ), array(), array() );
+	check( $first === $store->enqueue( $input, $profile, $mode, $firstKey, 'v1' ), 'Successful form replay after completion still returns original task: ' . $mode );
+	$second = $store->enqueue( $input, $profile, $mode, $secondKey, 'v1' );
+	check( $second !== $first && 2 === count( $wpdb->tables['ai_jobs'] ), 'Previously rejected form may be explicitly resubmitted after completion: ' . $mode );
+	check( $second === $store->enqueue( $input, $profile, $mode, $secondKey, 'v1' ) && 2 === count( $wpdb->tables['ai_jobs'] ), 'Newly accepted form is durably idempotent: ' . $mode );
+}
+
+// A partial batch retry creates only the previously rejected item, not another accepted item.
+list( $wpdb, $db, $store, $source, $profile ) = fixture();
+$wpdb->tables['skills'][2] = array_replace( $wpdb->tables['skills'][1], array( 'id' => 2, 'source_path' => 'second/SKILL.md' ) );
+$wpdb->tables['imports'][2] = array_replace( $wpdb->tables['imports'][1], array( 'id' => 2, 'skill_id' => 2, 'source_path' => 'second/SKILL.md' ) );
+$secondSource = array_replace( $source, array( 'skill_id' => 2, 'import_id' => 2, 'source_path' => 'second/SKILL.md', 'source_fingerprint' => ImportStore::sourceRevision( $wpdb->tables['imports'][2] ) ) );
+$first = $store->enqueue( $source, $profile, 'both', hash( 'sha256', 'earlier-form' ), 'v1' );
+$batch = static function () use ( $store, $source, $secondSource, $profile ): array {
+	$result = array( 'accepted' => array(), 'failed' => array() );
+	foreach ( array( $source, $secondSource ) as $item ) {
+		try { $result['accepted'][ $item['skill_id'] ] = $store->enqueue( $item, $profile, 'both', hash( 'sha256', 'batch-form:' . $item['skill_id'] ), 'v1' ); }
+		catch ( DomainException $error ) { $result['failed'][ $item['skill_id'] ] = $error->getMessage(); }
+	}
+	return $result;
+};
+$partial = $batch();
+check( array( 1 => 'ai_other_job_active' ) === $partial['failed'] && array( 2 ) === array_keys( $partial['accepted'] ), 'Batch reports conflict as failed and accepts independent Skill.' );
+$job = $store->claim(); $attempt = $store->beginAttempt( $first, $job['lease_token'] );
+$store->completeAttempt( $first, $job['lease_token'], $attempt['id'], array( 'ok' => true ), array(), array() );
+$resumed = $batch();
+check( ! $resumed['failed'] && $resumed['accepted'][2] === $partial['accepted'][2] && 3 === count( $wpdb->tables['ai_jobs'] ), 'Partial batch retry preserves earlier accepted task and records only newly accepted request.' );
+check( $batch() === $resumed && 3 === count( $wpdb->tables['ai_jobs'] ), 'Repeated successful batch stays idempotent for every Skill.' );
 
 // Existing human text and concurrent edits are never replaced, including an approved Skill.
 list( $wpdb, $db, $store, $source, $profile ) = fixture();

@@ -65,14 +65,14 @@ namespace AISkillsHub\Core\Sources {
 		public function log( int $id, string $token, string $code, string $path = '', string $level = 'warning' ): void { $this->lease( $id, $token ); $this->logs[] = array( 'code' => $code, 'path' => $path, 'level' => $level ); }
 		public function seen( int $id, string $token, string $path ): void { $this->lease( $id, $token ); $this->seenPaths[] = $path; }
 		public function source( int $repository, string $path ): ?array { return $this->sources[ $path ] ?? null; }
-		public function sourceContent( int $repository, string $path, string $sha ): ?string { $source = $this->sources[ $path ] ?? array(); return ( $source['file_sha'] ?? '' ) === $sha ? ( $source['raw'] ?? null ) : null; }
-		public function record( int $id, string $token, string $path, string $fileSha, string $commitSha, string $raw, array $parsed, array $inspection ): array {
+		public function sourceContent( int $repository, string $path, string $sha ): ?string { $source = $this->sources[ $path ] ?? array(); return ( $source['file_sha'] ?? '' ) === $sha && ( $source['binding_valid'] ?? true ) ? ( $source['raw'] ?? null ) : null; }
+		public function record( int $id, string $token, string $path, string $fileSha, string $commitSha, string $raw, array $parsed, array $inspection, bool $freshBlob = false ): array {
 			$this->lease( $id, $token );
 			if ( $this->failRecord > 0 ) { --$this->failRecord; throw new \RuntimeException( 'Fixture source transaction failed.' ); }
 			$old = $this->sources[ $path ] ?? null;
 			$change = ! $old ? 'new' : ( $old['file_sha'] === $fileSha ? 'unchanged' : 'updated' );
-			$this->recordCalls[] = compact( 'path', 'fileSha', 'commitSha', 'raw', 'parsed', 'inspection', 'change' );
-			$this->sources[ $path ] = array( 'skill_id' => $old['skill_id'] ?? count( $this->sources ) + 1, 'file_sha' => $fileSha, 'raw' => $raw );
+			$this->recordCalls[] = compact( 'path', 'fileSha', 'commitSha', 'raw', 'parsed', 'inspection', 'change', 'freshBlob' );
+			$this->sources[ $path ] = array( 'skill_id' => $old['skill_id'] ?? count( $this->sources ) + 1, 'file_sha' => $fileSha, 'raw' => $raw, 'binding_valid' => true );
 			return array( 'skill_id' => $this->sources[ $path ]['skill_id'], 'change' => $change );
 		}
 		public function completeInventory( int $id, string $token, array $paths, string $sha ): int {
@@ -135,6 +135,7 @@ namespace {
 	check( $store->job['state']['stats']['new'] === 2 && count( $store->recordCalls ) === 2, 'One repository discovers multiple stable source paths.' );
 	check( array_column( $store->recordCalls, 'path' ) === array( 'alpha/SKILL.md', 'beta/SKILL.md' ), 'Records use full relative path, not Skill names as identity.' );
 	check( $store->recordCalls[0]['raw'] === rawSkill( 'alpha' ) && $store->recordCalls[0]['commitSha'] === $client->head && $store->recordCalls[0]['fileSha'] === blobSha( rawSkill( 'alpha' ) ), 'Original source and both SHAs are passed to the persistence boundary.' );
+	check( true === $store->recordCalls[0]['freshBlob'], 'A successful freshly verified Blob request carries explicit legacy-binding proof.' );
 	check( $store->recordCalls[0]['inspection']['status'] === 'requires_review' && ! $store->recordCalls[0]['inspection']['scripts_executed'], 'Worker supplies mandatory review evidence, never an approval.' );
 	check( $store->job['state']['inventory_complete'] && $store->job['state']['files_complete'], 'Inventory and file completion are separate recorded facts.' );
 	$before = countCalls( $client, 'blob' ); $store->resetJob(); complete( $worker, $store );
@@ -145,6 +146,7 @@ namespace {
 	check( count( $store->sources ) === 2, 'Repeated scan has no new source identities in the fixture contract.' );
 	$client->head = str_repeat( 'e', 40 ); $store->resetJob(); $before = countCalls( $client, 'blob' ); complete( $worker, $store );
 	check( $store->job['state']['stats']['unchanged'] === 2 && countCalls( $client, 'blob' ) === $before, 'Changed commit with identical file SHAs skips redundant blobs.' );
+	check( false === end( $store->recordCalls )['freshBlob'], 'A cached source is never labeled as a fresh remote verification.' );
 	check( $store->repo['last_sync_commit'] === $client->head, 'Only completed sync updates the trusted HEAD baseline.' );
 	$newRaw = rawSkill( 'alpha', 'Updated upstream text; never replace manually edited translations.' ); $newSha = blobSha( $newRaw );
 	$client->blobs[ $newSha ] = $newRaw; $client->trees[ $client->root . ':1' ]['tree'][1] = entry( 'alpha/SKILL.md', $newSha, 'blob', strlen( $newRaw ) );
@@ -267,6 +269,16 @@ namespace {
 	untilStage( $worker, $store, 'files' ); $store->failRecord = 1; $worker->run();
 	check( 'retry' === $store->job['status'] && $store->job['state']['cursor'] === 0 && ! $store->recordCalls, 'Failed source transaction retains the same file cursor.' );
 	complete( $worker, $store ); check( 'complete' === $store->job['status'] && count( $store->recordCalls ) === 1, 'Source transaction retry recovers.' );
+
+	list( $store, $client, $worker ) = fixture( array( 'alpha' => rawSkill( 'alpha' ) ) );
+	complete( $worker, $store ); $store->resetJob(); $store->baselineIsReusable = false;
+	$store->sources['alpha/SKILL.md']['binding_valid'] = false; $beforeBlobs = countCalls( $client, 'blob' ); $beforeTrees = countCalls( $client, 'tree' );
+	complete( $worker, $store );
+	check( empty( $store->job['state']['unchanged_head'] ) && countCalls( $client, 'tree' ) === $beforeTrees + 1, 'A prior complete job with missing source bindings rescans the same HEAD after baseline validation rejects it.' );
+	check( countCalls( $client, 'blob' ) === $beforeBlobs + 1 && true === end( $store->recordCalls )['freshBlob'], 'An unbound legacy snapshot forces a new verified Blob fetch even when the file SHA did not change.' );
+	check( 'complete' === $store->job['status'] && 1 === $store->sources['alpha/SKILL.md']['skill_id'], 'Fresh legacy verification preserves the existing source identity through the worker.' );
+	$store->baselineIsReusable = true; $store->resetJob(); $beforeBlobs = countCalls( $client, 'blob' ); complete( $worker, $store );
+	check( ! empty( $store->job['state']['unchanged_head'] ) && countCalls( $client, 'blob' ) === $beforeBlobs, 'A repaired complete source can reuse the same-HEAD fast path on later syncs.' );
 
 	list( $store, $client, $worker ) = fixture(); $store->repo['is_archived'] = 1; complete( $worker, $store );
 	check( $store->job['status'] === 'cancelled' && ! $client->calls, 'Archived repository cannot initiate any GitHub request.' );

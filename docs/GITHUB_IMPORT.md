@@ -67,3 +67,10 @@ Frontmatter 使用受限 YAML 子集：标量字符串、引号、字面/折叠�
 ## 验证范围
 
 本阶段执行 PHP 语法、前端构建和隔离模拟测试。真实 GitHub API、WordPress Cron、MySQL 迁移/事务锁/并发、后台浏览器操作及完整端到端均留 Final QA。模拟响应通过不代表 GitHub 网络环境或完整 WordPress 运行已验收。详见 [Phase 5 报告](PHASE_5_REPORT.md)。
+
+
+## Phase 7 第二轮的兼容与恢复
+
+旧 Phase 1 版本缺少 File SHA/repository/path 时，不允许直接成为 AI 来源。增量同步只有在当前 present 来源都能关联完整版本身份时才复用同 HEAD 的完成基线；发现缺失绑定则走正常固定 SHA 的树/Blob 扫描。也可手动使用完整 Scan。只补齐本次确实核验的同 Commit、同原文版本中的空身份字段，不修改历史原文、ID、时间、标签或已知身份；其他历史 Commit 不被猜测回填，冲突保留失败待处理。
+
+检查点将任务和仓库同时更新为 queued；第五次连续失去租约立即终止并释放活动键，不额外执行第六次。成功步骤仍重置连续失败计数。全局 worker 锁的完整作用域阻止 wpdb 在断连后自动重连继续；已经发送的 HTTP 无法撤销，租约和 fencing 仍承担恢复/过期写入保护。真实限流、进程中断和并发验收仍留 Final QA，证据见 [第二轮报告](PHASE_7_ROUND_2.md)。

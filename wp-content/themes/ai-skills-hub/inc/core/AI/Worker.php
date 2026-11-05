@@ -55,9 +55,7 @@ final class Worker {
 			$result = $provider->generate( $profile, $messages, $attempt['request_key'] ); $responded = true;
 			$usage = self::usage( $result, $profile );
 			if ( 'connection' === $job['mode'] ) {
-				$check = json_decode( $result['content'], true, 8, JSON_THROW_ON_ERROR );
-				if ( array( 'ok' => true ) !== $check ) { throw new \DomainException( 'ai_invalid_connection_response' ); }
-				$output = $check; $translations = array();
+				$output = Output::connection( $result['content'] ); $translations = array();
 			} else {
 				$output = Output::parse( $result['content'], $job['source'], $job['mode'] ); $translations = array();
 				foreach ( $output['locales'] as $locale => $content ) {

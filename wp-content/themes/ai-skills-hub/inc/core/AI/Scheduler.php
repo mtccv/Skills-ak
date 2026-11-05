@@ -23,10 +23,17 @@ final class Scheduler {
 	public function tick(): void {
 		if ( ! ( ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) || ! $this->migrator->isCurrent() || $this->settings->paused() ) { return; }
 		$name = 'aish_ai:' . substr( hash( 'sha256', ( defined( 'DB_NAME' ) ? DB_NAME : '' ) . ':' . $this->db->prefix() ), 0, 48 ); $held = false;
+		// The worker also reads native options and performs HTTP outside Core
+		// transactions. Reconnecting there would silently discard this session lock.
+		$driver_mode = class_exists( '\\mysqli_driver' ) ? ( new \mysqli_driver() )->report_mode : null;
+		if ( null !== $driver_mode ) { mysqli_report( MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT ); }
 		try {
 			$held = 1 === (int) $this->db->value( 'SELECT GET_LOCK(%s, 0)', array( $name ) );
 			if ( $held ) { $this->worker->run(); }
 		} catch ( \Throwable $error ) { /* No provider/SQL secrets or false completion in Cron output. */ }
-		finally { if ( $held ) { try { $this->db->value( 'SELECT RELEASE_LOCK(%s)', array( $name ) ); } catch ( \Throwable $error ) {} } }
+		finally {
+			if ( $held ) { try { $this->db->value( 'SELECT RELEASE_LOCK(%s)', array( $name ) ); } catch ( \Throwable $error ) {} }
+			if ( null !== $driver_mode ) { mysqli_report( $driver_mode ); }
+		}
 	}
 }

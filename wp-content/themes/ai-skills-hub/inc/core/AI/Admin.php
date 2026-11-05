@@ -66,7 +66,8 @@ final class Admin {
 		delete_transient( $key );
 		$success = max( 0, (int) ( $notice['success'] ?? 0 ) ); $failed = max( 0, (int) ( $notice['failed'] ?? 0 ) );
 		$message = match ( $notice['kind'] ?? '' ) {
-			'queued' => '已受理任务：' . $success . '；未完成：' . $failed . '。可能复用已有活动任务，不替换其范围或配置。入队不代表 AI 调用或内容审核成功。',
+			'queued' => '已受理任务：' . $success . '；未完成：' . $failed . '。同一表单重复提交仅复用原任务；存在其他活动任务时，本次不受理、不改变其范围或配置。入队不代表 AI 调用或内容审核成功。',
+			'busy' => '该 Skill 或模型连接测试已有另一个活动任务，本次未受理。请等待已有任务结束后再提交；已有任务及配置保持不变。',
 			'saved' => '配置或任务操作已完成：' . $success . '；未完成：' . $failed . '。',
 			'reviewed' => '人工草稿操作已保存。AI 内容没有自动发布；采用后仍须正常 Skills 审核。',
 			default => '操作未完成。请核对字段、权限、最新草稿修订及来源状态后重试。',
@@ -317,7 +318,7 @@ final class Admin {
 				}
 				$notice = array( 'kind' => 'reviewed', 'success' => 1, 'failed' => 0 );
 			} else { throw new \InvalidArgumentException( 'Unknown AI operation.' ); }
-		} catch ( \Throwable $error ) { $notice = array( 'kind' => 'error', 'success' => 0, 'failed' => 1 ); }
+		} catch ( \Throwable $error ) { $notice = array( 'kind' => 'ai_other_job_active' === $error->getMessage() ? 'busy' : 'error', 'success' => 0, 'failed' => 1 ); }
 		set_transient( 'aish_ai_notice_' . get_current_user_id(), $notice, 60 ); wp_safe_redirect( $redirect, 303 ); exit;
 	}
 }

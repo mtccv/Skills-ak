@@ -69,3 +69,12 @@ robots.txt 不是访问控制，Disallow 也不能代替 noindex。物理 robots
 ## Final QA 待执行
 
 真实 MySQL 1.2→1.3 重复升级及数据保留；组合查询/空内容边界、执行计划和大数据分页；WordPress 重写/子目录/HTTPS/物理 robots.txt；编辑、归档、noindex 即时撤回和持久对象缓存；完整角色/nonce、保存并发；WPML 实际语言代码/目录/域名；Yoast/Rank Math Meta 数量与 Sitemap 缓存；抓取全部 XML URL 验证状态/Canonical/hreflang；浏览器、并发和端到端。当前隔离 PHP 检查不能替代这些验收。
+
+
+## Phase 7 读取和适配器异常
+
+SEO options/postmeta 和站点 blog_public 读取失败时，清理可能被原生 API 缓存的缺省结果，不能把错误当作“未设置 noindex”或“允许索引”。Hub 页面、XML 和 robots.txt 对持续故障返回 503/no-store；页面无 Canonical/hreflang，robots.txt 临时 Disallow: /。明确关闭 blog_public 的正常值仍遵守既有策略，不与读取故障混同。
+
+请求、URL、hreflang adapter 抛错或返回无效形状时使用受控错误，不回显异常或伪造翻译。模板导航及已经成功保存表单的重定向在 URL adapter 失效后只生成内置同语言地址，不重复保存。原生 Sitemap provider 在策略读取暂时出错时保留惰性 provider，让持续错误在生成索引时显式 503，避免静默输出不完整的成功索引。SEO 配置锁也阻止断线自动重连后整值覆盖。
+
+教程 Sitemap 使用 ID 与 modified 的有界投影，并复核公开状态、无密码、完整正文、精确首个语言值和 noindex；不批量装载正文或全部 postmeta。WordPress/WPML/SEO 插件的真实行为与缓存联调仍留 Final QA，见 [第二轮报告](PHASE_7_ROUND_2.md)。

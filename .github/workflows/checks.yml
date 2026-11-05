@@ -43,6 +43,15 @@ jobs:
       - run: php tests/basic/ai-store.php
       - run: php tests/basic/ai-admin.php
       - run: php tests/basic/ai-worker.php
+      - run: php tests/basic/database-transactions.php
+      - run: php tests/basic/migration-recovery.php
+      - run: php tests/basic/language-adapter.php
+      - run: php tests/basic/editorial-projections.php
+      - run: php tests/basic/seo-failures.php
+      - run: php tests/basic/admin-settings.php
+      - run: php tests/basic/import-scheduler.php
+      - run: php tests/basic/ai-locks.php
+      - run: php tests/basic/frontend-locks.php
   assets:
     runs-on: ubuntu-latest
     steps:

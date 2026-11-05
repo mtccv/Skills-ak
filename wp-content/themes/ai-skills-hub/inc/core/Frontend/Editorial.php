@@ -76,18 +76,23 @@ final class Editorial {
 		$posts = $wpdb->posts;
 		$guard = static function ( array $sql, array $queries, string $type, string $table, string $column, mixed $context ) use ( $token, $posts, $extra_where ): array {
 			if ( ! $context instanceof \WP_Query || $context->get( '_aish_editorial_query' ) !== $token || $posts !== $table || 'ID' !== $column ) { return $sql; }
-			// Native posts are public only with actual title/body text, not HTML placeholders.
-			$spaces = '&(nbsp|NonBreakingSpace|ensp|emsp|emsp13|emsp14|numsp|puncsp|thinsp|hairsp|MediumSpace|ThickSpace|Tab|NewLine|#0*(9|10|11|12|13|32|160|5760|819[2-9]|820[0-2]|8232|8233|8239|8287|12288)|#x0*(9|a|b|c|d|20|a0|1680|200[0-9a]|2028|2029|202f|205f|3000));';
-			foreach ( array( 'post_title', 'post_content' ) as $field ) {
-				$text = "REGEXP_REPLACE(REGEXP_REPLACE(COALESCE($posts.$field,''),'<script[^>]*>.*?</script>','',1,0,'in'),'<style[^>]*>.*?</style>','',1,0,'in')";
-				$sql['where'] .= " AND REGEXP_REPLACE(REGEXP_REPLACE($text,'<[^>]*>',''),'$spaces','') REGEXP '[^[:space:]]'";
-			}
-			$sql['where'] .= $extra_where;
+			$sql['where'] .= self::textVisibility( $posts ) . $extra_where;
 			return $sql;
 		};
 		add_filter( 'get_meta_sql', $guard, 10, 6 );
 		try { return self::database( static fn() => new \WP_Query( $arguments ) ); }
 		finally { remove_filter( 'get_meta_sql', $guard, 10 ); }
+	}
+
+	/** Shared by native query selection and compact sitemap revalidation. */
+	private static function textVisibility( string $posts ): string {
+		$spaces = '&(nbsp|NonBreakingSpace|ensp|emsp|emsp13|emsp14|numsp|puncsp|thinsp|hairsp|MediumSpace|ThickSpace|Tab|NewLine|#0*(9|10|11|12|13|32|160|5760|819[2-9]|820[0-2]|8232|8233|8239|8287|12288)|#x0*(9|a|b|c|d|20|a0|1680|200[0-9a]|2028|2029|202f|205f|3000));';
+		$where = '';
+		foreach ( array( 'post_title', 'post_content' ) as $field ) {
+			$text = "REGEXP_REPLACE(REGEXP_REPLACE(COALESCE($posts.$field,''),'<script[^>]*>.*?</script>','',1,0,'in'),'<style[^>]*>.*?</style>','',1,0,'in')";
+			$where .= " AND REGEXP_REPLACE(REGEXP_REPLACE($text,'<[^>]*>',''),'$spaces','') REGEXP '[^[:space:]]'";
+		}
+		return $where;
 	}
 
 	private static function prime( array $posts ): void {
@@ -137,21 +142,24 @@ final class Editorial {
 		return array_values( array_unique( $ids ) );
 	}
 
-	private function payload( \WP_Post $post ): array {
+	private function payload( \WP_Post $post, bool $detail = true ): array {
 		$author = self::database( static fn() => get_userdata( (int) $post->post_author ) );
-		$content = wp_kses_post( $post->post_content );
+		// Cards with an explicit excerpt never need to sanitize or retain the full body.
+		$content = $detail || '' === $post->post_excerpt ? wp_kses_post( $post->post_content ) : '';
 		$summary = '' !== $post->post_excerpt ? wp_strip_all_tags( $post->post_excerpt ) : wp_trim_words( wp_strip_all_tags( $content ), 32, '…' );
 		$related = array();
 		foreach ( self::meta( $post->ID, '_aish_related_skill', false ) as $id ) {
 			if ( is_scalar( $id ) && ctype_digit( (string) $id ) && (int) $id > 0 ) { $related[] = (int) $id; }
 		}
-		return array(
+		$result = array(
 			'id' => $post->ID, 'locale' => self::meta( $post->ID, '_aish_locale', true ),
 			'title' => $post->post_title, 'slug' => $post->post_name, 'summary' => $summary, 'excerpt' => $summary,
-			'content' => $content, 'updated_at' => $post->post_modified_gmt, 'published_at' => $post->post_date_gmt, 'date' => $post->post_date_gmt,
+			'updated_at' => $post->post_modified_gmt, 'published_at' => $post->post_date_gmt, 'date' => $post->post_date_gmt,
 			'author' => $author ? $author->display_name : '', 'author_name' => $author ? $author->display_name : '',
 			'related_skill_ids' => array_slice( array_values( array_unique( $related ) ), 0, 100 ),
 		);
+		if ( $detail ) { $result['content'] = $content; }
+		return $result;
 	}
 
 	private function linkedFilter( string $locale, array $filters ): string {
@@ -197,7 +205,7 @@ final class Editorial {
 			self::prime( $query->posts );
 			$items = array();
 			foreach ( $query->posts as $post ) {
-				if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post ); }
+				if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post, false ); }
 			}
 			return array( 'items' => $items, 'total' => (int) $query->found_posts, 'page' => $page, 'per_page' => $limit );
 		} );
@@ -255,7 +263,7 @@ final class Editorial {
 			) );
 			self::prime( $query->posts );
 			$items = array();
-			foreach ( $query->posts as $post ) { if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post ); } }
+			foreach ( $query->posts as $post ) { if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post, false ); } }
 			return $items;
 		} );
 	}
@@ -301,13 +309,21 @@ final class Editorial {
 		self::locale( $locale );
 		if ( $page < 1 || $page > 100000 || $per_page < 1 || $per_page > 1000 ) { throw new \InvalidArgumentException( 'Invalid sitemap pagination.' ); }
 		return $this->remember( "sitemap-items:$locale:$page:$per_page", static function () use ( $locale, $page, $per_page ): array {
-			$query = self::query( self::sitemapArguments( $locale ) + array( 'posts_per_page' => $per_page, 'paged' => $page, 'no_found_rows' => true, 'update_post_meta_cache' => true ), self::indexableWhere() );
-			if ( $query->posts ) { self::database( static fn() => update_meta_cache( 'post', array_map( static fn( \WP_Post $post ): int => $post->ID, $query->posts ) ) ); }
-			$items = array();
-			foreach ( $query->posts as $post ) {
-				if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = array( 'id' => $post->ID, 'locale' => $locale, 'updated_at' => $post->post_modified_gmt ); }
-			}
-			return $items;
+			$query = self::query( self::sitemapArguments( $locale ) + array( 'posts_per_page' => $per_page, 'paged' => $page, 'fields' => 'ids', 'no_found_rows' => true, 'update_post_meta_cache' => false ), self::indexableWhere() );
+			if ( ! $query->posts ) { return array(); }
+			$ids = array_map( static fn( $id ): int => Input::id( filter_var( $id, FILTER_VALIDATE_INT ) ?: 0 ), $query->posts );
+			if ( count( $ids ) > $per_page ) { throw new \RuntimeException( 'Editorial query exceeded its page limit.' ); }
+			// A second bounded projection avoids loading every body and all postmeta.
+			// Recheck publication/language/indexability after ID selection, since a post
+			// may have been withdrawn or edited between these two reads.
+			global $wpdb;
+			$posts = $wpdb->posts; $meta = $wpdb->postmeta;
+			$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+			// Match publicPost's exact strings and WordPress's first meta value even
+			// when historical duplicate locale rows or padded/case-insensitive SQL exist.
+			$sql = "SELECT $posts.ID,$posts.post_modified_gmt FROM $posts WHERE $posts.ID IN ($placeholders) AND BINARY $posts.post_type=BINARY %s AND BINARY $posts.post_status='publish' AND OCTET_LENGTH($posts.post_password)=0 AND CAST((SELECT aish_locale.meta_value FROM $meta aish_locale WHERE aish_locale.post_id=$posts.ID AND BINARY aish_locale.meta_key='_aish_locale' ORDER BY aish_locale.meta_id ASC LIMIT 1) AS BINARY)=CAST(%s AS BINARY)" . self::textVisibility( $posts ) . self::indexableWhere() . " ORDER BY $posts.ID ASC";
+			$rows = self::database( static fn() => $wpdb->get_results( $wpdb->prepare( $sql, array_merge( $ids, array( self::TUTORIAL, $locale ) ) ), ARRAY_A ) );
+			return array_map( static fn( array $row ): array => array( 'id' => (int) $row['ID'], 'locale' => $locale, 'updated_at' => $row['post_modified_gmt'] ), $rows );
 		} );
 	}
 

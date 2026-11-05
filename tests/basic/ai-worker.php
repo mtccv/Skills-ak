@@ -147,6 +147,14 @@ namespace {
 	check( ! str_contains( encoded( $provider->calls[0]['messages'] ), 'Skill' ), 'connection test sends no Skill content' );
 	list( $worker, $settings, $store, $provider ) = setup( 'connection' ); $provider->responses[0]['content'] = '{"ok":false}'; $worker->run();
 	check( ! $store->completed && $store->failures[0]['code'] === 'ai_invalid_connection_response', 'invalid connection response is not success' );
+	foreach ( array( '{', '{"ok":false,"ok":true}', '{"ok":false,"\u006f\u006b":true}', '{"ok":true,"extra":1}', str_repeat( ' ', 131073 ) ) as $raw ) {
+		list( $worker, $settings, $store, $provider ) = setup( 'connection' ); $provider->responses[0]['content'] = $raw; $worker->run();
+		check( ! $store->completed && $store->jobs[1]['status'] === 'failed' && ! $store->failures[0]['retryable'], 'invalid connection JSON never completes or automatically retries' );
+		check( $store->failures[0]['usage']['input_tokens'] === 1000 && $store->failures[0]['usage']['output_tokens'] === 250, 'invalid connection output retains billed token evidence' );
+		$worker->run(); check( count( $provider->calls ) === 1, 'failed connection validation does not issue another paid request' );
+	}
+	list( $worker, $settings, $store, $provider ) = setup( 'connection' ); $provider->responses[0]['content'] = '{"\u006f\u006b":true}'; $worker->run();
+	check( $store->jobs[1]['status'] === 'complete' && $store->completed[0]['translations'] === array(), 'valid escaped connection response passes without writing translations' );
 
 	foreach ( array( 'invalid-json' => '{', 'wrong-shape' => '{"publish":true}' ) as $name => $raw ) {
 		list( $worker, $settings, $store, $provider ) = setup(); $provider->responses[0]['content'] = $raw; $worker->run();

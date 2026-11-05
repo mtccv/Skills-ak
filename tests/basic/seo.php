@@ -8,6 +8,12 @@ $GLOBALS['test_options'] = array( 'blog_public' => '1' );
 $GLOBALS['test_meta'] = array();
 $GLOBALS['test_hooks'] = array();
 $GLOBALS['removed_actions'] = array();
+$GLOBALS['wpdb'] = new class {
+	public string $last_error = '';
+	private bool $suppressed = false;
+	public function suppress_errors( bool $value ): bool { $previous = $this->suppressed; $this->suppressed = $value; return $previous; }
+};
+function wp_cache_delete( int|string $key, string $group ): void {}
 
 function get_option( string $name, mixed $default = false ): mixed { return $GLOBALS['test_options'][ $name ] ?? $default; }
 function get_post_meta( int $id, string $key, bool $single = false ): mixed { return $GLOBALS['test_meta'][ $id ][ $key ] ?? ( $single ? '' : array() ); }

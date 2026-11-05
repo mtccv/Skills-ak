@@ -9,8 +9,8 @@
 | Phase 4 搜索与 SEO | 用户已验收 | PHASE_4_REPORT.md / SEO.md |
 | Phase 5 GitHub Skills 自动采集 | 用户已验收 | PHASE_5_REPORT.md / GITHUB_IMPORT.md / IMPORT_SECURITY.md |
 | Phase 6 AI 双语内容 | 用户已验收 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
-| Phase 7 安全、性能与稳定性 | 进行中，已按已知范围开始审查和修复；用户待补充后续条目 | PHASE_7_REPORT.md；当前批次不代表阶段完成 |
-| Final QA | 待执行 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
+| Phase 7 安全、性能与稳定性 | 两轮代码审查与修复完成；等待用户安排 Final QA | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
+| Final QA | 未开始，等待用户指令 | 全面 MySQL、WordPress、WPML、浏览器、并发和端到端验收 |
 
 Phase 2 范围为菜单/统计、Skills 人工及来源录入、双语编辑、状态/归档、分类/标签、手动仓库、人工审核/风险/备注、私有阅读预览、列表/批量和 capability/nonce 安全控制。
 
@@ -45,3 +45,14 @@ Phase 7 已获授权，基线为 main `b3295f643c167ab7a6b5bba60e01f58359253cc3`
 首批修复统一仓库归档、仓库身份并发读取、采集对账恢复、AI 长 JSON 重复键检查、审稿历史按需读取，以及原生语言/配对/来信元数据的原子保存。schema 1.5.0 和十四表未变，数据保留。Cloud 91 个 PHP 文件语法、1739 项隔离断言、前端构建/资源/脚本/Compose 检查通过；npm audit 本次报告零个已知漏洞。真实 API、WordPress/MySQL、插件、浏览器和并发仍未执行。审查覆盖、证据、限制与文件见 [Phase 7 进行中记录](PHASE_7_REPORT.md)，等待补充要求后继续。
 
 首批实现提交 `79ec692dfaab00bb28452486ff6a8b234919eb26` 已同步 GitHub main；[CI 41975787195](https://github.com/mtccv/Skills-ak/actions/runs/41975787195) 的 PHP 8.3/8.4 和 assets 均 success，WordPress/MySQL 按策略 skipped。此 Git/CI 补记随后单独提交，不改变已验证代码；Phase 7 保持进行中。
+
+
+## Phase 7 第二轮
+
+用户已补齐十二项审查及退出要求；以首轮最终 main `205d202d63b23008834ed8533806ee62e34d9edd` 为基线。跨模块、事务/并发模型、GitHub/AI 恢复、后台权限、私有公开门禁、多语言/SEO、查询/缓存、Cron、日志及主题生命周期均完成代码复核。
+
+修复旧采集版本绑定和同 HEAD 基线漏核验、检查点仓库状态、连续 lease 失效上限、AI 新请求误报受理、连接 JSON 检查、Settings 虚报保存、语言/URL adapter 失败、SEO 索引读取错误、教程载荷，以及 wpdb 自动重连丢失事务/连接锁的问题。交叉复核还修正了严格模式与 dbDelta 缺表探测的兼容回归；菜单模型误报被撤回，未为增加修改数量改动稳定入口。确认的重要代码问题均已处理，发现、修复、测试和边界详见 [第二轮报告](PHASE_7_ROUND_2.md)。
+
+主题/Core 仍为 0.7.0，schema 仍为 1.5.0；没有改表定义、删除数据或重建数据库，Skill ID、双语关联、人工内容及历史保留。未增加依赖、自动发布或未知脚本执行。九个新隔离检查加入默认 PHP CI，完整集成开关仍未开启。
+
+Cloud PHP 8.3.36 的 100 个 PHP 文件语法、29 组 2679 项隔离/Mock 断言、前端构建/资源、JS/Bash、Compose 及差异检查通过；npm audit 本次为 0 个已知漏洞。九个新增测试入口共 818 项，全部断言比首轮增加 940 项。Git/CI 证据在本轮提交后补记；所有真实 WordPress、MySQL、WPML、GitHub/AI API、浏览器、并发与端到端仍未执行。Phase 7 代码工作完成后暂停，等待用户安排 Final QA，不自动运行或部署。

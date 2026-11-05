@@ -1,4 +1,6 @@
-# Phase 7 首批审查与修复记录（阶段进行中）
+# Phase 7 首批审查与修复记录（历史批次）
+
+后续：用户已补齐范围，第二轮记录见 [PHASE_7_ROUND_2.md](PHASE_7_ROUND_2.md)。以下保留首批当时的范围和检查证据；当前阶段状态以 [PROGRESS.md](PROGRESS.md) 为准。
 
 基线：GitHub main `b3295f643c167ab7a6b5bba60e01f58359253cc3`。开始时工作区干净，fetch 后本地与远端一致；已阅读总规格、Core、Frontend、SEO、采集/AI/API/安全说明、进度及 Phase 0–6 报告。
 

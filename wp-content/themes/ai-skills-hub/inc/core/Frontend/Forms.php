@@ -100,7 +100,9 @@ final class Forms {
 	private static function redirect( string $locale, string $kind, string $status ): never {
 		$language = 'en_US' === $locale ? 'en' : 'zh';
 		$route = 'submit' === $kind ? 'submit' : 'contact';
-		$url = Router::url( $route, array(), $locale );
+		try { $url = Router::url( $route, array(), $locale ); }
+		// Preserve the saved result; Router's retry skips the failed adapter without another insert.
+		catch ( \RuntimeException $error ) { $url = Router::url( $route, array(), $locale ); }
 		if ( ! is_string( $url ) ) { $url = Router::siteUrl( '/' . $language . '/' . $route . '/' ); }
 		nocache_headers();
 		wp_safe_redirect( add_query_arg( 'form', $status, $url ), 303 );
@@ -128,6 +130,9 @@ final class Forms {
 		$lock = 'aish_forms_' . substr( hash( 'sha256', DB_NAME . ':' . $wpdb->prefix ), 0, 48 );
 		$now = time();
 		$locked = false;
+		// A reconnect loses the advisory lock; never replay counter writes in a new session.
+		$driverMode = class_exists( '\\mysqli_driver' ) ? ( new \mysqli_driver() )->report_mode : null;
+		if ( null !== $driverMode ) { mysqli_report( MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT ); }
 		$previous = $wpdb->suppress_errors( true );
 		try {
 			$locked = '1' === (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK(%s, 0)', $lock ) );
@@ -154,8 +159,11 @@ final class Forms {
 			}
 			return true;
 		} finally {
-			if ( $locked ) { $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK(%s)', $lock ) ); }
-			$wpdb->suppress_errors( $previous );
+			try { if ( $locked ) { $wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK(%s)', $lock ) ); } }
+			finally {
+				$wpdb->suppress_errors( $previous );
+				if ( null !== $driverMode ) { mysqli_report( $driverMode ); }
+			}
 		}
 	}
 

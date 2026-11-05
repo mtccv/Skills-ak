@@ -141,14 +141,14 @@ final class ImportStore {
 				$job = $this->db->row( "SELECT * FROM $jobs WHERE ((status IN ('queued','retry') AND available_at<=%s) OR (status='running' AND locked_until<=%s)) ORDER BY available_at ASC,id ASC LIMIT 1 FOR UPDATE", array( self::now(), self::now() ) );
 				if ( ! $job ) { return null; }
 				$repo = $this->db->row( "SELECT * FROM $repositories WHERE id=%d FOR UPDATE", array( (int) $job['repository_id'] ) );
-				if ( ! $repo || (int) $repo['is_archived'] || $job['deadline_at'] <= self::now() || (int) $job['attempts'] >= 5 ) {
+				$attempts = (int) $job['attempts'] + ( 'running' === $job['status'] ? 1 : 0 );
+				if ( ! $repo || (int) $repo['is_archived'] || $job['deadline_at'] <= self::now() || $attempts >= 5 ) {
 					$status = ! $repo || (int) $repo['is_archived'] ? 'cancelled' : 'failed';
-					$this->db->updateById( 'jobs', (int) $job['id'], array( 'status' => $status, 'active_key' => null, 'lease_token' => '', 'locked_until' => null, 'completed_at' => self::now(), 'updated_at' => self::now(), 'last_error' => 'job_expired' ) );
+					$this->db->updateById( 'jobs', (int) $job['id'], array( 'status' => $status, 'attempts' => $attempts, 'active_key' => null, 'lease_token' => '', 'locked_until' => null, 'completed_at' => self::now(), 'updated_at' => self::now(), 'last_error' => 'job_expired' ) );
 					if ( $repo ) { $this->db->updateById( 'repositories', (int) $repo['id'], array( 'sync_status' => $status ) ); }
 					return null;
 				}
 				$token = bin2hex( random_bytes( 32 ) );
-				$attempts = (int) $job['attempts'] + ( 'running' === $job['status'] ? 1 : 0 );
 				$this->db->updateById( 'jobs', (int) $job['id'], array( 'status' => 'running', 'attempts' => $attempts, 'lease_token' => $token, 'locked_until' => self::now( self::LEASE_SECONDS ), 'updated_at' => self::now() ) );
 				$this->db->updateById( 'repositories', (int) $repo['id'], array( 'sync_status' => 'running' ) );
 				$job['state'] = self::decoded( $job['state_json'] ); unset( $job['state_json'] );
@@ -176,6 +176,7 @@ final class ImportStore {
 			$job = $this->leased( $jobId, $token );
 			$json = self::json( self::preserveReconciliation( $state, self::decoded( $job['state_json'] ) ) );
 			$this->db->updateById( 'jobs', $jobId, array( 'state_json' => $json, 'status' => 'queued', 'attempts' => 0, 'available_at' => self::now( $delay ), 'lease_token' => '', 'locked_until' => null, 'updated_at' => self::now(), 'last_error' => '' ) );
+			$this->db->updateById( 'repositories', (int) $job['repository_id'], array( 'sync_status' => 'queued' ) );
 		} );
 	}
 
@@ -218,7 +219,12 @@ final class ImportStore {
 		if ( '' === ( $repo['last_sync_commit'] ?? '' ) || ! hash_equals( (string) $repo['last_sync_commit'], $commit ) ) { return false; }
 		$jobs = $this->db->table( 'jobs' );
 		$previous = $this->db->row( "SELECT id,status FROM $jobs WHERE repository_id=%d AND id<%d ORDER BY id DESC LIMIT 1", array( (int) $job['repository_id'], (int) $job['id'] ) );
-		return $previous && 'complete' === $previous['status'];
+		if ( ! $previous || 'complete' !== $previous['status'] ) { return false; }
+		$imports = $this->db->table( 'imports' ); $versions = $this->db->table( 'skill_versions' );
+		// A legacy complete job may reference an unbound snapshot. Revalidate only
+		// current inventory, without loading historical source bodies or changing them.
+		$unbound = $this->db->row( "SELECT 1 AS missing_binding FROM $imports i LEFT JOIN $versions v ON v.skill_id=i.skill_id AND v.commit_sha=i.commit_sha AND v.file_sha=i.file_sha AND v.repository_id=i.repository_id AND v.source_path=i.source_path WHERE i.repository_id=%d AND i.source_status='present' AND v.id IS NULL LIMIT 1", array( (int) $job['repository_id'] ) );
+		return null === $unbound;
 	}
 
 	/** A previous partial attempt may have staged sources after the last successful Commit. */
@@ -273,7 +279,7 @@ final class ImportStore {
 	public function sourceContent( int $repositoryId, string $path, string $fileSha ): ?string {
 		self::background(); $this->ready(); Input::id( $repositoryId ); $path = Input::sourcePath( $path ); self::sha( $fileSha );
 		$imports = $this->db->table( 'imports' ); $versions = $this->db->table( 'skill_versions' );
-		$row = $this->db->row( "SELECT v.source_content FROM $imports i INNER JOIN $versions v ON v.skill_id=i.skill_id AND v.commit_sha=i.commit_sha WHERE i.repository_id=%d AND i.source_path=%s AND i.file_sha=%s", array( $repositoryId, $path, $fileSha ) );
+		$row = $this->db->row( "SELECT v.source_content FROM $imports i INNER JOIN $versions v ON v.skill_id=i.skill_id AND v.commit_sha=i.commit_sha AND v.file_sha=i.file_sha AND v.repository_id=i.repository_id AND v.source_path=i.source_path WHERE i.repository_id=%d AND i.source_path=%s AND i.file_sha=%s", array( $repositoryId, $path, $fileSha ) );
 		if ( ! $row || ! is_string( $row['source_content'] ?? null ) ) { return null; }
 		$raw = Input::utf8( $row['source_content'], 524288 );
 		if ( ! hash_equals( $fileSha, hash( 40 === strlen( $fileSha ) ? 'sha1' : 'sha256', 'blob ' . strlen( $raw ) . "\0" . $raw ) ) ) { throw new \DomainException( 'The saved snapshot does not match its Git identity.' ); }
@@ -289,14 +295,14 @@ final class ImportStore {
 	}
 
 	/** Original source is private evidence. This method never creates or overwrites translation rows. */
-	public function record( int $jobId, string $token, string $path, string $fileSha, string $commitSha, string $raw, array $parsed, array $inspection ): array {
+	public function record( int $jobId, string $token, string $path, string $fileSha, string $commitSha, string $raw, array $parsed, array $inspection, bool $freshBlob = false ): array {
 		$path = Input::sourcePath( $path ); self::sha( $fileSha ); self::sha( $commitSha ); $raw = Input::utf8( $raw, 524288 );
 		if ( basename( $path ) !== 'SKILL.md' ) { throw new \InvalidArgumentException( 'Only SKILL.md sources may create Skills.' ); }
 		$blob = hash( 40 === strlen( $fileSha ) ? 'sha1' : 'sha256', 'blob ' . strlen( $raw ) . "\0" . $raw );
 		if ( ! hash_equals( $blob, $fileSha ) ) { throw new \DomainException( 'The source blob does not match its Git identity.' ); }
 		$metadata = self::json( array_intersect_key( $parsed, array_flip( array( 'name', 'description', 'metadata', 'warnings' ) ) ), 65536 );
 		$findings = self::json( $inspection, 131072 );
-		return $this->db->transaction( function () use ( $jobId, $token, $path, $fileSha, $commitSha, $raw, $metadata, $findings ): array {
+		return $this->db->transaction( function () use ( $jobId, $token, $path, $fileSha, $commitSha, $raw, $metadata, $findings, $freshBlob ): array {
 			$job = $this->leased( $jobId, $token ); $repositoryId = (int) $job['repository_id'];
 			$skills = $this->db->table( 'skills' ); $imports = $this->db->table( 'imports' ); $versions = $this->db->table( 'skill_versions' );
 			$skill = $this->db->row( "SELECT * FROM $skills WHERE repository_id=%d AND source_path=%s FOR UPDATE", array( $repositoryId, $path ) );
@@ -314,13 +320,30 @@ final class ImportStore {
 			$priorResult = $this->db->row( "SELECT code FROM $logs WHERE job_id=%d AND source_path=%s AND code IN ('source_new','source_updated','source_unchanged') ORDER BY id ASC LIMIT 1", array( $jobId, $path ) );
 			$returnChange = $source && ! $fileChanged && $priorResult ? substr( $priorResult['code'], 7 ) : $change;
 			$hash = hash( 'sha256', $raw );
-			$version = $this->db->row( "SELECT id,content_hash,file_sha FROM $versions WHERE skill_id=%d AND commit_sha=%s FOR UPDATE", array( $skillId, $commitSha ) );
-			if ( $version && ( ! hash_equals( $version['content_hash'], $hash ) || ( '' !== $version['file_sha'] && ! hash_equals( $version['file_sha'], $fileSha ) ) ) ) { throw new \DomainException( 'An immutable source version conflicts.' ); }
-			if ( ! $version && $fileChanged ) {
-				$this->db->insert( 'skill_versions', array( 'skill_id' => $skillId, 'commit_sha' => $commitSha, 'file_sha' => $fileSha, 'content_hash' => $hash, 'source_content' => $raw, 'repository_id' => $repositoryId, 'source_path' => $path, 'version_label' => '', 'created_at' => self::now() ) );
+			$version = $this->db->row( "SELECT id,content_hash,file_sha,repository_id,source_path,source_content FROM $versions WHERE skill_id=%d AND commit_sha=%s FOR UPDATE", array( $skillId, $commitSha ) );
+			if ( $version && ( ! hash_equals( $version['content_hash'], $hash ) || ( '' !== $version['file_sha'] && ! hash_equals( $version['file_sha'], $fileSha ) ) || ( null !== $version['repository_id'] && (int) $version['repository_id'] !== $repositoryId ) || ( null !== $version['source_path'] && $version['source_path'] !== $path ) ) ) { throw new \DomainException( 'An immutable source version conflicts.' ); }
+			$snapshotCommit = $commitSha;
+			if ( $source && ! $fileChanged ) {
+				$previous = $source['commit_sha'] === $commitSha ? $version : $this->db->row( "SELECT id,file_sha,repository_id,source_path FROM $versions WHERE skill_id=%d AND commit_sha=%s FOR UPDATE", array( $skillId, $source['commit_sha'] ) );
+				if ( self::boundVersion( $previous, $fileSha, $repositoryId, $path ) ) { $snapshotCommit = $source['commit_sha']; }
+				elseif ( ! $freshBlob ) { throw new \DomainException( 'A fresh verified Blob is required to establish source binding.' ); }
+			}
+			if ( $snapshotCommit === $commitSha ) {
+				if ( $version && ! self::boundVersion( $version, $fileSha, $repositoryId, $path ) ) {
+					// Only a newly fetched Blob for this pinned Commit can complete unknown legacy metadata.
+					// Never rebind another Commit or overwrite historical content, time, labels or known identities.
+					if ( ! $freshBlob || $version['source_content'] !== $raw ) { throw new \DomainException( 'A fresh matching Blob is required to verify a legacy snapshot.' ); }
+					$binding = array();
+					if ( '' === $version['file_sha'] ) { $binding['file_sha'] = $fileSha; }
+					if ( null === $version['repository_id'] ) { $binding['repository_id'] = $repositoryId; }
+					if ( null === $version['source_path'] ) { $binding['source_path'] = $path; }
+					$this->db->updateById( 'skill_versions', (int) $version['id'], $binding );
+				} elseif ( ! $version ) {
+					$this->db->insert( 'skill_versions', array( 'skill_id' => $skillId, 'commit_sha' => $commitSha, 'file_sha' => $fileSha, 'content_hash' => $hash, 'source_content' => $raw, 'repository_id' => $repositoryId, 'source_path' => $path, 'version_label' => '', 'created_at' => self::now() ) );
+				}
 			}
 			$changeStatus = ! $fileChanged && $inspectionChanged ? 'inspection_updated' : ( 'unchanged' === $change && $source ? ( 'missing' === $source['source_status'] ? 'restored' : $source['change_status'] ) : $change );
-			$values = array( 'file_sha' => $fileSha, 'commit_sha' => ! $fileChanged && $source ? $source['commit_sha'] : $commitSha, 'source_status' => 'present', 'change_status' => $changeStatus, 'metadata_json' => $metadata, 'findings_json' => $findings, 'last_seen_job' => $jobId, 'updated_at' => self::now() );
+			$values = array( 'file_sha' => $fileSha, 'commit_sha' => $snapshotCommit, 'source_status' => 'present', 'change_status' => $changeStatus, 'metadata_json' => $metadata, 'findings_json' => $findings, 'last_seen_job' => $jobId, 'updated_at' => self::now() );
 			if ( $source ) { $this->db->updateById( 'imports', (int) $source['id'], $values ); }
 			else { $this->db->insert( 'imports', $values + array( 'skill_id' => $skillId, 'repository_id' => $repositoryId, 'source_path' => $path, 'created_at' => self::now() ) ); }
 			if ( $newSkill ) {
@@ -336,6 +359,10 @@ final class ImportStore {
 			if ( ! $priorResult ) { $this->logRow( $job, 'source_' . $change, $path, 'info', $skillId ); }
 			return array( 'skill_id' => $skillId, 'change' => $returnChange );
 		} );
+	}
+
+	private static function boundVersion( ?array $version, string $fileSha, int $repositoryId, string $path ): bool {
+		return $version && $version['file_sha'] === $fileSha && (int) $version['repository_id'] === $repositoryId && $version['source_path'] === $path;
 	}
 
 	/** Deletion inference is allowed only after every inventory and file step completed without errors. */

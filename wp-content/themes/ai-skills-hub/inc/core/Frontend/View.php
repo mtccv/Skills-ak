@@ -8,7 +8,11 @@ defined( 'ABSPATH' ) || exit;
 /** Presentation helpers. Returned content is escaped by templates, except explicit HTML helpers. */
 final class View {
 	public static function t( string $key ): string { return Strings::get( $key, Router::context()['locale'] ); }
-	public static function url( string $route, array $args = array(), ?string $locale = null ): string { return Router::url( $route, $args, $locale ); }
+	public static function url( string $route, array $args = array(), ?string $locale = null ): string {
+		try { return Router::url( $route, $args, $locale ); }
+		// Router disables the failing adapter before throwing; the retry uses its built-in URL.
+		catch ( \RuntimeException $error ) { return Router::url( $route, $args, $locale ); }
+	}
 	public static function skillUrl( array $skill, ?string $locale = null ): string {
 		$locale ??= Router::context()['locale'];
 		$slug = $skill['available_translations'][ $locale ] ?? $skill['slug'] ?? '';

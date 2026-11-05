@@ -36,7 +36,7 @@ final class Sitemap {
 	}
 
 	public static function enabled(): bool {
-		return '1' === (string) get_option( 'blog_public', '1' ) && (bool) apply_filters( 'aish_sitemaps_enabled', true );
+		return SeoSettings::indexableSite() && (bool) apply_filters( 'aish_sitemaps_enabled', true );
 	}
 
 	/** Detection uses public plugin constants; when both are active one owns our index entries. */
@@ -70,7 +70,12 @@ final class Sitemap {
 
 	/** Core's provider only advertises our canonical XML files; it creates no parallel URL sets. */
 	public function nativeProvider(): void {
-		if ( self::owner() !== 'wordpress' || ! self::enabled() || ! class_exists( '\WP_Sitemaps_Provider' ) ) { return; }
+		if ( self::owner() !== 'wordpress' || ! class_exists( '\WP_Sitemaps_Provider' ) ) { return; }
+		try { if ( ! self::enabled() ) { return; } }
+		catch ( \Throwable $error ) {
+			// Register the lazy provider so the index request reports 503 on a persistent
+			// policy failure; silently omitting it would advertise an incomplete 200 index.
+		}
 		$provider = new class( $this ) extends \WP_Sitemaps_Provider {
 			public function __construct( private Sitemap $source ) { $this->name = 'aish'; $this->object_type = 'aish'; }
 			public function get_url_list( $page_num, $object_subtype = '' ) { return array(); }
