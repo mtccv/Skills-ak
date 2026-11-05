@@ -43,3 +43,5 @@ Phase 6 以 GitHub main `4a7d70c3eeda9c4d4f1f668508ea7d036b4bb4fe` 为基线，�
 Phase 7 已获授权，基线为 main `b3295f643c167ab7a6b5bba60e01f58359253cc3`。用户明确表示还会补充“任务重复”之后的条目，本批仅先处理已知安全、数据完整性与采集稳定性范围，不代表阶段完成。
 
 首批修复统一仓库归档、仓库身份并发读取、采集对账恢复、AI 长 JSON 重复键检查、审稿历史按需读取，以及原生语言/配对/来信元数据的原子保存。schema 1.5.0 和十四表未变，数据保留。Cloud 91 个 PHP 文件语法、1739 项隔离断言、前端构建/资源/脚本/Compose 检查通过；npm audit 本次报告零个已知漏洞。真实 API、WordPress/MySQL、插件、浏览器和并发仍未执行。审查覆盖、证据、限制与文件见 [Phase 7 进行中记录](PHASE_7_REPORT.md)，等待补充要求后继续。
+
+首批实现提交 `79ec692dfaab00bb28452486ff6a8b234919eb26` 已同步 GitHub main；[CI 41975787195](https://github.com/mtccv/Skills-ak/actions/runs/41975787195) 的 PHP 8.3/8.4 和 assets 均 success，WordPress/MySQL 按策略 skipped。此 Git/CI 补记随后单独提交，不改变已验证代码；Phase 7 保持进行中。

@@ -45,6 +45,7 @@
 | npm audit | 本次报告 0 个已知漏洞；没有据此升级依赖或宣称应用无漏洞 |
 | JavaScript/Bash、Compose、Git diff | 语法、配置及空白检查通过 |
 | Schema/迁移差异 | Schema.php、Migrator.php 相对基线没有变更 |
+| GitHub Actions | 实现提交的 PHP 8.3/8.4 和 assets 均 success；wordpress-smoke 按策略 skipped |
 
 Node 24.22.1、npm 11.9.0。既有 Browserslist 数据日期提示仍出现，构建成功。PHP 检查没有启动 WordPress/MySQL，20 组测试均为独立模型；本批不把历史 CI 或模拟通过当作真实系统验收。
 
@@ -53,6 +54,8 @@ Node 24.22.1、npm 11.9.0。既有 Browserslist 数据日期提示仍出现，�
 修改运行文件（主题路径相对 `wp-content/themes/ai-skills-hub/inc/core/`）：`Admin/Management.php`、`Sources/ImportStore.php`、`AI/Output.php`、`AI/GenerationStore.php`、`AI/Admin.php`、`Frontend/Editorial.php`、`Frontend/Forms.php`、`Modules/FrontendModule.php`。
 
 修改测试：`tests/basic/ai-content.php`、`ai-store.php`、`ai-admin.php`、`import-store.php`；CI 注册三个新检查。总规格、AGENTS、README、PROGRESS、CORE、FRONTEND、GITHUB_IMPORT、IMPORT_SECURITY、AI_USAGE、AI_SECURITY 同步更新。历史报告不改写，源码不包含实际密钥、依赖目录或构建产物。
+
+实现提交 `79ec692dfaab00bb28452486ff6a8b234919eb26` 已正常推送 GitHub main；[Core checks 41975787195](https://github.com/mtccv/Skills-ak/actions/runs/41975787195) 完成且上述三个基本任务通过。本记录的 Git/CI 补记为随后纯文档提交，不改变已验证代码；最终同步 SHA 见交付消息及 `git log -1`。该提交仅是 Phase 7 首批进度，不是阶段完成声明。
 
 ## 未执行与后续
 
