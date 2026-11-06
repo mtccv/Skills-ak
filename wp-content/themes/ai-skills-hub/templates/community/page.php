@@ -36,7 +36,7 @@ $snapshot = static function ( array $item ) use ( $t ): void {
 };
 $nav = static function () use ( $a, $t, $locale, $route, $url, $form ): void {
 	echo '<nav class="account-nav" aria-label="' . esc_attr( $a( 'menu' ) ) . '"><a href="' . esc_url( Accounts::url( 'account', $locale ) ) . '">' . esc_html( $a( 'overview' ) ) . '</a>';
-	foreach ( array( 'favorites', 'reviews' ) as $item ) { echo '<a href="' . esc_url( $url( $item ) ) . '"' . ( $item === $route || ( 'reviews' === $item && 'review' === $route ) ? ' aria-current="page"' : '' ) . '>' . esc_html( $t( $item ) ) . '</a>'; }
+	do_action( 'aish_account_navigation', $locale, 'review' === $route ? 'reviews' : $route );
 	foreach ( array( 'notifications', 'profile', 'settings', 'security', 'privacy' ) as $item ) { echo '<a href="' . esc_url( Accounts::url( $item, $locale ) ) . '">' . esc_html( $a( $item ) ) . '</a>'; }
 	echo '</nav>'; $form( 'logout' ); echo '<button type="submit" class="account-nav-logout">' . esc_html( $a( 'logout' ) ) . '</button></form>';
 };

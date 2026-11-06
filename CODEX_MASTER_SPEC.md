@@ -1,5 +1,15 @@
 # AI Skills Hub — 项目总规格
 
+## 当前实施增量：Phase 10（2026-11-06）
+
+用户已验收 Phase 9，授权基于 `93738c139b5c8e04243d5b5757e30356147c7ddb` 开发投稿与开发者中心。主题/Core **0.10.0**、schema **1.8.0**；只新增 `author_claims`，共 **26 张 Core 表**，原 25 表与数据、Skill ID、双语、不可变版本不变。
+
+投稿与版本更新建议复用私有 `aish_message` / postmeta / 原生 revisions；只有受控版本标记和当前原生 user_id 能形成所有权，历史匿名记录不得按邮箱或旧 post_author 认领。邮箱已验证用户可保存/编辑/撤回未处理内容；接受只进入后续编辑或来源关联，不创建/覆盖/发布 Skill，也不触发 GitHub/AI 请求。
+
+新增四项独立审核能力、人工作者/维护者认领、经审核的双语公开资料、可撤回的公开同意、私有站内通知和原生隐私清理。公开主页使用最新用户要求的 `/zh/developers/{slug}/` 与 `/en/developers/{slug}/`，取代下方规划中的 `/authors/`。缺译文不编造；私有 Inbox、邮箱、登录名、认领证据及内部备注不公开。认领不授予编辑/发布权限。
+
+沿用 Phase 7.5 原型和白灰/深灰/陶土棕设计；不开发 Phase 11–14、榜单、运营分析或支付。操作说明见 [投稿](SUBMISSIONS.md)、[开发者中心](DEVELOPER_CENTER.md)，已执行检查见 [Phase 10 报告](docs/PHASE_10_REPORT.md)。完成正常提交同步 main 后暂停，等待用户安排 Phase 11。下方阶段约束与测试属于历史记录。
+
 ## 当前实施增量：Phase 9（2026-11-06）
 
 用户已验收 Phase 8 并授权用户互动系统。以 main `02d37d3`（包含指定基准 `40777e5` 及账户版安装包）继续；主题/Core **0.9.0**，schema **1.7.0**。在原 17 表上只追加 favorites、reviews、review_revisions、review_reports、skill_reports、workflow_events、metric_events、daily_metrics，共 **25 表**。原表定义、Skill ID、双语关联、来源去重、人工内容和匿名 Contact/Submit 保留。

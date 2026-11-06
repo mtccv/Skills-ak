@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AISkillsHub\Core\Database {
 	final class Schema {
 		public const VERSION = '1.5.0';
-		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array(), 'email_verifications' => array(), 'user_notifications' => array(), 'notification_outbox' => array(), 'favorites' => array(), 'reviews' => array(), 'review_revisions' => array(), 'review_reports' => array(), 'skill_reports' => array(), 'workflow_events' => array(), 'metric_events' => array(), 'daily_metrics' => array() );
+		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array(), 'email_verifications' => array(), 'user_notifications' => array(), 'notification_outbox' => array(), 'favorites' => array(), 'reviews' => array(), 'review_revisions' => array(), 'review_reports' => array(), 'skill_reports' => array(), 'workflow_events' => array(), 'metric_events' => array(), 'daily_metrics' => array(), 'author_claims' => array() );
 		public static bool $verify_failure = false;
 		public static bool $nested_transaction = false;
 		public static function definitions( Database $database, string $version ): array {
@@ -19,6 +19,7 @@ namespace AISkillsHub\Core\Database {
 			if ( version_compare( $version, '1.7.0', '>=' ) ) {
 				foreach ( array( 'favorites', 'reviews', 'review_revisions', 'review_reports', 'skill_reports', 'workflow_events', 'metric_events', 'daily_metrics' ) as $entity ) { $definitions[ $entity ] = 'DDL:' . $version . ':' . $entity; }
 			}
+			if ( version_compare( $version, '1.8.0', '>=' ) ) { $definitions['author_claims'] = 'DDL:' . $version . ':author_claims'; }
 			return $definitions;
 		}
 		public static function verify( Database $database, string $version ): void {
@@ -298,6 +299,25 @@ namespace {
 		check( true === $migrator->migrate( '1.7.0' ) && $created === $connection->created && $ddl === $connection->ddl, 'Repeated community migration performs no additional DDL.' );
 		failed( $migrator->migrate( '1.6.0' ), 'aish_schema_version' );
 		check( '1.7.0' === $migrator->version() && $ddl === $connection->ddl, 'A requested community downgrade preserves all tables and version.' );
+		restored( $connection, MYSQLI_REPORT_OFF );
+
+		[ $connection, $database, $migrator ] = setup( '1.7.0' );
+		foreach ( Schema::definitions( $database, '1.7.0' ) as $entity => $definition ) { $connection->tables[ 'test_aish_' . $entity ] = '1.7.0'; }
+		$connection->disconnect_at = 'DDL:1.8.0:author_claims';
+		failed( $migrator->migrate( '1.8.0' ) );
+		check( '1.7.0' === $migrator->version() && 0 === $connection->replays, 'An interrupted claim CREATE preserves the verified version and cannot reconnect under a lost lock.' );
+		check( array( 'test_aish_author_claims' ) === $connection->created, 'Phase 10 only creates its one absent table.' );
+		$partialTables = $connection->tables;
+		[ $connection, $database, $migrator ] = setup( '1.7.0' ); $connection->tables = $partialTables;
+		Schema::$verify_failure = true;
+		failed( $migrator->migrate( '1.8.0' ) );
+		check( '1.7.0' === $migrator->version() && array() === $connection->created, 'Failed verification retains the old version and existing claim table for recovery.' );
+		Schema::$verify_failure = false;
+		check( true === $migrator->migrate( '1.8.0' ) && '1.8.0' === $migrator->version(), 'A fresh verified retry completes the claim migration.' );
+		$ddl = $connection->ddl;
+		check( true === $migrator->migrate( '1.8.0' ) && $ddl === $connection->ddl, 'Repeated Phase 10 installation applies no DDL.' );
+		failed( $migrator->migrate( '1.7.0' ), 'aish_schema_version' );
+		check( '1.8.0' === $migrator->version() && $ddl === $connection->ddl, 'A Phase 10 downgrade cannot remove claims or previous data.' );
 		restored( $connection, MYSQLI_REPORT_OFF );
 
 		foreach ( array( 0, 1, 2 ) as $caseMode ) {

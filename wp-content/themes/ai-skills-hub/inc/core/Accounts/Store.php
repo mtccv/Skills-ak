@@ -175,6 +175,23 @@ final class Store {
 		return (int) $row['id'];
 	}
 
+	/** Fixed submission/developer outcomes; the domain transaction owns state and notification together. */
+	public function notifyContribution( int $userId, string $eventKey, string $template, string $locale, string $subjectType, int $subjectId ): int {
+		self::user( $userId ); self::user( $subjectId ); self::hash( $eventKey ); self::locale( $locale );
+		$allowed = array(
+			'submission' => array( 'contribution_submitted', 'contribution_reviewing', 'contribution_needs_information', 'contribution_accepted', 'contribution_rejected', 'contribution_withdrawn' ),
+			'update_suggestion' => array( 'contribution_submitted', 'contribution_reviewing', 'contribution_needs_information', 'contribution_accepted', 'contribution_rejected', 'contribution_withdrawn' ),
+			'developer' => array( 'profile_submitted', 'profile_approved', 'profile_rejected', 'profile_hidden', 'profile_withdrawn' ),
+			'claim' => array( 'claim_submitted', 'claim_approved', 'claim_rejected', 'claim_revoked', 'claim_disputed', 'claim_withdrawn' ),
+		);
+		if ( ! isset( $allowed[ $subjectType ] ) || ! in_array( $template, $allowed[ $subjectType ], true ) ) { throw new \InvalidArgumentException( 'Invalid contribution notification.' ); }
+		$table = $this->db->table( 'user_notifications' ); $now = self::now();
+		$this->db->execute( "INSERT INTO $table (user_id,event_key,type,subject_type,subject_id,template_key,params_json,locale,created_at,expires_at) VALUES (%d,%s,'contribution',%s,%d,%s,'{}',%s,%s,%s) ON DUPLICATE KEY UPDATE id=id", array( $userId, $eventKey, $subjectType, $subjectId, $template, $locale, $now, gmdate( 'Y-m-d H:i:s', time() + 180 * 86400 ) ) );
+		$row = $this->db->row( "SELECT id,type,subject_type,subject_id,template_key,locale,params_json FROM $table WHERE user_id=%d AND event_key=%s", array( $userId, $eventKey ) );
+		if ( ! $row || 'contribution' !== $row['type'] || $subjectType !== $row['subject_type'] || $subjectId !== (int) $row['subject_id'] || $template !== $row['template_key'] || $locale !== $row['locale'] || '{}' !== $row['params_json'] ) { throw new \RuntimeException( 'Contribution notification event conflict.' ); }
+		return (int) $row['id'];
+	}
+
 	public function notifications( int $userId, int $limit = 20, int $offset = 0 ): array {
 		self::user( $userId );
 		if ( $offset < 0 || $offset > 20000 ) { throw new \InvalidArgumentException( 'Account notification page is out of range.' ); }

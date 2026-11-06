@@ -1,0 +1,47 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL reviewed developer profiles, claims, native bypass guards and notifications; mock mail only",
+    "cases": [
+        {
+            "id": "profile-opt-in-reviewed-snapshot-and-language-boundary",
+            "status": "passed"
+        },
+        {
+            "id": "profile-validation-ownership-and-private-identity",
+            "status": "passed"
+        },
+        {
+            "id": "native-inbox-and-profile-bypass-protection",
+            "status": "passed"
+        },
+        {
+            "id": "claim-evidence-role-review-and-no-privileges",
+            "status": "passed"
+        },
+        {
+            "id": "maintainer-private-target-and-source-change",
+            "status": "passed"
+        },
+        {
+            "id": "notification-idempotence-private-payload-and-no-external-side-effects",
+            "status": "passed"
+        },
+        {
+            "id": "privacy-consent-reenable-requires-new-review",
+            "status": "passed"
+        },
+        {
+            "id": "pre-suspended-cache-and-native-hook-network-guard",
+            "status": "passed"
+        }
+    ],
+    "assertions": 59,
+    "external_http_attempts": 1,
+    "mock_mail_calls": 1,
+    "passed": 8,
+    "failed": 0
+}

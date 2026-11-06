@@ -1,0 +1,75 @@
+{
+  "environment": "Actually installed ai-skills-hub-0.10.0 ZIP; local HTTP WordPress7.1.4/PHP8.4.27/MySQL8.0.46",
+  "checks": [
+    {
+      "id": "en:installed-home",
+      "status": "passed"
+    },
+    {
+      "id": "en:installed-native-account-login",
+      "status": "passed"
+    },
+    {
+      "id": "en:submit-private-login-redirect",
+      "status": "passed"
+    },
+    {
+      "id": "en:account/submissions-private-login-redirect",
+      "status": "passed"
+    },
+    {
+      "id": "en:account/developer-private-login-redirect",
+      "status": "passed"
+    },
+    {
+      "id": "en:hidden-or-invalid-profile-qa-no-such-approved-profile",
+      "status": "passed"
+    },
+    {
+      "id": "en:hidden-or-invalid-profile-admin",
+      "status": "passed"
+    },
+    {
+      "id": "en:hidden-or-invalid-profile-invalid--handle",
+      "status": "passed"
+    },
+    {
+      "id": "zh:installed-home",
+      "status": "passed"
+    },
+    {
+      "id": "zh:installed-native-account-login",
+      "status": "passed"
+    },
+    {
+      "id": "zh:submit-private-login-redirect",
+      "status": "passed"
+    },
+    {
+      "id": "zh:account/submissions-private-login-redirect",
+      "status": "passed"
+    },
+    {
+      "id": "zh:account/developer-private-login-redirect",
+      "status": "passed"
+    },
+    {
+      "id": "zh:hidden-or-invalid-profile-qa-no-such-approved-profile",
+      "status": "passed"
+    },
+    {
+      "id": "zh:hidden-or-invalid-profile-admin",
+      "status": "passed"
+    },
+    {
+      "id": "zh:hidden-or-invalid-profile-invalid--handle",
+      "status": "passed"
+    },
+    {
+      "id": "native-inbox-has-no-public-rest-route",
+      "status": "passed"
+    }
+  ],
+  "passed": 17,
+  "failed": 0
+}

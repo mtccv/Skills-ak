@@ -43,16 +43,19 @@ final class Frontend {
 		if ( '' !== $base && ! str_starts_with( $path, $base . '/' ) ) { return null; }
 		$relative = substr( $path, strlen( $base ) );
 		if ( preg_match( '#^/(zh|en)/skills/[1-9][0-9]{0,18}/[a-z0-9-]{1,191}/$#D', $relative ) ) { return empty( $parts['query'] ) ? Router::siteUrl( $relative ) : null; }
-		if ( ! preg_match( '#^/(zh|en)/account(?:/(profile|settings|security|privacy|notifications|favorites|reviews|review|favorite|report-review|report-skill))?/$#D', $relative, $match ) ) { return null; }
+		$isSubmit = (bool) preg_match( '#^/(zh|en)/submit/$#D', $relative );
+		if ( ! $isSubmit && ! preg_match( '#^/(zh|en)/account(?:/(profile|settings|security|privacy|notifications|favorites|reviews|review|favorite|report-review|report-skill|submissions|submission|update-suggestion|developer|claim))?/$#D', $relative, $match ) ) { return null; }
 		if ( empty( $parts['query'] ) ) { return Router::siteUrl( $relative ); }
 		$query = array(); parse_str( $parts['query'], $query );
-		$route = $match[2] ?? 'account';
-		$allowed = match ( $route ) { 'favorites' => array( 'page', 'q', 'status', 'sort' ), 'reviews' => array( 'page', 'status' ), 'review', 'favorite' => array( 'skill', 'page' ), 'report-review' => array( 'skill', 'review', 'revision', 'page' ), 'report-skill' => array( 'skill', 'page' ), default => array( 'page' ) };
+		$route = $isSubmit ? 'submit' : ( $match[2] ?? 'account' );
+		$allowed = match ( $route ) { 'favorites' => array( 'page', 'q', 'status', 'sort' ), 'reviews' => array( 'page', 'status' ), 'review', 'favorite' => array( 'skill', 'page' ), 'report-review' => array( 'skill', 'review', 'revision', 'page' ), 'report-skill', 'update-suggestion' => array( 'skill', 'page' ), 'submissions' => array( 'page', 'status', 'kind' ), 'submission' => array( 'id', 'page' ), 'claim' => array( 'id', 'skill', 'page' ), 'developer' => array( 'page', 'state' ), default => array( 'page' ) };
 		if ( array_diff( array_keys( $query ), $allowed ) ) { return null; }
 		foreach ( $query as $key => $value ) {
 			if ( ! is_string( $value ) || preg_match( '/[\x00-\x1f\x7f]/', $value ) || ! preg_match( '//u', $value ) ) { return null; }
 			if ( 'q' === $key ) { if ( strlen( $value ) > 400 ) { return null; } continue; }
-			if ( 'status' === $key ) { if ( ! in_array( $value, 'favorites' === $route ? array( 'all', 'available', 'unavailable' ) : array( 'all', 'pending', 'approved', 'rejected', 'hidden', 'withdrawn' ), true ) ) { return null; } continue; }
+			if ( 'status' === $key ) { $states = match ( $route ) { 'favorites' => array( 'all', 'available', 'unavailable' ), 'submissions' => array( 'all', 'draft', 'submitted', 'in_review', 'needs_changes', 'accepted', 'rejected', 'withdrawn' ), default => array( 'all', 'pending', 'approved', 'rejected', 'hidden', 'withdrawn' ) }; if ( ! in_array( $value, $states, true ) ) { return null; } continue; }
+			if ( 'kind' === $key ) { if ( ! in_array( $value, array( 'all', 'submit', 'update_suggestion' ), true ) ) { return null; } continue; }
+			if ( 'state' === $key ) { if ( ! in_array( $value, array( 'all', 'pending', 'approved', 'rejected', 'withdrawn', 'revoked', 'disputed' ), true ) ) { return null; } continue; }
 			if ( 'sort' === $key ) { if ( ! in_array( $value, array( 'newest', 'title' ), true ) ) { return null; } continue; }
 			if ( ! preg_match( '/^[1-9][0-9]{0,18}$/D', $value ) || false === filter_var( $value, FILTER_VALIDATE_INT ) || ( 'page' === $key && (int) $value > 1000 ) ) { return null; }
 		}

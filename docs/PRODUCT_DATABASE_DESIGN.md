@@ -1,5 +1,17 @@
 # AI Skills Hub V2 数据库设计规划
 
+## Phase 10 实施增量（当前）
+
+schema **1.7.0 → 1.8.0** 仅增加 `author_claims`（17 列），共 **26 表**。原 25 表定义与数据保留；未创建 submissions 主表，也未创建 Phase 11–14 表。认领的 request_key、active_request_key、approved_skill_key 分别约束幂等申请、有效申请和已批准归属；可空唯一键只在明确终态释放。
+
+新投稿/更新建议使用原生 `aish_message`（private），post_author 为服务端当前用户，并要求唯一 `_aish_submission_version=1` 标记。历史无标记 Contact/匿名 Submit 原样保留。受保护 postmeta 保存类型、状态、CAS revision、规范仓库、独立文件路径、目标/结果 Skill ID、公开反馈与独立内部备注。原生私有父记录的 revisions 保存不可变内容及审核快照，`_aish_submission_snapshot_kind` 区分两者；使用原生 metadata API 直接写 revision ID，避免 update_post_meta 把修订元数据重定向到父记录。
+
+受控写入校验原生 posts/postmeta/users/usermeta 为 InnoDB。投稿采用账户锁→站点投稿连接锁→Skill 行→原生记录，状态/修订/审计/站内通知同事务；来源去重使用规范仓库+大小写敏感相对路径，不使用名称。尚未确认的空路径标为待核实，不假定为 SKILL.md。用户可见结果仍经过 PublicCatalog。
+
+开发者候选资料和已审核公开快照分离存于受保护 usermeta；`_aish_profile_decision` 使用独立追加行保存历史审核，不在单个数组无限追加。明确公开 handle 经批准后设置原生 user_nicename；审批的锁顺序为 handle→邮箱（需原生更名时）→排序账户锁。公开路由采用最新要求 `/zh|en/developers/{slug}/`，旧 `/authors/` 为规划历史。认领证明和管理员备注私有；撤销/争议/失效或账户隐私隔离立即停止公开归属。
+
+账户删除先隔离资料/认领并将受控 Inbox 与修订脱离原作者，避免原生“转交内容”转交私人投稿；随后接入既有持久清理队列分批擦除。历史匿名与 Contact 不凭邮箱关联或清除。本阶段不新增定时保留期清理器；第 6 节的结案后 180 日策略仍是站点部署前需明确的建议，不宣称已自动执行。迁移与实际运行证据见 [Phase 10 报告](PHASE_10_REPORT.md)。
+
 > Phase 9 实施增量：schema 1.7.0 追加第 4.2 节八表，原 17 表不变，共 25 表。按本次用户明确要求，仅在新增 `review_revisions` 补充 `title varchar(191)`、`platform varchar(100)`、`version_label varchar(191)`，后二者默认空串；标题/平台/可选版本属于同一不可变修订，不挤入正文或修改旧表。当前定义以 Schema.php 为准；历史版本仍能独立安装验证。真实数据保留证据见 [Phase 9 报告](PHASE_9_REPORT.md)。
 
 > 实施状态更新：Phase 8 已获用户授权，schema 1.6.0 仅实施第 4.1 节三表，共 17 张 Core 表。第 2 节仍是原十四表的基线字典，其结构和数据保持；其余 Phase 9–14 表仍为规划。运行验证与迁移证据见 [Phase 8 报告](PHASE_8_REPORT.md)，不得用规划内容代替测试通过。

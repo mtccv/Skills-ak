@@ -1,5 +1,9 @@
 # AI Skills Hub
 
+当前开发交付为 **Phase 10 投稿与开发者中心**，基于 `93738c1`，主题/Core **0.10.0**、schema **1.8.0**（26 表）。新投稿及更新建议复用私有 Inbox；作者认领、公开资料均经人工审核，接受投稿不等于发布 Skill。原 Phase 0–9 数据和设计原型保留；未进入 Phase 11。
+
+[0.10.0可安装主题ZIP](release/ai-skills-hub-0.10.0.zip) · [投稿使用说明](SUBMISSIONS.md) · [开发者中心](DEVELOPER_CENTER.md) · [Phase 10 检查报告](docs/PHASE_10_REPORT.md) · [安装与配置](INSTALLATION.md)。以下旧版本及测试是历史交付记录。
+
 **当前：Phase 9 用户互动系统，主题/Core 0.9.0、schema 1.7.0。** 复用 Phase 8 原生账户，实现私有收藏、评分与不可变评价修订、人工审核、举报纠错、社区通知和隐私清理；追加八表至 25 表，原 17 表及数据保留。见 [社区说明](COMMUNITY_REVIEWS.md)、[账户说明](ACCOUNT_SYSTEM.md)、[邮件配置](EMAIL_SETUP.md)、[隐私与安全](PRIVACY_AND_SECURITY.md)和 [Phase 9 报告](docs/PHASE_9_REPORT.md)。[下载 0.9.0 可安装主题 ZIP](release/ai-skills-hub-0.9.0.zip)，包含构建资源，无需用户本机开发。保留历史 [0.8.0 账户版](release/ai-skills-hub-0.8.0.zip) 与 0.7.1；从源码构建需先执行 `npm ci && npm run build` 再运行 `scripts/package-theme.py`。Phase 10 未开始。
 
 WordPress 原创中英文主题，内置 AI Skills Hub Core。以下为 Phase 0–7 历史验收：Final QA 已执行真实 WordPress、PHP 8.3/8.4、MySQL 8.0、三引擎浏览器及原生 SEO 插件测试，修复 7 个实际问题。验收矩阵 **20 项工作包通过、0 失败、5 项外部验收未执行**：没有合法 WPML 包或真实 GitHub/AI 应用凭据，不能宣布完全通过。主题/Core **0.7.1**，schema **1.5.0**，不改变十四表、Skill ID、双语关系或人工审核规则。

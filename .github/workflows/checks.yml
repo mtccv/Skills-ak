@@ -59,6 +59,10 @@ jobs:
       - name: Community schema, moderation and privacy contracts (isolated)
         run: |
           for test in tests/basic/community-*.php; do php "$test"; done
+      - name: Phase 10 isolated workflows
+        run: |
+          set -e
+          for test in tests/basic/contribution-*.php tests/basic/submission-*.php tests/basic/developer-*.php; do php "$test"; done
   assets:
     runs-on: ubuntu-latest
     steps:

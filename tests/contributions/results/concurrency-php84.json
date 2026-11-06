@@ -1,0 +1,43 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Independent PHP processes / real MySQL connections; bounded races, not sustained-load benchmarking",
+    "cases": [
+        {
+            "id": "same-request-key-concurrent-submission-recovery",
+            "status": "passed"
+        },
+        {
+            "id": "different-users-same-known-source-concurrency",
+            "status": "passed"
+        },
+        {
+            "id": "different-paths-allowed-after-concurrent-contention",
+            "status": "passed"
+        },
+        {
+            "id": "owner-edit-versus-review-cas",
+            "status": "passed"
+        },
+        {
+            "id": "withdraw-versus-accept-cas",
+            "status": "passed"
+        },
+        {
+            "id": "claim-approval-unique-primary-holder",
+            "status": "passed"
+        },
+        {
+            "id": "profile-handle-approval-collision",
+            "status": "passed"
+        }
+    ],
+    "assertions": 22,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 7,
+    "failed": 0
+}

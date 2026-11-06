@@ -1,5 +1,7 @@
 # 产品 V2 模块审计与复用边界
 
+> Phase 10 当前增量：新增 ContributionsModule 及 Submissions/Developers 服务、独立原生后台、双语页面、受控 Inbox 原生接口保护、公开资料快照和账户隐私接入。schema 1.8.0 仅增加 author_claims，原 25 表保持。Forms 的旧 Submit 接口转至验证账户投稿流程，Contact 与历史匿名记录保留。下方历史差距表不代表当前仍缺已交付功能。见 [Phase 10 报告](PHASE_10_REPORT.md)。
+
 > 实施增量：Phase 8 已验收，Phase 9 新增 `CommunityModule`（Service/Query、不可变修订、Admin/Frontend、Events/Metrics、Privacy/Scheduler），复用既有 Accounts/Database/PublicCatalog。schema 1.7.0 共 25 表；历史审计表保留当时差距，不代表当前仍缺账户/社区能力。详见 [社区说明](../COMMUNITY_REVIEWS.md) 和 [Phase 9 报告](PHASE_9_REPORT.md)。未实施 Phase 10–14。
 
 日期：2026-11-06（Asia/Shanghai）。只读审计基线：`main` / `1c27f8770fc3bd20b2ffd92d8873444ba92d54c8`。当前已交付主题/Core 为 **0.7.1**，数据库 schema 为 **1.5.0**。

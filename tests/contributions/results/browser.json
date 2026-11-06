@@ -1,0 +1,445 @@
+{
+  "browser": "Chromium Linux headless",
+  "environment": "Real WordPress / PHP 8.3 / MySQL 8.0; isolated fixtures and mock mail transport",
+  "checks": [
+    {
+      "id": "en:anonymous-submission-login",
+      "status": "passed"
+    },
+    {
+      "id": "en:login-preserves-submit-return",
+      "status": "passed"
+    },
+    {
+      "id": "en:private-no-store-noindex",
+      "status": "passed"
+    },
+    {
+      "id": "en:invalid-nonce-denied",
+      "status": "passed"
+    },
+    {
+      "id": "en:cross-origin-denied",
+      "status": "passed"
+    },
+    {
+      "id": "en:submission-form-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:submission-form-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:submission-form-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:draft-saved",
+      "status": "passed"
+    },
+    {
+      "id": "en:submit-enters-pending",
+      "status": "passed"
+    },
+    {
+      "id": "en:duplicate-source-feedback",
+      "status": "passed"
+    },
+    {
+      "id": "en:review-freezes-user-edit",
+      "status": "passed"
+    },
+    {
+      "id": "en:dedicated-moderator-no-editorial-menu",
+      "status": "passed"
+    },
+    {
+      "id": "en:needs-information-reopens-edit",
+      "status": "passed"
+    },
+    {
+      "id": "en:acceptance-remains-private",
+      "status": "passed"
+    },
+    {
+      "id": "en:my-submissions-list",
+      "status": "passed"
+    },
+    {
+      "id": "en:my-submissions-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:my-submissions-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:my-submissions-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-js-list-works",
+      "status": "passed"
+    },
+    {
+      "id": "en:cross-owner-detail-hidden",
+      "status": "passed"
+    },
+    {
+      "id": "en:subscriber-admin-denied",
+      "status": "passed"
+    },
+    {
+      "id": "en:same-repository-different-path",
+      "status": "passed"
+    },
+    {
+      "id": "en:withdraw-retains-record",
+      "status": "passed"
+    },
+    {
+      "id": "en:update-distinct-pending-type",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-settings-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-settings-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-settings-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:profile-pending",
+      "status": "passed"
+    },
+    {
+      "id": "en:pending-profile-not-public",
+      "status": "passed"
+    },
+    {
+      "id": "en:reviewed-profile-public",
+      "status": "passed"
+    },
+    {
+      "id": "en:profile-canonical-bilingual-links",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-public-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-public-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-public-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:author-claim-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:author-claim-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:author-claim-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:claim-pending",
+      "status": "passed"
+    },
+    {
+      "id": "en:approved-claim-shows-published-skill",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-public-linked-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-public-linked-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:developer-public-linked-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:skill-shows-approved-developer",
+      "status": "passed"
+    },
+    {
+      "id": "en:claim-no-editorial-capability",
+      "status": "passed"
+    },
+    {
+      "id": "en:dispute-hides-author-link",
+      "status": "passed"
+    },
+    {
+      "id": "en:skill-hides-disputed-developer",
+      "status": "passed"
+    },
+    {
+      "id": "en:profile-withdraw-immediate-404",
+      "status": "passed"
+    },
+    {
+      "id": "en:native-private-projection-query-post",
+      "status": "passed"
+    },
+    {
+      "id": "en:native-private-projection-query-attachment",
+      "status": "passed"
+    },
+    {
+      "id": "en:native-private-projection-wp-json/wp/v2/aish_message/610-post",
+      "status": "passed"
+    },
+    {
+      "id": "zh:anonymous-submission-login",
+      "status": "passed"
+    },
+    {
+      "id": "zh:login-preserves-submit-return",
+      "status": "passed"
+    },
+    {
+      "id": "zh:private-no-store-noindex",
+      "status": "passed"
+    },
+    {
+      "id": "zh:invalid-nonce-denied",
+      "status": "passed"
+    },
+    {
+      "id": "zh:cross-origin-denied",
+      "status": "passed"
+    },
+    {
+      "id": "zh:submission-form-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:submission-form-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:submission-form-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:draft-saved",
+      "status": "passed"
+    },
+    {
+      "id": "zh:submit-enters-pending",
+      "status": "passed"
+    },
+    {
+      "id": "zh:duplicate-source-feedback",
+      "status": "passed"
+    },
+    {
+      "id": "zh:review-freezes-user-edit",
+      "status": "passed"
+    },
+    {
+      "id": "zh:dedicated-moderator-no-editorial-menu",
+      "status": "passed"
+    },
+    {
+      "id": "zh:needs-information-reopens-edit",
+      "status": "passed"
+    },
+    {
+      "id": "zh:acceptance-remains-private",
+      "status": "passed"
+    },
+    {
+      "id": "zh:my-submissions-list",
+      "status": "passed"
+    },
+    {
+      "id": "zh:my-submissions-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:my-submissions-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:my-submissions-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-js-list-works",
+      "status": "passed"
+    },
+    {
+      "id": "zh:cross-owner-detail-hidden",
+      "status": "passed"
+    },
+    {
+      "id": "zh:subscriber-admin-denied",
+      "status": "passed"
+    },
+    {
+      "id": "zh:same-repository-different-path",
+      "status": "passed"
+    },
+    {
+      "id": "zh:withdraw-retains-record",
+      "status": "passed"
+    },
+    {
+      "id": "zh:update-distinct-pending-type",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-settings-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-settings-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-settings-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:profile-pending",
+      "status": "passed"
+    },
+    {
+      "id": "zh:pending-profile-not-public",
+      "status": "passed"
+    },
+    {
+      "id": "zh:reviewed-profile-public",
+      "status": "passed"
+    },
+    {
+      "id": "zh:profile-canonical-bilingual-links",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-public-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-public-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-public-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:author-claim-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:author-claim-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:author-claim-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:claim-pending",
+      "status": "passed"
+    },
+    {
+      "id": "zh:approved-claim-shows-published-skill",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-public-linked-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-public-linked-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:developer-public-linked-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:skill-shows-approved-developer",
+      "status": "passed"
+    },
+    {
+      "id": "zh:claim-no-editorial-capability",
+      "status": "passed"
+    },
+    {
+      "id": "zh:dispute-hides-author-link",
+      "status": "passed"
+    },
+    {
+      "id": "zh:skill-hides-disputed-developer",
+      "status": "passed"
+    },
+    {
+      "id": "zh:profile-withdraw-immediate-404",
+      "status": "passed"
+    },
+    {
+      "id": "zh:native-private-projection-query-post",
+      "status": "passed"
+    },
+    {
+      "id": "zh:native-private-projection-query-attachment",
+      "status": "passed"
+    },
+    {
+      "id": "zh:native-private-projection-wp-json/wp/v2/aish_message/622-post",
+      "status": "passed"
+    }
+  ],
+  "passed": 102,
+  "failed": 0,
+  "errors": [],
+  "screenshots": [
+    "submission-form-en-320.png",
+    "submission-form-en-1440.png",
+    "submission-admin-en-1440.png",
+    "my-submissions-en-320.png",
+    "my-submissions-en-1440.png",
+    "developer-settings-en-320.png",
+    "developer-settings-en-1440.png",
+    "developer-public-en-320.png",
+    "developer-public-en-1440.png",
+    "author-claim-en-320.png",
+    "author-claim-en-1440.png",
+    "developer-public-linked-en-320.png",
+    "developer-public-linked-en-1440.png",
+    "submission-form-zh-320.png",
+    "submission-form-zh-1440.png",
+    "submission-admin-zh-1440.png",
+    "my-submissions-zh-320.png",
+    "my-submissions-zh-1440.png",
+    "developer-settings-zh-320.png",
+    "developer-settings-zh-1440.png",
+    "developer-public-zh-320.png",
+    "developer-public-zh-1440.png",
+    "author-claim-zh-320.png",
+    "author-claim-zh-1440.png",
+    "developer-public-linked-zh-320.png",
+    "developer-public-linked-zh-1440.png"
+  ]
+}

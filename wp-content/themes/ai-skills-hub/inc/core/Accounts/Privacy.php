@@ -205,7 +205,7 @@ final class Privacy {
 			}
 			return $finished;
 		} );
-		return array( 'items_removed' => true, 'items_retained' => true, 'messages' => array( __( 'AI Skills Hub account data is erased in batches. WordPress identity and required content audit evidence are retained. Account deletion requires a separate administrator action in Users. Existing private Contact and submission records are not reassigned or deleted by this step.', 'ai-skills-hub' ) ), 'done' => $done );
+		return array( 'items_removed' => true, 'items_retained' => true, 'messages' => array( __( 'AI Skills Hub account data is erased in batches. WordPress identity and required content audit evidence are retained. Account deletion requires a separate administrator action in Users. Controlled user submissions and developer evidence are anonymized or redacted in batches. Historical anonymous Inbox and Contact records remain untouched and are never claimed by matching email.', 'ai-skills-hub' ) ), 'done' => $done );
 	}
 
 	/** The native deletion action is trusted; stage durable work before WordPress removes identity. */

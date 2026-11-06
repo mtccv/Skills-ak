@@ -1,5 +1,18 @@
 # Final QA 安全审查
 
+## Phase 10 定向开发审查与回归（2026-11-06）
+
+本次是新增投稿/开发者模块及账户、原生 Inbox 接口的定向代码审查和运行验证，不替代下方历史 Final QA，也不宣称完成第三方插件或全网安全认证。
+
+- 新投稿正向所有权标记、当前 user_id、邮箱验证、独立能力、Nonce/Origin 和 CAS；旧匿名 Inbox/Contact 不按邮箱或原 post_author 归属。
+- 原生编辑、修订恢复、metadata/by-mid 与对象权限保护，阻止绕过不可变快照；真实 WP 测试发现 CPT 先映射 primitive capability 后再过滤，已覆盖该路径。
+- 投稿/关联结果、开发者身份和认领只读 PublicCatalog 当前已发布内容；接受、认领和版本建议均不能修改已审内容、授予编辑能力或自动发布。
+- 白名单 GitHub URL/路径校验，用户输入不发起网络、安装或执行；无前端 Token/API Key。公开资料只用已审核快照，无邮箱、登录名、私有证据和管理员备注。
+- 账户/来源/handle 锁、真实唯一索引、事务内审计/通知；原生写入事务中禁用网络与邮件副作用，提交/回滚清理对象缓存。
+- 原生账户删除/转交前隔离受控 Inbox 和修订，持久队列分批擦除；注销的审核人员私人备注也清除，保留必要非公开审核事实。
+
+测试逐项证据及修复列表见 [Phase 10 报告](docs/PHASE_10_REPORT.md) 与 [tests/contributions/results](tests/contributions/results/)。实际保留期和外部依赖限制见 [隐私说明](PRIVACY_AND_SECURITY.md)。
+
 基线 `d6401c2d6fb810605f5ba87524301ecc50418971`。本轮结合 Phase 7 历史审查、实际 WordPress/MySQL、多进程故障注入、浏览器及隔离回归；不是第三方渗透认证，也不宣称绝对安全。所有攻击样本仅针对新建 localhost QA 站，不访问生产、云 metadata 或其他私网服务。
 
 ## 实际覆盖与结果

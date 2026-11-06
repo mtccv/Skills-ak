@@ -1,0 +1,38 @@
+/* Phase 10 extends the approved account design without changing the isolated prototypes. */
+.aish-contributions-site .account-content{min-width:0}
+.aish-contributions-site .account-inline-actions,.aish-developer-public .account-inline-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-block:16px}
+.contributions-form{max-width:640px}
+.contributions-form textarea{min-height:104px;resize:vertical}
+.contributions-form .account-inline-actions{margin-block:4px 0}
+.contributions-filters{display:flex;align-items:flex-end;flex-wrap:wrap;gap:16px;margin:24px 0}
+.contributions-filters .account-field{min-width:180px;flex:1}
+.contributions-filters .account-field select{width:100%;min-height:44px}
+.contributions-records{display:grid;gap:16px}
+.contributions-record{padding:24px;min-width:0;overflow-wrap:anywhere}
+.contributions-record h2,.contributions-record h3{font-size:18px;line-height:1.5;margin:0 0 12px}
+.contributions-record h2 a{color:#111827;text-decoration:none}
+.contributions-record h2 a:hover{color:#AD5E48;text-decoration:underline}
+.contributions-record-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.contributions-record-heading h2,.contributions-record-heading h3{margin:0}
+.contributions-record-bordered{padding:20px 0;border-top:1px solid #D9DDE3}
+.contributions-copy{white-space:pre-wrap;overflow-wrap:anywhere}
+.contributions-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}
+.contributions-meta dt,.contributions-readonly dt{font-size:14px;color:#5B6370;margin-bottom:6px}
+.contributions-meta dd,.contributions-readonly dd{margin:0;overflow-wrap:anywhere}
+.contributions-readonly{display:grid;gap:20px}
+.contributions-language{border:1px solid #D9DDE3;border-radius:10px;padding:20px;display:grid;gap:20px;min-width:0}
+.contributions-language legend{font-size:16px;font-weight:650;padding:0 8px;color:#111827}
+.contributions-dashboard p{max-width:72ch}
+.aish-developer-public .account-container{max-width:1280px}
+.aish-developer-public .account-public-nav{display:flex}
+.developer-profile-header{margin-bottom:32px}
+.developer-profile-identity{display:flex;align-items:center;gap:20px;min-width:0}
+.developer-profile-identity h1{font-size:clamp(26px,4vw,36px);line-height:1.3;margin:0;overflow-wrap:anywhere}
+.developer-biography{max-width:72ch;line-height:1.8;margin:24px 0}
+.developer-skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.developer-skill-grid .account-badge{display:inline-block;margin-bottom:16px}
+.developer-skills{margin-bottom:32px}
+.developer-skills>h2{font-size:24px;margin:0 0 20px}
+.aish-contributions-site .account-language,.aish-developer-public .account-language{gap:12px}
+@media(max-width:1023px){.developer-skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:767px){.contributions-meta,.developer-skill-grid{grid-template-columns:minmax(0,1fr)}.contributions-record{padding:20px}.contributions-filters .account-field{min-width:0;flex-basis:100%}.contributions-language{padding:16px}.contributions-form .account-inline-actions{display:grid;grid-template-columns:minmax(0,1fr)}.contributions-form .account-button{width:100%}.developer-profile-identity{align-items:flex-start;gap:16px}.aish-developer-public .account-public-nav{display:none}.contributions-record-heading{gap:12px}}

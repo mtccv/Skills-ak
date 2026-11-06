@@ -1,0 +1,67 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/PHP/MySQL submission service integration; mock mail only; no external API",
+    "cases": [
+        {
+            "id": "repository-root-path-and-untrusted-input",
+            "status": "passed"
+        },
+        {
+            "id": "authentication-verification-and-ownership",
+            "status": "passed"
+        },
+        {
+            "id": "draft-revisions-compare-and-swap-and-replay",
+            "status": "passed"
+        },
+        {
+            "id": "source-dedup-multi-skill-case-and-unconfirmed-path",
+            "status": "passed"
+        },
+        {
+            "id": "formal-source-gate-hides-private-skill-identity",
+            "status": "passed"
+        },
+        {
+            "id": "historical-anonymous-and-contact-isolation",
+            "status": "passed"
+        },
+        {
+            "id": "manual-review-state-machine-and-publication-boundary",
+            "status": "passed"
+        },
+        {
+            "id": "withdraw-rejection-manual-source-and-private-pagination",
+            "status": "passed"
+        },
+        {
+            "id": "update-suggestions-preserve-skill-version-and-translations",
+            "status": "passed"
+        },
+        {
+            "id": "accepted-proposal-later-result-association",
+            "status": "passed"
+        },
+        {
+            "id": "result-card-batching-over-catalog-limit",
+            "status": "passed"
+        },
+        {
+            "id": "native-write-failure-rolls-back-and-retries",
+            "status": "passed"
+        },
+        {
+            "id": "no-fetch-no-automatic-publication",
+            "status": "passed"
+        }
+    ],
+    "assertions": 78,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 13,
+    "failed": 0
+}

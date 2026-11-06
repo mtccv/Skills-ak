@@ -60,8 +60,9 @@ $notifications = static function ( bool $full = false ) use ( $context, $t, $url
 	foreach ( array_slice( $items, 0, $full ? 20 : 5 ) as $item ) {
 		$communityKey = $item['template_key'] ?? '';
 		$communityTitle = in_array( $communityKey, array( 'review_approved', 'review_rejected', 'review_hidden', 'review_withdrawn', 'report_resolved' ), true ) && class_exists( '\AISkillsHub\Core\Community\Strings' ) ? \AISkillsHub\Core\Community\Strings::get( 'notification.' . $communityKey, $context['locale'] ) : null;
+		$contributionTitle = class_exists( '\AISkillsHub\Core\Contributions\Strings' ) ? \AISkillsHub\Core\Contributions\Strings::notification( (string) $communityKey, $context['locale'] ) : null;
 		$titleKey = match ( $item['template_key'] ?? '' ) { 'email_verified' => 'state.active', 'email_changed' => 'change_email', 'password_changed' => 'change_password', 'sessions_revoked' => 'message.sessions', default => 'notifications' };
-		echo '<article class="account-notification"><div><h3>' . esc_html( $communityTitle ?? $t( $titleKey ) ) . '</h3><p class="account-help">' . esc_html( $t( empty( $item['read_at'] ) ? 'unread' : 'read' ) ) . ' · ' . esc_html( $item['created_at'] ?? '' ) . ' UTC</p></div>';
+		echo '<article class="account-notification"><div><h3>' . esc_html( $contributionTitle ?? $communityTitle ?? $t( $titleKey ) ) . '</h3><p class="account-help">' . esc_html( $t( empty( $item['read_at'] ) ? 'unread' : 'read' ) ) . ' · ' . esc_html( $item['created_at'] ?? '' ) . ' UTC</p></div>';
 		if ( $full && empty( $item['read_at'] ) ) { $form( 'read' ); echo '<input type="hidden" name="notification_id" value="' . esc_attr( (string) $item['id'] ) . '"><button class="account-text-action" type="submit">' . esc_html( $t( 'mark_read' ) ) . '</button></form>'; }
 		echo '</article>';
 	}

@@ -1,0 +1,93 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": [
+      "8.3.36",
+      "8.4.27"
+    ],
+    "mysql": "8.0.46",
+    "browser": "Chromium155 headless Linux"
+  },
+  "real_groups": {
+    "migration-php83": {
+      "passed": 59,
+      "failed": 0
+    },
+    "migration-php84": {
+      "passed": 59,
+      "failed": 0
+    },
+    "integration-php83": {
+      "passed": 13,
+      "failed": 0,
+      "assertions": 78
+    },
+    "integration-php84": {
+      "passed": 13,
+      "failed": 0,
+      "assertions": 78
+    },
+    "developers-php83": {
+      "passed": 8,
+      "failed": 0,
+      "assertions": 59
+    },
+    "developers-php84": {
+      "passed": 8,
+      "failed": 0,
+      "assertions": 59
+    },
+    "concurrency-php83": {
+      "passed": 7,
+      "failed": 0,
+      "assertions": 22
+    },
+    "concurrency-php84": {
+      "passed": 7,
+      "failed": 0,
+      "assertions": 22
+    },
+    "privacy-php83": {
+      "passed": 5,
+      "failed": 0,
+      "assertions": 47
+    },
+    "privacy-php84": {
+      "passed": 5,
+      "failed": 0,
+      "assertions": 47
+    },
+    "browser": {
+      "passed": 102,
+      "failed": 0
+    },
+    "core-lifecycle-php84": {
+      "passed": 148,
+      "failed": 0
+    },
+    "community-regression-php84": {
+      "passed": 23,
+      "failed": 0,
+      "assertions": 114
+    },
+    "package-http": {
+      "passed": 17,
+      "failed": 0
+    }
+  },
+  "unexecuted": [
+    "Real external SMTP delivery",
+    "Real GitHub API/evidence authenticity",
+    "Real AI API",
+    "WPML licensed integration",
+    "Other browser engines",
+    "Sustained production load"
+  ],
+  "notes": [
+    "The one HTTP and mail hook attempt in each developer suite is deliberately injected and blocked inside the transaction; it is not a real outbound request or successful delivery.",
+    "The legacy community trigger fixture required isolated MySQL log_bin_trust_function_creators=1; restored original0 after23/23cases passed.",
+    "All domain cases use generated isolated identities and fixtures; preservation fingerprints precede any new fixture writes."
+  ],
+  "package_native_upgrade_and_exact_files": true,
+  "failures_remaining": 0
+}

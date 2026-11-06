@@ -1,5 +1,7 @@
 # AI Skills Hub Core 使用与维护
 
+> Phase 10 增量：主题/Core **0.10.0**、schema **1.8.0**、26 表；`ContributionsModule` 依赖既有 accounts/community/admin/frontend，注册 `submissions`、`submission_query`、`developers`、`developer_query` 服务。复用私有原生 Inbox、Users 和既有 workflow_events/user_notifications，仅新增 author_claims。原生编辑器/metadata/revision 恢复受保护，人工操作须经过独立域服务的归属、能力、状态、CAS、事务与幂等校验。四项能力：`aish_manage_submissions`、`aish_manage_update_suggestions`、`aish_manage_developers`、`aish_manage_author_claims`。使用与限制见 [投稿](SUBMISSIONS.md)、[开发者](DEVELOPER_CENTER.md)、[Phase 10 报告](PHASE_10_REPORT.md)。
+
 > Phase 9 增量：当前主题/Core 0.9.0、schema 1.7.0，新增 CommunityModule 与八张互动/审计/最小计数表，共 25 表，原 17 表保持。服务键 `community` / `community_query`；独立能力 `aish_moderate_community` / `aish_manage_community_reports`（取代规划中的泛化命名，避免混用 Skill/AI 审核）。写操作按账户锁→Skill 行→评价头/修订或举报行顺序，CAS 与幂等审计同事务。前后台接口及数据保留见 [COMMUNITY_REVIEWS.md](../COMMUNITY_REVIEWS.md)。
 
 > Phase 8 增量：当前主题/Core 0.8.0、schema 1.6.0，增加 AccountsModule 及 email_verifications、user_notifications、notification_outbox 三表（共 17 表）；下面 Phase 7/1.5.0 是原架构说明。原十四表、Skill ID、译文/来源/审核合同保留。账户接口、安全和邮件配置见根目录 [ACCOUNT_SYSTEM.md](../ACCOUNT_SYSTEM.md)、[EMAIL_SETUP.md](../EMAIL_SETUP.md)、[PRIVACY_AND_SECURITY.md](../PRIVACY_AND_SECURITY.md)。不提前创建 Phase 9–14 结构。

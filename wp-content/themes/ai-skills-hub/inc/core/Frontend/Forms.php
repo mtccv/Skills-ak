@@ -66,6 +66,7 @@ final class Forms {
 
 	public function metaBox( \WP_Post $post ): void {
 		if ( ! current_user_can( 'aish_manage_settings' ) && ! current_user_can( 'manage_options' ) ) { return; }
+		if ( get_post_meta( $post->ID, '_aish_submission_version', true ) ) { echo '<p>' . esc_html__( '请在专用投稿管理中处理此记录。', 'ai-skills-hub' ) . '</p>'; return; }
 		$fields = array( '_aish_sender_name' => 'Name', '_aish_sender_email' => 'Email', '_aish_message_locale' => 'Language', '_aish_github_url' => 'GitHub URL' );
 		echo '<dl>';
 		foreach ( $fields as $key => $label ) { echo '<dt><strong>' . esc_html( $label ) . '</strong></dt><dd>' . esc_html( (string) get_post_meta( $post->ID, $key, true ) ) . '</dd>'; }
@@ -81,6 +82,7 @@ final class Forms {
 		if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) || $id < 1 || wp_is_post_revision( $id ) || wp_is_post_autosave( $id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ! current_user_can( 'edit_post', $id ) || ( ! current_user_can( 'aish_manage_settings' ) && ! current_user_can( 'manage_options' ) ) ) { return; }
 		$post = get_post( $id );
 		if ( ! $post instanceof \WP_Post || self::POST_TYPE !== $post->post_type ) { return; }
+		if ( get_post_meta( $id, '_aish_submission_version', true ) ) { return; }
 		$nonce = $_POST['_aish_message_nonce'] ?? null;
 		if ( ! is_string( $nonce ) || ! wp_verify_nonce( wp_unslash( $nonce ), 'aish_message_state_' . $id ) ) { return; }
 		$key = 'aish_message_error_' . get_current_user_id();
@@ -191,6 +193,9 @@ final class Forms {
 			$data = wp_unslash( $_POST );
 			if ( ! is_string( $data['locale'] ?? null ) || ! in_array( $data['locale'], array( 'zh_CN', 'en_US' ), true ) || ! is_string( $data['kind'] ?? null ) || ! in_array( $data['kind'], array( 'contact', 'submit' ), true ) ) { throw new \InvalidArgumentException(); }
 			$locale = $data['locale']; $kind = $data['kind'];
+			// Registered submissions have one verified, ownership-aware entry point.
+			// This historical endpoint remains available for private Contact messages only.
+			if ( 'submit' === $kind ) { self::redirect( $locale, $kind, 'account_required' ); }
 			$nonce = $data['_wpnonce'] ?? null;
 			if ( ! is_string( $nonce ) || ! wp_verify_nonce( $nonce, 'aish_public_message' ) ) { self::redirect( $locale, $kind, 'expired' ); }
 			if ( '' !== Input::utf8( $data['website'] ?? '', 200 ) ) { throw new \InvalidArgumentException(); }

@@ -1,6 +1,14 @@
 # 开发进度
 
-## Phase 9 — 用户互动系统（实现与已执行检查完成，等待用户验收）
+## Phase 10 — 用户投稿与开发者中心（实现及已执行检查完成，等待用户验收）
+
+基于用户指定 `93738c139b5c8e04243d5b5757e30356147c7ddb`，主题/Core **0.10.0**、schema **1.8.0**。只新增 author_claims 至26表，原25表、Skill ID、版本和双语关系保留。投稿/更新建议复用私有 Inbox 及不可变修订；新增受控归属、状态审核、最终资源关联、站内结果通知、公开资料审核快照、作者/维护者认领和隐私清理。Accepted不等于Skill发布，认领不授予编辑权；不触发用户指定来源的外部请求。
+
+PHP8.3/8.4各48个隔离/Mock脚本、3883断言及232个PHP文件语法通过；真实WP7.1.4/MySQL8.0.46迁移、投稿、开发者、认领、隐私和并发均通过。真实Chromium中英/320/768/1440页面102项通过；PHP8.4旧Core生命周期148检查和P9社区23用例/114断言回归通过。分类明细、实际问题修复和未执行范围见 [PHASE_10_REPORT.md](PHASE_10_REPORT.md)，不把Mock邮件描述为真实送达。
+
+[0.10.0安装包](../release/ai-skills-hub-0.10.0.zip) · [投稿说明](SUBMISSIONS.md) · [开发者中心](DEVELOPER_CENTER.md) · [安装配置](../INSTALLATION.md)。原型不修改，视觉保持白灰/深灰/陶土棕。本轮真实SMTP、WPML、GitHub/AI外部API及第三方插件/生产负载未验；原有数据和匿名Contact/投稿保持。正常提交同步main后暂停，等待Phase11指令，不自动进入下一阶段。
+
+## Phase 9 — 用户互动系统（历史交付，用户已验收）
 
 基于 `02d37d3`（含指定 `40777e5` 和账户版安装包），主题/Core **0.9.0**、schema **1.7.0**。新增私有收藏、真实星级/体验、不可变评价修订、批准版切换、原生社区审核、独立举报/纠错、社区通知和隐私清理。原 17 表与数据保留，只追加八表至 25 表；稳定 Skill ID、双语关系、历史 Contact/Submit 和 Phase 7.5 原型不变。不开发 Phase 10。
 
@@ -34,8 +42,9 @@ PHP 8.3/8.4 各 40 个隔离/Mock 脚本、3291 断言通过。真实 WordPress 
 | V2 产品扩展准备 | 规划完成，Phase 8 已获实施授权 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
 | Phase 7.5 全站 UI/UX 设计 | 用户已初步审核通过；作为后续设计标准 | DESIGN_SYSTEM.md；design-prototype/README.md；原型保留 |
 | Phase 8 账户与个人中心 | 用户已验收 | PHASE_8_REPORT.md；真实邮件等外部依赖未验收 |
-| Phase 9 用户互动系统 | 实现及已执行检查完成，待用户验收 | PHASE_9_REPORT.md；外部依赖如实列出 |
-| Phase 10–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
+| Phase 9 用户互动系统 | 用户已验收 | PHASE_9_REPORT.md；外部依赖如实列出 |
+| Phase 10 投稿与开发者中心 | 本轮实施与检查 | PHASE_10_REPORT.md；等待用户验收 |
+| Phase 11–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
 
 ## Phase 7.5 原布局配色调整（历史交付，设计继续采用）
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /** Shared real integration harness, never an HTTP entry point. */
 if ( PHP_SAPI !== 'cli' || getenv( 'AISH_PHASE9_QA' ) !== '1' ) { exit( 1 ); }
 require '/var/www/html/wp-load.php';
-if ( ! in_array( DB_NAME, array( 'qa_browser', 'qa_php84' ), true ) || '1.7.0' !== get_option( 'aish_schema_version' ) ) { exit( 2 ); }
+if ( ! in_array( DB_NAME, array( 'qa_browser', 'qa_php84' ), true ) || ! in_array( get_option( 'aish_schema_version' ), array( '1.7.0', '1.8.0' ), true ) ) { exit( 2 ); }
 require_once ABSPATH . 'wp-admin/includes/user.php';
 
 use AISkillsHub\Core\Core;
@@ -13,8 +13,11 @@ use AISkillsHub\Core\Accounts\Store;
 $core = Core::boot(); $db = $core->get( 'database' ); $accounts = $core->get( 'accounts' );
 $service = $core->get( 'community' ); $query = $core->get( 'community_query' );
 $management = $core->get( 'management' );
-$adminIds = get_users( array( 'role' => 'administrator', 'fields' => 'ID', 'number' => 1, 'orderby' => 'ID', 'order' => 'ASC' ) );
-$admin = (int) ( $adminIds[0] ?? 0 ); if ( $admin < 1 ) { exit( 3 ); }
+$admin = 0;
+foreach ( get_users( array( 'role' => 'administrator', 'fields' => 'ID', 'number' => 100, 'orderby' => 'ID', 'order' => 'ASC' ) ) as $id ) {
+	if ( user_can( (int) $id, 'manage_options' ) ) { $admin = (int) $id; break; }
+}
+if ( $admin < 1 ) { exit( 3 ); }
 wp_set_current_user( $admin ); do_action( 'admin_init' );
 wp_set_current_user( 0 ); // Reload role capabilities after the normal administrator initialization.
 $run = bin2hex( random_bytes( 8 ) ); $assertions = 0; $cases = array();

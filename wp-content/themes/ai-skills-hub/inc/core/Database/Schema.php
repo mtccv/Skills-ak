@@ -6,7 +6,7 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.7.0';
+	public const VERSION = '1.8.0';
 
 	public const COLUMNS = array(
 		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d', 'github_id' => '%d', 'default_branch' => '%s', 'sync_enabled' => '%d', 'sync_interval' => '%d', 'last_sync_at' => '%s', 'last_sync_commit' => '%s', 'last_scan_at' => '%s', 'sync_status' => '%s', 'license_spdx' => '%s' ),
@@ -34,6 +34,7 @@ final class Schema {
 		'workflow_events' => array( 'id' => '%d', 'event_key' => '%s', 'subject_type' => '%s', 'subject_id' => '%d', 'subject_revision' => '%d', 'action' => '%s', 'actor_user_id' => '%d', 'from_state' => '%s', 'to_state' => '%s', 'metadata_json' => '%s', 'created_at' => '%s', 'retain_until' => '%s' ),
 		'metric_events' => array( 'id' => '%d', 'metric_name' => '%s', 'dimension_type' => '%s', 'dimension_key' => '%s', 'locale' => '%s', 'event_day' => '%s', 'dedupe_key' => '%s', 'policy_version' => '%s', 'occurred_at' => '%s', 'expires_at' => '%s' ),
 		'daily_metrics' => array( 'stat_day' => '%s', 'metric_name' => '%s', 'dimension_type' => '%s', 'dimension_key' => '%s', 'locale' => '%s', 'metric_count' => '%d', 'policy_version' => '%s', 'updated_at' => '%s' ),
+		'author_claims' => array( 'id' => '%d', 'skill_id' => '%d', 'claimant_user_id' => '%d', 'claim_role' => '%s', 'repository_id' => '%d', 'source_revision' => '%d', 'state' => '%s', 'proof_kind' => '%s', 'proof_json' => '%s', 'request_key' => '%s', 'active_request_key' => '%s', 'approved_skill_key' => '%d', 'reviewer_id' => '%d', 'reviewed_at' => '%s', 'expires_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
 	);
 
 	public const UNIQUE_KEYS = array(
@@ -62,6 +63,7 @@ final class Schema {
 		'workflow_events' => array( 'PRIMARY' => array( 'id' ), 'event_identity' => array( 'event_key' ) ),
 		'metric_events' => array( 'PRIMARY' => array( 'id' ), 'daily_event' => array( 'event_day', 'metric_name', 'dedupe_key' ) ),
 		'daily_metrics' => array( 'PRIMARY' => array( 'stat_day', 'metric_name', 'dimension_type', 'dimension_key', 'locale' ) ),
+		'author_claims' => array( 'PRIMARY' => array( 'id' ), 'request_identity' => array( 'request_key' ), 'active_request' => array( 'active_request_key' ), 'approved_skill' => array( 'approved_skill_key' ) ),
 	);
 
 	/** Columns introduced with the importer, masked when verifying historical migrations. */
@@ -73,6 +75,7 @@ final class Schema {
 	private const AI_TABLES = array( 'ai_jobs', 'ai_attempts', 'ai_reviews' );
 	private const ACCOUNT_TABLES = array( 'email_verifications', 'user_notifications', 'notification_outbox' );
 	private const COMMUNITY_TABLES = array( 'favorites', 'reviews', 'review_revisions', 'review_reports', 'skill_reports', 'workflow_events', 'metric_events', 'daily_metrics' );
+	private const DEVELOPER_TABLES = array( 'author_claims' );
 
 	/** Phase 4 non-unique access paths; existing identity constraints stay unchanged. */
 	public const SEARCH_KEYS = array(
@@ -89,6 +92,7 @@ final class Schema {
 		'workflow_events' => array( 'subject_history' => array( 'subject_type', 'subject_id', 'id' ), 'subject_action' => array( 'subject_type', 'action', 'created_at', 'subject_id' ), 'actor_history' => array( 'actor_user_id', 'created_at', 'id' ), 'retention' => array( 'retain_until', 'id' ) ),
 		'metric_events' => array( 'dimension_day' => array( 'dimension_type', 'dimension_key', 'event_day' ), 'expiry' => array( 'expires_at', 'id' ) ),
 		'daily_metrics' => array( 'metric_window' => array( 'metric_name', 'dimension_type', 'stat_day', 'dimension_key' ) ),
+		'author_claims' => array( 'skill_state' => array( 'skill_id', 'state', 'id' ), 'claimant_state' => array( 'claimant_user_id', 'state', 'id' ), 'claim_queue' => array( 'state', 'created_at', 'id' ) ),
 	);
 
 	public static function definitions( Database $db, string $version ): array {
@@ -497,6 +501,33 @@ PRIMARY KEY  (stat_day,metric_name,dimension_type,dimension_key,locale),
 KEY metric_window (metric_name,dimension_type,stat_day,dimension_key)";
 		}
 
+		if ( version_compare( $version, '1.8.0', '>=' ) ) {
+			$bodies['author_claims'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+skill_id bigint(20) unsigned NOT NULL,
+claimant_user_id bigint(20) unsigned DEFAULT NULL,
+claim_role varchar(16) NOT NULL,
+repository_id bigint(20) unsigned DEFAULT NULL,
+source_revision bigint(20) unsigned NOT NULL,
+state varchar(20) NOT NULL DEFAULT 'pending',
+proof_kind varchar(32) NOT NULL,
+proof_json text NOT NULL,
+request_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+active_request_key char(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+approved_skill_key bigint(20) unsigned DEFAULT NULL,
+reviewer_id bigint(20) unsigned DEFAULT NULL,
+reviewed_at datetime DEFAULT NULL,
+expires_at datetime DEFAULT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY request_identity (request_key),
+UNIQUE KEY active_request (active_request_key),
+UNIQUE KEY approved_skill (approved_skill_key),
+KEY skill_state (skill_id,state,id),
+KEY claimant_state (claimant_user_id,state,id),
+KEY claim_queue (state,created_at,id)";
+		}
+
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -507,6 +538,7 @@ KEY metric_window (metric_name,dimension_type,stat_day,dimension_key)";
 	/** Verify physical schema before advancing the version; dbDelta's messages alone are insufficient. */
 	public static function verify( Database $db, string $version ): void {
 		foreach ( self::COLUMNS as $entity => $columns ) {
+			if ( version_compare( $version, '1.8.0', '<' ) && in_array( $entity, self::DEVELOPER_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.7.0', '<' ) && in_array( $entity, self::COMMUNITY_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.6.0', '<' ) && in_array( $entity, self::ACCOUNT_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.5.0', '<' ) && in_array( $entity, self::AI_TABLES, true ) ) { continue; }
@@ -522,7 +554,7 @@ KEY metric_window (metric_name,dimension_type,stat_day,dimension_key)";
 			}
 			$table  = $db->table( $entity );
 			$fields = $db->rows( "SHOW COLUMNS FROM $table" );
-			if ( in_array( $entity, self::ACCOUNT_TABLES, true ) || in_array( $entity, self::COMMUNITY_TABLES, true ) ) { self::verifyTypedFields( $db, $entity, $version ); }
+			if ( in_array( $entity, self::ACCOUNT_TABLES, true ) || in_array( $entity, self::COMMUNITY_TABLES, true ) || in_array( $entity, self::DEVELOPER_TABLES, true ) ) { self::verifyTypedFields( $db, $entity, $version ); }
 			$actual = array_column( $fields, 'Field' );
 			if ( array_diff( array_keys( $columns ), $actual ) ) {
 				throw new \RuntimeException( 'Core schema columns are incomplete.' );

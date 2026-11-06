@@ -1,0 +1,313 @@
+{
+  "kind": "Static PHP lint and isolated/Mock regressions; not WordPress/MySQL/external API integration",
+  "runtime": "php83",
+  "scripts": 48,
+  "passed": 48,
+  "failed": 0,
+  "assertions": 3883,
+  "lint": {
+    "exit_code": 0,
+    "files": 232,
+    "additional_check": "tests/contributions/package-upgrade.php syntax passed after adding final ZIP integration fixture"
+  },
+  "tests": [
+    {
+      "file": "tests/basic/account-frontend.php",
+      "status": "passed",
+      "assertions": 26,
+      "output": "Account frontend isolated: 26 assertions passed; no real WP/HTTP/database/mail claim."
+    },
+    {
+      "file": "tests/basic/account-mail.php",
+      "status": "passed",
+      "assertions": 35,
+      "output": "Account mail: 35 isolated/Mock checks passed; no SMTP delivery tested."
+    },
+    {
+      "file": "tests/basic/account-native-guards.php",
+      "status": "passed",
+      "assertions": 46,
+      "output": "{\n    \"suite\": \"account-native-guards\",\n    \"kind\": \"isolated PHP\\/WP API substitutes\",\n    \"checks\": 46,\n    \"status\": \"passed\"\n}"
+    },
+    {
+      "file": "tests/basic/account-storage.php",
+      "status": "passed",
+      "assertions": 52,
+      "output": "Account storage: 52 isolated assertions passed (real sodium; modeled wpdb, no WordPress/MySQL/mail)."
+    },
+    {
+      "file": "tests/basic/admin-settings.php",
+      "status": "passed",
+      "assertions": 52,
+      "output": "Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration)."
+    },
+    {
+      "file": "tests/basic/ai-admin.php",
+      "status": "passed",
+      "assertions": 74,
+      "output": "PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API)."
+    },
+    {
+      "file": "tests/basic/ai-content.php",
+      "status": "passed",
+      "assertions": 100,
+      "output": "PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL)."
+    },
+    {
+      "file": "tests/basic/ai-locks.php",
+      "status": "passed",
+      "assertions": 99,
+      "output": "PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration)."
+    },
+    {
+      "file": "tests/basic/ai-provider.php",
+      "status": "passed",
+      "assertions": 260,
+      "output": "PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress)."
+    },
+    {
+      "file": "tests/basic/ai-source.php",
+      "status": "passed",
+      "assertions": 39,
+      "output": "PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API)."
+    },
+    {
+      "file": "tests/basic/ai-store.php",
+      "status": "passed",
+      "assertions": 104,
+      "output": "PASS: 104 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API)."
+    },
+    {
+      "file": "tests/basic/ai-worker.php",
+      "status": "passed",
+      "assertions": 157,
+      "output": "PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron)."
+    },
+    {
+      "file": "tests/basic/community-admin.php",
+      "status": "passed",
+      "assertions": 65,
+      "output": "Community admin: 65 isolated assertions passed (WP/service/query substitutes; no real WordPress/MySQL)."
+    },
+    {
+      "file": "tests/basic/community-frontend.php",
+      "status": "passed",
+      "assertions": 70,
+      "output": "Community frontend isolated: 70 assertions passed; no real WP/HTTP/database claim."
+    },
+    {
+      "file": "tests/basic/community-input.php",
+      "status": "passed",
+      "assertions": 65,
+      "output": "Community input: 65 isolated assertions passed; no WordPress/MySQL integration."
+    },
+    {
+      "file": "tests/basic/community-privacy.php",
+      "status": "passed",
+      "assertions": 32,
+      "output": "Community privacy: 32 isolated assertions passed (modeled WordPress/SQL; no real integration)."
+    },
+    {
+      "file": "tests/basic/community-publication.php",
+      "status": "passed",
+      "assertions": 40,
+      "output": "Community publication and notifications: 40 isolated assertions passed (real services, modeled wpdb; no WordPress/MySQL/mail integration)."
+    },
+    {
+      "file": "tests/basic/community-query.php",
+      "status": "passed",
+      "assertions": 62,
+      "output": "Community query: 62 isolated assertions passed; recording adapters, no WordPress/MySQL integration."
+    },
+    {
+      "file": "tests/basic/community-schema.php",
+      "status": "passed",
+      "assertions": 64,
+      "output": "Community schema: 64 isolated assertions passed (DDL/physical metadata model, no real WordPress/MySQL)."
+    },
+    {
+      "file": "tests/basic/contribution-admin.php",
+      "status": "passed",
+      "assertions": 108,
+      "output": "Contribution admin: 108 isolated assertions passed (WP/query/service substitutes; no real WordPress/MySQL or external requests)."
+    },
+    {
+      "file": "tests/basic/contribution-frontend.php",
+      "status": "passed",
+      "assertions": 65,
+      "output": "Contribution frontend isolated: 65 assertions passed; no real WP/HTTP/database claim."
+    },
+    {
+      "file": "tests/basic/contribution-guards.php",
+      "status": "passed",
+      "assertions": 95,
+      "output": "Contribution guards: 95 isolated assertions passed (WP/database substitutes; no real WordPress/MySQL)."
+    },
+    {
+      "file": "tests/basic/database-transactions.php",
+      "status": "passed",
+      "assertions": 92,
+      "output": "Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection)."
+    },
+    {
+      "file": "tests/basic/developer-input.php",
+      "status": "passed",
+      "assertions": 85,
+      "output": "Developer input/metadata: 85 isolated assertions passed; no WordPress, MySQL, or external requests."
+    },
+    {
+      "file": "tests/basic/developer-query.php",
+      "status": "passed",
+      "assertions": 29,
+      "output": "Developer queries: 29 isolated assertions passed; recording SQL fixtures only."
+    },
+    {
+      "file": "tests/basic/developer-schema.php",
+      "status": "passed",
+      "assertions": 76,
+      "output": "Developer schema: 76 isolated assertions passed (DDL/metadata model; no real WordPress/MySQL)."
+    },
+    {
+      "file": "tests/basic/developer-seo.php",
+      "status": "passed",
+      "assertions": 34,
+      "output": "Developer SEO: 34 isolated assertions passed (WP/router/settings/plugin-hook substitutes; no real third-party SEO/WPML integration)."
+    },
+    {
+      "file": "tests/basic/editorial-management.php",
+      "status": "passed",
+      "assertions": 122,
+      "output": "Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration)."
+    },
+    {
+      "file": "tests/basic/editorial-projections.php",
+      "status": "passed",
+      "assertions": 36,
+      "output": "Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark)."
+    },
+    {
+      "file": "tests/basic/editorial-search.php",
+      "status": "passed",
+      "assertions": 49,
+      "output": "Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration)."
+    },
+    {
+      "file": "tests/basic/forms-management.php",
+      "status": "passed",
+      "assertions": 56,
+      "output": "Inbox management: 56 isolated assertions passed."
+    },
+    {
+      "file": "tests/basic/frontend-locks.php",
+      "status": "passed",
+      "assertions": 196,
+      "output": "Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration)."
+    },
+    {
+      "file": "tests/basic/frontend-routing.php",
+      "status": "passed",
+      "assertions": 104,
+      "output": "PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration)."
+    },
+    {
+      "file": "tests/basic/github-client.php",
+      "status": "passed",
+      "assertions": 160,
+      "output": "PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration)."
+    },
+    {
+      "file": "tests/basic/github-discovery.php",
+      "status": "passed",
+      "assertions": 63,
+      "output": "GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration)."
+    },
+    {
+      "file": "tests/basic/import-admin.php",
+      "status": "passed",
+      "assertions": 32,
+      "output": "PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration)."
+    },
+    {
+      "file": "tests/basic/import-scheduler.php",
+      "status": "passed",
+      "assertions": 59,
+      "output": "PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration)."
+    },
+    {
+      "file": "tests/basic/import-store.php",
+      "status": "passed",
+      "assertions": 147,
+      "output": "PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration)."
+    },
+    {
+      "file": "tests/basic/import-worker.php",
+      "status": "passed",
+      "assertions": 63,
+      "output": "PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub)."
+    },
+    {
+      "file": "tests/basic/language-adapter.php",
+      "status": "passed",
+      "assertions": 50,
+      "output": "Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML)."
+    },
+    {
+      "file": "tests/basic/management-integrity.php",
+      "status": "passed",
+      "assertions": 50,
+      "output": "Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress)."
+    },
+    {
+      "file": "tests/basic/migration-recovery.php",
+      "status": "passed",
+      "assertions": 187,
+      "output": "Migration recovery: 187 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection)."
+    },
+    {
+      "file": "tests/basic/public-search.php",
+      "status": "passed",
+      "assertions": 95,
+      "output": "PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration)."
+    },
+    {
+      "file": "tests/basic/seo-failures.php",
+      "status": "passed",
+      "assertions": 83,
+      "output": "SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration)."
+    },
+    {
+      "file": "tests/basic/seo.php",
+      "status": "passed",
+      "assertions": 76,
+      "output": "PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration)."
+    },
+    {
+      "file": "tests/basic/sitemap.php",
+      "status": "passed",
+      "assertions": 49,
+      "output": "PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration)."
+    },
+    {
+      "file": "tests/basic/skill-parser.php",
+      "status": "passed",
+      "assertions": 95,
+      "output": "PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration)."
+    },
+    {
+      "file": "tests/basic/submission-input.php",
+      "status": "passed",
+      "assertions": 85,
+      "output": "Submission input: 85 isolated assertions passed; no WordPress/MySQL or remote API integration."
+    }
+  ],
+  "final_routing_regression": {
+    "files": [
+      "inc/core/Developers/Frontend.php"
+    ],
+    "lint": "passed",
+    "isolated_script": "tests/basic/contribution-frontend.php",
+    "assertions": 65,
+    "status": "passed",
+    "note": "Re-run after final invalid public handle 404 correction; already included in suite totals, not counted twice."
+  }
+}

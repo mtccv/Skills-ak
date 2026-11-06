@@ -54,6 +54,14 @@ final class Pages {
 				}
 			}
 		}
+		if ( ! $editorial ) {
+			foreach ( array( 'aish_manage_submissions', 'aish_manage_update_suggestions', 'aish_manage_developers', 'aish_manage_author_claims' ) as $cap ) {
+				if ( current_user_can( $cap ) ) {
+					add_menu_page( 'AI Skills Hub', 'AI Skills Hub', $cap, 'aish', static function (): void { do_action( 'aish_contribution_admin_landing' ); }, 'dashicons-lightbulb', 25 );
+					return;
+				}
+			}
+		}
 		$top = 'aish_manage_skills';
 		foreach ( self::CAPABILITIES as $cap ) { if ( self::can( $cap ) ) { $top = current_user_can( $cap ) ? $cap : 'manage_options'; break; } }
 		add_menu_page( 'AI Skills Hub', 'AI Skills Hub', $top, 'aish', array( $this, 'dashboard' ), 'dashicons-lightbulb', 25 );

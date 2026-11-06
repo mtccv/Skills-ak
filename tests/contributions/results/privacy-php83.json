@@ -1,0 +1,35 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL contribution export, erasure, rollback, native deletion and reassign protection; mock mail only",
+    "cases": [
+        {
+            "id": "owner-bound-export-excludes-private-moderation-and-legacy-inbox",
+            "status": "passed"
+        },
+        {
+            "id": "isolation-transaction-rollback-bounded-revision-and-claim-erasure",
+            "status": "passed"
+        },
+        {
+            "id": "moderator-erasure-preserves-other-author-approval-evidence",
+            "status": "passed"
+        },
+        {
+            "id": "native-delete-reassign-cannot-transfer-owned-inbox-or-revision",
+            "status": "passed"
+        },
+        {
+            "id": "native-large-account-detachment-progress-survives-retry",
+            "status": "passed"
+        }
+    ],
+    "assertions": 47,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 5,
+    "failed": 0
+}

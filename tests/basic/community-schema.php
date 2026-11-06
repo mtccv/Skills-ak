@@ -45,7 +45,7 @@ function fixture(): array {
 }
 [ $connection, $db ] = fixture();
 $old = json_decode( file_get_contents( dirname( __DIR__ ) . '/community/fixtures/schema-1.6.0.json' ), true, 512, JSON_THROW_ON_ERROR );
-check( '1.7.0' === Schema::VERSION, 'Current schema is 1.7.0.' );
+check( version_compare( Schema::VERSION, '1.7.0', '>=' ), 'The historical community schema remains supported.' );
 foreach ( array( '1.0.0' => 8, '1.1.0' => 8, '1.2.0' => 8, '1.3.0' => 8, '1.4.0' => 11, '1.5.0' => 14, '1.6.0' => 17, '1.7.0' => 25 ) as $version => $total ) { check( count( Schema::definitions( $db, $version ) ) === $total, 'Historical table count: ' . $version ); }
 $current = Schema::definitions( $db, '1.7.0' );
 foreach ( $old['definition_sha256'] as $entity => $expected ) {
