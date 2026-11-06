@@ -15,8 +15,12 @@ defined( 'ABSPATH' ) || exit;
 final class Management {
 	public const STATUSES = array( 'draft', 'pending', 'published', 'rejected', 'archived' );
 	public const RISKS = array( 'unknown', 'low', 'medium', 'high' );
+	private ?\Closure $approvalRecorder = null;
 
 	public function __construct( private Database $db, private Migrator $migrator, private Catalog $catalog ) {}
+
+	/** Core wiring supplies an audit participant; it shares the existing approval transaction. */
+	public function setApprovalRecorder( callable $recorder ): void { $this->approvalRecorder = \Closure::fromCallable( $recorder ); }
 
 	private function ready( array $capabilities = array( 'aish_manage_skills', 'aish_review_skills' ) ): void {
 		$allowed = current_user_can( 'manage_options' );
@@ -261,6 +265,7 @@ final class Management {
 				if ( ! $complete ) { throw new \DomainException( '至少需要一种语言的标题、Slug、简介和正文完整后才能通过审核。' ); }
 			}
 			$this->db->updateById( 'skills', $id, array( 'status' => 'approved' === $decision ? 'published' : 'rejected', 'review_status' => $decision, 'risk_level' => $risk, 'review_notes' => $notes, 'reviewer_id' => get_current_user_id(), 'reviewed_at' => gmdate( 'Y-m-d H:i:s' ), 'reviewed_revision' => $revision + 1, 'revision' => $revision + 1, 'updated_at' => gmdate( 'Y-m-d H:i:s' ) ) );
+			if ( 'approved' === $decision && null !== $this->approvalRecorder ) { ( $this->approvalRecorder )( $id, $revision + 1, $risk, $skill, $rows ); }
 		} );
 	}
 

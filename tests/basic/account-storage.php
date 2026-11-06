@@ -34,7 +34,7 @@ $current = Schema::definitions( $db, '1.6.0' );
 foreach ( array( 'email_verifications', 'user_notifications', 'notification_outbox' ) as $entity ) {
 	check( str_contains( $current[ $entity ], 'ENGINE=InnoDB' ) && str_contains( $current[ $entity ], 'ascii_bin' ), 'Account tables preserve transactional binary identities.' );
 }
-check( ! isset( Schema::COLUMNS['favorites'], Schema::COLUMNS['reviews'] ), 'Later-phase tables absent.' );
+check( ! isset( $current['favorites'], $current['reviews'] ), 'Historical Phase 8 definitions exclude later community tables.' );
 check( Store::emailHash( ' User@EXAMPLE.test ' ) === Store::emailHash( 'user@example.test' ), 'Email canonicalization agrees across service paths.' );
 check( Store::emailHash( 'a.b@example.test' ) !== Store::emailHash( 'ab@example.test' ), 'Provider-specific dot folding is not performed.' );
 check( Store::emailHash( 'user@example.test' ) !== hash( 'sha256', 'user@example.test' ), 'Email hash is server-secret protected.' );

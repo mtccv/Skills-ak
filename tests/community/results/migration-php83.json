@@ -1,0 +1,40 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL incremental migration; no external APIs",
+    "schema_before": "1.6.0",
+    "schema_after": "1.7.0",
+    "original_tables": 17,
+    "original_rows": 532,
+    "private_messages_before": 6,
+    "checks": {
+        "incremental_migration": true,
+        "schema_version": true,
+        "physical_schema": true,
+        "repeat_migration": true,
+        "exactly_25_tables": true,
+        "preserve_repositories": true,
+        "preserve_skills": true,
+        "preserve_skill_translations": true,
+        "preserve_skill_versions": true,
+        "preserve_categories": true,
+        "preserve_tags": true,
+        "preserve_skill_categories": true,
+        "preserve_skill_tags": true,
+        "preserve_imports": true,
+        "preserve_jobs": true,
+        "preserve_import_logs": true,
+        "preserve_ai_jobs": true,
+        "preserve_ai_attempts": true,
+        "preserve_ai_reviews": true,
+        "preserve_email_verifications": true,
+        "preserve_user_notifications": true,
+        "preserve_notification_outbox": true,
+        "private_messages_preserved": true
+    },
+    "passed": 23,
+    "failed": 0
+}

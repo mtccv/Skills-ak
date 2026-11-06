@@ -71,21 +71,24 @@ function module_fixture( string $name, array $dependencies = array() ): Module {
 }
 
 try {
-	$admins = get_users( array( 'role' => 'administrator', 'number' => 1, 'fields' => 'ID' ) );
-	check( ! empty( $admins ), 'development administrator exists' );
+	$admins = get_users( array( 'role' => 'administrator', 'number' => 100, 'fields' => 'ID', 'orderby' => 'ID', 'order' => 'ASC' ) );
+	// A quarantined historical QA administrator can retain its role while all
+	// capabilities are intentionally denied by the account deletion guard.
+	$admins = array_values( array_filter( $admins, static fn( $id ) => user_can( (int) $id, 'manage_options' ) ) );
+	check( ! empty( $admins ), 'capability-bearing development administrator exists' );
 	$admin = (int) $admins[0];
 	wp_set_current_user( $admin );
 	do_action( 'admin_init' );
 	$core = Core::boot();
 	check( $core->migrator()->isCurrent(), 'authorized admin initializes active theme database' );
-	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin', 'frontend', 'sources', 'ai', 'accounts' ), 'Core modules loaded in dependency order' );
+	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin', 'frontend', 'sources', 'ai', 'accounts', 'community' ), 'Core modules loaded in dependency order' );
 	check( Core::boot() === $core, 'Core boot is idempotent' );
 
 	list( $db, $migrator, $catalog, $option ) = fixture();
 	check( true === $migrator->migrate(), 'fresh database installation' );
 	Schema::verify( $db, Schema::VERSION );
 	check( Schema::VERSION === get_option( $option ), 'physical schema verified before version stored' );
-	check( 17 === count( Schema::COLUMNS ), 'eight Core tables, six import/AI and three account operation tables defined' );
+	check( 25 === count( Schema::COLUMNS ), 'eight Core, six import/AI, three account and eight community tables defined' );
 	foreach ( array_keys( Schema::COLUMNS ) as $entity ) {
 		check( 0 === count_rows( $db, $entity ), 'fresh table empty: ' . $entity );
 	}
@@ -244,7 +247,8 @@ try {
 		fn() => $catalog->assignTerm( $skill, 'tag', $tag ),
 	) as $operation ) { rejects( $operation, DomainException::class, 'anonymous Core mutation denied' ); }
 	wp_set_current_user( $admin );
-	$test_user = wp_insert_user( array( 'user_login' => 'aish_test_' . bin2hex( random_bytes( 6 ) ), 'user_pass' => wp_generate_password( 48, true, true ), 'role' => 'subscriber' ) );
+	$test_identity = bin2hex( random_bytes( 6 ) );
+	$test_user = wp_insert_user( array( 'user_login' => 'aish_test_' . $test_identity, 'user_email' => 'aish-test-' . $test_identity . '@example.invalid', 'user_pass' => wp_generate_password( 48, true, true ), 'role' => 'subscriber' ) );
 	check( ! is_wp_error( $test_user ), 'low privilege test user created' );
 	wp_set_current_user( (int) $test_user );
 	rejects( fn() => $catalog->createTag( 'Denied', 'denied' ), DomainException::class, 'subscriber mutation denied' );

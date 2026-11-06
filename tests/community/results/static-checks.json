@@ -1,0 +1,50 @@
+{
+  "kind": "Static checks and build; not WordPress, SMTP or API integration",
+  "php_lint": {
+    "php83": {
+      "passed_files": 185,
+      "failed_files": 0
+    },
+    "php84": {
+      "passed_files": 185,
+      "failed_files": 0
+    }
+  },
+  "isolated_mock": {
+    "php83": {
+      "scripts": 40,
+      "passed_assertions": 3291,
+      "failed_assertions": 0
+    },
+    "php84": {
+      "scripts": 40,
+      "passed_assertions": 3291,
+      "failed_assertions": 0
+    }
+  },
+  "javascript_syntax": [
+    "wp-content/themes/ai-skills-hub/assets/src/community.js",
+    "tests/community/browser.cjs"
+  ],
+  "tailwind_esbuild": "passed",
+  "asset_checks": {
+    "app.css": {
+      "bytes": 64786,
+      "sha256": "cba2d2140426b10ebb3053854ea459cf57e8044cd755b6461edefc9ccbade54c"
+    },
+    "app.js": {
+      "bytes": 60981,
+      "sha256": "6762fc464049476718238d03274446030aa52c0851ef243dc2fc81717e8af766"
+    }
+  },
+  "packager_unit_tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "relative_markdown_links_checked": 174,
+  "missing_links": 0,
+  "git_diff_check": "passed",
+  "design_prototypes_changed": false,
+  "historical_release_archives_changed": false,
+  "build_warning": "Existing caniuse-lite metadata outdated; build succeeds; no dependency update introduced."
+}

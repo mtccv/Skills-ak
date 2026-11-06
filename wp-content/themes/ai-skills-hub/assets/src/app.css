@@ -1,4 +1,5 @@
 @import './accounts.css';
+@import './community.css';
 
 @tailwind base;
 @tailwind components;

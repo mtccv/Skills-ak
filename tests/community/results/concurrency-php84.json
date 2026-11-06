@@ -1,0 +1,33 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Independent PHP processes and real MySQL sessions; bounded concurrency, not sustained load",
+    "cases": [
+        {
+            "id": "same-key-favorites",
+            "status": "passed"
+        },
+        {
+            "id": "different-key-favorites",
+            "status": "passed"
+        },
+        {
+            "id": "same-key-review-submission",
+            "status": "passed"
+        },
+        {
+            "id": "different-key-review-submission",
+            "status": "passed"
+        },
+        {
+            "id": "withdraw-vs-approval-race",
+            "status": "passed"
+        }
+    ],
+    "assertions": 22,
+    "passed": 5,
+    "failed": 0
+}

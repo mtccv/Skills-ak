@@ -1,5 +1,7 @@
 # AI Skills Hub 产品规格 V2
 
+> 当前实施状态：用户已验收 Phase 8，并授权 Phase 9。主题/Core 0.9.0、schema 1.7.0 共 25 表；收藏、评价修订、人工审核和举报纠错实现见 [社区说明](COMMUNITY_REVIEWS.md) 与 [Phase 9 报告](docs/PHASE_9_REPORT.md)。下文“尚未开发”及旧表数属于规划时基线；Phase 10–14 仍待授权。本轮最小统计只记真实互动，不启用浏览/搜索跟踪或运营界面。
+
 > Phase 8 已由用户正式授权：当前实施原生账户、验证/恢复、个人中心、账户通知和隐私请求；schema 1.6.0 共 17 张业务表。下文最初规划的 14 表现状及“未开始 Phase 8”为当时基线，不代表当前状态；Phase 9–14 仍为规划。实现与验收以 [ACCOUNT_SYSTEM.md](ACCOUNT_SYSTEM.md) 和 [Phase 8 报告](docs/PHASE_8_REPORT.md) 为准。
 
 > 当前配色修订（2026-11-06）：基线 `2d6df357f871bb31183182c02f7cd28dc80b1b18`。保留已从 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 恢复的完整五页布局、文案与功能；仅按 SkillsMP 配色方向将紫色改为白/浅灰、深灰文字与小面积陶土棕强调。目录化和双风格方案仍撤销，`modern-saas` 仅表示原布局。配色以[设计系统](docs/DESIGN_SYSTEM.md)为准；旧基线及检查属于历史，本轮证据见[原型说明](docs/design-prototype/README.md)。正式主题不变，不进入 Phase 8。

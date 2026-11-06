@@ -1,0 +1,21 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL independent-process notification versus erasure regression; mail mocked, no external API or sustained load",
+    "cases": [
+        {
+            "id": "moderation-before-erasure",
+            "status": "passed"
+        },
+        {
+            "id": "erasure-before-moderation",
+            "status": "passed"
+        }
+    ],
+    "assertions": 18,
+    "passed": 2,
+    "failed": 0
+}

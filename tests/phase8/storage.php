@@ -32,12 +32,12 @@ try {
 	$db->insert( 'skill_versions', array( 'skill_id' => $skill, 'commit_sha' => str_repeat( 'a', 40 ), 'content_hash' => hash( 'sha256', 'QA source' ), 'source_content' => 'QA source', 'created_at' => $now ) );
 	$before = array();
 	foreach ( Schema::definitions( $db, '1.5.0' ) as $entity => $definition ) { $before[ $entity ] = hash( 'sha256', serialize( $db->rows( 'SELECT * FROM ' . $db->table( $entity ) ) ) ); }
-	$check( true === $migrator->migrate(), 'Upgrade 1.5.0 to 1.6.0 succeeds.' );
-	$check( $migrator->isCurrent(), 'Version advances only to the verified 1.6.0.' );
+	$check( true === $migrator->migrate( '1.6.0' ), 'Upgrade 1.5.0 to 1.6.0 succeeds.' );
+	$check( '1.6.0' === $migrator->version(), 'Version advances only to the verified 1.6.0.' );
 	Schema::verify( $db, '1.6.0' ); $check( true, 'Physical account columns, full indexes, binary hashes, InnoDB and charset verify.' );
 	$check( count( $db->rows( 'SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME LIKE %s', array( $GLOBALS['wpdb']->esc_like( $prefix ) . '%' ) ) ) === 17, 'Phase 8 has exactly seventeen tables, no Phase 9 tables.' );
 	foreach ( $before as $entity => $fingerprint ) { $check( $fingerprint === hash( 'sha256', serialize( $db->rows( 'SELECT * FROM ' . $db->table( $entity ) ) ) ), 'Original data preserved: ' . $entity ); }
-	$check( true === $migrator->migrate() && true === $migrator->migrate(), 'Repeated installation and upgrade are idempotent.' );
+	$check( true === $migrator->migrate( '1.6.0' ) && true === $migrator->migrate( '1.6.0' ), 'Repeated installation and upgrade are idempotent.' );
 	$check( is_wp_error( $migrator->migrate( '1.5.0' ) ), 'Downgrade rejected without deleting data.' );
 	$token = bin2hex( random_bytes( 32 ) );
 	$proof = $store->transaction( fn() => $store->issueVerification( 1, 'verify_email', 'qa@example.test', $token ) );

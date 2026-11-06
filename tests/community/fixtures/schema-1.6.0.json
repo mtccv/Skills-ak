@@ -1,0 +1,24 @@
+{
+    "source_commit": "02d37d3700d0511321e9463151d05c0e0fa40da4",
+    "schema": "1.6.0",
+    "prefix": "fixture_",
+    "definition_sha256": {
+        "repositories": "808a20247955391444876f27217d91772659620bd72a8b6710e07bcef0535cdb",
+        "skills": "1dd47d7d5a2ea23974b38e142dd4e4a6d36a609fde00828a04aee7d4d5f519cf",
+        "skill_translations": "79c352a7ccfae5bbd4dc2f2c5a34b9b8fde8e9412acfbf5a8a89d1214a8cac73",
+        "skill_versions": "60e22a66823a5f2233e86e75439d1211c07db60e559b686230d46cdda57b7d6b",
+        "categories": "399e17a5bc74e166383f5bf38b932db566d3bd4ac2fa76e4e33e06983d9e2775",
+        "tags": "ef23c5c5433132e2715f33da6fbd764a6270efabb87407ff42ed72f226bbcfcb",
+        "skill_categories": "87c65ea254dbb0cc46952af016bd3df126ab4a4d8e7ea32aa1bcfb109cd9495c",
+        "skill_tags": "2cc493489eff642cbcd355aa8bc2afe8add6e6a58a3f054c0001d8542dcd6938",
+        "imports": "ea1ebb73d4e257e1ee0fa5d0c9c07e67a085a2eb6aacf5ed0f2f254547acef84",
+        "jobs": "c159e015cbbd910f5e9a09f5737046566899b7a62f0b469a65f2341a454f175c",
+        "import_logs": "5d72a78275733d3190ad3fb843cdf0c0ab82c6f3017368f3a864c59d9864f747",
+        "ai_jobs": "5cafebcf1a2786430b7d313ac6274c5e7457cd88cde33b7ce577598bade2a442",
+        "ai_attempts": "77b44d22b23a85469dea80e509f78c09b37a7debdcbb2b05028b5f7fcbb2ab93",
+        "ai_reviews": "5ffd40b1c6f58347f5fec71a31c5fcbb2bdf72ada1871725ab0c20273c2287e5",
+        "email_verifications": "ca2cd3a7b34b3a976a16749bae7837d9ce99880e8ac76d42ae7414db2500e11a",
+        "user_notifications": "36d2e8dd96fce165be4f328f980137b2a8cf36aff692f96f21e5178aebd91b5b",
+        "notification_outbox": "3d465f80bf6670730c63916587f7e590a967a6e8539d904545e5852b181098ff"
+    }
+}

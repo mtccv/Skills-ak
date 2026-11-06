@@ -180,7 +180,8 @@ final class Privacy {
 			$fields = array(); foreach ( $row as $name => $value ) { $fields[] = array( 'name' => $name, 'value' => (string) $value ); }
 			$data[] = array( 'group_id' => 'aish-mail-status', 'group_label' => 'AI Skills Hub mail transport status (not delivery)', 'item_id' => 'aish-mail-' . $row['id'], 'data' => $fields );
 		}
-		return array( 'data' => $data, 'done' => count( $rows ) < 50 && count( $mailRows ) < 50 );
+		// Extensions receive the already identity-bound account, never a request-supplied user ID.
+		return apply_filters( 'aish_account_privacy_export', array( 'data' => $data, 'done' => count( $rows ) < 50 && count( $mailRows ) < 50 ), $user, $page );
 	}
 
 	/** Erasing product data is not account deletion: native Users deletion requires an admin action. */
@@ -262,6 +263,7 @@ final class Privacy {
 		if ( $user instanceof \WP_User && ! user_can( $user, 'manage_options' ) && get_user_meta( $id, '_aish_account_state', true ) ) { $this->userMeta( $id, '_aish_account_state', 'suspended' ); }
 		\WP_Session_Tokens::get_instance( $id )->destroy_all();
 		wp_cache_delete( $id, 'user_meta' ); clean_user_cache( $id );
+		do_action( 'aish_account_privacy_isolate', $id );
 	}
 
 	/** Every call is bounded and restartable; it never touches Skills or legacy Inbox records. */
@@ -272,7 +274,9 @@ final class Privacy {
 			$this->database->execute( "DELETE FROM $table WHERE $column=%d LIMIT 50", array( $id ) );
 			if ( null !== $this->database->value( "SELECT id FROM $table WHERE $column=%d LIMIT 1", array( $id ) ) ) { $done = false; }
 		}
-		return $this->avatar->purgeOwned( $id, 25 ) && $done;
+		$done = $this->avatar->purgeOwned( $id, 25 ) && $done;
+		// False keeps the existing durable request pending until every module has finished.
+		return (bool) apply_filters( 'aish_account_privacy_erase_batch', $done, $id );
 	}
 
 	private function cleanupRequest( int $id ): int {

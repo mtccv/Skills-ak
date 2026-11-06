@@ -6,7 +6,7 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.6.0';
+	public const VERSION = '1.7.0';
 
 	public const COLUMNS = array(
 		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d', 'github_id' => '%d', 'default_branch' => '%s', 'sync_enabled' => '%d', 'sync_interval' => '%d', 'last_sync_at' => '%s', 'last_sync_commit' => '%s', 'last_scan_at' => '%s', 'sync_status' => '%s', 'license_spdx' => '%s' ),
@@ -26,6 +26,14 @@ final class Schema {
 		'email_verifications' => array( 'id' => '%d', 'user_id' => '%d', 'purpose' => '%s', 'target_email' => '%s', 'email_hash' => '%s', 'token_hash' => '%s', 'active_key' => '%s', 'expires_at' => '%s', 'attempt_count' => '%d', 'consumed_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
 		'user_notifications' => array( 'id' => '%d', 'user_id' => '%d', 'event_key' => '%s', 'type' => '%s', 'subject_type' => '%s', 'subject_id' => '%d', 'template_key' => '%s', 'params_json' => '%s', 'locale' => '%s', 'read_at' => '%s', 'created_at' => '%s', 'expires_at' => '%s' ),
 		'notification_outbox' => array( 'id' => '%d', 'recipient_user_id' => '%d', 'notification_id' => '%d', 'event_key' => '%s', 'channel' => '%s', 'template_key' => '%s', 'locale' => '%s', 'destination_hash' => '%s', 'payload_ciphertext' => '%s', 'key_version' => '%s', 'status' => '%s', 'attempts' => '%d', 'available_at' => '%s', 'lease_token' => '%s', 'locked_until' => '%s', 'last_error' => '%s', 'provider_message_id' => '%s', 'created_at' => '%s', 'updated_at' => '%s', 'accepted_at' => '%s', 'expires_at' => '%s' ),
+		'favorites' => array( 'user_id' => '%d', 'skill_id' => '%d', 'is_active' => '%d', 'created_at' => '%s', 'updated_at' => '%s', 'cancelled_at' => '%s' ),
+		'reviews' => array( 'id' => '%d', 'user_id' => '%d', 'skill_id' => '%d', 'state' => '%s', 'approved_revision_id' => '%d', 'pending_revision_id' => '%d', 'lock_version' => '%d', 'first_published_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s', 'withdrawn_at' => '%s' ),
+		'review_revisions' => array( 'id' => '%d', 'review_id' => '%d', 'revision' => '%d', 'locale' => '%s', 'rating' => '%d', 'title' => '%s', 'comment' => '%s', 'experience' => '%s', 'pros' => '%s', 'cons' => '%s', 'platform' => '%s', 'version_label' => '%s', 'moderation_state' => '%s', 'moderator_id' => '%d', 'moderated_at' => '%s', 'moderation_code' => '%s', 'private_note' => '%s', 'request_key' => '%s', 'created_at' => '%s' ),
+		'review_reports' => array( 'id' => '%d', 'review_id' => '%d', 'revision_id' => '%d', 'reporter_user_id' => '%d', 'locale' => '%s', 'reason_code' => '%s', 'details' => '%s', 'state' => '%s', 'active_key' => '%s', 'request_key' => '%s', 'handler_id' => '%d', 'resolution_code' => '%s', 'private_note' => '%s', 'created_at' => '%s', 'resolved_at' => '%s' ),
+		'skill_reports' => array( 'id' => '%d', 'skill_id' => '%d', 'skill_revision' => '%d', 'reporter_user_id' => '%d', 'locale' => '%s', 'kind' => '%s', 'details' => '%s', 'state' => '%s', 'active_key' => '%s', 'request_key' => '%s', 'handler_id' => '%d', 'resolution_code' => '%s', 'private_note' => '%s', 'created_at' => '%s', 'resolved_at' => '%s' ),
+		'workflow_events' => array( 'id' => '%d', 'event_key' => '%s', 'subject_type' => '%s', 'subject_id' => '%d', 'subject_revision' => '%d', 'action' => '%s', 'actor_user_id' => '%d', 'from_state' => '%s', 'to_state' => '%s', 'metadata_json' => '%s', 'created_at' => '%s', 'retain_until' => '%s' ),
+		'metric_events' => array( 'id' => '%d', 'metric_name' => '%s', 'dimension_type' => '%s', 'dimension_key' => '%s', 'locale' => '%s', 'event_day' => '%s', 'dedupe_key' => '%s', 'policy_version' => '%s', 'occurred_at' => '%s', 'expires_at' => '%s' ),
+		'daily_metrics' => array( 'stat_day' => '%s', 'metric_name' => '%s', 'dimension_type' => '%s', 'dimension_key' => '%s', 'locale' => '%s', 'metric_count' => '%d', 'policy_version' => '%s', 'updated_at' => '%s' ),
 	);
 
 	public const UNIQUE_KEYS = array(
@@ -46,6 +54,14 @@ final class Schema {
 		'email_verifications' => array( 'PRIMARY' => array( 'id' ), 'token_identity' => array( 'token_hash' ), 'active_verification' => array( 'active_key' ) ),
 		'user_notifications' => array( 'PRIMARY' => array( 'id' ), 'user_event' => array( 'user_id', 'event_key' ) ),
 		'notification_outbox' => array( 'PRIMARY' => array( 'id' ), 'event_channel' => array( 'event_key', 'channel' ) ),
+		'favorites' => array( 'PRIMARY' => array( 'user_id', 'skill_id' ) ),
+		'reviews' => array( 'PRIMARY' => array( 'id' ), 'user_skill' => array( 'user_id', 'skill_id' ) ),
+		'review_revisions' => array( 'PRIMARY' => array( 'id' ), 'review_revision' => array( 'review_id', 'revision' ), 'request_identity' => array( 'request_key' ) ),
+		'review_reports' => array( 'PRIMARY' => array( 'id' ), 'request_identity' => array( 'request_key' ), 'active_report' => array( 'active_key' ) ),
+		'skill_reports' => array( 'PRIMARY' => array( 'id' ), 'request_identity' => array( 'request_key' ), 'active_report' => array( 'active_key' ) ),
+		'workflow_events' => array( 'PRIMARY' => array( 'id' ), 'event_identity' => array( 'event_key' ) ),
+		'metric_events' => array( 'PRIMARY' => array( 'id' ), 'daily_event' => array( 'event_day', 'metric_name', 'dedupe_key' ) ),
+		'daily_metrics' => array( 'PRIMARY' => array( 'stat_day', 'metric_name', 'dimension_type', 'dimension_key', 'locale' ) ),
 	);
 
 	/** Columns introduced with the importer, masked when verifying historical migrations. */
@@ -56,6 +72,7 @@ final class Schema {
 	private const IMPORT_TABLES = array( 'imports', 'jobs', 'import_logs' );
 	private const AI_TABLES = array( 'ai_jobs', 'ai_attempts', 'ai_reviews' );
 	private const ACCOUNT_TABLES = array( 'email_verifications', 'user_notifications', 'notification_outbox' );
+	private const COMMUNITY_TABLES = array( 'favorites', 'reviews', 'review_revisions', 'review_reports', 'skill_reports', 'workflow_events', 'metric_events', 'daily_metrics' );
 
 	/** Phase 4 non-unique access paths; existing identity constraints stay unchanged. */
 	public const SEARCH_KEYS = array(
@@ -64,6 +81,14 @@ final class Schema {
 		'email_verifications' => array( 'user_purpose' => array( 'user_id', 'purpose', 'created_at' ), 'expiry' => array( 'expires_at', 'id' ) ),
 		'user_notifications' => array( 'user_unread' => array( 'user_id', 'read_at', 'id' ), 'expiry' => array( 'expires_at', 'id' ) ),
 		'notification_outbox' => array( 'due' => array( 'status', 'available_at', 'id' ), 'lease' => array( 'status', 'locked_until' ), 'recipient_history' => array( 'recipient_user_id', 'created_at' ), 'expiry' => array( 'expires_at', 'id' ) ),
+		'favorites' => array( 'user_active' => array( 'user_id', 'is_active', 'created_at', 'skill_id' ), 'skill_active' => array( 'skill_id', 'is_active', 'created_at', 'user_id' ) ),
+		'reviews' => array( 'skill_state' => array( 'skill_id', 'state', 'id' ), 'user_updated' => array( 'user_id', 'updated_at', 'id' ) ),
+		'review_revisions' => array( 'moderation_queue' => array( 'moderation_state', 'created_at', 'id' ), 'review_history' => array( 'review_id', 'id' ) ),
+		'review_reports' => array( 'report_queue' => array( 'state', 'created_at', 'id' ), 'review_report' => array( 'review_id', 'revision_id', 'id' ), 'reporter_history' => array( 'reporter_user_id', 'id' ) ),
+		'skill_reports' => array( 'report_queue' => array( 'state', 'kind', 'created_at', 'id' ), 'skill_report' => array( 'skill_id', 'id' ), 'reporter_history' => array( 'reporter_user_id', 'id' ) ),
+		'workflow_events' => array( 'subject_history' => array( 'subject_type', 'subject_id', 'id' ), 'subject_action' => array( 'subject_type', 'action', 'created_at', 'subject_id' ), 'actor_history' => array( 'actor_user_id', 'created_at', 'id' ), 'retention' => array( 'retain_until', 'id' ) ),
+		'metric_events' => array( 'dimension_day' => array( 'dimension_type', 'dimension_key', 'event_day' ), 'expiry' => array( 'expires_at', 'id' ) ),
+		'daily_metrics' => array( 'metric_window' => array( 'metric_name', 'dimension_type', 'stat_day', 'dimension_key' ) ),
 	);
 
 	public static function definitions( Database $db, string $version ): array {
@@ -337,6 +362,141 @@ KEY recipient_history (recipient_user_id,created_at),
 KEY expiry (expires_at,id)";
 		}
 
+		if ( version_compare( $version, '1.7.0', '>=' ) ) {
+			$bodies['favorites'] = "user_id bigint(20) unsigned NOT NULL,
+skill_id bigint(20) unsigned NOT NULL,
+is_active tinyint(1) unsigned NOT NULL DEFAULT 1,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+cancelled_at datetime DEFAULT NULL,
+PRIMARY KEY  (user_id,skill_id),
+KEY user_active (user_id,is_active,created_at,skill_id),
+KEY skill_active (skill_id,is_active,created_at,user_id)";
+			$bodies['reviews'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+user_id bigint(20) unsigned DEFAULT NULL,
+skill_id bigint(20) unsigned NOT NULL,
+state varchar(20) NOT NULL DEFAULT 'pending',
+approved_revision_id bigint(20) unsigned DEFAULT NULL,
+pending_revision_id bigint(20) unsigned DEFAULT NULL,
+lock_version bigint(20) unsigned NOT NULL DEFAULT 1,
+first_published_at datetime DEFAULT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+withdrawn_at datetime DEFAULT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY user_skill (user_id,skill_id),
+KEY skill_state (skill_id,state,id),
+KEY user_updated (user_id,updated_at,id)";
+			$bodies['review_revisions'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+review_id bigint(20) unsigned NOT NULL,
+revision int(10) unsigned NOT NULL,
+locale varchar(10) NOT NULL,
+rating tinyint(1) unsigned NOT NULL,
+title varchar(191) NOT NULL,
+comment text NOT NULL,
+experience text NOT NULL,
+pros text NOT NULL,
+cons text NOT NULL,
+platform varchar(100) NOT NULL DEFAULT '',
+version_label varchar(191) NOT NULL DEFAULT '',
+moderation_state varchar(20) NOT NULL DEFAULT 'pending',
+moderator_id bigint(20) unsigned DEFAULT NULL,
+moderated_at datetime DEFAULT NULL,
+moderation_code varchar(64) DEFAULT NULL,
+private_note text DEFAULT NULL,
+request_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+created_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY review_revision (review_id,revision),
+UNIQUE KEY request_identity (request_key),
+KEY moderation_queue (moderation_state,created_at,id),
+KEY review_history (review_id,id)";
+			$bodies['review_reports'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+review_id bigint(20) unsigned NOT NULL,
+revision_id bigint(20) unsigned NOT NULL,
+reporter_user_id bigint(20) unsigned DEFAULT NULL,
+locale varchar(10) NOT NULL,
+reason_code varchar(32) NOT NULL,
+details text NOT NULL,
+state varchar(20) NOT NULL DEFAULT 'pending',
+active_key char(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+request_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+handler_id bigint(20) unsigned DEFAULT NULL,
+resolution_code varchar(64) DEFAULT NULL,
+private_note text DEFAULT NULL,
+created_at datetime NOT NULL,
+resolved_at datetime DEFAULT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY request_identity (request_key),
+UNIQUE KEY active_report (active_key),
+KEY report_queue (state,created_at,id),
+KEY review_report (review_id,revision_id,id),
+KEY reporter_history (reporter_user_id,id)";
+			$bodies['skill_reports'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+skill_id bigint(20) unsigned NOT NULL,
+skill_revision bigint(20) unsigned NOT NULL,
+reporter_user_id bigint(20) unsigned DEFAULT NULL,
+locale varchar(10) NOT NULL,
+kind varchar(32) NOT NULL,
+details text NOT NULL,
+state varchar(20) NOT NULL DEFAULT 'pending',
+active_key char(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+request_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+handler_id bigint(20) unsigned DEFAULT NULL,
+resolution_code varchar(64) DEFAULT NULL,
+private_note text DEFAULT NULL,
+created_at datetime NOT NULL,
+resolved_at datetime DEFAULT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY request_identity (request_key),
+UNIQUE KEY active_report (active_key),
+KEY report_queue (state,kind,created_at,id),
+KEY skill_report (skill_id,id),
+KEY reporter_history (reporter_user_id,id)";
+			$bodies['workflow_events'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+event_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+subject_type varchar(32) NOT NULL,
+subject_id bigint(20) unsigned NOT NULL,
+subject_revision bigint(20) unsigned DEFAULT NULL,
+action varchar(32) NOT NULL,
+actor_user_id bigint(20) unsigned DEFAULT NULL,
+from_state varchar(20) DEFAULT NULL,
+to_state varchar(20) DEFAULT NULL,
+metadata_json text NOT NULL,
+created_at datetime NOT NULL,
+retain_until datetime DEFAULT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY event_identity (event_key),
+KEY subject_history (subject_type,subject_id,id),
+KEY subject_action (subject_type,action,created_at,subject_id),
+KEY actor_history (actor_user_id,created_at,id),
+KEY retention (retain_until,id)";
+			$bodies['metric_events'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+metric_name varchar(32) NOT NULL,
+dimension_type varchar(16) NOT NULL,
+dimension_key varchar(191) NOT NULL,
+locale varchar(10) NOT NULL DEFAULT '',
+event_day date NOT NULL,
+dedupe_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+policy_version varchar(16) NOT NULL,
+occurred_at datetime NOT NULL,
+expires_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY daily_event (event_day,metric_name,dedupe_key),
+KEY dimension_day (dimension_type,dimension_key,event_day),
+KEY expiry (expires_at,id)";
+			$bodies['daily_metrics'] = "stat_day date NOT NULL,
+metric_name varchar(32) NOT NULL,
+dimension_type varchar(16) NOT NULL,
+dimension_key varchar(191) NOT NULL,
+locale varchar(10) NOT NULL DEFAULT '',
+metric_count bigint(20) unsigned NOT NULL DEFAULT 0,
+policy_version varchar(16) NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (stat_day,metric_name,dimension_type,dimension_key,locale),
+KEY metric_window (metric_name,dimension_type,stat_day,dimension_key)";
+		}
+
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -347,6 +507,7 @@ KEY expiry (expires_at,id)";
 	/** Verify physical schema before advancing the version; dbDelta's messages alone are insufficient. */
 	public static function verify( Database $db, string $version ): void {
 		foreach ( self::COLUMNS as $entity => $columns ) {
+			if ( version_compare( $version, '1.7.0', '<' ) && in_array( $entity, self::COMMUNITY_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.6.0', '<' ) && in_array( $entity, self::ACCOUNT_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.5.0', '<' ) && in_array( $entity, self::AI_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.4.0', '<' ) ) {
@@ -361,7 +522,7 @@ KEY expiry (expires_at,id)";
 			}
 			$table  = $db->table( $entity );
 			$fields = $db->rows( "SHOW COLUMNS FROM $table" );
-			if ( in_array( $entity, self::ACCOUNT_TABLES, true ) ) { self::verifyAccountFields( $db, $entity, $version ); }
+			if ( in_array( $entity, self::ACCOUNT_TABLES, true ) || in_array( $entity, self::COMMUNITY_TABLES, true ) ) { self::verifyTypedFields( $db, $entity, $version ); }
 			$actual = array_column( $fields, 'Field' );
 			if ( array_diff( array_keys( $columns ), $actual ) ) {
 				throw new \RuntimeException( 'Core schema columns are incomplete.' );
@@ -425,23 +586,23 @@ KEY expiry (expires_at,id)";
 		}
 	}
 
-	/** New account tables verify complete types, nullability and binary hashes, not only names. */
-	private static function verifyAccountFields( Database $db, string $entity, string $version ): void {
+	/** New account/community tables verify types, nullability and binary hashes, not only names. */
+	private static function verifyTypedFields( Database $db, string $entity, string $version ): void {
 		$definition = self::definitions( $db, $version )[ $entity ];
 		$expected = array();
 		foreach ( explode( "\n", $definition ) as $line ) {
-			if ( preg_match( '/^([a-z_]+) ((?:bigint|int)\(\d+\) unsigned|char\(\d+\)|varchar\(\d+\)|datetime|mediumtext|text)(.*)$/D', rtrim( $line, ',' ), $match ) ) {
-				$expected[ $match[1] ] = array( preg_replace( '/\b(bigint|int)\(\d+\)/', '$1', $match[2] ), str_contains( $match[3], 'NOT NULL' ) ? 'NO' : 'YES', str_contains( $match[3], 'ascii_bin' ) );
+			if ( preg_match( '/^([a-z_]+) ((?:bigint|int|tinyint)\(\d+\) unsigned|char\(\d+\)|varchar\(\d+\)|datetime|date|mediumtext|text)(.*)$/D', rtrim( $line, ',' ), $match ) ) {
+				$expected[ $match[1] ] = array( preg_replace( '/\b(bigint|int|tinyint)\(\d+\)/', '$1', $match[2] ), str_contains( $match[3], 'NOT NULL' ) ? 'NO' : 'YES', str_contains( $match[3], 'ascii_bin' ) );
 			}
 		}
 		foreach ( $db->rows( 'SHOW FULL COLUMNS FROM ' . $db->table( $entity ) ) as $field ) {
 			if ( ! isset( $expected[ $field['Field'] ] ) ) { continue; }
 			[ $type, $nullable, $binary ] = $expected[ $field['Field'] ];
-			if ( preg_replace( '/\b(bigint|int)\(\d+\)/', '$1', strtolower( $field['Type'] ) ) !== $type || $nullable !== $field['Null'] || ( $binary && 'ascii_bin' !== $field['Collation'] ) ) {
-				throw new \RuntimeException( 'Account schema column contract is invalid.' );
+			if ( preg_replace( '/\b(bigint|int|tinyint)\(\d+\)/', '$1', strtolower( $field['Type'] ) ) !== $type || $nullable !== $field['Null'] || ( $binary && 'ascii_bin' !== $field['Collation'] ) ) {
+				throw new \RuntimeException( 'Operational schema column contract is invalid.' );
 			}
 			unset( $expected[ $field['Field'] ] );
 		}
-		if ( $expected ) { throw new \RuntimeException( 'Account schema columns are incomplete.' ); }
+		if ( $expected ) { throw new \RuntimeException( 'Operational schema columns are incomplete.' ); }
 	}
 }

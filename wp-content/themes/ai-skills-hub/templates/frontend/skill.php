@@ -30,6 +30,7 @@ $not_provided = View::t( 'detail_not_provided' );
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
+		<?php do_action( 'aish_skill_actions', $skill, $context['locale'] ); ?>
 	</header>
 	<div class="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
 		<div class="min-w-0 space-y-8">
@@ -60,6 +61,7 @@ $not_provided = View::t( 'detail_not_provided' );
 				</div>
 				<p class="text-sm leading-7 text-amber-950"><?php echo esc_html( View::t( 'detail_risk_copy' ) ); ?></p>
 			</section>
+			<?php do_action( 'aish_skill_community', $skill, $context['locale'] ); ?>
 		</div>
 		<aside class="space-y-6" aria-label="<?php echo esc_attr( View::t( 'detail_facts' ) ); ?>">
 			<section class="surface surface-pad">
@@ -105,10 +107,10 @@ $not_provided = View::t( 'detail_not_provided' );
 					</div>
 				<?php endforeach; ?>
 			</section>
-			<section class="rounded-2xl border border-emerald-200 bg-emerald-50 p-6">
-				<h2 class="mb-3 text-sm font-semibold text-emerald-950"><?php echo esc_html( View::t( 'detail_review_information' ) ); ?></h2>
-				<p class="text-sm leading-7 text-emerald-950"><?php echo esc_html( View::t( 'detail_review_copy' ) ); ?></p>
-				<p class="mt-3 text-xs text-emerald-900"><?php echo esc_html( View::t( 'detail_reviewed_on' ) . ' ' . View::date( $skill['reviewed_at'] ?? null ) ); ?></p>
+			<section class="rounded-2xl border border-stone-200 bg-stone-50 p-6">
+				<h2 class="mb-3 text-sm font-semibold text-slate-900"><?php echo esc_html( View::t( 'detail_review_information' ) ); ?></h2>
+				<p class="text-sm leading-7 text-slate-700"><?php echo esc_html( View::t( 'detail_review_copy' ) ); ?></p>
+				<p class="mt-3 text-xs text-slate-600"><?php echo esc_html( View::t( 'detail_reviewed_on' ) . ' ' . View::date( $skill['reviewed_at'] ?? null ) ); ?></p>
 			</section>
 		</aside>
 	</div>

@@ -1,0 +1,335 @@
+{
+  "browser": "Chromium 155 Linux headless",
+  "environment": "Real WordPress 7.1.4 / PHP 8.3.36 / MySQL 8.0.46; QA Mock mail transport",
+  "checks": [
+    {
+      "id": "en:public-detail-and-empty-ratings",
+      "status": "passed"
+    },
+    {
+      "id": "en:anonymous-login-retains-private-return",
+      "status": "passed"
+    },
+    {
+      "id": "en:login-returns-favorite-intent",
+      "status": "passed"
+    },
+    {
+      "id": "en:invalid-nonce-rejected",
+      "status": "passed"
+    },
+    {
+      "id": "en:cross-origin-rejected",
+      "status": "passed"
+    },
+    {
+      "id": "en:favorite-persists-and-private-page",
+      "status": "passed"
+    },
+    {
+      "id": "en:private-cache-robots-no-seo",
+      "status": "passed"
+    },
+    {
+      "id": "en:subscriber-native-admin-denied",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-javascript-private-favorites-available",
+      "status": "passed"
+    },
+    {
+      "id": "en:favorites-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:favorites-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:favorites-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:favorite-language-shares-id",
+      "status": "passed"
+    },
+    {
+      "id": "en:cancel-favorite-empty",
+      "status": "passed"
+    },
+    {
+      "id": "en:review-form-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:review-form-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:review-form-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:first-review-pending",
+      "status": "passed"
+    },
+    {
+      "id": "en:pending-review-not-public",
+      "status": "passed"
+    },
+    {
+      "id": "en:native-admin-approval",
+      "status": "passed"
+    },
+    {
+      "id": "en:community-moderator-no-editorial-menu",
+      "status": "passed"
+    },
+    {
+      "id": "en:approved-rating-and-sanitized-public-content",
+      "status": "passed"
+    },
+    {
+      "id": "en:editorial-review-panel-neutral-color",
+      "status": "passed"
+    },
+    {
+      "id": "en:skill-reviews-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:skill-reviews-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:skill-reviews-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:review-pagination-seo-no-duplicate",
+      "status": "passed"
+    },
+    {
+      "id": "en:pending-edit-keeps-old-public-score",
+      "status": "passed"
+    },
+    {
+      "id": "en:rejected-edit-keeps-old-public",
+      "status": "passed"
+    },
+    {
+      "id": "en:report-dialog-real-private-form",
+      "status": "passed"
+    },
+    {
+      "id": "en:report-submitted-without-autohide",
+      "status": "passed"
+    },
+    {
+      "id": "en:skill-correction-independent",
+      "status": "passed"
+    },
+    {
+      "id": "en:cross-user-favorites-not-exposed",
+      "status": "passed"
+    },
+    {
+      "id": "en:reporter-and-private-notes-never-public",
+      "status": "passed"
+    },
+    {
+      "id": "en:withdraw-removes-public-review",
+      "status": "passed"
+    },
+    {
+      "id": "en:hidden-review-cannot-edit",
+      "status": "passed"
+    },
+    {
+      "id": "en:archived-favorite-placeholder",
+      "status": "passed"
+    },
+    {
+      "id": "en:unavailable-favorite-removable",
+      "status": "passed"
+    },
+    {
+      "id": "en:anonymous-private-route-redirects-login",
+      "status": "passed"
+    },
+    {
+      "id": "zh:public-detail-and-empty-ratings",
+      "status": "passed"
+    },
+    {
+      "id": "zh:anonymous-login-retains-private-return",
+      "status": "passed"
+    },
+    {
+      "id": "zh:login-returns-favorite-intent",
+      "status": "passed"
+    },
+    {
+      "id": "zh:invalid-nonce-rejected",
+      "status": "passed"
+    },
+    {
+      "id": "zh:cross-origin-rejected",
+      "status": "passed"
+    },
+    {
+      "id": "zh:favorite-persists-and-private-page",
+      "status": "passed"
+    },
+    {
+      "id": "zh:private-cache-robots-no-seo",
+      "status": "passed"
+    },
+    {
+      "id": "zh:subscriber-native-admin-denied",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-javascript-private-favorites-available",
+      "status": "passed"
+    },
+    {
+      "id": "zh:favorites-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:favorites-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:favorites-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:favorite-language-shares-id",
+      "status": "passed"
+    },
+    {
+      "id": "zh:cancel-favorite-empty",
+      "status": "passed"
+    },
+    {
+      "id": "zh:review-form-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:review-form-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:review-form-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:first-review-pending",
+      "status": "passed"
+    },
+    {
+      "id": "zh:pending-review-not-public",
+      "status": "passed"
+    },
+    {
+      "id": "zh:native-admin-approval",
+      "status": "passed"
+    },
+    {
+      "id": "zh:community-moderator-no-editorial-menu",
+      "status": "passed"
+    },
+    {
+      "id": "zh:approved-rating-and-sanitized-public-content",
+      "status": "passed"
+    },
+    {
+      "id": "zh:editorial-review-panel-neutral-color",
+      "status": "passed"
+    },
+    {
+      "id": "zh:skill-reviews-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:skill-reviews-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:skill-reviews-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:review-pagination-seo-no-duplicate",
+      "status": "passed"
+    },
+    {
+      "id": "zh:pending-edit-keeps-old-public-score",
+      "status": "passed"
+    },
+    {
+      "id": "zh:rejected-edit-keeps-old-public",
+      "status": "passed"
+    },
+    {
+      "id": "zh:report-dialog-real-private-form",
+      "status": "passed"
+    },
+    {
+      "id": "zh:report-submitted-without-autohide",
+      "status": "passed"
+    },
+    {
+      "id": "zh:skill-correction-independent",
+      "status": "passed"
+    },
+    {
+      "id": "zh:cross-user-favorites-not-exposed",
+      "status": "passed"
+    },
+    {
+      "id": "zh:reporter-and-private-notes-never-public",
+      "status": "passed"
+    },
+    {
+      "id": "zh:withdraw-removes-public-review",
+      "status": "passed"
+    },
+    {
+      "id": "zh:hidden-review-cannot-edit",
+      "status": "passed"
+    },
+    {
+      "id": "zh:archived-favorite-placeholder",
+      "status": "passed"
+    },
+    {
+      "id": "zh:unavailable-favorite-removable",
+      "status": "passed"
+    },
+    {
+      "id": "zh:anonymous-private-route-redirects-login",
+      "status": "passed"
+    }
+  ],
+  "passed": 78,
+  "failed": 0,
+  "errors": [],
+  "screenshots": [
+    "favorites-en-320.png",
+    "favorites-en-1440.png",
+    "review-form-en-320.png",
+    "review-form-en-1440.png",
+    "skill-reviews-en-320.png",
+    "skill-reviews-en-1440.png",
+    "favorites-zh-320.png",
+    "favorites-zh-1440.png",
+    "review-form-zh-320.png",
+    "review-form-zh-1440.png",
+    "skill-reviews-zh-320.png",
+    "skill-reviews-zh-1440.png"
+  ]
+}

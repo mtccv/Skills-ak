@@ -1,0 +1,88 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "mysql": "8.0.46",
+    "scope": "Existing isolated Codex Cloud QA sites; random table prefixes and generated QA identities only"
+  },
+  "suites": [
+    {
+      "suite": "core",
+      "runtime": "php83",
+      "php": "8.3.36",
+      "passed_assertions": 146,
+      "failed_assertions": 0,
+      "evidence": "legacy-core-php83.txt"
+    },
+    {
+      "suite": "storage",
+      "runtime": "php83",
+      "php": "8.3.36",
+      "passed_assertions": 55,
+      "failed_assertions": 0,
+      "evidence": "legacy-storage-php83.json"
+    },
+    {
+      "suite": "privacy-guards",
+      "runtime": "php83",
+      "php": "8.3.36",
+      "passed_assertions": 41,
+      "failed_assertions": 0,
+      "evidence": "legacy-privacy-guards-php83.json"
+    },
+    {
+      "suite": "privacy-export",
+      "runtime": "php83",
+      "php": "8.3.36",
+      "passed_assertions": 22,
+      "failed_assertions": 0,
+      "evidence": "legacy-privacy-export-php83.json"
+    },
+    {
+      "suite": "core",
+      "runtime": "php84",
+      "php": "8.4.27",
+      "passed_assertions": 146,
+      "failed_assertions": 0,
+      "evidence": "legacy-core-php84.txt"
+    },
+    {
+      "suite": "storage",
+      "runtime": "php84",
+      "php": "8.4.27",
+      "passed_assertions": 55,
+      "failed_assertions": 0,
+      "evidence": "legacy-storage-php84.json"
+    },
+    {
+      "suite": "privacy-guards",
+      "runtime": "php84",
+      "php": "8.4.27",
+      "passed_assertions": 41,
+      "failed_assertions": 0,
+      "evidence": "legacy-privacy-guards-php84.json"
+    },
+    {
+      "suite": "privacy-export",
+      "runtime": "php84",
+      "php": "8.4.27",
+      "passed_assertions": 22,
+      "failed_assertions": 0,
+      "evidence": "legacy-privacy-export-php84.json"
+    }
+  ],
+  "passed_assertions": 528,
+  "failed_assertions": 0,
+  "mail": "Mock pre_wp_mail only; no SMTP or inbox delivery tested",
+  "core_lifecycle": "Full real temporary theme deactivation/reactivation retained bilingual data, version history and stable Skill ID; original theme restored on both runtimes",
+  "harness_corrections": [
+    "Core admin selection now requires manage_options instead of selecting a quarantined administrator by display name.",
+    "Core subscriber fixture supplies a generated example.invalid email to respect the Phase 8 account contract.",
+    "Standalone storage invoked with WP-CLI --skip-themes eval require to avoid eval-file strict-types wrapping and duplicate theme-class loading; no site theme setting changed."
+  ],
+  "commands": {
+    "core": "docker exec <qa-container> php /repo/tests/integration/core.php",
+    "storage": "docker exec -e AISH_PHASE8_STORAGE_QA=1 <qa-container> php /opt/wp-cli.phar --allow-root --path=/var/www/html --skip-themes eval 'require \"/repo/tests/phase8/storage.php\";'",
+    "privacy_guards": "docker exec -e AISH_PHASE8_QA=1 <qa-container> php /repo/tests/accounts/privacy-guards.php",
+    "privacy_export": "Copy tests/accounts/privacy-export.php to /tmp/aish-phase9-legacy-export.php (0644), then docker exec --user www-data -e AISH_PHASE8_QA=1 <qa-container> php /tmp/aish-phase9-legacy-export.php"
+  }
+}

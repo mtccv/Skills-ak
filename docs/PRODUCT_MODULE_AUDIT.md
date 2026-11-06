@@ -1,5 +1,7 @@
 # 产品 V2 模块审计与复用边界
 
+> 实施增量：Phase 8 已验收，Phase 9 新增 `CommunityModule`（Service/Query、不可变修订、Admin/Frontend、Events/Metrics、Privacy/Scheduler），复用既有 Accounts/Database/PublicCatalog。schema 1.7.0 共 25 表；历史审计表保留当时差距，不代表当前仍缺账户/社区能力。详见 [社区说明](../COMMUNITY_REVIEWS.md) 和 [Phase 9 报告](PHASE_9_REPORT.md)。未实施 Phase 10–14。
+
 日期：2026-11-06（Asia/Shanghai）。只读审计基线：`main` / `1c27f8770fc3bd20b2ffd92d8873444ba92d54c8`。当前已交付主题/Core 为 **0.7.1**，数据库 schema 为 **1.5.0**。
 
 本文件只记录源码现状和 Phase 8–14 的规划差距，不表示这些阶段已经开发或启动。本轮仅阅读源码、既有报告和编写 Markdown；没有修改 PHP、数据库定义、测试、构建配置或安装包，没有启动 WordPress、服务、迁移或测试，没有调用真实 GitHub/AI/邮件服务。

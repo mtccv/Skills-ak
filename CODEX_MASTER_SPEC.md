@@ -1,6 +1,14 @@
 # AI Skills Hub — 项目总规格
 
-## 当前实施增量：Phase 8（2026-11-06）
+## 当前实施增量：Phase 9（2026-11-06）
+
+用户已验收 Phase 8 并授权用户互动系统。以 main `02d37d3`（包含指定基准 `40777e5` 及账户版安装包）继续；主题/Core **0.9.0**，schema **1.7.0**。在原 17 表上只追加 favorites、reviews、review_revisions、review_reports、skill_reports、workflow_events、metric_events、daily_metrics，共 **25 表**。原表定义、Skill ID、双语关联、来源去重、人工内容和匿名 Contact/Submit 保留。
+
+CommunityModule 复用原生账户验证、Database、PublicCatalog、账户通知与隐私请求。收藏私有且用户/Skill 唯一；同一个 Skill 的两种语言共用一条评价主体，修改保存新修订，待审或拒绝不覆盖旧批准版，批准原子切换，撤回/隐藏立即不再公开计分。举报与纠错独立人工处理，不自动下架。独立社区权限、POST/Nonce、对象归属、事务/锁/CAS、幂等请求和失败回滚为必需合同；审核人不能冒充作者或批准自己的评价。
+
+本阶段仅积累真实收藏变化、首次批准评价及公开内容批准事件，不建设榜单、运营分析、新投稿、开发者或支付。浏览/搜索统计未启用；后续不能把本阶段计数当历史浏览量。遵循既有白灰/深灰/陶土棕设计，原型不变。完整操作与边界见 [COMMUNITY_REVIEWS.md](COMMUNITY_REVIEWS.md)，结果见 [Phase 9 报告](docs/PHASE_9_REPORT.md)。通过必要检查、提交同步 main 后暂停，等待 Phase 10。下方旧阶段限制与 QA 均保留为历史记录。
+
+## Phase 8 历史增量（2026-11-06）
 
 用户已确认 Phase 7.5 初审并授权账户与个人中心开发；下文 Final QA 为 V1 历史规格和证据。Phase 8 的完整增量合同由 [PRODUCT_SPEC_V2.md](PRODUCT_SPEC_V2.md)、[数据库规划](docs/PRODUCT_DATABASE_DESIGN.md)及五份 Phase 7.5 设计规范共同定义，实际使用见 [ACCOUNT_SYSTEM.md](ACCOUNT_SYSTEM.md)。新主题/Core **0.8.0**、schema **1.6.0**；只增加邮箱验证、账户通知、邮件 outbox 三表，共 17 张 Core 表。原十四表、Skill ID、来源去重、双语关系、Contact/Submit 记录及人工审核门禁保持。
 

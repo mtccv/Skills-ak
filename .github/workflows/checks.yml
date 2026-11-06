@@ -56,6 +56,9 @@ jobs:
       - name: Account security and mail contracts (isolated/Mock)
         run: |
           for test in tests/basic/account-*.php; do php "$test"; done
+      - name: Community schema, moderation and privacy contracts (isolated)
+        run: |
+          for test in tests/basic/community-*.php; do php "$test"; done
   assets:
     runs-on: ubuntu-latest
     steps:

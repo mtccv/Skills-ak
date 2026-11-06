@@ -1,5 +1,7 @@
 # AI Skills Hub Core 使用与维护
 
+> Phase 9 增量：当前主题/Core 0.9.0、schema 1.7.0，新增 CommunityModule 与八张互动/审计/最小计数表，共 25 表，原 17 表保持。服务键 `community` / `community_query`；独立能力 `aish_moderate_community` / `aish_manage_community_reports`（取代规划中的泛化命名，避免混用 Skill/AI 审核）。写操作按账户锁→Skill 行→评价头/修订或举报行顺序，CAS 与幂等审计同事务。前后台接口及数据保留见 [COMMUNITY_REVIEWS.md](../COMMUNITY_REVIEWS.md)。
+
 > Phase 8 增量：当前主题/Core 0.8.0、schema 1.6.0，增加 AccountsModule 及 email_verifications、user_notifications、notification_outbox 三表（共 17 表）；下面 Phase 7/1.5.0 是原架构说明。原十四表、Skill ID、译文/来源/审核合同保留。账户接口、安全和邮件配置见根目录 [ACCOUNT_SYSTEM.md](../ACCOUNT_SYSTEM.md)、[EMAIL_SETUP.md](../EMAIL_SETUP.md)、[PRIVACY_AND_SECURITY.md](../PRIVACY_AND_SECURITY.md)。不提前创建 Phase 9–14 结构。
 
 Phase 0–6 已验收，Phase 7 加固已有跨模块、数据与异常边界。当前主题/Core 为 0.7.0，schema 为 1.5.0：原八张核心表及三张采集运营表，加上 Phase 6 的 ai_jobs/ai_attempts/ai_reviews，共十四表。本轮不改变表定义；AI 表用于私有草稿、尝试用量和人工修改记录。Skill ID、译文唯一关系、来源与人工审核不变。完整字段与索引见总规格第 5 节及 `inc/core/Database/Schema.php`；表前缀来自当前 WordPress 站点，不固定为 `wp_`。

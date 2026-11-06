@@ -1,0 +1,109 @@
+{
+  "kind": "Real WordPress/MySQL native installable ZIP upgrade, final ZIP reinstall and local HTTP smoke; isolated disposable fixture",
+  "archive": "release/ai-skills-hub-0.9.0.zip",
+  "archive_bytes": 1216855,
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46",
+    "database": "qa_package"
+  },
+  "archive_sha256": "1d9b70c8eb240d21d685871f55bf7b2bd7617e61d33a883e21c339ddb8eb0ec6",
+  "method": "Native Theme_Upgrader then fresh WordPress CLI bootstrap; no mail or external HTTP",
+  "previous_theme": "0.8.0",
+  "installed_theme": "0.9.0",
+  "schema_before": "1.6.0",
+  "schema_after": "1.7.0",
+  "tables_before": 17,
+  "tables_after": 25,
+  "original_table_fingerprints_unchanged": true,
+  "original_rows": 18,
+  "private_messages_before": 0,
+  "private_messages_after": 0,
+  "installed_files": 113,
+  "exact_archive_file_match": true,
+  "outbound_requests": 0,
+  "mail_calls": 0,
+  "passed": true,
+  "native_upgrade": {
+    "method": "Theme_Upgrader::upgrade",
+    "passed": true,
+    "from": "0.8.0",
+    "to": "0.9.0",
+    "archive_sha256": "6dc947ec70fec108d24a5a0d9a986c97b78bf35a1ecb6094c302a87d40ce635b",
+    "archive_bytes": 1216518,
+    "schema_before": "1.6.0",
+    "schema_after": "1.7.0",
+    "original_tables": 17,
+    "original_rows": 18,
+    "original_table_fingerprints_unchanged": true,
+    "installed_files": 113,
+    "exact_archive_file_match": true,
+    "outbound_requests": 0,
+    "mail_calls": 0,
+    "note": "Original upgrade verified before the final four-class visual adjustment; original snapshot retained."
+  },
+  "final_zip_reinstall": {
+    "method": "Theme_Upgrader::upgrade",
+    "passed": true,
+    "from": "0.9.0",
+    "to": "0.9.0",
+    "mode": "reinstall",
+    "outbound_requests": 0,
+    "mail_calls": 0,
+    "archive_sha256": "1d9b70c8eb240d21d685871f55bf7b2bd7617e61d33a883e21c339ddb8eb0ec6",
+    "original_0_8_snapshot_preserved": true,
+    "exact_archive_file_match": true
+  },
+  "http_smoke": {
+    "kind": "Real HTTP smoke against the final ZIP-installed isolated theme; anonymous requests only",
+    "cases": [
+      {
+        "path": "/en/",
+        "status": 200,
+        "php_error_visible": false,
+        "passed": true
+      },
+      {
+        "path": "/zh/",
+        "status": 200,
+        "php_error_visible": false,
+        "passed": true
+      },
+      {
+        "path": "/en/login/",
+        "status": 200,
+        "php_error_visible": false,
+        "passed": true
+      },
+      {
+        "path": "/zh/login/",
+        "status": 200,
+        "php_error_visible": false,
+        "passed": true
+      },
+      {
+        "path": "/en/account/favorites/",
+        "status": 302,
+        "php_error_visible": false,
+        "location": "http://127.0.0.1:18090/en/login/?return_to=http%3A%2F%2F127.0.0.1%3A18090%2Fen%2Faccount%2Ffavorites%2F%3Fpage%3D1",
+        "passed": true
+      },
+      {
+        "path": "/zh/account/reviews/",
+        "status": 302,
+        "php_error_visible": false,
+        "location": "http://127.0.0.1:18090/zh/login/?return_to=http%3A%2F%2F127.0.0.1%3A18090%2Fzh%2Faccount%2Freviews%2F%3Fpage%3D1",
+        "passed": true
+      }
+    ],
+    "passed": 6,
+    "failed": 0
+  },
+  "scope_limits": [
+    "This verifies a native upgrade from the preserved 0.8.0/schema 1.6.0 fixture followed by native same-version replacement with the final ZIP, not a fresh installation.",
+    "The original 17 tables held 18 rows; private Contact/Submit records were empty in this fixture. Populated legacy preservation is exercised separately by the Phase 9 integration suites.",
+    "No real external email, GitHub API, AI API or WPML integration was tested here.",
+    "HTTP checks are six anonymous local response checks; browser layout and authenticated community workflows are covered by separate Phase 9 browser/integration tests."
+  ]
+}

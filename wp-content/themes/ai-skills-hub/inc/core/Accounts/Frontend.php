@@ -33,6 +33,36 @@ final class Frontend {
 		return $adjusted;
 	}
 
+	/** Only explicit public Skill/account workflows may become post-login destinations. */
+	public static function safeReturn( mixed $url ): ?string {
+		if ( ! is_string( $url ) || strlen( $url ) > 2048 || preg_match( '/[\x00-\x20\x7f\\\\]/', $url ) || ! self::sameOrigin( $url, Router::siteUrl() ) ) { return null; }
+		$parts = wp_parse_url( $url );
+		if ( ! is_array( $parts ) || isset( $parts['fragment'] ) ) { return null; }
+		$base = rtrim( (string) wp_parse_url( Router::siteUrl(), PHP_URL_PATH ), '/' );
+		$path = $parts['path'] ?? '';
+		if ( '' !== $base && ! str_starts_with( $path, $base . '/' ) ) { return null; }
+		$relative = substr( $path, strlen( $base ) );
+		if ( preg_match( '#^/(zh|en)/skills/[1-9][0-9]{0,18}/[a-z0-9-]{1,191}/$#D', $relative ) ) { return empty( $parts['query'] ) ? Router::siteUrl( $relative ) : null; }
+		if ( ! preg_match( '#^/(zh|en)/account(?:/(profile|settings|security|privacy|notifications|favorites|reviews|review|favorite|report-review|report-skill))?/$#D', $relative, $match ) ) { return null; }
+		if ( empty( $parts['query'] ) ) { return Router::siteUrl( $relative ); }
+		$query = array(); parse_str( $parts['query'], $query );
+		$route = $match[2] ?? 'account';
+		$allowed = match ( $route ) { 'favorites' => array( 'page', 'q', 'status', 'sort' ), 'reviews' => array( 'page', 'status' ), 'review', 'favorite' => array( 'skill', 'page' ), 'report-review' => array( 'skill', 'review', 'revision', 'page' ), 'report-skill' => array( 'skill', 'page' ), default => array( 'page' ) };
+		if ( array_diff( array_keys( $query ), $allowed ) ) { return null; }
+		foreach ( $query as $key => $value ) {
+			if ( ! is_string( $value ) || preg_match( '/[\x00-\x1f\x7f]/', $value ) || ! preg_match( '//u', $value ) ) { return null; }
+			if ( 'q' === $key ) { if ( strlen( $value ) > 400 ) { return null; } continue; }
+			if ( 'status' === $key ) { if ( ! in_array( $value, 'favorites' === $route ? array( 'all', 'available', 'unavailable' ) : array( 'all', 'pending', 'approved', 'rejected', 'hidden', 'withdrawn' ), true ) ) { return null; } continue; }
+			if ( 'sort' === $key ) { if ( ! in_array( $value, array( 'newest', 'title' ), true ) ) { return null; } continue; }
+			if ( ! preg_match( '/^[1-9][0-9]{0,18}$/D', $value ) || false === filter_var( $value, FILTER_VALIDATE_INT ) || ( 'page' === $key && (int) $value > 1000 ) ) { return null; }
+		}
+		return $query ? add_query_arg( array_map( 'rawurlencode', $query ), Router::siteUrl( $relative ) ) : Router::siteUrl( $relative );
+	}
+	public static function loginUrl( string $destination, string $locale ): string {
+		$destination = self::safeReturn( $destination );
+		return $destination ? add_query_arg( 'return_to', rawurlencode( $destination ), self::url( 'login', $locale ) ) : self::url( 'login', $locale );
+	}
+
 	public function register(): void {
 		add_action( 'parse_request', array( $this, 'parse' ), 15 );
 		add_action( 'template_redirect', array( $this, 'resolve' ), -10 );
@@ -154,6 +184,9 @@ final class Frontend {
 			case 'login':
 				$this->accounts->login( self::input( 'email', 254 ), self::input( 'password', 4096 ), '1' === self::input( 'remember', 1 ) );
 				$return = $this->readCredential( 'return' ); $this->clearCredential( 'return' ); $this->rotateBrowser();
+				$destination = self::safeReturn( $return );
+				if ( ! $this->accounts->verified() && $destination ) { $this->storeCredential( 'return', $destination ); }
+				if ( $this->accounts->verified() && $destination ) { wp_safe_redirect( $destination, 303 ); exit; }
 				$this->redirect( $this->accounts->verified() ? ( in_array( $return, self::PRIVATE_ROUTES, true ) ? $return : 'account' ) : 'verify-email' ); break;
 			case 'logout': $this->accounts->logout(); $this->rotateBrowser(); $target = 'login'; $message = 'logout'; break;
 			case 'verify':
@@ -244,6 +277,12 @@ final class Frontend {
 	}
 	private function captureCredentials(): void {
 		$route = self::$context['route'];
+		if ( in_array( $route, array( 'login', 'register', 'verify-email' ), true ) && array_key_exists( 'return_to', $_GET ) ) {
+			$return = self::safeReturn( is_string( $_GET['return_to'] ) ? wp_unslash( $_GET['return_to'] ) : null );
+			if ( $return ) { $this->storeCredential( 'return', $return ); }
+			else { $this->clearCredential( 'return' ); }
+			$this->redirect( $route );
+		}
 		if ( 'verify-email' === $route && array_key_exists( 'token', $_GET ) ) {
 			$token = $_GET['token'];
 			if ( is_string( $token ) && preg_match( '/^[a-f0-9]{64}$/D', $token ) ) { $this->storeCredential( 'verify', $token ); }

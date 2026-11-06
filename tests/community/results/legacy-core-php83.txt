@@ -1,0 +1,147 @@
+PASS: capability-bearing development administrator exists
+PASS: authorized admin initializes active theme database
+PASS: Core modules loaded in dependency order
+PASS: Core boot is idempotent
+PASS: fresh database installation
+PASS: physical schema verified before version stored
+PASS: eight Core, six import/AI, three account and eight community tables defined
+PASS: fresh table empty: repositories
+PASS: fresh table empty: skills
+PASS: fresh table empty: skill_translations
+PASS: fresh table empty: skill_versions
+PASS: fresh table empty: categories
+PASS: fresh table empty: tags
+PASS: fresh table empty: skill_categories
+PASS: fresh table empty: skill_tags
+PASS: fresh table empty: imports
+PASS: fresh table empty: jobs
+PASS: fresh table empty: import_logs
+PASS: fresh table empty: ai_jobs
+PASS: fresh table empty: ai_attempts
+PASS: fresh table empty: ai_reviews
+PASS: fresh table empty: email_verifications
+PASS: fresh table empty: user_notifications
+PASS: fresh table empty: notification_outbox
+PASS: fresh table empty: favorites
+PASS: fresh table empty: reviews
+PASS: fresh table empty: review_revisions
+PASS: fresh table empty: review_reports
+PASS: fresh table empty: skill_reports
+PASS: fresh table empty: workflow_events
+PASS: fresh table empty: metric_events
+PASS: fresh table empty: daily_metrics
+PASS: repository identity normalized and deduplicated
+PASS: one repository contains multiple Skills
+PASS: source duplicate retains stable internal ID
+PASS: source deduplication does not overwrite existing status
+PASS: Catalog cannot bypass human review by directly publishing
+PASS: source path case preserved with byte-exact unique key
+PASS: source uniqueness scoped to repository_id
+PASS: database itself enforces full repository/path uniqueness
+PASS: Chinese and English share the same stable Skill ID
+PASS: utf8mb4 Chinese and emoji round trip
+PASS: translation update retains row ID and locale aliases deduplicate
+PASS: updating Chinese does not overwrite English
+PASS: locale/slug collision rejected without updating unrelated translation
+PASS: slug conflict preserves original translation
+PASS: missing translation returns null without fabricated fallback
+PASS: unsupported content language rejected
+PASS: version snapshot deduplicates without mutating history
+PASS: same commit conflicting snapshot rejected
+PASS: immutable version stores computed source hash and label
+PASS: same repository commit may version multiple Skills
+PASS: hierarchical categories and idempotent many-to-many tags
+PASS: category parent association
+PASS: term identifiers use allowlist
+PASS: unknown category parent rejected
+PASS: repeated install succeeds
+PASS: current schema repeats issue no DDL
+PASS: reinstall retains rows: repositories
+PASS: reinstall retains rows: skills
+PASS: reinstall retains rows: skill_translations
+PASS: reinstall retains rows: skill_versions
+PASS: reinstall retains rows: categories
+PASS: reinstall retains rows: tags
+PASS: reinstall retains rows: skill_categories
+PASS: reinstall retains rows: skill_tags
+PASS: reinstall retains rows: imports
+PASS: reinstall retains rows: jobs
+PASS: reinstall retains rows: import_logs
+PASS: reinstall retains rows: ai_jobs
+PASS: reinstall retains rows: ai_attempts
+PASS: reinstall retains rows: ai_reviews
+PASS: reinstall retains rows: email_verifications
+PASS: reinstall retains rows: user_notifications
+PASS: reinstall retains rows: notification_outbox
+PASS: reinstall retains rows: favorites
+PASS: reinstall retains rows: reviews
+PASS: reinstall retains rows: review_revisions
+PASS: reinstall retains rows: review_reports
+PASS: reinstall retains rows: skill_reports
+PASS: reinstall retains rows: workflow_events
+PASS: reinstall retains rows: metric_events
+PASS: reinstall retains rows: daily_metrics
+PASS: reinstall retains bilingual stable identity
+PASS: historical v1.0.0 schema installation
+PASS: historical fixture physically lacks new column
+PASS: second MySQL session holds migration lock
+PASS: concurrent migration refused without changing version
+PASS: upgrade v1.0.0 through current schema after lock released
+PASS: legacy publication without review evidence retains ID and requires review
+PASS: upgrade preserves stable IDs and Unicode content
+PASS: upgrade preserves historical version and initializes new field
+PASS: automatic downgrade refused
+PASS: future schema version retained and refused
+PASS: writes fail closed against unsupported schema
+PASS: failed DDL does not advance schema version
+PASS: migration errors do not disclose credentials
+PASS: partial DDL installation can safely retry after cause repaired
+PASS: unsafe or oversized source path rejected
+PASS: unsafe or oversized source path rejected
+PASS: unsafe or oversized source path rejected
+PASS: unsafe or oversized source path rejected
+PASS: unsafe or oversized source path rejected
+PASS: unsafe or oversized source path rejected
+PASS: unsafe or oversized source path rejected
+PASS: repository identity injection rejected
+PASS: invalid UTF-8 rejected
+PASS: IDs reject SQL fragments
+PASS: DAL table names allowlisted
+PASS: stable ID cannot be updated
+PASS: DAL columns allowlisted
+PASS: SQL sort injection rejected
+PASS: unbounded pagination rejected
+PASS: unbounded version history rejected
+PASS: bound SQL treats quotes and SQL fragments as literal path data
+PASS: LIKE search escapes wildcard input
+PASS: missing reference cannot create orphan through Catalog
+PASS: missing reference cannot create orphan through Catalog
+PASS: missing reference cannot create orphan through Catalog
+PASS: missing reference cannot create orphan through Catalog
+PASS: transaction reports failure
+PASS: transaction failure rolls back inserted rows
+PASS: translation content strips executable markup
+PASS: HTML output escaped
+PASS: attribute output escaped
+PASS: unsafe output URL rejected
+PASS: rich HTML and embedded JSON output safe
+PASS: anonymous Core mutation denied
+PASS: anonymous Core mutation denied
+PASS: anonymous Core mutation denied
+PASS: anonymous Core mutation denied
+PASS: anonymous Core mutation denied
+PASS: anonymous Core mutation denied
+PASS: anonymous Core mutation denied
+PASS: low privilege test user created
+PASS: subscriber mutation denied
+PASS: external language object ID cannot replace canonical Skill ID
+PASS: language provider extension hook accepts interface adapter
+PASS: module loader resolves declared dependencies
+PASS: duplicate modules rejected
+PASS: missing module dependency rejected
+PASS: cyclic module dependency rejected
+PASS: another installed theme available for retention test
+PASS: theme deactivation retains bilingual data and versions
+PASS: theme reactivation retains stable Skill ID
+PASS: active site Core tables remain intact after theme switching
+Integration complete: 146 assertions passed.

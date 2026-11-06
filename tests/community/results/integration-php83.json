@@ -1,0 +1,105 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL community integration; mail transport mocked, no external API",
+    "cases": [
+        {
+            "id": "NATIVE-IDENTITY-VERIFICATION-AND-CAPABILITIES",
+            "status": "passed"
+        },
+        {
+            "id": "FAVORITE-IDEMPOTENT-CROSS-LANGUAGE",
+            "status": "passed"
+        },
+        {
+            "id": "FAVORITE-CANCEL-RESTORE-FIRST-TIME-METRIC",
+            "status": "passed"
+        },
+        {
+            "id": "FAVORITE-PRIVATE-OWNERSHIP-PAGINATION",
+            "status": "passed"
+        },
+        {
+            "id": "SKILL-PUBLIC-AND-TRANSLATION-WRITE-GATES",
+            "status": "passed"
+        },
+        {
+            "id": "REVIEW-RATING-VALIDATION",
+            "status": "passed"
+        },
+        {
+            "id": "REVIEW-FIRST-PENDING-AND-RETRY",
+            "status": "passed"
+        },
+        {
+            "id": "COMMUNITY-MODERATOR-CANNOT-SELFAPPROVE-OR-EDIT-SKILLS",
+            "status": "passed"
+        },
+        {
+            "id": "APPROVE-EXACT-REVISION-AND-PRIVATE-NOTES",
+            "status": "passed"
+        },
+        {
+            "id": "EDIT-PENDING-PRESERVES-PUBLIC-REJECT-KEEPS-OLD",
+            "status": "passed"
+        },
+        {
+            "id": "SUPERSEDED-PENDING-STALE-MODERATION-ATOMIC-SWITCH",
+            "status": "passed"
+        },
+        {
+            "id": "CROSS-USER-REVIEW-OWNERSHIP",
+            "status": "passed"
+        },
+        {
+            "id": "REPORT-REVIEW-PRIVATE-IDEMPOTENT-NO-AUTOHIDE",
+            "status": "passed"
+        },
+        {
+            "id": "SKILL-CORRECTION-LOCALE-REVISION-PRIVATE",
+            "status": "passed"
+        },
+        {
+            "id": "WITHDRAW-IMMEDIATE-PUBLIC-AND-SCORE-REMOVAL",
+            "status": "passed"
+        },
+        {
+            "id": "RESUBMISSION-SAME-HEAD-AND-FIRST-PUBLISHED-TIME",
+            "status": "passed"
+        },
+        {
+            "id": "HIDE-CANNOT-BE-BYPASSED-BY-EDIT",
+            "status": "passed"
+        },
+        {
+            "id": "SKILL-ARCHIVE-INVALIDATES-READS-AND-PRIVATE-PLACEHOLDER",
+            "status": "passed"
+        },
+        {
+            "id": "MALICIOUS-UGC-VALIDATION-AND-SQL-BOUNDARIES",
+            "status": "passed"
+        },
+        {
+            "id": "TRANSACTION-ROLLBACK-ON-REQUIRED-EVENT-FAILURE",
+            "status": "passed"
+        },
+        {
+            "id": "SKILL-PUBLICATION-EVENT-ATOMICITY-AND-NO-FAKE-UPDATE",
+            "status": "passed"
+        },
+        {
+            "id": "NATIVE-USER-DELETE-IMMEDIATE-GATE-AND-DURABLE-CLEANUP",
+            "status": "passed"
+        },
+        {
+            "id": "REAL-PAGINATION-SEARCH-AND-BATCHED-PRIVATE-PROJECTIONS",
+            "status": "passed"
+        }
+    ],
+    "assertions": 114,
+    "passed": 23,
+    "failed": 0
+}

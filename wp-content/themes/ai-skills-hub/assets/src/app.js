@@ -1,5 +1,6 @@
 import Alpine from 'alpinejs';
 import './accounts.js';
+import './community.js';
 
 window.Alpine = Alpine;
 Alpine.start();

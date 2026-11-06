@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AISkillsHub\Core\Database {
 	final class Schema {
 		public const VERSION = '1.5.0';
-		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array(), 'email_verifications' => array(), 'user_notifications' => array(), 'notification_outbox' => array() );
+		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array(), 'email_verifications' => array(), 'user_notifications' => array(), 'notification_outbox' => array(), 'favorites' => array(), 'reviews' => array(), 'review_revisions' => array(), 'review_reports' => array(), 'skill_reports' => array(), 'workflow_events' => array(), 'metric_events' => array(), 'daily_metrics' => array() );
 		public static bool $verify_failure = false;
 		public static bool $nested_transaction = false;
 		public static function definitions( Database $database, string $version ): array {
@@ -15,6 +15,9 @@ namespace AISkillsHub\Core\Database {
 			}
 			if ( version_compare( $version, '1.6.0', '>=' ) ) {
 				foreach ( array( 'email_verifications', 'user_notifications', 'notification_outbox' ) as $entity ) { $definitions[ $entity ] = 'DDL:' . $version . ':' . $entity; }
+			}
+			if ( version_compare( $version, '1.7.0', '>=' ) ) {
+				foreach ( array( 'favorites', 'reviews', 'review_revisions', 'review_reports', 'skill_reports', 'workflow_events', 'metric_events', 'daily_metrics' ) as $entity ) { $definitions[ $entity ] = 'DDL:' . $version . ':' . $entity; }
 			}
 			return $definitions;
 		}
@@ -278,6 +281,23 @@ namespace {
 		$partialTables = $connection->tables;
 		[ $connection, $database, $migrator ] = setup( '1.5.0' ); $connection->tables = $partialTables;
 		check( true === $migrator->migrate( '1.6.0' ) && array( 'test_aish_notification_outbox' ) === $connection->created, 'A new request completes only the still-missing account table.' );
+		restored( $connection, MYSQLI_REPORT_OFF );
+
+
+		[ $connection, $database, $migrator ] = setup( '1.6.0' );
+		foreach ( array( 'ai_jobs', 'ai_attempts', 'ai_reviews', 'email_verifications', 'user_notifications', 'notification_outbox' ) as $entity ) { $connection->tables[ 'test_aish_' . $entity ] = '1.6.0'; }
+		$connection->disconnect_at = 'DDL:1.7.0:review_reports';
+		failed( $migrator->migrate( '1.7.0' ) );
+		check( '1.6.0' === $migrator->version() && 0 === $connection->replays, 'Interrupted community DDL does not advance or replay the schema.' );
+		check( isset( $connection->tables['test_aish_favorites'], $connection->tables['test_aish_reviews'], $connection->tables['test_aish_review_revisions'], $connection->tables['test_aish_review_reports'] ) && ! isset( $connection->tables['test_aish_skill_reports'] ), 'Partial community tables remain available without claiming complete installation.' );
+		$partialTables = $connection->tables;
+		[ $connection, $database, $migrator ] = setup( '1.6.0' ); $connection->tables = $partialTables;
+		check( true === $migrator->migrate( '1.7.0' ) && '1.7.0' === $migrator->version(), 'A new request verifies and completes community installation.' );
+		check( array( 'test_aish_skill_reports', 'test_aish_workflow_events', 'test_aish_metric_events', 'test_aish_daily_metrics' ) === $connection->created, 'Recovery creates only missing community tables, preserving existing definitions.' );
+		$created = $connection->created; $ddl = $connection->ddl;
+		check( true === $migrator->migrate( '1.7.0' ) && $created === $connection->created && $ddl === $connection->ddl, 'Repeated community migration performs no additional DDL.' );
+		failed( $migrator->migrate( '1.6.0' ), 'aish_schema_version' );
+		check( '1.7.0' === $migrator->version() && $ddl === $connection->ddl, 'A requested community downgrade preserves all tables and version.' );
 		restored( $connection, MYSQLI_REPORT_OFF );
 
 		foreach ( array( 0, 1, 2 ) as $caseMode ) {

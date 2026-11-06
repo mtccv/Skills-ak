@@ -1,6 +1,14 @@
 # 开发进度
 
-## Phase 8 — 账户与个人中心（实现与检查完成，等待用户验收）
+## Phase 9 — 用户互动系统（实现与已执行检查完成，等待用户验收）
+
+基于 `02d37d3`（含指定 `40777e5` 和账户版安装包），主题/Core **0.9.0**、schema **1.7.0**。新增私有收藏、真实星级/体验、不可变评价修订、批准版切换、原生社区审核、独立举报/纠错、社区通知和隐私清理。原 17 表与数据保留，只追加八表至 25 表；稳定 Skill ID、双语关系、历史 Contact/Submit 和 Phase 7.5 原型不变。不开发 Phase 10。
+
+PHP 8.3/8.4 各 40 个隔离/Mock 脚本、3291 断言通过。真实 WordPress 7.1.4/MySQL 8.0.46 的迁移保留、领域流程、并发、通知/擦除竞争、隐私、旧 Core 生命周期和账户导出通过；真实 Chromium 中英与响应式 78 项通过。另验证 0.8.0→0.9.0 原生 ZIP 升级、25 表与113安装文件一致。详见 [PHASE_9_REPORT.md](PHASE_9_REPORT.md) 和 `tests/community/results/`，不把 Mock 邮件当真实送达。
+
+交付 [0.9.0 主题 ZIP](../release/ai-skills-hub-0.9.0.zip)、[社区使用说明](../COMMUNITY_REVIEWS.md)、[安装说明](../INSTALLATION.md)和更新后的隐私文档。真实 SMTP、WPML、第三方账户/缓存插件、多站点及生产负载未验证；本轮无真实 GitHub/AI 调用。当前最小事件只包含真实互动及公开内容批准，未启用浏览/搜索统计或榜单。正常提交同步 GitHub main 后暂停，等待用户安排 Phase 10。
+
+## Phase 8 — 账户与个人中心（历史交付，用户已验收）
 
 补充交付：以实现提交 `40777e537f84184e6438005aec39f3bf8ba1b05c` 构建可上传的 [0.8.0 主题 ZIP](../release/ai-skills-hub-0.8.0.zip)，含已编译资源；更新安装说明及双版本 SHA-256 清单，保留历史 0.7.1 包。包检查见 [发布记录](../release/PHASE_8_PACKAGE.json)。不进入 Phase 9。
 
@@ -25,8 +33,9 @@
 | Final QA | 已执行范围通过，外部验收有保留；20 通过 / 0 失败 / 5 未执行 | ../FINAL_QA_REPORT.md；真实 WPML / GitHub / AI 仍未验证 |
 | V2 产品扩展准备 | 规划完成，Phase 8 已获实施授权 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
 | Phase 7.5 全站 UI/UX 设计 | 用户已初步审核通过；作为后续设计标准 | DESIGN_SYSTEM.md；design-prototype/README.md；原型保留 |
-| Phase 8 账户与个人中心 | 实现与已执行检查完成，待用户验收 | PHASE_8_REPORT.md；真实邮件等外部依赖未验收 |
-| Phase 9–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
+| Phase 8 账户与个人中心 | 用户已验收 | PHASE_8_REPORT.md；真实邮件等外部依赖未验收 |
+| Phase 9 用户互动系统 | 实现及已执行检查完成，待用户验收 | PHASE_9_REPORT.md；外部依赖如实列出 |
+| Phase 10–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
 
 ## Phase 7.5 原布局配色调整（历史交付，设计继续采用）
 

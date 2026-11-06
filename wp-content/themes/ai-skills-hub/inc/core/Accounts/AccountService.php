@@ -181,7 +181,7 @@ final class AccountService {
 		$state = $this->state( (int) $user->ID );
 		if ( 'suspended' === $state ) { return true; }
 		// Management access is independent of new community verification evidence.
-		$legacyCapabilities = array( 'edit_posts', 'aish_manage_skills', 'aish_review_skills', 'aish_manage_taxonomies', 'aish_manage_repositories', 'aish_manage_settings', 'aish_manage_ai_settings', 'aish_generate_content' );
+		$legacyCapabilities = array( 'edit_posts', 'aish_manage_skills', 'aish_review_skills', 'aish_manage_taxonomies', 'aish_manage_repositories', 'aish_manage_settings', 'aish_manage_ai_settings', 'aish_generate_content', 'aish_moderate_community', 'aish_manage_community_reports' );
 		if ( self::manager( $user ) ) { return false; }
 		if ( 'legacy' === $state ) { foreach ( $legacyCapabilities as $cap ) { if ( ! empty( $user->allcaps[ $cap ] ) ) { return false; } } }
 		return ! $this->verified( (int) $user->ID );

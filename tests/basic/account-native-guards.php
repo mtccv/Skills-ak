@@ -63,6 +63,13 @@ check( ! $accounts->restricted( $GLOBALS['users'][1] ), 'Existing administrators
 check( ! $accounts->ready(), 'Missing schema/mail configuration does not advertise account registration readiness.' );
 check( ! $accounts->verified( 1 ), 'Legacy administrator is not falsely email-verified.' );
 check( ! $accounts->restricted( $GLOBALS['users'][4] ), 'Legacy specialized review capability retains original access.' );
+foreach ( array( 'aish_moderate_community', 'aish_manage_community_reports' ) as $cap ) {
+	$moderator = new WP_User( 5, 'community-moderator@example.test', array( $cap => true ) );
+	check( ! $accounts->restricted( $moderator ), 'Legacy community-only moderators retain management access without false verification.' );
+	$connection->meta[5]['_aish_account_state'] = array( 'pending_email' );
+	check( $accounts->restricted( $moderator ), 'A community capability does not bypass an explicit pending-email state.' );
+	unset( $connection->meta[5] );
+}
 check( $accounts->restricted( $GLOBALS['users'][2] ), 'Pending Subscriber is restricted.' );
 check( array( 'do_not_allow' ) === $accounts->guardCapabilities( array( 'edit_user' ), 'edit_user', 2, array( 2 ) ), 'Pending user cannot edit native profile as bypass.' );
 check( array( 'read' ) === $accounts->guardCapabilities( array( 'read' ), 'read', 2, array() ), 'Pending session retains restricted read identity.' );

@@ -1,0 +1,41 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real isolated WordPress/MySQL privacy; Mock mail, no external API",
+  "assertions": 28,
+  "checks": [
+    "Fresh isolated privacy fixture uses physical schema 1.7.0.",
+    "Approved reviews share one bilingual public population.",
+    "First native export page includes at most 50 favorites and 50 revisions plus own reports.",
+    "Own UGC and reports export without public approval.",
+    "Internal notes, foreign UGC, request keys and moderator identity are excluded.",
+    "The next bounded native export page completes.",
+    "Subscriber cannot call privacy export for another owner.",
+    "Erasure requires durable quarantine before private data changes.",
+    "Isolation immediately removes all review and favorite contributions before redaction finishes.",
+    "A real database failure refuses successful cleanup.",
+    "Database failure keeps immediate public quarantine.",
+    "First erasure batch stays pending for excess favorites and revisions.",
+    "Partial redaction clears public pointers but retains cleanup ownership.",
+    "Subsequent batch completes and can safely release quarantine.",
+    "Finished review is anonymous and protected cleanup marker is removed.",
+    "All title, body, experience, pros, cons, platform, version and notes are redacted.",
+    "Only the owner favorites are physically removed.",
+    "Own report type is anonymized: review_reports",
+    "Own report type is anonymized: skill_reports",
+    "Historical moderator personal data cleanup completes.",
+    "Another author keeps approval evidence and text while moderator private notes are removed.",
+    "Native deletion of the historical moderator succeeds.",
+    "Deleting a moderator does not remove another author approved rating.",
+    "Handled report retention scrubs private data while preserving replay prevention.",
+    "Recent reports are not prematurely erased.",
+    "Expired workflow evidence retains an idempotency tombstone, not personal metadata.",
+    "Public Skill content fingerprint survives actor anonymization.",
+    "Stable Skill row and approval evidence never change during privacy cleanup."
+  ],
+  "passed": true,
+  "failure": null
+}

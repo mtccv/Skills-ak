@@ -1,0 +1,49 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "database": "real isolated MySQL",
+        "mail": "Mock only"
+    },
+    "cases": [
+        {
+            "id": "PRIVACY-EMAIL-CHANGE-INVALIDATES-NATIVE-REQUEST",
+            "status": "passed"
+        },
+        {
+            "id": "PRIVACY-RECYCLED-EMAIL-DOES-NOT-RETARGET",
+            "status": "passed"
+        },
+        {
+            "id": "PRIVACY-NATIVE-EXACT-REQUEST-BINDING",
+            "status": "passed"
+        },
+        {
+            "id": "PRIVACY-AVATAR-TRANSACTIONAL-NATIVE-TABLES",
+            "status": "passed"
+        },
+        {
+            "id": "AVATAR-PRIVATE-REST-AND-NO-GRAVATAR",
+            "status": "passed"
+        },
+        {
+            "id": "AVATAR-OWNERSHIP-CONFLICT-NOT-DELETED",
+            "status": "passed"
+        },
+        {
+            "id": "PRIVACY-ERASURE-PROFILE-BOUNDARY",
+            "status": "passed"
+        },
+        {
+            "id": "PRIVACY-NATIVE-DELETE-ISOLATION-AND-RECOVERY",
+            "status": "passed"
+        },
+        {
+            "id": "PRIVACY-LEGACY-EMPTY-EMAIL-NATIVE-DELETION",
+            "status": "passed"
+        }
+    ],
+    "assertions": 41,
+    "passed": 9,
+    "failed": 0
+}

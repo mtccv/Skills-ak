@@ -1,0 +1,79 @@
+{
+    "schema": "1.6.0",
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "tables": {
+        "repositories": {
+            "count": 3,
+            "sha256": "06710075aa3f1783c392eb1d72e502e395e12283ba8f37f24f9a22e4c0019f98"
+        },
+        "skills": {
+            "count": 22,
+            "sha256": "e7030aa56fe4ca234176b06690f2b80151ad872920f052fe976c9c38dd87a67f"
+        },
+        "skill_translations": {
+            "count": 43,
+            "sha256": "b2bbe7327eb18202515bfc837eb5e2cc8ce55d858d1f873d42a95d46374eefb5"
+        },
+        "skill_versions": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "categories": {
+            "count": 5,
+            "sha256": "96d6305b79202fb1f4da4b2d4aeddd4d46e52dfb7d88869bd54d02d036caa829"
+        },
+        "tags": {
+            "count": 6,
+            "sha256": "934ad036168faf60e4b3907b794ca5e1426fe8ddf2381877d53f1e5b2f98c62b"
+        },
+        "skill_categories": {
+            "count": 19,
+            "sha256": "9dbd32d34a88ef73e768436fb51765854de1fb0a3dd79c1c3710734698bedd3c"
+        },
+        "skill_tags": {
+            "count": 57,
+            "sha256": "9b1b1b4ddb5e1beb8603ae4706bdb8f65c86483bd8cde103f954039955b14112"
+        },
+        "imports": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "jobs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "import_logs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "ai_jobs": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "ai_attempts": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "ai_reviews": {
+            "count": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "email_verifications": {
+            "count": 143,
+            "sha256": "c249dc46393d3fb95a3ed81dfe80fa1a2679b13ea6c74d116cc7519f0c57c7e4"
+        },
+        "user_notifications": {
+            "count": 62,
+            "sha256": "5e995ae9860bb8701f319b2b8476510ccc26d1277421db4d8ed210e73b7102cd"
+        },
+        "notification_outbox": {
+            "count": 172,
+            "sha256": "cef291dfaf0b1f538901ae576d8b8a44a885391896ca80da51ced4b438158e8f"
+        }
+    },
+    "private_messages": 6
+}

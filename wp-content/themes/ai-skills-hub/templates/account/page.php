@@ -43,7 +43,7 @@ $avatar = static function ( bool $large = false ) use ( $context, $profile ): vo
 $navigation = array( 'account' => 'overview', 'notifications' => 'notifications', 'profile' => 'profile', 'settings' => 'settings', 'security' => 'security', 'privacy' => 'privacy' );
 $nav = static function ( string $label ) use ( $navigation, $route, $url, $t, $form ): void {
 	echo '<nav class="account-nav" aria-label="' . esc_attr( $label ) . '">';
-	foreach ( $navigation as $target => $key ) { echo '<a href="' . esc_url( $url( $target ) ) . '"' . ( $target === $route ? ' aria-current="page"' : '' ) . '>' . esc_html( $t( $key ) ) . '</a>'; }
+	foreach ( $navigation as $target => $key ) { echo '<a href="' . esc_url( $url( $target ) ) . '"' . ( $target === $route ? ' aria-current="page"' : '' ) . '>' . esc_html( $t( $key ) ) . '</a>'; if ( 'account' === $target ) { do_action( 'aish_account_navigation', AccountView::context()['locale'], $route ); } }
 	echo '</nav>';
 	$form( 'logout' ); echo '<button class="account-nav-logout" type="submit">' . esc_html( $t( 'logout' ) ) . '</button></form>';
 };
@@ -58,8 +58,10 @@ $notifications = static function ( bool $full = false ) use ( $context, $t, $url
 	if ( ! $items ) { echo '<p class="account-empty">' . esc_html( $t( 'no_notifications' ) ) . '</p>'; return; }
 	echo '<div class="account-notices-list">';
 	foreach ( array_slice( $items, 0, $full ? 20 : 5 ) as $item ) {
+		$communityKey = $item['template_key'] ?? '';
+		$communityTitle = in_array( $communityKey, array( 'review_approved', 'review_rejected', 'review_hidden', 'review_withdrawn', 'report_resolved' ), true ) && class_exists( '\AISkillsHub\Core\Community\Strings' ) ? \AISkillsHub\Core\Community\Strings::get( 'notification.' . $communityKey, $context['locale'] ) : null;
 		$titleKey = match ( $item['template_key'] ?? '' ) { 'email_verified' => 'state.active', 'email_changed' => 'change_email', 'password_changed' => 'change_password', 'sessions_revoked' => 'message.sessions', default => 'notifications' };
-		echo '<article class="account-notification"><div><h3>' . esc_html( $t( $titleKey ) ) . '</h3><p class="account-help">' . esc_html( $t( empty( $item['read_at'] ) ? 'unread' : 'read' ) ) . ' · ' . esc_html( $item['created_at'] ?? '' ) . ' UTC</p></div>';
+		echo '<article class="account-notification"><div><h3>' . esc_html( $communityTitle ?? $t( $titleKey ) ) . '</h3><p class="account-help">' . esc_html( $t( empty( $item['read_at'] ) ? 'unread' : 'read' ) ) . ' · ' . esc_html( $item['created_at'] ?? '' ) . ' UTC</p></div>';
 		if ( $full && empty( $item['read_at'] ) ) { $form( 'read' ); echo '<input type="hidden" name="notification_id" value="' . esc_attr( (string) $item['id'] ) . '"><button class="account-text-action" type="submit">' . esc_html( $t( 'mark_read' ) ) . '</button></form>'; }
 		echo '</article>';
 	}
@@ -125,6 +127,7 @@ $notifications = static function ( bool $full = false ) use ( $context, $t, $url
 		<p class="account-auth-links"><a href="<?php echo esc_url( $url( 'login' ) ); ?>"><?php echo esc_html( $t( 'back_login' ) ); ?></a><a href="<?php echo esc_url( $public( 'contact' ) ); ?>"><?php echo esc_html( $t( 'contact' ) ); ?></a></p><?php if ( $profile ) { $form( 'logout' ); echo '<button class="account-text-action" type="submit">' . esc_html( $t( 'logout' ) ) . '</button></form>'; } ?>
 	<?php elseif ( 'account' === $route ) : ?>
 		<section class="account-welcome"><div class="account-welcome-top"><p class="account-eyebrow"><?php echo esc_html( $t( 'private' ) ); ?></p><span class="account-badge"><?php echo esc_html( $t( 'state.' . $profile['state'] ) ); ?></span></div><h1><?php echo esc_html( sprintf( $t( 'welcome' ), $profile['display_name'] ) ); ?></h1><p><?php echo esc_html( $t( 'welcome_description' ) ); ?></p><div class="account-actions"><a class="account-button account-button-primary" href="<?php echo esc_url( $public( 'skills' ) ); ?>"><?php echo esc_html( $t( 'explore' ) ); ?> <?php echo View::icon( 'arrow-right' ); ?></a><a class="account-button account-button-secondary" href="<?php echo esc_url( $url( 'profile' ) ); ?>"><?php echo esc_html( $t( 'profile' ) ); ?></a></div></section>
+		<?php do_action( 'aish_account_dashboard', $locale ); ?>
 		<div class="account-summary"><section class="account-panel"><h2><?php echo esc_html( $t( 'email' ) ); ?></h2><p><?php echo esc_html( AccountView::maskEmail( $profile['email'] ) ); ?></p><a class="account-text-action" href="<?php echo esc_url( $url( 'security' ) ); ?>"><?php echo esc_html( $t( 'security' ) ); ?> →</a></section><section class="account-panel"><h2><?php echo esc_html( $t( 'created' ) ); ?></h2><p><?php echo esc_html( $profile['registered_at'] ?? $t( 'unknown' ) ); ?></p><a class="account-text-action" href="<?php echo esc_url( $url( 'privacy' ) ); ?>"><?php echo esc_html( $t( 'privacy' ) ); ?> →</a></section></div>
 		<div class="account-dashboard-bottom"><section class="account-panel"><h2><?php echo esc_html( $t( 'notifications' ) ); ?></h2><?php $notifications(); ?></section><section class="account-panel account-privacy-panel"><?php echo View::icon( 'shield' ); ?><h2><?php echo esc_html( $t( 'privacy' ) ); ?></h2><p><?php echo esc_html( $t( 'visibility_help' ) ); ?></p><a class="account-text-action" href="<?php echo esc_url( $url( 'privacy' ) ); ?>"><?php echo esc_html( $t( 'privacy' ) ); ?> →</a></section></div>
 	<?php elseif ( 'profile' === $route ) : ?>
