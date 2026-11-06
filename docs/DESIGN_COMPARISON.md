@@ -1,5 +1,7 @@
 # Phase 7.5 — Skills Directory 视觉修订对比
 
+> 历史对比：本文件固定记录 `04a8190` 初稿到 `1fbd290` 目录修订。之后新增的双首页风格切换不覆盖这些原图；当前可运行入口与最新检查见[双风格原型说明](design-prototype/README.md)。
+
 状态：**待设计审核；只涉及设计文档与独立静态原型，不是 WordPress 正式主题更新，不开始 Phase 8。**
 
 修改前基线：[`04a8190fd7938749efbb142430c6e5ff23cb38c5`](https://github.com/mtccv/Skills-ak/commit/04a8190fd7938749efbb142430c6e5ff23cb38c5)。修改前页面从该提交的 `git archive` 封存副本运行，不是重新制作的“旧版效果图”。

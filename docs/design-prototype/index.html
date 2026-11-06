@@ -6,6 +6,8 @@
   <meta name="robots" content="noindex,nofollow">
   <title>首页 · AI Skills Hub 设计原型</title>
   <link rel="stylesheet" href="assets/prototype.css">
+  <link rel="stylesheet" href="assets/home-styles.css">
+  <script defer src="assets/home-styles.js"></script>
   <script defer src="assets/prototype.js"></script>
   <style>
   /* Homepage composition only; shared brand tokens and controls live in source.css. */
@@ -76,15 +78,27 @@
   }
   </style>
 </head>
-<body data-page="home">
+<body data-page="home" data-home-style="skills-directory">
 <div id="prototype-toolbar"></div>
 <div id="site-header"></div>
 <noscript><p class="container-shell notice">设计演示 / Design demo. JavaScript 提供语言切换与演示交互，页面正文可直接阅读。<a href="skills.html">Skills</a> · <a href="dashboard.html">Dashboard</a></p></noscript>
 <main id="main" tabindex="-1">
 <section class="home-directory-intro" data-home-module="hero">
   <div class="container-shell">
+    <div class="home-style-copy">
+      <span class="home-style-saas-only home-style-eyebrow" data-i18n-zh="为开发者精选，为真实任务而生" data-i18n-en="Curated for builders. Made for real work.">为开发者精选，为真实任务而生</span>
     <h1 data-i18n-zh="发现适合你任务的 Agent Skills" data-i18n-en="Find agent skills for your work" data-home-title>发现适合你任务的 Agent Skills</h1>
     <p data-i18n-zh="按任务、分类和平台查找 Skills，阅读来源、安装说明与风险信息。" data-i18n-en="Browse skills by task, category and platform. Review sources, installation notes and risks." data-home-description>按任务、分类和平台查找 Skills，阅读来源、安装说明与风险信息。</p>
+      <div class="home-style-saas-only home-style-actions"><a href="skills.html" class="btn btn-primary"><span data-i18n-zh="探索 Skills" data-i18n-en="Explore skills">探索 Skills</span></a><a href="#tutorials" class="btn btn-secondary"><span data-i18n-zh="从安装教程开始" data-i18n-en="Start with a guide">从安装教程开始</span></a></div>
+      <span class="home-style-saas-only home-style-note" data-i18n-zh="中英文内容 · 来源透明 · 从发现到实践" data-i18n-en="Chinese &amp; English · Source transparency · Discover to practice">中英文内容 · 来源透明 · 从发现到实践</span>
+    </div>
+    <aside class="home-style-saas-only home-style-console" aria-label="Skill discovery design illustration">
+      <div class="home-style-console-header"><span data-i18n-zh="探索你的下一个工作流" data-i18n-en="Your next workflow">探索你的下一个工作流</span><span class="badge badge-muted" data-i18n-zh="设计示例" data-i18n-en="Design example">设计示例</span></div>
+      <div class="home-style-console-task"><small data-i18n-zh="今天，你想完成什么？" data-i18n-en="What would you like to build?">今天，你想完成什么？</small><strong data-i18n-zh="从任务出发，找到适合的 Skill" data-i18n-en="Start with a task. Find a skill that fits.">从任务出发，找到适合的 Skill</strong></div>
+      <div class="home-style-console-resource"><span data-icon="layers" aria-hidden="true"></span><div><strong data-home-featured-title></strong><p data-home-featured-description></p></div></div>
+      <div class="home-style-console-resource"><span data-icon="book" aria-hidden="true"></span><div><strong data-i18n-zh="先读懂，再开始" data-i18n-en="Understand before you begin">先读懂，再开始</strong><p data-i18n-zh="阅读来源、安装步骤与使用边界。" data-i18n-en="Read the source, setup steps and practical limitations.">阅读来源、安装步骤与使用边界。</p></div></div>
+      <div class="home-style-console-note" data-i18n-zh="人工审核是参考，不是安全保证。" data-i18n-en="Human review is guidance, not a safety guarantee.">人工审核是参考，不是安全保证。</div>
+    </aside>
   </div>
 </section>
 <section class="home-directory-search" data-home-module="search">

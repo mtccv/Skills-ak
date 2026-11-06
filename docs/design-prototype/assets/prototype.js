@@ -144,6 +144,8 @@
   // Same-origin embedded home-preview contract; never accepts arbitrary URLs/HTML.
   window.addEventListener('message',event=>{
     if(window.parent===window||event.source!==window.parent||event.origin!==location.origin||event.data?.type!=='aish-design-home'||page!=='home')return;
+    if (event.data.styleId !== undefined && !window.AishHomeStyles?.has(event.data.styleId)) return;
+    if (event.data.styleId !== undefined) window.AishHomeStyles.apply(event.data.styleId);
     const ids=['hero','search','categories','trending','editors','recent','rated','tutorials','contribute'];
     const modules=event.data.modules;
     if(!Array.isArray(modules)||modules.length>ids.length)return;
@@ -151,5 +153,6 @@
     for(const item of modules){if(!item||!ids.includes(item.id)||seen.has(item.id)||typeof item.enabled!=='boolean')continue;seen.add(item.id);const el=document.querySelector(`[data-home-module="${item.id}"]`);if(el){el.hidden=!item.enabled;main.append(el);}}
     if(typeof event.data.title==='string'&&event.data.title.length<=120)document.querySelector('[data-home-title]').textContent=event.data.title;
     if(typeof event.data.description==='string'&&event.data.description.length<=320)document.querySelector('[data-home-description]').textContent=event.data.description;
+    window.AishHomeStyles?.syncFeaturedContent();
   });
 })();

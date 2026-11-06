@@ -12,10 +12,18 @@
 | Phase 7 安全、性能与稳定性 | 用户已验收 | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
 | Final QA | 已执行范围通过，外部验收有保留；20 通过 / 0 失败 / 5 未执行 | ../FINAL_QA_REPORT.md；真实 WPML / GitHub / AI 仍未验证 |
 | V2 产品扩展准备 | 规划文档待用户审核；没有开始 Phase 8 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
-| Phase 7.5 全站 UI/UX 设计 | 已按 SkillsMP 视觉参考完成资源目录修订，待用户审核 | DESIGN_SYSTEM.md；design-prototype/README.md；正式代码/数据库未变 |
+| Phase 7.5 全站 UI/UX 设计 | 已完成双首页风格模块化静态演示，待用户审核 | DESIGN_SYSTEM.md；design-prototype/README.md；正式代码/数据库未变 |
 | Phase 8–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
 
-## Phase 7.5 视觉方向修订（当前交付，2026-11-06 Asia/Shanghai）
+## Phase 7.5 双首页风格模块化（当前交付，2026-11-06 Asia/Shanghai）
+
+以 `1fbd2909bbcf52f0d13d22d46d48215000588131` 为基线，按用户要求将专业资源目录（默认 `skills-directory`）与 SaaS 展示首页（`modern-saas`）做成可切换静态风格。共用九个稳定模块与同一示例内容，切换不重置中英文文案、模块显隐/顺序或收藏；仅影响首页，其余内页及原生后台维持原设计。
+
+提供首页工具栏、设备预览器与后台“首页外观”三个入口。后台可保存内存草稿、独立查看草稿/线上示例、确认发布、按历史修订恢复风格和双语配置为新草稿。未知前台演示ID回退默认；未知后台ID拒绝保存/预览/发布。所有状态仅当前页内存，刷新重置；没有实现真实WordPress配置保存。
+
+本轮Cloud Chromium155实际通过79项原有五页回归、34项后台流程、30项双风格检查，合计143通过、0最终失败；8张双风格中英桌面/手机截图归档，原五页前后对比不覆盖。首次新增后台测试定位歧义已修正。最终审查修复发布侧栏风格未同步、Hero资源投影未遵守缺译/异常/模块隐藏状态两处原型问题，并补充回归。独立Tailwind构建、JS语法、文档/资源链接及生产文件边界检查通过，更新设计预览ZIP；证据见[原型说明](design-prototype/README.md)。仅设计文档、隔离原型与证据变化，未修改正式主题/数据库/安装包，未新增依赖；不把静态内存演示当作真实后台集成。等待设计评审，不开始Phase8。
+
+## Phase 7.5 视觉方向修订（历史交付，2026-11-06 Asia/Shanghai）
 
 以设计提交 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 为修改前基线，实际查看 SkillsMP 首页、搜索页和详情页，只学习视觉结构与信息密度。将五份规范和五页静态原型统一调整为专业 Skills 资源目录：白色/浅灰、克制紫色、64px桌面导航、搜索靠前、紧凑单列资源列表、技术文档式详情与明确来源/License/版本/风险。用户中心采用记录列表，后台保留原生WordPress控件。静态风格ID改为 `skills-directory`，原稳定模块ID与双语/状态/审核流程保持。
 
@@ -23,7 +31,7 @@
 
 ## Phase 7.5 初稿（历史，视觉方向已由上述修订替代）
 
-初稿基于当时 main `6f7790d58d1884d400d7fd6ad5156449ec134081` 审查现有主题、Core、前后台、语言/SEO、采集/AI与V2规划；形成五份设计合同：DESIGN_SYSTEM、FRONTEND_DESIGN_SPEC、USER_CENTER_DESIGN、ADMIN_DESIGN_SPEC、RESPONSIVE_DESIGN。初稿前台采用Modern SaaS浅色卡片风格（当前已替换为专业资源目录），后台保留WordPress原生运营结构；后续Phase8–14须依据这些规范验收。
+初稿基于当时 main `6f7790d58d1884d400d7fd6ad5156449ec134081` 审查现有主题、Core、前后台、语言/SEO、采集/AI与V2规划；形成五份设计合同：DESIGN_SYSTEM、FRONTEND_DESIGN_SPEC、USER_CENTER_DESIGN、ADMIN_DESIGN_SPEC、RESPONSIVE_DESIGN。初稿前台采用Modern SaaS浅色卡片风格（后续目录为默认，当前仅首页恢复为可选风格），后台保留WordPress原生运营结构；后续Phase8–14须依据这些规范验收。
 
 新增隔离HTML首页、列表、详情、用户Dashboard、WP后台Dashboard，含中英、设备/状态预览、演示筛选、收藏/评价反馈、原生后台待办与首页配置内存流程。首页独立模块、样式与运营数据分层、双语配置、草稿/发布/CAS、未来排期合同均有设计；生产配置能力归后续授权范围，未实现生产首页重构或页面构建器。初稿当时没有可读取的参考图；当前修订已实际查看用户指定的SkillsMP。
 

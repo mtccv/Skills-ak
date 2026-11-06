@@ -2,8 +2,8 @@
 
 先阅读根目录 CODEX_MASTER_SPEC.md 和已有阶段报告。
 
-- 当前任务为 Phase 7.5 UI/UX 视觉方向修订，以 main `04a8190fd7938749efbb142430c6e5ff23cb38c5` 的已提交设计为修改前基线。允许阅读审查、Markdown规划及 `docs/design-prototype/` 下隔离静态HTML/演示专用CSS/JS/截图/检查证据；不得修改正式PHP/CSS/JS、数据库或迁移，不开始Phase 8。静态原型必须显著标明示例数据且不写正式数据库。保留同尺寸修改前后截图，设计提交main后等待用户审核。
-- 后续Phase 8–14前后台必须遵循 docs/DESIGN_SYSTEM.md、FRONTEND_DESIGN_SPEC.md、USER_CENTER_DESIGN.md、ADMIN_DESIGN_SPEC.md、RESPONSIVE_DESIGN.md；页面/组件交付要有两语言、响应式、状态与无障碍证据。当前方向为 Skills Directory：参考 https://skillsmp.com/ 的视觉层级、导航、搜索、资源条目与技术信息呈现，白/浅灰为主、少量品牌紫色、紧凑目录布局，不采用通用 AI SaaS 模板；不复制其商标、代码、具体资产或功能架构。首页风格与运营配置分离，真实配置草稿/发布属于后续明确授权范围，不把原型内存交互称为生产功能。
+- 当前任务为 Phase 7.5 首页双风格模块化原型，以 main `1fbd2909bbcf52f0d13d22d46d48215000588131` 的资源目录设计为基线；原五页前后对比继续保留为历史证据。允许阅读审查、Markdown规划及 `docs/design-prototype/` 下隔离静态HTML/演示专用CSS/JS/截图/检查证据；不得修改正式PHP/CSS/JS、数据库或迁移，不开始Phase 8。静态原型必须显著标明示例数据且不写正式数据库。保留同尺寸修改前后截图，设计提交main后等待用户审核。
+- 后续Phase 8–14前后台必须遵循 docs/DESIGN_SYSTEM.md、FRONTEND_DESIGN_SPEC.md、USER_CENTER_DESIGN.md、ADMIN_DESIGN_SPEC.md、RESPONSIVE_DESIGN.md；页面/组件交付要有两语言、响应式、状态与无障碍证据。默认方向为 Skills Directory：参考 https://skillsmp.com/ 的视觉层级、导航、搜索、资源条目与技术信息呈现，白/浅灰为主、少量品牌紫色、紧凑目录布局；不复制其商标、代码、具体资产或功能架构。按用户新增要求，首页另提供可选的 Modern SaaS 原展示风格，两者只切换首页布局/token，共用九个稳定模块、同一数据与双语文案、显隐顺序和公开门禁；切换不重置内容，不影响其他内页或原生后台。仅在独立原型演示风格选择、预览、内存草稿/确认发布/历史恢复；未知ID回退资源目录，不加载任意文件。正式站点风格只由授权后台配置决定，不能用任意前台URL参数切换；真实权限、持久化及发布属于后续明确授权范围，不把原型内存交互称为生产功能。
 - 开发仅限 Codex Cloud，不部署外部服务，不要求用户本机开发。
 - 原创 WordPress 主题；Core 内置于主题。不得修改 WordPress 核心。
 - PHP 8.3+、MySQL、Tailwind CSS、Alpine.js；WordPress 原生后台。
