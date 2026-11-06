@@ -59,9 +59,9 @@
     },
     {
       "name": "Success",
-      "foreground": "#15734F",
-      "background": "#EBFBF4",
-      "ratio": 5.4593,
+      "foreground": "#111827",
+      "background": "#F9FAFB",
+      "ratio": 16.9754,
       "target": 4.5,
       "pass_": true
     },

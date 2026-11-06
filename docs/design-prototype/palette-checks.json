@@ -166,39 +166,39 @@
   ],
   "colors": [
     {
-      "name": "index: no purple in computed colors or effects",
+      "name": "index: no purple or green in computed colors or effects",
       "pass": true,
       "sampledStyleTargets": 613,
-      "uniqueRgbColors": 18,
-      "purple": []
+      "uniqueRgbColors": 16,
+      "removedAccents": []
     },
     {
-      "name": "skills: no purple in computed colors or effects",
+      "name": "skills: no purple or green in computed colors or effects",
       "pass": true,
       "sampledStyleTargets": 441,
       "uniqueRgbColors": 13,
-      "purple": []
+      "removedAccents": []
     },
     {
-      "name": "skill: no purple in computed colors or effects",
+      "name": "skill: no purple or green in computed colors or effects",
       "pass": true,
       "sampledStyleTargets": 422,
-      "uniqueRgbColors": 20,
-      "purple": []
+      "uniqueRgbColors": 18,
+      "removedAccents": []
     },
     {
-      "name": "dashboard: no purple in computed colors or effects",
+      "name": "dashboard: no purple or green in computed colors or effects",
       "pass": true,
       "sampledStyleTargets": 337,
-      "uniqueRgbColors": 26,
-      "purple": []
+      "uniqueRgbColors": 19,
+      "removedAccents": []
     },
     {
-      "name": "admin: no purple in computed colors or effects",
+      "name": "admin: no purple or green in computed colors or effects",
       "pass": true,
       "sampledStyleTargets": 527,
       "uniqueRgbColors": 31,
-      "purple": []
+      "removedAccents": []
     }
   ],
   "interactions": [

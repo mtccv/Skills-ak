@@ -59,7 +59,7 @@
 | `surface/muted` | `#F3F4F6` | Hero、编辑推荐面板、教程示意图的中性背景 |
 | `border/subtle` | `#D9DDE3` | 装饰性分隔；不能作为控件唯一边界 |
 | `border/input` | `#858C97` | 本项目加深后的输入框/选择框必要边界；同时核对白底与灰画布 |
-| `success/text`, `success/bg` | `#15734F`, `#EBFBF4` | 确认完成、已验证邮箱；不能表示安全认证 |
+| `success/text`, `success/bg` | `#111827`, `#F9FAFB` | 确认完成、已验证邮箱；不能表示安全认证 |
 | `warning/text`, `warning/bg` | `#92400E`, `#FFFBEB` | 待审核、待核实、风险提示 |
 | `error/text`, `error/bg` | `#991B1B`, `#FEF2F2` | 失败/字段错误/拒绝 |
 | `admin/primary` | 原生WP `#2271B1` 默认色 | 后台兼容用户原生配色；陶土棕只替代原紫色品牌/AI小标记 |

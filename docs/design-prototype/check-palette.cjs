@@ -58,7 +58,7 @@ function snapshot() {
 // Task identifiers such as #719 are not colors and never enter this scan.
 function scanColors() {
   const properties = ['color', 'backgroundColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor', 'outlineColor', 'textDecorationColor', 'fill', 'stroke', 'backgroundImage', 'boxShadow', 'textShadow'];
-  const purple = [];
+  const removedAccents = [];
   const unique = new Set();
   let sampled = 0;
   const hue = (r, g, b) => {
@@ -84,13 +84,13 @@ function scanColors() {
           const rgb = match.slice(1, 4).map(Number);
           unique.add(rgb.join(','));
           const color = hue(...rgb);
-          if (color.h >= 245 && color.h <= 300 && color.s >= 0.08 && purple.length < 20)
-            purple.push({ index, tag: el.tagName, pseudo, property, value });
+          if (((color.h >= 245 && color.h <= 300) || (color.h >= 80 && color.h <= 175)) && color.s >= 0.08 && removedAccents.length < 20)
+            removedAccents.push({ index, tag: el.tagName, pseudo, property, value });
         }
       }
     }
   });
-  return { sampledStyleTargets: sampled, uniqueRgbColors: unique.size, purple };
+  return { sampledStyleTargets: sampled, uniqueRgbColors: unique.size, removedAccents };
 }
 
 (async () => {
@@ -140,10 +140,10 @@ function scanColors() {
   }
   await current.setViewportSize({ width: 1440, height: 1000 });
   for (const file of pages) {
-    await check('colors', `${file}: no purple in computed colors or effects`, async () => {
+    await check('colors', `${file}: no purple or green in computed colors or effects`, async () => {
       await go(current, currentBase, file, '?lang=en');
       const detail = await current.evaluate(scanColors);
-      assert.deepEqual(detail.purple, [], 'purple computed color remains');
+      assert.deepEqual(detail.removedAccents, [], 'purple or green computed color remains');
       return detail;
     });
   }
@@ -176,7 +176,7 @@ function scanColors() {
     await current.keyboard.press('Shift+Tab');
     assert(await button.evaluate(el => el.matches(':focus-visible')));
     assert.equal(await button.evaluate(el => getComputedStyle(el).outlineColor), 'rgb(173, 94, 72)');
-    assert.deepEqual((await current.evaluate(scanColors)).purple, []);
+    assert.deepEqual((await current.evaluate(scanColors)).removedAccents, []);
     assert.deepEqual(results.consoleErrors, []);
     assert.deepEqual(results.failedResources, []);
     assert.deepEqual(results.externalRequests, []);

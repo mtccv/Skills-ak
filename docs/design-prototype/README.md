@@ -15,7 +15,9 @@
 | 品牌与主要操作 | 陶土棕 `#AD5E48`、悬停/链接 `#9F513C` |
 | 边界 | 分隔 `#D9DDE3`；必要控件轮廓 `#858C97` |
 
-Hero、编辑推荐和教程配图的大面积紫底改为中性浅灰；紫色按钮/链接/状态标记同步替换。WordPress原生操作蓝及绿色/红色/琥珀语义色保留。参考观察及完整token合同见[设计系统](../DESIGN_SYSTEM.md#3-品牌与色彩)。
+Hero、编辑推荐和教程配图的大面积紫底改为中性浅灰；紫色按钮/链接/状态标记同步替换。WordPress原生操作蓝及红色/琥珀语义色保留；薄荷绿与绿色已全部移除，成功/已验证以中性灰和明确文字表示。参考观察及完整token合同见[设计系统](../DESIGN_SYSTEM.md#3-品牌与色彩)。
+
+本次补修同时清除截图中的绿色书本图标、用户中心隐私面板/在线点及成功徽章的旧配色；原布局及状态文字保留，已重新生成截图和预览包，[书本区域近照](screenshots/home-guide-neutral.png)可直接核对。
 
 ## 1. 打开设计
 
@@ -80,7 +82,7 @@ node_modules/.bin/tailwindcss -c docs/design-prototype/tailwind.config.cjs \
 | 五页×Loading/Empty/Error/Missing | 20/20通过 | 真实浏览器反馈可见；演示区块状态，不代表服务器恢复逻辑 |
 | 搜索/筛选/分页/收藏/弹窗/移动导航/预览等 | 17/17通过 | 含必填、焦点、减动画、320px详情reflow、无外部请求/JS错误/失败资源；[preview-checks.json](preview-checks.json) |
 | 后台内存配置与预览流程 | 24/24通过 | 双语独立、保存不改线上示例、发布确认、恢复草稿、窄屏与原生状态；[admin-checks.json](admin-checks.json) |
-| 换色前后布局与配色 | 27/27通过 | [palette-checks.json](palette-checks.json)：五页×中英×1440/390，9,332个DOM节点与7,240个可见元素一致，最大几何差0 CSS px；含5页无紫色与主色/hover/focus检查 |
+| 换色前后布局与配色 | 27/27通过 | [palette-checks.json](palette-checks.json)：五页×中英×1440/390，9,332个DOM节点与7,240个可见元素一致，最大几何差0 CSS px；含5页无紫色/绿色与主色/hover/focus检查 |
 | 当前颜色配对WCAG对比度 | 14/14通过 | [contrast-checks.json](contrast-checks.json)；阈值按未舍入数值判断，不等于完整无障碍审计 |
 | 设计Tailwind构建、JS语法 | 通过 | 独立CSS构建；3个浏览器JS、3个检查脚本与Tailwind配置语法 |
 | 文档/边界 | 通过 | 本地Markdown链接、6个HTML资源/锚点与字段label、色彩差异与原布局边界核对、差异检查；正式主题和数据库文件不变；[static-checks.json](static-checks.json) |
@@ -97,7 +99,7 @@ node docs/design-prototype/check-admin.cjs
 
 配色检查还需要将基线 `2d6df357` 的原型封存到另一个Cloud静态HTTP服务（本轮使用8768），以 `AISH_PALETTE_BEFORE_URL` 指定，当前服务用 `AISH_DESIGN_URL` 指定，再执行 `node docs/design-prototype/check-palette.cjs`。它只比较页面，不修改原型。
 
-检查会在本设计目录重写结果JSON与截图，不访问业务服务。本轮以新配色重新生成截图和结果。配色比对首次将两本地服务端口不同导致的绝对href差异计入，已仅归一化同源URL的origin，保留路径/参数/锚点，27项完整重跑通过。以下为初稿历史，不是此次新发现：初轮检查中8项将合法的额外`noarchive`误判为失败，1项选中了折叠菜单的隐藏按钮，已修正测试断言/定位；另1项发现预览iframe边框占用2px，已移除边框并回归。规范审查还修正了投稿enum、重复token、应用筛选交互和缺译演示区块。最终记录为修正后的完整结果，不掩盖初轮发现。
+检查会在本设计目录重写结果JSON与截图，不访问业务服务。本轮以新配色重新生成截图和结果。配色比对首次将两本地服务端口不同导致的绝对href差异计入，已仅归一化同源URL的origin，保留路径/参数/锚点，27项完整重跑通过。本次追加绿色扫描时还修正了检查脚本中结果字段重命名未同步的断言；最终结果以完整重跑为准。以下为初稿历史，不是此次新发现：初轮检查中8项将合法的额外`noarchive`误判为失败，1项选中了折叠菜单的隐藏按钮，已修正测试断言/定位；另1项发现预览iframe边框占用2px，已移除边框并回归。规范审查还修正了投稿enum、重复token、应用筛选交互和缺译演示区块。最终记录为修正后的完整结果，不掩盖初轮发现。
 
 ## 5. 仍需后续验收的范围
 

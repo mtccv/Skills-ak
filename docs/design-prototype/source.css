@@ -30,7 +30,7 @@
   .icon { width:20px; height:20px; }
   .icon-box { @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-canvas text-muted; }
   .badge { @apply inline-flex items-center gap-1.5 rounded-md border border-line bg-white px-2 py-1 text-xs font-medium leading-4; }
-  .badge-success { @apply border-transparent bg-mint-50 text-mint-700; }
+  .badge-success { @apply border-transparent bg-canvas text-ink; }
   .badge-warning { @apply border-transparent bg-amber-50 text-amber-800; }
   .badge-muted { @apply border-transparent bg-canvas text-muted; }
   .eyebrow { @apply text-xs font-semibold uppercase tracking-[.13em] text-accent-700; }
