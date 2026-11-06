@@ -1,0 +1,16 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "schema_before": "1.5.0",
+  "schema_after": "1.6.0",
+  "original_table_count": 14,
+  "original_row_count": 155,
+  "all_original_table_fingerprints_unchanged": true,
+  "private_messages_before": 6,
+  "private_messages_after": 6,
+  "passed": true,
+  "stderr_empty": true
+}

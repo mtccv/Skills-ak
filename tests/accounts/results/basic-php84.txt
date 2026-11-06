@@ -1,0 +1,38 @@
+Account frontend isolated: 26 assertions passed; no real WP/HTTP/database/mail claim.
+Account mail: 35 isolated/Mock checks passed; no SMTP delivery tested.
+{
+    "suite": "account-native-guards",
+    "kind": "isolated PHP\/WP API substitutes",
+    "checks": 42,
+    "status": "passed"
+}
+Account storage: 52 isolated assertions passed (real sodium; modeled wpdb, no WordPress/MySQL/mail).
+Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).
+PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).
+PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).
+PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).
+PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).
+PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).
+PASS: 102 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).
+PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).
+Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).
+Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).
+Editorial projections: 36 isolated assertions passed (no WordPress/MySQL or performance benchmark).
+Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).
+Inbox management: 56 isolated assertions passed.
+Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).
+PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).
+PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).
+GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).
+PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).
+PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).
+PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).
+PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).
+Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).
+Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).
+Migration recovery: 161 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).
+PASS: 95 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).
+SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).
+PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).
+PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).
+PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).

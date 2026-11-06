@@ -1,18 +1,20 @@
 # AI Skills Hub
 
+**当前：Phase 8 用户账户与个人中心，主题/Core 0.8.0、schema 1.6.0。** 以 WordPress 原生身份提供邮箱验证、登录/恢复、资料/头像、安全、隐私申请及账户通知；只增三表至 17 表，保留原业务数据。见 [账户说明](ACCOUNT_SYSTEM.md)、[邮件配置](EMAIL_SETUP.md)、[隐私与安全](PRIVACY_AND_SECURITY.md)和 [Phase 8 独立报告](docs/PHASE_8_REPORT.md)。下方 0.7.1 ZIP 和 Final QA 是历史交付，不包含账户功能；本轮源码先执行 `npm ci && npm run build` 再由 `scripts/package-theme.py` 构建主题。Phase 9 尚未开始。
+
 WordPress 原创中英文主题，内置 AI Skills Hub Core。Phase 0–7 已完成；Final QA 已执行真实 WordPress、PHP 8.3/8.4、MySQL 8.0、三引擎浏览器及原生 SEO 插件测试，修复 7 个实际问题。验收矩阵 **20 项工作包通过、0 失败、5 项外部验收未执行**：没有合法 WPML 包或真实 GitHub/AI 应用凭据，不能宣布完全通过。主题/Core **0.7.1**，schema **1.5.0**，不改变十四表、Skill ID、双语关系或人工审核规则。
 
 [下载安装主题 ZIP](release/ai-skills-hub-0.7.1.zip) · [安装与配置](INSTALLATION.md) · [Final QA 总报告](FINAL_QA_REPORT.md) · [已知限制](KNOWN_LIMITATIONS.md)。包已通过真实全新安装、原生升级和重复安装；[SHA256SUMS](release/SHA256SUMS) 用于校验。下载 GitHub 整个源码 ZIP 不能直接当作 WordPress 主题安装。
 
 完整需求见 [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md)，技术说明见 [Core](docs/CORE.md)、[前台](docs/FRONTEND.md)、[SEO](docs/SEO.md)、[GitHub 采集](docs/GITHUB_IMPORT.md)、[AI 使用](docs/AI_USAGE.md)、[API 配置](docs/API_CONFIGURATION.md)。最终 [安全](SECURITY_AUDIT.md)、[兼容](COMPATIBILITY_REPORT.md)、[性能](PERFORMANCE_REPORT.md) 报告与 [开发进度](docs/PROGRESS.md) 分开记录真实、Mock、静态及未测范围；Phase 0–7 报告保留历史事实。
 
-当前新增的是 **V2 产品扩展规划，尚未开始 Phase 8 编码**：[产品规格](PRODUCT_SPEC_V2.md)、[数据库设计](docs/PRODUCT_DATABASE_DESIGN.md)、[模块审查](docs/PRODUCT_MODULE_AUDIT.md)、[Phase 8–14 路线图](docs/PRODUCT_ROADMAP.md)。规划使用 WordPress 原生用户，复用私有投稿和原十四表，分阶段设计账户、收藏评价、开发者、发现、运营及免费商业化预留；所有新表/页面均为待实施建议，当前主题和 schema 不变。
+此前已完成 **V2 产品扩展规划，Phase 8 现已获授权实施**：[产品规格](PRODUCT_SPEC_V2.md)、[数据库设计](docs/PRODUCT_DATABASE_DESIGN.md)、[模块审查](docs/PRODUCT_MODULE_AUDIT.md)、[Phase 8–14 路线图](docs/PRODUCT_ROADMAP.md)。规划使用 WordPress 原生用户，复用私有投稿和原十四表，分阶段设计账户、收藏评价、开发者、发现、运营及免费商业化预留；其中账户及三表在本阶段实施，其余新表/页面保持后续规划。
 
 ## Phase 7.5 设计评审
 
-当前保留**修改前 `04a8190` 的整套原布局**，并按最新要求参考SkillsMP调整为白/浅灰、深灰文字及少量陶土棕，去掉紫色，覆盖首页、Skills列表、Skill详情、用户Dashboard和WordPress后台Dashboard；取消后来的目录风格和双风格切换。查看[原型与五页截图](docs/design-prototype/README.md)、[设备预览器](docs/design-prototype/preview.html)或下载[当前配色预览包](docs/ai-skills-hub-design-preview.zip)。GitHub文件页显示源码；Cloud静态HTTP为已验证预览方式。全部变更仅限设计，尚未进入Phase 8。
+当前保留**修改前 `04a8190` 的整套原布局**，并按最新要求参考SkillsMP调整为白/浅灰、深灰文字及少量陶土棕，去掉紫色，覆盖首页、Skills列表、Skill详情、用户Dashboard和WordPress后台Dashboard；取消后来的目录风格和双风格切换。查看[原型与五页截图](docs/design-prototype/README.md)、[设备预览器](docs/design-prototype/preview.html)或下载[当前配色预览包](docs/ai-skills-hub-design-preview.zip)。GitHub文件页显示源码；Cloud静态HTTP为已验证预览方式。这些原型为已完成的设计阶段产物，本轮保持不变；Phase 8 在正式主题中落实账户范围。
 
-规范：[设计系统](docs/DESIGN_SYSTEM.md) · [前台](docs/FRONTEND_DESIGN_SPEC.md) · [用户中心](docs/USER_CENTER_DESIGN.md) · [后台](docs/ADMIN_DESIGN_SPEC.md) · [响应式](docs/RESPONSIVE_DESIGN.md)。后续Phase 8–14必须依据这些规范开发。全部示例数据和草稿/发布交互仅用于设计，正式主题及安装包未改。
+规范：[设计系统](docs/DESIGN_SYSTEM.md) · [前台](docs/FRONTEND_DESIGN_SPEC.md) · [用户中心](docs/USER_CENTER_DESIGN.md) · [后台](docs/ADMIN_DESIGN_SPEC.md) · [响应式](docs/RESPONSIVE_DESIGN.md)。后续Phase 8–14必须依据这些规范开发。全部原型示例数据和草稿/发布交互仅用于设计，不作为生产账户数据。
 
 ## Codex Cloud 开发
 

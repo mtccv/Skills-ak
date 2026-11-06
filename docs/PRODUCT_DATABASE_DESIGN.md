@@ -1,5 +1,7 @@
 # AI Skills Hub V2 数据库设计规划
 
+> 实施状态更新：Phase 8 已获用户授权，schema 1.6.0 仅实施第 4.1 节三表，共 17 张 Core 表。第 2 节仍是原十四表的基线字典，其结构和数据保持；其余 Phase 9–14 表仍为规划。运行验证与迁移证据见 [Phase 8 报告](PHASE_8_REPORT.md)，不得用规划内容代替测试通过。
+
 日期：2026-11-06（Asia/Shanghai）。核查基线：`main` / `1c27f8770fc3bd20b2ffd92d8873444ba92d54c8`。本文是 Phase 8–14 的设计，不是已执行迁移；当前主题/Core 为 **0.7.1**、schema 为 **1.5.0**。本轮只读源码和历史报告，没有连接运行数据库、执行 PHP/WordPress、启动服务或改变数据库。
 
 对应产品范围见 [PRODUCT_SPEC_V2.md](../PRODUCT_SPEC_V2.md)，模块差距见 [PRODUCT_MODULE_AUDIT.md](PRODUCT_MODULE_AUDIT.md)，实施次序见 [PRODUCT_ROADMAP.md](PRODUCT_ROADMAP.md)。以下“现有”依据源码定义与既有 QA 证据；“规划”均须在对应阶段另行实施和验证。

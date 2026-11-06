@@ -1,5 +1,15 @@
 # 开发进度
 
+## Phase 8 — 账户与个人中心（实现与检查完成，等待用户验收）
+
+基于 `556ea8d`（包含指定的 `56d790a` 及绿色补修），主题/Core 0.8.0、schema 1.6.0。新增原生 Users/Subscriber 的中英文注册、验证、登录/恢复、资料/头像、Dashboard、安全与隐私申请、账户通知和加密邮件队列。仅新增三张账户表至 17 表，原十四表/Skill ID/译文/来源键/历史私有来信保留；Phase 7.5 原型不改，不开发 Phase 9 功能。
+
+实际检查：PHP 8.3/8.4 各 151 文件语法、33 个隔离/Mock 脚本各 2876 断言通过；真实 WordPress 7.1.4/MySQL 8.0.46 的账户流程、迁移/数据保留、并发注册、隐私与受保护导出通过；真实 Chromium 中英 69 项与既有 HTTP 冒烟 15 项通过。完整分组、断言和证据见 [PHASE_8_REPORT.md](PHASE_8_REPORT.md)。修复真实表单 Origin:null、原生认证限流、旧角色兼容、原生密码更改后的邮箱凭证、隐私请求邮箱复用及导出访问等问题后回归。最终构建、资源/打包器和差异检查通过。
+
+邮件传输使用 Mock，未测试真实 SMTP/收件箱；本阶段真实 WPML、第三方认证/邮件/缓存插件、多站点和其他浏览器未执行，不承接历史 Final QA 为本阶段背书。使用说明：[ACCOUNT_SYSTEM](../ACCOUNT_SYSTEM.md)、[EMAIL_SETUP](../EMAIL_SETUP.md)、[PRIVACY_AND_SECURITY](../PRIVACY_AND_SECURITY.md)。旧 release/0.7.1 ZIP 保留为历史交付，本阶段代码通过构建打包脚本生成 0.8.0；不把旧 ZIP 描述为账户版安装包。
+
+代码正常提交并同步 GitHub main 后暂停，等待用户安排 Phase 9；本记录不代表用户已完成最终验收。
+
 | 阶段 | 状态 | 记录 |
 | --- | --- | --- |
 | Phase 0 项目初始化 | 用户已验收 | PHASE_0_REPORT.md |
@@ -11,11 +21,12 @@
 | Phase 6 AI 双语内容 | 用户已验收 | PHASE_6_REPORT.md / AI_USAGE.md / API_CONFIGURATION.md / AI_SECURITY.md |
 | Phase 7 安全、性能与稳定性 | 用户已验收 | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
 | Final QA | 已执行范围通过，外部验收有保留；20 通过 / 0 失败 / 5 未执行 | ../FINAL_QA_REPORT.md；真实 WPML / GitHub / AI 仍未验证 |
-| V2 产品扩展准备 | 规划文档待用户审核；没有开始 Phase 8 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
-| Phase 7.5 全站 UI/UX 设计 | 原布局已保留、紫色已改灰白/陶土棕，待用户审核 | DESIGN_SYSTEM.md；design-prototype/README.md；正式代码/数据库未变 |
-| Phase 8–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
+| V2 产品扩展准备 | 规划完成，Phase 8 已获实施授权 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
+| Phase 7.5 全站 UI/UX 设计 | 用户已初步审核通过；作为后续设计标准 | DESIGN_SYSTEM.md；design-prototype/README.md；原型保留 |
+| Phase 8 账户与个人中心 | 实现与已执行检查完成，待用户验收 | PHASE_8_REPORT.md；真实邮件等外部依赖未验收 |
+| Phase 9–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
 
-## Phase 7.5 原布局配色调整（当前交付）
+## Phase 7.5 原布局配色调整（历史交付，设计继续采用）
 
 最新补修：按用户截图清除薄荷绿/绿色残留，包含首页书本图标、用户中心在线点/收藏图标/隐私面板及成功徽章；统一灰白/深灰，状态文字与原布局不变。已扩展现有配色检查以核对紫色和绿色均无残留，并更新截图与预览包。
 

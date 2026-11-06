@@ -1,6 +1,7 @@
 <?php
 use AISkillsHub\Core\Frontend\Router;
 use AISkillsHub\Core\Frontend\View;
+use AISkillsHub\Core\Accounts\Frontend as AccountFrontend;
 
 defined( 'ABSPATH' ) || exit;
 $context = Router::context();
@@ -13,7 +14,7 @@ $navigation = array( 'home' => 'nav.home', 'skills' => 'nav.skills', 'tutorials'
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="theme-color" content="#f6f7fb">
+	<meta name="theme-color" content="#F9FAFB">
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class( 'aish-site' ); ?>>
@@ -37,6 +38,7 @@ $navigation = array( 'home' => 'nav.home', 'skills' => 'nav.skills', 'tutorials'
 				<a lang="en" hreflang="en" href="<?php echo esc_url( View::switchUrl( 'en_US' ) ); ?>" <?php echo 'en_US' === $locale ? 'aria-current="true"' : ''; ?>>EN</a>
 			</nav>
 			<a class="button button-primary button-small hidden sm:inline-flex" href="<?php echo esc_url( View::url( 'submit' ) ); ?>"><?php echo View::icon( 'plus' ); ?><?php echo esc_html( View::t( 'nav.submit' ) ); ?></a>
+			<a class="account-nav-link hidden sm:inline-flex" href="<?php echo esc_url( AccountFrontend::url( is_user_logged_in() ? 'account' : 'login', $locale ) ); ?>"><?php echo esc_html( is_user_logged_in() ? ( 'zh_CN' === $locale ? '个人中心' : 'Account' ) : ( 'zh_CN' === $locale ? '登录' : 'Sign in' ) ); ?></a>
 		</div>
 	</div>
 	<details class="mobile-navigation" x-data @keydown.escape.window="$el.open = false">
@@ -44,6 +46,7 @@ $navigation = array( 'home' => 'nav.home', 'skills' => 'nav.skills', 'tutorials'
 		<nav class="aish-container" aria-label="<?php echo esc_attr( View::t( 'nav.mobile' ) ); ?>">
 			<?php foreach ( $navigation as $target => $key ) : ?><a href="<?php echo esc_url( View::url( $target ) ); ?>"><?php echo esc_html( View::t( $key ) ); ?></a><?php endforeach; ?>
 			<a href="<?php echo esc_url( View::url( 'submit' ) ); ?>"><?php echo esc_html( View::t( 'nav.submit' ) ); ?></a>
+			<a href="<?php echo esc_url( AccountFrontend::url( is_user_logged_in() ? 'account' : 'login', $locale ) ); ?>"><?php echo esc_html( is_user_logged_in() ? ( 'zh_CN' === $locale ? '个人中心' : 'Account' ) : ( 'zh_CN' === $locale ? '登录' : 'Sign in' ) ); ?></a>
 		</nav>
 	</details>
 </header>

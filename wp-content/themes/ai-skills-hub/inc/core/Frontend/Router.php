@@ -76,6 +76,8 @@ final class Router {
 	}
 
 	private function parseRequest( \WP $wp ): void {
+		// Account routes own their private response, authentication and metadata.
+		if ( class_exists( \AISkillsHub\Core\Accounts\Frontend::class ) && \AISkillsHub\Core\Accounts\Frontend::active() ) { return; }
 		if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || isset( $wp->query_vars['rest_route'] ) || isset( $wp->query_vars['robots'] ) || isset( $wp->query_vars['sitemap'] ) || isset( $wp->query_vars['feed'] ) ) { return; }
 		$path = trim( (string) $wp->request, '/' );
 		// WP may leave request empty before pretty permalinks are configured. Never redirect /en/ to itself.

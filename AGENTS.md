@@ -1,6 +1,10 @@
 # 项目执行规则
 
-先阅读根目录 CODEX_MASTER_SPEC.md 和已有阶段报告。
+先阅读根目录 CODEX_MASTER_SPEC.md、PRODUCT_SPEC_V2.md、V2 数据库/模块/路线图和已有阶段报告。
+
+## 当前授权：Phase 8
+
+用户已确认 Phase 7.5 初审并正式授权账户与个人中心开发。以下历史 Phase 7.5 的“只改设计、不开始 Phase 8”限制仅描述旧阶段，不再限制本次授权。以 `556ea8d`（含 `56d790a` 及去绿色补修）为基线；原型文件保持不变。实现原生 WordPress Users/Subscriber、验证/登录/恢复/设置/头像/隐私请求和账户通知；schema 1.6.0 只追加 email_verifications、user_notifications、notification_outbox，保留原十四表和数据。遵循已确认白/浅灰、深灰、陶土棕 #AD5E48 的设计规范。不得提前开发 Phase 9–14。邮件只报告真实排队/传输受理状态；没有真实邮件服务时明确未执行送达测试。完成必要检查、文档和正常 GitHub main 同步后暂停。
 
 - Phase 7.5 当前保留用户选定的原设计布局，来自 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 的原始 Modern SaaS 方案，覆盖首页、Skills列表、Skill详情、用户Dashboard、WordPress后台Dashboard及设计规范；目录改版与双风格切换保持取消。按最新要求仅参考SkillsMP颜色配比，去掉紫色及薄荷绿/绿色：白/浅灰底、深灰字、少量陶土棕#AD5E48，悬停#9F513C；不得改原布局、文案、模块、尺寸和交互。只允许设计Markdown与 `docs/design-prototype/` 下隔离HTML/CSS/JS/截图/检查证据及预览包变更，不修改正式主题、数据库或迁移，不开始Phase 8。静态原型必须标明示例数据且不写正式数据库。新增提交正常同步main，不重写历史，完成后等待用户审核。
 - 后续Phase 8–14前后台必须遵循 docs/DESIGN_SYSTEM.md、FRONTEND_DESIGN_SPEC.md、USER_CENTER_DESIGN.md、ADMIN_DESIGN_SPEC.md、RESPONSIVE_DESIGN.md；当前采用原整套Modern SaaS布局配合灰白/陶土棕新配色，WordPress后台仍沿原生设计，保留操作蓝色并替换紫色品牌标记。首页样式与运营配置分离，当前只保留原版Modern SaaS，不继续提供目录/双风格选项。真实配置草稿/发布属于后续明确授权范围，不把原型内存交互称为生产功能。

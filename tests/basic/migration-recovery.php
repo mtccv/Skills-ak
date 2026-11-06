@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace AISkillsHub\Core\Database {
 	final class Schema {
 		public const VERSION = '1.5.0';
-		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array() );
+		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array(), 'email_verifications' => array(), 'user_notifications' => array(), 'notification_outbox' => array() );
 		public static bool $verify_failure = false;
 		public static bool $nested_transaction = false;
 		public static function definitions( Database $database, string $version ): array {
 			$definitions = array( 'skills' => 'DDL:' . $version );
 			if ( version_compare( $version, '1.5.0', '>=' ) ) {
 				foreach ( array( 'ai_jobs', 'ai_attempts', 'ai_reviews' ) as $entity ) { $definitions[ $entity ] = 'DDL:' . $version . ':' . $entity; }
+			}
+			if ( version_compare( $version, '1.6.0', '>=' ) ) {
+				foreach ( array( 'email_verifications', 'user_notifications', 'notification_outbox' ) as $entity ) { $definitions[ $entity ] = 'DDL:' . $version . ':' . $entity; }
 			}
 			return $definitions;
 		}
@@ -258,6 +261,24 @@ namespace {
 		check( true === $migrator->migrate() && $migrator->isCurrent(), 'A new connection can finish the interrupted three-table upgrade.' );
 		check( array( 'test_aish_ai_reviews' ) === $connection->created, 'Recovery creates only the still-missing table and preserves previously applied CREATE results.' );
 		check( count( array_unique( $connection->ddl ) ) === count( $connection->ddl ), 'Recovery does not replay already-applied additive definitions.' ); restored( $connection, MYSQLI_REPORT_OFF );
+
+		[ $connection, $database, $migrator ] = setup( '1.5.0' );
+		foreach ( array( 'ai_jobs', 'ai_attempts', 'ai_reviews' ) as $entity ) { $connection->tables[ 'test_aish_' . $entity ] = '1.5.0'; }
+		check( true === $migrator->migrate( '1.6.0' ) && '1.6.0' === $migrator->version(), 'Phase 8 adds only its three account tables after historical migrations.' );
+		check( array( 'test_aish_email_verifications', 'test_aish_user_notifications', 'test_aish_notification_outbox' ) === $connection->created, 'The current upgrade does not recreate existing tables.' );
+		$created = $connection->created;
+		check( true === $migrator->migrate( '1.6.0' ) && $created === $connection->created, 'Phase 8 repeated installation is idempotent.' );
+
+		[ $connection, $database, $migrator ] = setup( '1.5.0' );
+		foreach ( array( 'ai_jobs', 'ai_attempts', 'ai_reviews' ) as $entity ) { $connection->tables[ 'test_aish_' . $entity ] = '1.5.0'; }
+		$connection->disconnect_at = 'DDL:1.6.0:user_notifications';
+		failed( $migrator->migrate( '1.6.0' ) );
+		check( '1.5.0' === $migrator->version() && 0 === $connection->replays, 'Interrupted account DDL retains the old verified version without replay.' );
+		check( isset( $connection->tables['test_aish_email_verifications'], $connection->tables['test_aish_user_notifications'] ) && ! isset( $connection->tables['test_aish_notification_outbox'] ), 'Partial account CREATE state remains additive and retryable.' );
+		$partialTables = $connection->tables;
+		[ $connection, $database, $migrator ] = setup( '1.5.0' ); $connection->tables = $partialTables;
+		check( true === $migrator->migrate( '1.6.0' ) && array( 'test_aish_notification_outbox' ) === $connection->created, 'A new request completes only the still-missing account table.' );
+		restored( $connection, MYSQLI_REPORT_OFF );
 
 		foreach ( array( 0, 1, 2 ) as $caseMode ) {
 			[ $connection, $database, $migrator ] = setup(); $connection->prefix = 'TEST_'; $connection->lower_case_table_names = $caseMode;

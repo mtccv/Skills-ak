@@ -1,0 +1,48 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "real MySQL migration in random isolated prefix",
+  "checks": [
+    {
+      "id": "fresh-legacy-schema-1.5",
+      "status": "passed"
+    },
+    {
+      "id": "legacy-fourteen-only",
+      "status": "passed"
+    },
+    {
+      "id": "partial-ddl-failure-retains-last-version",
+      "status": "passed"
+    },
+    {
+      "id": "partial-ddl-recovery",
+      "status": "passed"
+    },
+    {
+      "id": "exactly-seventeen-no-future-tables",
+      "status": "passed"
+    },
+    {
+      "id": "existing-stable-id-and-row-unchanged",
+      "status": "passed"
+    },
+    {
+      "id": "repeat-upgrade-idempotent",
+      "status": "passed"
+    },
+    {
+      "id": "downgrade-refused",
+      "status": "passed"
+    },
+    {
+      "id": "future-version-refused",
+      "status": "passed"
+    }
+  ],
+  "passed": 9,
+  "failed": 0
+}

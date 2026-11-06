@@ -6,7 +6,7 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.5.0';
+	public const VERSION = '1.6.0';
 
 	public const COLUMNS = array(
 		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d', 'github_id' => '%d', 'default_branch' => '%s', 'sync_enabled' => '%d', 'sync_interval' => '%d', 'last_sync_at' => '%s', 'last_sync_commit' => '%s', 'last_scan_at' => '%s', 'sync_status' => '%s', 'license_spdx' => '%s' ),
@@ -23,6 +23,9 @@ final class Schema {
 		'ai_jobs' => array( 'id' => '%d', 'skill_id' => '%d', 'mode' => '%s', 'request_key' => '%s', 'active_key' => '%s', 'profile_json' => '%s', 'profile_hash' => '%s', 'provider' => '%s', 'model' => '%s', 'prompt_version' => '%s', 'source_json' => '%s', 'source_commit' => '%s', 'file_sha' => '%s', 'status' => '%s', 'review_status' => '%s', 'revision' => '%d', 'output_json' => '%s', 'edited_json' => '%s', 'attempts' => '%d', 'input_tokens' => '%d', 'output_tokens' => '%d', 'cost_estimate' => '%s', 'elapsed_ms' => '%d', 'requester_id' => '%d', 'lease_token' => '%s', 'locked_until' => '%s', 'available_at' => '%s', 'deadline_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s', 'completed_at' => '%s', 'last_error' => '%s' ),
 		'ai_attempts' => array( 'id' => '%d', 'job_id' => '%d', 'attempt_number' => '%d', 'request_key' => '%s', 'status' => '%s', 'input_tokens' => '%d', 'output_tokens' => '%d', 'cost_estimate' => '%s', 'elapsed_ms' => '%d', 'error_code' => '%s', 'started_at' => '%s', 'completed_at' => '%s' ),
 		'ai_reviews' => array( 'id' => '%d', 'job_id' => '%d', 'revision' => '%d', 'action' => '%s', 'actor_id' => '%d', 'snapshot_json' => '%s', 'created_at' => '%s' ),
+		'email_verifications' => array( 'id' => '%d', 'user_id' => '%d', 'purpose' => '%s', 'target_email' => '%s', 'email_hash' => '%s', 'token_hash' => '%s', 'active_key' => '%s', 'expires_at' => '%s', 'attempt_count' => '%d', 'consumed_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'user_notifications' => array( 'id' => '%d', 'user_id' => '%d', 'event_key' => '%s', 'type' => '%s', 'subject_type' => '%s', 'subject_id' => '%d', 'template_key' => '%s', 'params_json' => '%s', 'locale' => '%s', 'read_at' => '%s', 'created_at' => '%s', 'expires_at' => '%s' ),
+		'notification_outbox' => array( 'id' => '%d', 'recipient_user_id' => '%d', 'notification_id' => '%d', 'event_key' => '%s', 'channel' => '%s', 'template_key' => '%s', 'locale' => '%s', 'destination_hash' => '%s', 'payload_ciphertext' => '%s', 'key_version' => '%s', 'status' => '%s', 'attempts' => '%d', 'available_at' => '%s', 'lease_token' => '%s', 'locked_until' => '%s', 'last_error' => '%s', 'provider_message_id' => '%s', 'created_at' => '%s', 'updated_at' => '%s', 'accepted_at' => '%s', 'expires_at' => '%s' ),
 	);
 
 	public const UNIQUE_KEYS = array(
@@ -40,6 +43,9 @@ final class Schema {
 		'ai_jobs' => array( 'PRIMARY' => array( 'id' ), 'request_identity' => array( 'request_key' ), 'active_generation' => array( 'active_key' ) ),
 		'ai_attempts' => array( 'PRIMARY' => array( 'id' ), 'job_attempt' => array( 'job_id', 'attempt_number' ), 'attempt_request' => array( 'request_key' ) ),
 		'ai_reviews' => array( 'PRIMARY' => array( 'id' ), 'job_revision' => array( 'job_id', 'revision' ) ),
+		'email_verifications' => array( 'PRIMARY' => array( 'id' ), 'token_identity' => array( 'token_hash' ), 'active_verification' => array( 'active_key' ) ),
+		'user_notifications' => array( 'PRIMARY' => array( 'id' ), 'user_event' => array( 'user_id', 'event_key' ) ),
+		'notification_outbox' => array( 'PRIMARY' => array( 'id' ), 'event_channel' => array( 'event_key', 'channel' ) ),
 	);
 
 	/** Columns introduced with the importer, masked when verifying historical migrations. */
@@ -49,11 +55,15 @@ final class Schema {
 	);
 	private const IMPORT_TABLES = array( 'imports', 'jobs', 'import_logs' );
 	private const AI_TABLES = array( 'ai_jobs', 'ai_attempts', 'ai_reviews' );
+	private const ACCOUNT_TABLES = array( 'email_verifications', 'user_notifications', 'notification_outbox' );
 
 	/** Phase 4 non-unique access paths; existing identity constraints stay unchanged. */
 	public const SEARCH_KEYS = array(
 		'skills' => array( 'public_updated' => array( 'status', 'review_status', 'updated_at', 'id' ) ),
 		'skill_translations' => array( 'locale_title' => array( 'locale', 'title', 'skill_id' ) ),
+		'email_verifications' => array( 'user_purpose' => array( 'user_id', 'purpose', 'created_at' ), 'expiry' => array( 'expires_at', 'id' ) ),
+		'user_notifications' => array( 'user_unread' => array( 'user_id', 'read_at', 'id' ), 'expiry' => array( 'expires_at', 'id' ) ),
+		'notification_outbox' => array( 'due' => array( 'status', 'available_at', 'id' ), 'lease' => array( 'status', 'locked_until' ), 'recipient_history' => array( 'recipient_user_id', 'created_at' ), 'expiry' => array( 'expires_at', 'id' ) ),
 	);
 
 	public static function definitions( Database $db, string $version ): array {
@@ -264,6 +274,69 @@ PRIMARY KEY  (id),
 UNIQUE KEY job_revision (job_id,revision)";
 		}
 
+		if ( version_compare( $version, '1.6.0', '>=' ) ) {
+			$bodies['email_verifications'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+user_id bigint(20) unsigned NOT NULL,
+purpose varchar(32) NOT NULL,
+target_email varchar(254) NOT NULL,
+email_hash char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+token_hash char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+active_key char(64) CHARACTER SET ascii COLLATE ascii_bin DEFAULT NULL,
+expires_at datetime NOT NULL,
+attempt_count int(10) unsigned NOT NULL DEFAULT 0,
+consumed_at datetime DEFAULT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY token_identity (token_hash),
+UNIQUE KEY active_verification (active_key),
+KEY user_purpose (user_id,purpose,created_at),
+KEY expiry (expires_at,id)";
+			$bodies['user_notifications'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+user_id bigint(20) unsigned NOT NULL,
+event_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+type varchar(32) NOT NULL,
+subject_type varchar(32) NOT NULL,
+subject_id bigint(20) unsigned DEFAULT NULL,
+template_key varchar(64) NOT NULL,
+params_json text NOT NULL,
+locale varchar(10) NOT NULL,
+read_at datetime DEFAULT NULL,
+created_at datetime NOT NULL,
+expires_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY user_event (user_id,event_key),
+KEY user_unread (user_id,read_at,id),
+KEY expiry (expires_at,id)";
+			$bodies['notification_outbox'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+recipient_user_id bigint(20) unsigned DEFAULT NULL,
+notification_id bigint(20) unsigned DEFAULT NULL,
+event_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+channel varchar(16) NOT NULL DEFAULT 'email',
+template_key varchar(64) NOT NULL,
+locale varchar(10) NOT NULL,
+destination_hash char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+payload_ciphertext mediumtext,
+key_version varchar(32) NOT NULL,
+status varchar(20) NOT NULL DEFAULT 'queued',
+attempts int(10) unsigned NOT NULL DEFAULT 0,
+available_at datetime NOT NULL,
+lease_token char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT '',
+locked_until datetime DEFAULT NULL,
+last_error varchar(64) NOT NULL DEFAULT '',
+provider_message_id varchar(191) DEFAULT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+accepted_at datetime DEFAULT NULL,
+expires_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY event_channel (event_key,channel),
+KEY due (status,available_at,id),
+KEY lease (status,locked_until),
+KEY recipient_history (recipient_user_id,created_at),
+KEY expiry (expires_at,id)";
+		}
+
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -274,6 +347,7 @@ UNIQUE KEY job_revision (job_id,revision)";
 	/** Verify physical schema before advancing the version; dbDelta's messages alone are insufficient. */
 	public static function verify( Database $db, string $version ): void {
 		foreach ( self::COLUMNS as $entity => $columns ) {
+			if ( version_compare( $version, '1.6.0', '<' ) && in_array( $entity, self::ACCOUNT_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.5.0', '<' ) && in_array( $entity, self::AI_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.4.0', '<' ) ) {
 				if ( in_array( $entity, self::IMPORT_TABLES, true ) ) { continue; }
@@ -287,6 +361,7 @@ UNIQUE KEY job_revision (job_id,revision)";
 			}
 			$table  = $db->table( $entity );
 			$fields = $db->rows( "SHOW COLUMNS FROM $table" );
+			if ( in_array( $entity, self::ACCOUNT_TABLES, true ) ) { self::verifyAccountFields( $db, $entity, $version ); }
 			$actual = array_column( $fields, 'Field' );
 			if ( array_diff( array_keys( $columns ), $actual ) ) {
 				throw new \RuntimeException( 'Core schema columns are incomplete.' );
@@ -348,5 +423,25 @@ UNIQUE KEY job_revision (job_id,revision)";
 				throw new \RuntimeException( 'Core tables require utf8mb4.' );
 			}
 		}
+	}
+
+	/** New account tables verify complete types, nullability and binary hashes, not only names. */
+	private static function verifyAccountFields( Database $db, string $entity, string $version ): void {
+		$definition = self::definitions( $db, $version )[ $entity ];
+		$expected = array();
+		foreach ( explode( "\n", $definition ) as $line ) {
+			if ( preg_match( '/^([a-z_]+) ((?:bigint|int)\(\d+\) unsigned|char\(\d+\)|varchar\(\d+\)|datetime|mediumtext|text)(.*)$/D', rtrim( $line, ',' ), $match ) ) {
+				$expected[ $match[1] ] = array( preg_replace( '/\b(bigint|int)\(\d+\)/', '$1', $match[2] ), str_contains( $match[3], 'NOT NULL' ) ? 'NO' : 'YES', str_contains( $match[3], 'ascii_bin' ) );
+			}
+		}
+		foreach ( $db->rows( 'SHOW FULL COLUMNS FROM ' . $db->table( $entity ) ) as $field ) {
+			if ( ! isset( $expected[ $field['Field'] ] ) ) { continue; }
+			[ $type, $nullable, $binary ] = $expected[ $field['Field'] ];
+			if ( preg_replace( '/\b(bigint|int)\(\d+\)/', '$1', strtolower( $field['Type'] ) ) !== $type || $nullable !== $field['Null'] || ( $binary && 'ascii_bin' !== $field['Collation'] ) ) {
+				throw new \RuntimeException( 'Account schema column contract is invalid.' );
+			}
+			unset( $expected[ $field['Field'] ] );
+		}
+		if ( $expected ) { throw new \RuntimeException( 'Account schema columns are incomplete.' ); }
 	}
 }

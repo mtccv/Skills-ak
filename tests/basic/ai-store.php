@@ -58,8 +58,8 @@ function fixture(): array {
 	return array( $wpdb, $db, $store, $source, $profile );
 }
 list( $wpdb, $db, $store, $source, $profile ) = fixture();
-check( 14 === count( Schema::COLUMNS ), 'Eight business, three import and three AI tables remain distinct.' );
-foreach ( array( '1.0.0' => 8, '1.1.0' => 8, '1.2.0' => 8, '1.3.0' => 8, '1.4.0' => 11, '1.5.0' => 14 ) as $version => $tables ) { check( count( Schema::definitions( $db, $version ) ) === $tables, 'Historical schemas retain their original table set.' ); }
+check( 17 === count( Schema::COLUMNS ), 'Eight business, three import, three AI and three account tables remain distinct.' );
+foreach ( array( '1.0.0' => 8, '1.1.0' => 8, '1.2.0' => 8, '1.3.0' => 8, '1.4.0' => 11, '1.5.0' => 14, '1.6.0' => 17 ) as $version => $tables ) { check( count( Schema::definitions( $db, $version ) ) === $tables, 'Historical schemas retain their original table set.' ); }
 foreach ( Schema::definitions( $db, '1.4.0' ) as $table => $definition ) { check( Schema::definitions( $db, '1.5.0' )[ $table ] === $definition, 'Phase 6 preserves each prior table definition.' ); }
 $id = $store->enqueue( $source, $profile, 'both', str_repeat( '1', 64 ), 'v1' );
 check( 1 === $id && 1 === count( $wpdb->tables['ai_jobs'] ), 'Generation is queued once.' );

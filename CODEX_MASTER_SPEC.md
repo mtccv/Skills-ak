@@ -1,5 +1,13 @@
 # AI Skills Hub — 项目总规格
 
+## 当前实施增量：Phase 8（2026-11-06）
+
+用户已确认 Phase 7.5 初审并授权账户与个人中心开发；下文 Final QA 为 V1 历史规格和证据。Phase 8 的完整增量合同由 [PRODUCT_SPEC_V2.md](PRODUCT_SPEC_V2.md)、[数据库规划](docs/PRODUCT_DATABASE_DESIGN.md)及五份 Phase 7.5 设计规范共同定义，实际使用见 [ACCOUNT_SYSTEM.md](ACCOUNT_SYSTEM.md)。新主题/Core **0.8.0**、schema **1.6.0**；只增加邮箱验证、账户通知、邮件 outbox 三表，共 17 张 Core 表。原十四表、Skill ID、来源去重、双语关系、Contact/Submit 记录及人工审核门禁保持。
+
+账户复用原生 WordPress Users/Subscriber、认证/会话/密码重置，增加独立 Accounts 模块、双语认证与个人中心、头像、安全设置和原生隐私申请。采用白/浅灰、深灰字及陶土棕 `#AD5E48`，不沿用下文历史 Phase 3 紫色/薄荷绿配色。原型不改。邮件必须具备专用服务器加密密钥和显式传输配置；Token 哈希存储、一次性确认、重发限流、失败恢复，传输受理不等于送达。没有授权开发 Phase 9–14。
+
+本阶段结果独立记录于 `docs/PHASE_8_REPORT.md`，保留真实 WordPress/MySQL、Mock 传输、隔离检查和未执行外部服务的区别；历史 Final QA 不能替代新代码验证。完成代码、构建、报告及正常 main 同步后暂停等待 Phase 9。
+
 版本：1.9（Final QA）；建立及修订日期：2026-11-05（Asia/Shanghai）。仓库：https://github.com/mtccv/Skills-ak。
 
 ## 1. 目标与执行约束

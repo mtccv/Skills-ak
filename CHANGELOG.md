@@ -1,5 +1,14 @@
 # 变更记录
 
+## 0.8.0 — Phase 8 用户账户与个人中心
+
+- 新增 Accounts Core 模块；原生 Users/Subscriber 的双语注册、邮箱验证、登录/退出、恢复/重置、改密码/邮箱、会话撤销、资料、私有头像和个人中心。
+- schema 1.6.0 只追加 email_verifications、user_notifications、notification_outbox 三表，保留原十四表及 Skills/人工译文/来源历史/匿名私有来信。
+- 一次性 HMAC 验证、版本化密钥加密 outbox、有界 Cron、租约恢复；明确区分排队、传输受理和结果不确定，不声称真实送达。
+- 原生隐私申请绑定用户 ID，新增安全导出/擦除与删除恢复；ZIP 存放 Web 根外并要求本人或管理员授权下载。邮箱复用、原生改密码、认证限流、CSRF 和私有头像出口均补回归。
+- 账户界面遵循确认的白/浅灰、深灰和陶土棕设计，既有共享颜色 token 同步；未修改 Phase 7.5 原型，未开发收藏、评分或新投稿。
+- PHP 8.3/8.4 语法与隔离/Mock、真实 WordPress/MySQL 账户/迁移/并发/隐私、Chromium 69 项及既有 HTTP 冒烟 15 项通过；真实 SMTP、WPML 等外部验收仍未执行。详情见 docs/PHASE_8_REPORT.md。
+
 ## Phase 7.5 — 清除绿色配色残留
 
 - 修正首页书本图标的薄荷绿覆盖，统一用户中心隐私面板、在线点、收藏图标与成功徽章为中性灰；保留状态文字和布局。

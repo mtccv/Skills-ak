@@ -1,3 +1,5 @@
+@import './accounts.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,6 +30,7 @@
   .desktop-nav a { @apply py-8 text-muted transition-colors hover:text-ink; }
   .desktop-nav a[aria-current="page"] { @apply relative text-violet-700; }
   .desktop-nav a[aria-current="page"]::after { content: ''; @apply absolute bottom-5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-violet-600; }
+  .account-nav-link { @apply min-h-11 items-center text-sm font-medium text-violet-700 hover:underline; }
   .header-actions { @apply flex items-center gap-5; }
   .language-switch { @apply flex items-center gap-2 text-xs font-semibold; }
   .language-switch span { @apply text-slate-300; }
@@ -41,16 +44,16 @@
   .mobile-navigation nav a { @apply rounded-lg px-2 py-2.5 text-muted hover:bg-canvas hover:text-ink; }
   .button { @apply inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl border border-transparent px-6 py-3 text-sm font-semibold leading-5 transition-colors; }
   .button svg { @apply h-[18px] w-[18px] shrink-0; }
-  .button-primary { @apply bg-violet-600 text-white hover:bg-violet-700; box-shadow: 0 4px 10px rgb(112 71 235 / 13%); }
+  .button-primary { @apply bg-violet-600 text-white hover:bg-violet-700; box-shadow: none; }
   .button-secondary { @apply border-slate-200 bg-white text-ink hover:border-violet-500 hover:bg-violet-50; }
   .button-light { @apply bg-white text-violet-700 hover:bg-violet-50; }
   .button-small { @apply min-h-10 rounded-lg px-4 py-2.5 text-xs; }
   .text-link { @apply inline-flex items-center gap-2 text-sm font-semibold text-violet-700 hover:text-violet-500; }
   .text-link svg { @apply h-4 w-4 shrink-0; }
   .eyebrow { @apply text-[11px] font-bold uppercase tracking-[0.16em] text-violet-700; }
-  .status-dot { @apply inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-mint-500; box-shadow: 0 0 0 4px rgb(38 190 133 / 9%); }
+  .status-dot { @apply inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-mint-500; box-shadow: none; }
   .hero { @apply relative overflow-hidden bg-canvas; }
-  .hero-grid { @apply pointer-events-none absolute inset-0; background: radial-gradient(ellipse at 90% 30%, rgb(112 71 235 / 7%), transparent 55%), radial-gradient(ellipse at 30% 90%, rgb(38 190 133 / 4%), transparent 60%); }
+  .hero-grid { @apply pointer-events-none absolute inset-0; background: #F9FAFB; }
   .hero-layout { @apply relative grid items-center gap-10 py-16 sm:py-20 lg:min-h-[650px] lg:grid-cols-[1.2fr_1fr] lg:gap-16 lg:py-24; }
   .hero-eyebrow { @apply mb-6 inline-flex items-center gap-3 rounded-full border border-white bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.13em] text-slate-600; }
   .hero-copy h1 { @apply max-w-[700px] text-[42px] font-extrabold leading-[1.16] tracking-[-1.8px] sm:text-[54px] lg:text-[60px]; }
@@ -71,7 +74,7 @@
   .visual-badge svg { @apply h-6 w-6; }
   .badge-code { @apply -left-6 top-14 -rotate-12 text-violet-600; }
   .badge-spark { @apply -right-5 bottom-20 rotate-12 bg-mint-50 text-mint-700; }
-  .hero-document { @apply relative z-10 overflow-hidden rounded-[22px] border border-white bg-white; box-shadow: 0 25px 80px rgb(48 32 94 / 9%), 0 2px 6px rgb(48 32 94 / 4%); transform: rotate(-3deg); }
+  .hero-document { @apply relative z-10 overflow-hidden rounded-[22px] border border-white bg-white; box-shadow: 0 25px 80px rgb(17 24 39 / 9%), 0 2px 6px rgb(17 24 39 / 4%); transform: rotate(-3deg); }
   .document-top { @apply flex h-12 items-center justify-between border-b border-slate-100 bg-slate-50/80 px-5 font-mono text-[10px] text-slate-400; }
   .document-top > svg { @apply h-3.5 w-3.5; }
   .document-dots { @apply flex gap-1.5; }
@@ -120,11 +123,11 @@
   .platform-links .chip { @apply px-3 py-2; }
   .tutorial-section { @apply border-y border-slate-100 bg-canvas; }
   .tutorial-card { @apply min-w-0 overflow-hidden rounded-2xl border border-slate-200/80 bg-white; }
-  .tutorial-art { @apply relative flex h-44 items-center justify-center overflow-hidden bg-violet-50; background: linear-gradient(135deg, #ece8ff, #e5f6ee); }
-  .tutorial-card:nth-child(3n + 2) .tutorial-art { background: linear-gradient(135deg, #e8f2ff, #f1e8ff); }
-  .tutorial-card:nth-child(3n + 3) .tutorial-art { background: linear-gradient(135deg, #e4f4ec, #f4f1de); }
+  .tutorial-art { @apply relative flex h-44 items-center justify-center overflow-hidden bg-violet-50; background: #F3F4F6; }
+  .tutorial-card:nth-child(3n + 2) .tutorial-art { background: #F3F4F6; }
+  .tutorial-card:nth-child(3n + 3) .tutorial-art { background: #F3F4F6; }
   .tutorial-art-grid { @apply absolute inset-0 opacity-30; background-image: linear-gradient(#b6bdc9 1px, transparent 1px), linear-gradient(90deg, #b6bdc9 1px, transparent 1px); background-size: 28px 28px; }
-  .tutorial-art-icon { @apply relative flex h-20 w-20 -rotate-6 items-center justify-center rounded-2xl border border-white bg-white/80 text-violet-600; box-shadow: 0 12px 30px rgb(80 72 114 / 9%); }
+  .tutorial-art-icon { @apply relative flex h-20 w-20 -rotate-6 items-center justify-center rounded-2xl border border-white bg-white/80 text-violet-600; box-shadow: 0 12px 30px rgb(17 24 39 / 9%); }
   .tutorial-art-icon svg { @apply h-9 w-9; }
   .tutorial-art-label { @apply absolute bottom-3.5 left-5 right-5 flex justify-between text-[10px] font-semibold tracking-wide text-slate-500; }
   .tutorial-card .card-bottom { @apply mt-5; }

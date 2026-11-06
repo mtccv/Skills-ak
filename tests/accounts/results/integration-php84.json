@@ -1,0 +1,94 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46",
+    "schema": "1.6.0"
+  },
+  "transport": "Mock pre_wp_mail; no real SMTP or inbox delivery tested",
+  "cases": [
+    {
+      "id": "DB-UPGRADE-17-TABLES-PRESERVE-14",
+      "status": "passed"
+    },
+    {
+      "id": "CRYPTO-AUTHENTICATED-ENCRYPTION",
+      "status": "passed"
+    },
+    {
+      "id": "SIGNUP-NATIVE-ROLE-HASH-ENCRYPTED-OUTBOX",
+      "status": "passed"
+    },
+    {
+      "id": "DUPLICATE-REGISTER-GENERIC-NATIVE-SAFETY",
+      "status": "passed"
+    },
+    {
+      "id": "TRANSPORT-ACCEPTANCE-VERIFY-REPLAY",
+      "status": "passed"
+    },
+    {
+      "id": "PROFILE-OWNERSHIP-SANITIZATION",
+      "status": "passed"
+    },
+    {
+      "id": "RESET-NATIVE-KEY-SINGLE-USE",
+      "status": "passed"
+    },
+    {
+      "id": "EMAIL-CHANGE-VERIFY-NATIVE-GUARD",
+      "status": "passed"
+    },
+    {
+      "id": "EXPIRED-AND-REPLACED-VERIFICATION",
+      "status": "passed"
+    },
+    {
+      "id": "RESEND-LIMIT-AND-ROTATION",
+      "status": "passed"
+    },
+    {
+      "id": "MAIL-KNOWN-FAILURE-RETRY-UNCERTAIN",
+      "status": "passed"
+    },
+    {
+      "id": "MAIL-AMBIGUOUS-FALSE-NOT-RETRIED",
+      "status": "passed"
+    },
+    {
+      "id": "LEASE-FENCING-CRASH-RECOVERY",
+      "status": "passed"
+    },
+    {
+      "id": "LEGACY-ADMIN-CAPABILITIES-UNCHANGED",
+      "status": "passed"
+    },
+    {
+      "id": "PENDING-NATIVE-AUTH-REST-APPLICATION-PASSWORD",
+      "status": "passed"
+    },
+    {
+      "id": "NATIVE-BRUTE-FORCE-CANNOT-BYPASS-LIMIT",
+      "status": "passed"
+    },
+    {
+      "id": "NATIVE-PASSWORD-CHANGE-REVOKES-EMAIL-CHANGE",
+      "status": "passed"
+    },
+    {
+      "id": "PRIVACY-REQUEST-OWNERSHIP-EXPORT",
+      "status": "passed"
+    },
+    {
+      "id": "NATIVE-DELETE-RECOVERABLE-CLEANUP",
+      "status": "passed"
+    },
+    {
+      "id": "AVATAR-DECODER-BOUNDS-PRIVATE-DEFAULT",
+      "status": "passed"
+    }
+  ],
+  "passed": 20,
+  "failed": 0,
+  "assertions": 136
+}

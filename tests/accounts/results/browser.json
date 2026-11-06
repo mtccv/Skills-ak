@@ -1,0 +1,297 @@
+{
+  "browser": "Chromium 155, Linux headless",
+  "environment": "Real WordPress 7.1.4 / PHP 8.3.36 / MySQL 8.0.46; Mock mail transport",
+  "checks": [
+    {
+      "id": "en:register-http-200",
+      "status": "passed"
+    },
+    {
+      "id": "en:private-cache-and-robots",
+      "status": "passed"
+    },
+    {
+      "id": "en:one-title-one-h1",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-public-seo-identities",
+      "status": "passed"
+    },
+    {
+      "id": "en:registration-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:registration-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:registration-native-pending",
+      "status": "passed"
+    },
+    {
+      "id": "en:verification-url-cleans-token",
+      "status": "passed"
+    },
+    {
+      "id": "en:get-does-not-consume-token",
+      "status": "passed"
+    },
+    {
+      "id": "en:token-not-rendered",
+      "status": "passed"
+    },
+    {
+      "id": "en:credential-cookie-http-only",
+      "status": "passed"
+    },
+    {
+      "id": "en:explicit-verification-activates",
+      "status": "passed"
+    },
+    {
+      "id": "en:native-session-dashboard",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-demo-or-future-controls",
+      "status": "passed"
+    },
+    {
+      "id": "en:dashboard-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "en:dashboard-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "en:dashboard-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "en:profile-persists-own-native-user",
+      "status": "passed"
+    },
+    {
+      "id": "en:avatar-private-attachment-created",
+      "status": "passed"
+    },
+    {
+      "id": "en:avatar-owner-image",
+      "status": "passed"
+    },
+    {
+      "id": "en:avatar-anonymous-denied",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-private-profile-/",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-private-profile-/author/member-eIDeIDcIDbadaIDaIDeID/",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-private-profile-/wp-json/wp/vID/users/ID",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-private-profile-/wp-json/wp/vID/users",
+      "status": "passed"
+    },
+    {
+      "id": "en:no-private-profile-/wp-json/wp/vID/media/ID",
+      "status": "passed"
+    },
+    {
+      "id": "en:privacy-native-request-visible",
+      "status": "passed"
+    },
+    {
+      "id": "en:password-email-session-forms",
+      "status": "passed"
+    },
+    {
+      "id": "en:logout-revokes-private-access",
+      "status": "passed"
+    },
+    {
+      "id": "en:reset-url-cleans-native-key",
+      "status": "passed"
+    },
+    {
+      "id": "en:native-password-reset-completes",
+      "status": "passed"
+    },
+    {
+      "id": "en:native-password-reset-login",
+      "status": "passed"
+    },
+    {
+      "id": "zh:register-http-200",
+      "status": "passed"
+    },
+    {
+      "id": "zh:private-cache-and-robots",
+      "status": "passed"
+    },
+    {
+      "id": "zh:one-title-one-h1",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-public-seo-identities",
+      "status": "passed"
+    },
+    {
+      "id": "zh:registration-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:registration-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:registration-native-pending",
+      "status": "passed"
+    },
+    {
+      "id": "zh:verification-url-cleans-token",
+      "status": "passed"
+    },
+    {
+      "id": "zh:get-does-not-consume-token",
+      "status": "passed"
+    },
+    {
+      "id": "zh:token-not-rendered",
+      "status": "passed"
+    },
+    {
+      "id": "zh:credential-cookie-http-only",
+      "status": "passed"
+    },
+    {
+      "id": "zh:explicit-verification-activates",
+      "status": "passed"
+    },
+    {
+      "id": "zh:native-session-dashboard",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-demo-or-future-controls",
+      "status": "passed"
+    },
+    {
+      "id": "zh:dashboard-no-overflow-320",
+      "status": "passed"
+    },
+    {
+      "id": "zh:dashboard-no-overflow-768",
+      "status": "passed"
+    },
+    {
+      "id": "zh:dashboard-no-overflow-1440",
+      "status": "passed"
+    },
+    {
+      "id": "zh:profile-persists-own-native-user",
+      "status": "passed"
+    },
+    {
+      "id": "zh:avatar-private-attachment-created",
+      "status": "passed"
+    },
+    {
+      "id": "zh:avatar-owner-image",
+      "status": "passed"
+    },
+    {
+      "id": "zh:avatar-anonymous-denied",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-private-profile-/",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-private-profile-/author/member-IDacIDdIDaaeIDcfbIDbbIDbID/",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-private-profile-/wp-json/wp/vID/users/ID",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-private-profile-/wp-json/wp/vID/users",
+      "status": "passed"
+    },
+    {
+      "id": "zh:no-private-profile-/wp-json/wp/vID/media/ID",
+      "status": "passed"
+    },
+    {
+      "id": "zh:privacy-native-request-visible",
+      "status": "passed"
+    },
+    {
+      "id": "zh:password-email-session-forms",
+      "status": "passed"
+    },
+    {
+      "id": "zh:logout-revokes-private-access",
+      "status": "passed"
+    },
+    {
+      "id": "zh:reset-url-cleans-native-key",
+      "status": "passed"
+    },
+    {
+      "id": "zh:native-password-reset-completes",
+      "status": "passed"
+    },
+    {
+      "id": "zh:native-password-reset-login",
+      "status": "passed"
+    },
+    {
+      "id": "cross-browser-guest-csrf-rejected",
+      "status": "passed"
+    },
+    {
+      "id": "cross-origin-post-rejected",
+      "status": "passed"
+    },
+    {
+      "id": "invalid-wordpress-nonce-rejected",
+      "status": "passed"
+    },
+    {
+      "id": "no-javascript-login-form-available",
+      "status": "passed"
+    },
+    {
+      "id": "no-javascript-no-overflow",
+      "status": "passed"
+    }
+  ],
+  "passed": 69,
+  "failed": 0,
+  "errors": [],
+  "screenshotFiles": [
+    "register-en-320.png",
+    "register-en-1440.png",
+    "dashboard-en-320.png",
+    "dashboard-en-768.png",
+    "dashboard-en-1440.png",
+    "register-zh-320.png",
+    "register-zh-1440.png",
+    "dashboard-zh-320.png",
+    "dashboard-zh-768.png",
+    "dashboard-zh-1440.png"
+  ]
+}

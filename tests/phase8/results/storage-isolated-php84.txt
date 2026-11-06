@@ -1,0 +1,1 @@
+Account storage: 52 isolated assertions passed (real sodium; modeled wpdb, no WordPress/MySQL/mail).

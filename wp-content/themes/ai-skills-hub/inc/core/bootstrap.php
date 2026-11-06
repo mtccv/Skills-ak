@@ -6,7 +6,7 @@ namespace AISkillsHub\Core;
 
 defined( 'ABSPATH' ) || exit;
 
-const VERSION = '0.7.1';
+const VERSION = '0.8.0';
 
 spl_autoload_register( static function ( string $class ): void {
 	$prefix = __NAMESPACE__ . '\\';

@@ -1,0 +1,1 @@
+Migration recovery: 161 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).

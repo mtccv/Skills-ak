@@ -1,0 +1,67 @@
+{
+  "environment": "Real WordPress 7.1.4/PHP8.3/MySQL8, Chromium; Mock mail transport",
+  "checks": [
+    {
+      "id": "public:/zh/",
+      "status": "passed"
+    },
+    {
+      "id": "public:/en/",
+      "status": "passed"
+    },
+    {
+      "id": "public:/en/skills/",
+      "status": "passed"
+    },
+    {
+      "id": "public:/zh/search/?q=QA",
+      "status": "passed"
+    },
+    {
+      "id": "public:/en/tutorials/",
+      "status": "passed"
+    },
+    {
+      "id": "public:/zh/contact/",
+      "status": "passed"
+    },
+    {
+      "id": "public:/aish-sitemap.xml",
+      "status": "passed"
+    },
+    {
+      "id": "accounts-excluded-from-sitemap",
+      "status": "passed"
+    },
+    {
+      "id": "public:/robots.txt",
+      "status": "passed"
+    },
+    {
+      "id": "public:/en/not-a-real-route/",
+      "status": "passed"
+    },
+    {
+      "id": "legacy-admin-native-login",
+      "status": "passed"
+    },
+    {
+      "id": "legacy-admin-hub-dashboard",
+      "status": "passed"
+    },
+    {
+      "id": "pending-native-admin-verification-only",
+      "status": "passed"
+    },
+    {
+      "id": "pending-native-profile-verification-only",
+      "status": "passed"
+    },
+    {
+      "id": "pending-private-center-verification-only",
+      "status": "passed"
+    }
+  ],
+  "passed": 15,
+  "failed": 0
+}

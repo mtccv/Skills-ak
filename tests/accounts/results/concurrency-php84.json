@@ -1,0 +1,48 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "kind": "independent concurrent PHP processes and real MySQL sessions; Mock mail queue transport",
+  "cases": [
+    {
+      "id": "three-theme-registrations",
+      "status": "passed",
+      "workers": 3,
+      "native_accounts_created": 1,
+      "worker_outcomes": [
+        "accepted",
+        "accepted",
+        "accepted"
+      ],
+      "worker_errors": 0
+    },
+    {
+      "id": "four-native-registrations",
+      "status": "passed",
+      "workers": 4,
+      "native_accounts_created": 1,
+      "worker_outcomes": [
+        "accepted",
+        "rejected",
+        "rejected",
+        "rejected"
+      ],
+      "worker_errors": 0
+    },
+    {
+      "id": "native-and-theme-race",
+      "status": "passed",
+      "workers": 2,
+      "native_accounts_created": 1,
+      "worker_outcomes": [
+        "rejected",
+        "accepted"
+      ],
+      "worker_errors": 0
+    }
+  ],
+  "passed": 3,
+  "failed": 0
+}

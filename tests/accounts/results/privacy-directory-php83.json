@@ -1,0 +1,44 @@
+{
+    "environment": "real isolated WordPress/PHP filesystem configuration guard",
+    "cases": [
+        {
+            "php": "8.3.36",
+            "case": "filesystem_root",
+            "assertions": 2,
+            "rejected_before_chmod": true,
+            "permissions_unchanged": true,
+            "passed": 1,
+            "failed": 0
+        },
+        {
+            "php": "8.3.36",
+            "case": "system_temporary_root",
+            "assertions": 2,
+            "rejected_before_chmod": true,
+            "permissions_unchanged": true,
+            "passed": 1,
+            "failed": 0
+        },
+        {
+            "php": "8.3.36",
+            "case": "web_root",
+            "assertions": 2,
+            "rejected_before_chmod": true,
+            "permissions_unchanged": true,
+            "passed": 1,
+            "failed": 0
+        },
+        {
+            "php": "8.3.36",
+            "case": "web_root_ancestor",
+            "assertions": 2,
+            "rejected_before_chmod": true,
+            "permissions_unchanged": true,
+            "passed": 1,
+            "failed": 0
+        }
+    ],
+    "assertions": 8,
+    "passed": 4,
+    "failed": 0
+}

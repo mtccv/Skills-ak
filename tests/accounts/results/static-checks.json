@@ -1,0 +1,39 @@
+{
+  "kind": "Static checks, not external integration",
+  "php_lint": {
+    "8.3.36": {
+      "files": 151,
+      "passed": true
+    },
+    "8.4.27": {
+      "files": 151,
+      "passed": true
+    }
+  },
+  "basic": {
+    "scripts_per_runtime": 33,
+    "assertions_per_runtime": 2876,
+    "new_account_assertions_per_runtime": 155,
+    "passed": true
+  },
+  "node": "v24.22.1",
+  "tailwind_esbuild": "passed",
+  "assets": "passed",
+  "javascript_syntax": "passed",
+  "packager_unit_tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "package_inputs": "0.8.0 validated; no archive created",
+  "diff_whitespace": "passed",
+  "obvious_secret_pattern_scan": {
+    "files": 86,
+    "flagged_paths": [],
+    "limitation": "Pattern scan plus code review; not proof against all secret forms"
+  },
+  "prototype_files_changed": [],
+  "dist_sha256": {
+    "app.js": "81242dbb2dabbcfb76cdb8d1c1d421f239181b6f228cd74cc74c62d0767b2347",
+    "app.css": "f490825f678a50d742124f18466de4b70560f766828ecc9632b147d52bdea9ee"
+  }
+}
