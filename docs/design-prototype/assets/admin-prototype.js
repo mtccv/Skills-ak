@@ -106,7 +106,7 @@
     $('#admin-dashboard').insertBefore(notice, $('.wp-stats'));
   }
   const moduleLabels = {
-    hero: ['目录介绍', 'Directory introduction', '核心 · 标题与介绍', 'Core · Title and description'],
+    hero: ['Hero 介绍', 'Hero introduction', '核心 · 标题与介绍', 'Core · Title and description'],
     search: ['搜索入口', 'Search', '核心 · 搜索已公开内容', 'Core · Search public content'],
     categories: ['分类导航', 'Categories', '按分类发现', 'Browse by category'],
     trending: ['热门 Skills', 'Trending Skills', '真实信号排行 · 后续实现', 'Ranked by real signals · Planned'],
@@ -117,12 +117,11 @@
     contribute: ['投稿与共建', 'Contribute', '投稿入口与说明', 'Submission entry and guidance']
   };
   const initialModules = Object.keys(moduleLabels).map((id) => ({ id, enabled: id !== 'rated' }));
-  const homeStyles = window.AishHomeStyles;
   const initialConfig = {
-    style_id: 'skills-directory',
+    style_id: 'modern-saas',
     locales: {
-      zh: { title: '发现适合你任务的 Agent Skills', description: '按任务、分类和平台查找 Skills，阅读来源、安装说明与风险信息。', modules: copy(initialModules) },
-      en: { title: 'Find agent skills for your work', description: 'Browse skills by task, category and platform. Review sources, installation notes and risks.', modules: copy(initialModules) }
+      zh: { title: '找到下一个让你事半功倍的 Skill', description: '探索经过整理的 AI Skills，把重复工作交给工具，把时间留给创造。', modules: copy(initialModules) },
+      en: { title: 'Find your next unfair advantage.', description: 'Discover thoughtfully curated AI Skills. Spend less time on repetitive work, and more on what you create.', modules: copy(initialModules) }
     }
   };
   let config = copy(initialConfig);
@@ -135,8 +134,6 @@
   let statusMessage = ['草稿已载入。可修改后保存或预览。', 'Draft loaded. Edit, save, or preview it.'];
   const revisions = new Map([[6, copy(initialConfig)], [7, copy(initialConfig)]]);
   let publicationCandidate = null;
-  let previewSnapshot = null;
-  let previewLocale = 'zh';
   const dirty = () => JSON.stringify(config) !== JSON.stringify(savedConfig);
   const updateStatus = (zh, en) => {
     statusMessage = [zh, en];
@@ -144,16 +141,12 @@
     bilingual($('#home-dirty'), dirty() ? '有未保存修改' : '草稿已保存', dirty() ? 'Unsaved changes' : 'Draft saved');
     $('#home-live-revision').textContent = `#${liveRevision}`;
     $('#home-draft-revision').textContent = `#${draftRevision}`;
-    const draftStyle = homeStyles.has(config.style_id);
-    bilingual($('#home-draft-style'), draftStyle ? `当前草稿：${homeStyles.label(config.style_id, 'zh')}` : '当前草稿：风格无效，请重新选择。', draftStyle ? `Current draft: ${homeStyles.label(config.style_id, 'en')}` : 'Current draft: invalid style; choose an available style.');
-    bilingual($('#home-live-style'), `线上示例：${homeStyles.label(liveConfig.style_id, 'zh')} · #${liveRevision}`, `Live demo: ${homeStyles.label(liveConfig.style_id, 'en')} · #${liveRevision}`);
-    bilingual($('#home-live-style-summary'), homeStyles.label(liveConfig.style_id, 'zh'), homeStyles.label(liveConfig.style_id, 'en'));
   };
   const sendPreview = () => {
     const frame = $('#home-preview-frame');
-    if (!frame.contentWindow || !previewSnapshot || !homeStyles.has(previewSnapshot.style_id)) return;
-    const locale = previewSnapshot.locales[previewLocale];
-    const message = { type: 'aish-design-home', styleId: previewSnapshot.style_id, locale: previewLocale, modules: copy(locale.modules), title: locale.title, description: locale.description };
+    if (!frame.contentWindow) return;
+    const locale = config.locales[contentLocale];
+    const message = { type: 'aish-design-home', locale: contentLocale, modules: copy(locale.modules), title: locale.title, description: locale.description };
     // HTTP static previews use a same-origin target; file previews have an opaque origin.
     const targetOrigin = location.origin === 'null' ? '*' : location.origin;
     frame.contentWindow.postMessage(message, targetOrigin);
@@ -208,7 +201,6 @@
   };
   const renderContent = () => {
     const locale = config.locales[contentLocale];
-    $('#home-style').value = config.style_id;
     $('#home-title').value = locale.title;
     $('#home-description').value = locale.description;
     $$('[data-content-lang]').forEach((button) => {
@@ -236,23 +228,14 @@
       updateStatus('修改尚未保存。线上示例保持原修订。', 'Changes are not saved. The live demo keeps its current revision.');
     });
   });
-  $('#home-style').addEventListener('change', (event) => {
-    config.style_id = event.target.value;
-    updateStatus('草稿风格已更改；双语文案与模块配置已保留，线上示例未改变。', 'Draft style changed; bilingual copy and modules are preserved. The live demo is unchanged.');
-  });
   const validConfig = () => {
-    if (!homeStyles.has(config.style_id)) {
-      updateStatus('请选择可用的首页风格。未知风格不能保存、预览或发布。', 'Choose an available homepage style. Unknown styles cannot be saved, previewed, or published.');
-      return false;
-    }
     if (config.locales.zh.title.trim() && config.locales.en.title.trim()) return true;
-    updateStatus('请为中文和 English 都填写 目录介绍标题；缺译不能作为可发布内容。', 'Provide a directory introduction title for both Chinese and English; missing translations cannot be published.');
+    updateStatus('请为中文和 English 都填写 Hero 标题；缺译不能作为可发布内容。', 'Provide a Hero title for both Chinese and English; missing translations cannot be published.');
     return false;
   };
   const addRevisionOption = (number) => {
     if (Array.from($('#home-revision').options).some((option) => Number(option.value) === number)) return;
-    const styleId = revisions.get(number).style_id;
-    const option = element('option', `#${number} · ${homeStyles.label(styleId, 'zh')} · 当前会话保存`, `#${number} · ${homeStyles.label(styleId, 'en')} · Saved this session`);
+    const option = element('option', `#${number} · 当前会话保存`, `#${number} · Saved this session`);
     option.value = String(number);
     $('#home-revision').prepend(option);
   };
@@ -265,11 +248,11 @@
   $('#home-save').addEventListener('click', () => {
     if (!validConfig()) return;
     saveDraft();
-    updateStatus(`已保存 ${homeStyles.label(config.style_id, 'zh')} 内存草稿 #${draftRevision}，线上仍为 #${liveRevision}。`, `Memory draft #${draftRevision} saved with ${homeStyles.label(config.style_id, 'en')}; live remains #${liveRevision}.`);
+    updateStatus(`已保存内存草稿 #${draftRevision}，线上仍为 #${liveRevision}。`, `Memory draft #${draftRevision} saved; live remains #${liveRevision}.`);
   });
   $('#home-restore').addEventListener('click', () => {
     const selected = Number($('#home-revision').value);
-    if (!revisions.has(selected) || !homeStyles.has(revisions.get(selected).style_id)) return;
+    if (!revisions.has(selected)) return;
     config = copy(revisions.get(selected));
     saveDraft();
     statusMessage = [`已从 #${selected} 恢复为新草稿 #${draftRevision}，尚未发布。`, `Restored #${selected} as new draft #${draftRevision}; not published.`];
@@ -278,10 +261,9 @@
   $('#home-publish').addEventListener('click', (event) => {
     if (!validConfig()) return;
     publicationCandidate = copy(config);
-    bilingual($('#home-publish-summary'), `将用这份中英文配置替换内存中的线上修订 #${liveRevision}。风格：${homeStyles.label(config.style_id, 'zh')}。`, `Replace memory live revision #${liveRevision} with this Chinese and English configuration. Style: ${homeStyles.label(config.style_id, 'en')}.`);
+    bilingual($('#home-publish-summary'), `将用这份中英文配置替换内存中的线上修订 #${liveRevision}。风格：Modern SaaS。`, `Replace memory live revision #${liveRevision} with this Chinese and English configuration. Style: Modern SaaS.`);
     const changes = $('#home-changes');
     changes.replaceChildren();
-    if (config.style_id !== liveConfig.style_id) changes.append(element('li', `风格：${homeStyles.label(liveConfig.style_id, 'zh')} → ${homeStyles.label(config.style_id, 'zh')}。`, `Style: ${homeStyles.label(liveConfig.style_id, 'en')} → ${homeStyles.label(config.style_id, 'en')}.`));
     ['zh', 'en'].forEach((locale) => {
       const current = config.locales[locale];
       const old = liveConfig.locales[locale];
@@ -294,7 +276,7 @@
     openDialog($('#home-publish-dialog'), event.currentTarget);
   });
   $('#home-confirm-publish').addEventListener('click', () => {
-    if (!publicationCandidate || !homeStyles.has(publicationCandidate.style_id)) return;
+    if (!publicationCandidate) return;
     config = copy(publicationCandidate);
     saveDraft();
     liveConfig = copy(publicationCandidate);
@@ -303,27 +285,14 @@
     updateStatus(`已模拟发布修订 #${liveRevision}。只改变当前页面内存。`, `Simulated publication of revision #${liveRevision}. Only page memory changed.`);
     $('#home-publish-dialog').close();
   });
-  const openHomePreview = (isLive, trigger) => {
-    if (!isLive && !validConfig()) return;
-    previewSnapshot = copy(isLive ? liveConfig : config);
-    previewLocale = contentLocale;
+  $('#home-preview').addEventListener('click', (event) => {
     const frame = $('#home-preview-frame');
     const previewUrl = new URL('index.html', location.href);
     previewUrl.searchParams.set('embed', '1');
-    previewUrl.searchParams.set('lang', previewLocale);
-    previewUrl.searchParams.set('style', previewSnapshot.style_id);
-    const titleZh = isLive ? '当前线上示例预览' : '首页草稿预览';
-    const titleEn = isLive ? 'Current live demo preview' : 'Homepage draft preview';
-    bilingual($('#home-preview-title'), titleZh, titleEn);
-    bilingual($('#home-preview-note'), `${isLive ? `线上示例 #${liveRevision}` : '当前未发布草稿'} · ${homeStyles.label(previewSnapshot.style_id, 'zh')} · ${previewLocale === 'zh' ? '中文' : 'English'} · 仅本地内存演示`, `${isLive ? `Live demo #${liveRevision}` : 'Current unpublished draft'} · ${homeStyles.label(previewSnapshot.style_id, 'en')} · ${previewLocale === 'zh' ? 'Chinese' : 'English'} · Local in-memory demo only`);
-    frame.dataset.i18nTitleZh = titleZh;
-    frame.dataset.i18nTitleEn = titleEn;
-    frame.title = uiLang() === 'en' ? titleEn : titleZh;
+    previewUrl.searchParams.set('lang', contentLocale);
     frame.src = previewUrl.href;
-    openDialog($('#home-preview-dialog'), trigger);
-  };
-  $('#home-preview').addEventListener('click', (event) => openHomePreview(false, event.currentTarget));
-  $('#home-live-preview').addEventListener('click', (event) => openHomePreview(true, event.currentTarget));
+    openDialog($('#home-preview-dialog'), event.currentTarget);
+  });
   $('#home-preview-frame').addEventListener('load', sendPreview);
   $$('[data-preview-width]').forEach((button) => button.addEventListener('click', () => {
     $('#home-preview-frame').classList.toggle('is-mobile', button.dataset.previewWidth === 'mobile');

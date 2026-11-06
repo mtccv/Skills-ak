@@ -1,8 +1,10 @@
 {
+  "restored_source_commit": "04a8190fd7938749efbb142430c6e5ff23cb38c5",
+  "original_sources_exact_match": 15,
   "scope": "Phase7.5 static documentation and artifact boundary validation",
-  "markdown_files": 13,
-  "local_markdown_links": 207,
-  "html_files": 7,
+  "markdown_files": 12,
+  "local_markdown_links": 166,
+  "html_files": 6,
   "production_diff_empty": true,
   "failures": []
 }

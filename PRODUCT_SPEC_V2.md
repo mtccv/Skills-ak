@@ -1,5 +1,7 @@
 # AI Skills Hub 产品规格 V2
 
+> 恢复说明（2026-11-06）：按用户最新要求，本文件恢复自 `04a8190fd7938749efbb142430c6e5ff23cb38c5`，采用完整原设计，覆盖首页、Skills 列表、详情、用户中心及 WordPress 后台；撤销后续目录化和双风格方案。正文基线、参考说明及检查记录保留为初稿历史，本轮验证见[当前原型说明](docs/design-prototype/README.md)；仅恢复设计，不修改正式主题，不进入 Phase 8。
+
 状态：**产品扩展评审稿；仅完成规格、代码审查、数据设计和计划，Phase 8 未获实施授权。**
 
 日期：2026-11-06（Asia/Shanghai）。审查基线为 GitHub `main`：`1c27f8770fc3bd20b2ffd92d8873444ba92d54c8`。主题/Core 仍为 **0.7.1**，当前 schema 仍为 **1.5.0**。以下阶段、表、URL、权限和验收条款是待实施设计，不代表已经交付。
@@ -11,7 +13,6 @@
 - 确定的用户决策见第 2 节。本文其余带“建议”的实现策略、默认期限和阈值供本次评审；不能将其冒充用户已经确认的决定。
 - V2 产品规划轮次只阅读代码和编写 Markdown；随后新增 Phase 7.5 设计准备，允许独立静态原型，不修改正式 PHP/JS/CSS、数据库或迁移，不启动 Phase 8。
 - Phase 8–14 的强制设计基准为 [DESIGN_SYSTEM](docs/DESIGN_SYSTEM.md)、[前台](docs/FRONTEND_DESIGN_SPEC.md)、[用户中心](docs/USER_CENTER_DESIGN.md)、[后台](docs/ADMIN_DESIGN_SPEC.md)、[响应式](docs/RESPONSIVE_DESIGN.md)。先评审产品、数据库和设计，再明确授权功能实施；可运行原型不代表账户/评分/首页配置已上线。
-- Phase 7.5 当前视觉方向为专业 Skills 资源目录：以 [SkillsMP](https://skillsmp.com/) 的导航、布局、搜索和资源信息呈现为参考，白色/浅灰为主、少量品牌紫色；前台不采用通用 AI SaaS 仪表盘。用户中心采用记录列表，后台保留 WordPress 原生体系；不复制竞品商标、代码、页面资产或功能架构。本轮仅修订独立设计文档和静态原型，提供前后截图后等待审核。
 - 历史 [Final QA](FINAL_QA_REPORT.md) 为 25 个工作包中 20 通过、0 失败、5 未执行。真实 WPML、GitHub/AI API、生成质量及账单限制仍见 [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md)；不能将该历史验收转为新增功能通过。
 
 ## 2. 产品定位与已确定的决策
