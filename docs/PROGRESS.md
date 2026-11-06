@@ -12,14 +12,20 @@
 | Phase 7 安全、性能与稳定性 | 用户已验收 | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
 | Final QA | 已执行范围通过，外部验收有保留；20 通过 / 0 失败 / 5 未执行 | ../FINAL_QA_REPORT.md；真实 WPML / GitHub / AI 仍未验证 |
 | V2 产品扩展准备 | 规划文档待用户审核；没有开始 Phase 8 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
-| Phase 7.5 全站 UI/UX 设计 | 五份规范与五页静态原型完成，待用户审核 | DESIGN_SYSTEM.md；design-prototype/README.md；正式代码/数据库未变 |
+| Phase 7.5 全站 UI/UX 设计 | 已按 SkillsMP 视觉参考完成资源目录修订，待用户审核 | DESIGN_SYSTEM.md；design-prototype/README.md；正式代码/数据库未变 |
 | Phase 8–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
 
-## Phase 7.5 设计准备（当前交付，2026-11-06 Asia/Shanghai）
+## Phase 7.5 视觉方向修订（当前交付，2026-11-06 Asia/Shanghai）
 
-基于最新 main `6f7790d58d1884d400d7fd6ad5156449ec134081` 审查现有主题、Core、前后台、语言/SEO、采集/AI与V2规划；形成五份设计合同：DESIGN_SYSTEM、FRONTEND_DESIGN_SPEC、USER_CENTER_DESIGN、ADMIN_DESIGN_SPEC、RESPONSIVE_DESIGN。前台采用原创Modern SaaS浅色卡片风格，后台保留WordPress原生运营结构；后续Phase8–14须依据这些规范验收。
+以设计提交 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 为修改前基线，实际查看 SkillsMP 首页、搜索页和详情页，只学习视觉结构与信息密度。将五份规范和五页静态原型统一调整为专业 Skills 资源目录：白色/浅灰、克制紫色、64px桌面导航、搜索靠前、紧凑单列资源列表、技术文档式详情与明确来源/License/版本/风险。用户中心采用记录列表，后台保留原生WordPress控件。静态风格ID改为 `skills-directory`，原稳定模块ID与双语/状态/审核流程保持。
 
-新增隔离HTML首页、列表、详情、用户Dashboard、WP后台Dashboard，含中英、设备/状态预览、演示筛选、收藏/评价反馈、原生后台待办与首页配置内存流程。首页独立模块、样式与运营数据分层、双语配置、草稿/发布/CAS、未来排期合同均有设计；生产配置能力归后续授权范围，未实现生产首页重构或页面构建器。参考图在本轮对话不可读取，方案依据文字要求原创设计。
+本轮重新执行Chromium155的79项前台/状态/交互与24项后台内存预览检查，103通过、0失败；对比页8项检查通过，50张前后原图/并排图及其尺寸、SHA已核对；10组新基础配色对比计算通过，设计独立Tailwind构建、JS语法和设计边界检查通过。前后截图来自同尺寸、同语言、默认状态的真实静态页面；见[五页对比](DESIGN_COMPARISON.md)及[原型证据](design-prototype/README.md)。仅设计文档、隔离HTML/CSS/JS、截图和设计预览包变化；正式主题、数据库、安装包、历史Final QA结论均未改。修订完成后等待用户审核，不开始Phase8。
+
+## Phase 7.5 初稿（历史，视觉方向已由上述修订替代）
+
+初稿基于当时 main `6f7790d58d1884d400d7fd6ad5156449ec134081` 审查现有主题、Core、前后台、语言/SEO、采集/AI与V2规划；形成五份设计合同：DESIGN_SYSTEM、FRONTEND_DESIGN_SPEC、USER_CENTER_DESIGN、ADMIN_DESIGN_SPEC、RESPONSIVE_DESIGN。初稿前台采用Modern SaaS浅色卡片风格（当前已替换为专业资源目录），后台保留WordPress原生运营结构；后续Phase8–14须依据这些规范验收。
+
+新增隔离HTML首页、列表、详情、用户Dashboard、WP后台Dashboard，含中英、设备/状态预览、演示筛选、收藏/评价反馈、原生后台待办与首页配置内存流程。首页独立模块、样式与运营数据分层、双语配置、草稿/发布/CAS、未来排期合同均有设计；生产配置能力归后续授权范围，未实现生产首页重构或页面构建器。初稿当时没有可读取的参考图；当前修订已实际查看用户指定的SkillsMP。
 
 实际Chromium155静态浏览器77项页面/状态/交互+24项后台配置检查通过，共101通过/0最终失败；另10组基础配色对比度计算通过。独立Tailwind构建、JS语法、文档与HTML链接/边界检查通过，保存真实截图与可复现脚本。初轮误判测试与2px预览宽度问题已修正，投稿状态/设计token/显式应用筛选已对齐。见[原型说明和全部证据](design-prototype/README.md)。直接file://导航被托管浏览器策略阻止，未完成离线交互检查；本机HTTP预览为已测替代。Firefox/WebKit、真实设备/读屏和完整缩放未测试。
 

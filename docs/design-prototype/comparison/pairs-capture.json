@@ -1,0 +1,111 @@
+{
+  "scope": "Static design screenshots only. All content and numbers are demonstration data.",
+  "stage": "pairs",
+  "baselineCommit": "04a8190fd7938749efbb142430c6e5ff23cb38c5",
+  "browser": "155.0.8059.79",
+  "capturedAt": "2026-11-06T01:19:47.145Z",
+  "deviceScaleFactor": 1,
+  "query": "lang=zh|en&state=default&embed=1",
+  "toolbarNote": "embed=1 is the existing prototype preview option. Only the design toolbar is hidden; no CSS or DOM is injected into product pages.",
+  "captures": [
+    {
+      "page": "home",
+      "device": "desktop",
+      "file": "home-desktop-comparison.png",
+      "sha256": "460d3b6a19034fbc2056fbcbc2458a0f1587194e4184f68d87d5b33fef8b69dc"
+    },
+    {
+      "page": "home",
+      "device": "mobile",
+      "file": "home-mobile-comparison.png",
+      "sha256": "b2ac947c5cb81ac338be217eada603dc44233d9ab3757ae1a59140b63d568cbe"
+    },
+    {
+      "page": "skills",
+      "device": "desktop",
+      "file": "skills-desktop-comparison.png",
+      "sha256": "819bd6e30eee55116b6e5d88c34410213bbd74b70b0d91daf7bc7ba1c1c8f5a6"
+    },
+    {
+      "page": "skills",
+      "device": "mobile",
+      "file": "skills-mobile-comparison.png",
+      "sha256": "a2bc47d2a216252e0d3575a73c4c539d170d2f6f2221201f238df0ba1622d45c"
+    },
+    {
+      "page": "skill",
+      "device": "desktop",
+      "file": "skill-desktop-comparison.png",
+      "sha256": "3d949895b100d75b7d9151cd035c0c9ce1c8301450e731a4234675a76af2cc3b"
+    },
+    {
+      "page": "skill",
+      "device": "mobile",
+      "file": "skill-mobile-comparison.png",
+      "sha256": "0562dd1b41ecd3f14a71adb46521821d268828cd960aefdd9a531fe91aa9c0aa"
+    },
+    {
+      "page": "dashboard",
+      "device": "desktop",
+      "file": "dashboard-desktop-comparison.png",
+      "sha256": "b119ece577ee77cc23bee9b4df875b4ce850b888385daa8efa65e4a30abb2722"
+    },
+    {
+      "page": "dashboard",
+      "device": "mobile",
+      "file": "dashboard-mobile-comparison.png",
+      "sha256": "efc3758e7272e49c49e0ea5dcd5ebad88e9996e8668cd5ea5e1ba10b8a98cbb3"
+    },
+    {
+      "page": "admin",
+      "device": "desktop",
+      "file": "admin-desktop-comparison.png",
+      "sha256": "60b9d8e76c6dc08bdbe1aff9f52401aa56a09eee189bd93ed57139768f96a32f"
+    },
+    {
+      "page": "admin",
+      "device": "mobile",
+      "file": "admin-mobile-comparison.png",
+      "sha256": "67f27bc7197d6689522623aacbc17a0e002caca7cea7a5c69379efdec0ca14fb"
+    }
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "failedResources": [],
+  "viewerChecks": [
+    {
+      "name": "Page selector changes both screenshot sources",
+      "passed": true
+    },
+    {
+      "name": "Device selector uses matching image pair and URL",
+      "passed": true
+    },
+    {
+      "name": "Full-page images retain their natural proportions",
+      "passed": true
+    },
+    {
+      "name": "Reload preserves page, device and full-page selection",
+      "passed": true
+    },
+    {
+      "name": "Keyboard can move between native selection controls",
+      "passed": true
+    },
+    {
+      "name": "Comparison viewer has no horizontal overflow at 390px",
+      "passed": true
+    },
+    {
+      "name": "Comparison viewer has no horizontal overflow at 768px",
+      "passed": true
+    },
+    {
+      "name": "Comparison viewer has no horizontal overflow at 1440px",
+      "passed": true
+    }
+  ],
+  "captureCount": 10,
+  "passed": true
+}

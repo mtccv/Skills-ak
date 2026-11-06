@@ -3,25 +3,25 @@
   "pairs": [
     {
       "name": "Primary text",
-      "foreground": "#182134",
+      "foreground": "#20242C",
       "background": "#FFFFFF",
-      "ratio": 16.08,
+      "ratio": 15.55,
       "target": 4.5,
       "pass_": true
     },
     {
       "name": "Secondary text",
-      "foreground": "#596579",
+      "foreground": "#5B6472",
       "background": "#FFFFFF",
-      "ratio": 5.9,
+      "ratio": 5.98,
       "target": 4.5,
       "pass_": true
     },
     {
       "name": "Secondary on canvas",
-      "foreground": "#596579",
-      "background": "#F6F7FB",
-      "ratio": 5.51,
+      "foreground": "#5B6472",
+      "background": "#F6F7F9",
+      "ratio": 5.58,
       "target": 4.5,
       "pass_": true
     },
@@ -81,5 +81,6 @@
       "target": 3,
       "pass_": true
     }
-  ]
+  ],
+  "revision": "Phase 7.5 Skills Directory visual revision"
 }

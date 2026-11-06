@@ -106,7 +106,7 @@
     $('#admin-dashboard').insertBefore(notice, $('.wp-stats'));
   }
   const moduleLabels = {
-    hero: ['Hero 介绍', 'Hero introduction', '核心 · 标题与介绍', 'Core · Title and description'],
+    hero: ['目录介绍', 'Directory introduction', '核心 · 标题与介绍', 'Core · Title and description'],
     search: ['搜索入口', 'Search', '核心 · 搜索已公开内容', 'Core · Search public content'],
     categories: ['分类导航', 'Categories', '按分类发现', 'Browse by category'],
     trending: ['热门 Skills', 'Trending Skills', '真实信号排行 · 后续实现', 'Ranked by real signals · Planned'],
@@ -118,10 +118,10 @@
   };
   const initialModules = Object.keys(moduleLabels).map((id) => ({ id, enabled: id !== 'rated' }));
   const initialConfig = {
-    style_id: 'modern-saas',
+    style_id: 'skills-directory',
     locales: {
-      zh: { title: '找到下一个让你事半功倍的 Skill', description: '探索经过整理的 AI Skills，把重复工作交给工具，把时间留给创造。', modules: copy(initialModules) },
-      en: { title: 'Find your next unfair advantage.', description: 'Discover thoughtfully curated AI Skills. Spend less time on repetitive work, and more on what you create.', modules: copy(initialModules) }
+      zh: { title: '发现适合你任务的 Agent Skills', description: '按任务、分类和平台查找 Skills，阅读来源、安装说明与风险信息。', modules: copy(initialModules) },
+      en: { title: 'Find agent skills for your work', description: 'Browse skills by task, category and platform. Review sources, installation notes and risks.', modules: copy(initialModules) }
     }
   };
   let config = copy(initialConfig);
@@ -230,7 +230,7 @@
   });
   const validConfig = () => {
     if (config.locales.zh.title.trim() && config.locales.en.title.trim()) return true;
-    updateStatus('请为中文和 English 都填写 Hero 标题；缺译不能作为可发布内容。', 'Provide a Hero title for both Chinese and English; missing translations cannot be published.');
+    updateStatus('请为中文和 English 都填写 目录介绍标题；缺译不能作为可发布内容。', 'Provide a directory introduction title for both Chinese and English; missing translations cannot be published.');
     return false;
   };
   const addRevisionOption = (number) => {
@@ -261,7 +261,7 @@
   $('#home-publish').addEventListener('click', (event) => {
     if (!validConfig()) return;
     publicationCandidate = copy(config);
-    bilingual($('#home-publish-summary'), `将用这份中英文配置替换内存中的线上修订 #${liveRevision}。风格：Modern SaaS。`, `Replace memory live revision #${liveRevision} with this Chinese and English configuration. Style: Modern SaaS.`);
+    bilingual($('#home-publish-summary'), `将用这份中英文配置替换内存中的线上修订 #${liveRevision}。风格：专业资源目录。`, `Replace memory live revision #${liveRevision} with this Chinese and English configuration. Style: Skills Directory.`);
     const changes = $('#home-changes');
     changes.replaceChildren();
     ['zh', 'en'].forEach((locale) => {

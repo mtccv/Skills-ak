@@ -310,6 +310,14 @@
       "pass": true
     },
     {
+      "name": "Mobile directory titles remain accessible detail targets",
+      "pass": true
+    },
+    {
+      "name": "Account mobile navigation Escape restores focus",
+      "pass": true
+    },
+    {
       "name": "No JavaScript/console errors or failed/external requests",
       "pass": true
     }
@@ -319,6 +327,6 @@
   "externalRequests": [],
   "failedResources": [],
   "browser": "155.0.8059.79",
-  "passed": 77,
+  "passed": 79,
   "failed": 0
 }

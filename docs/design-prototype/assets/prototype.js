@@ -47,7 +47,7 @@
     state.value = ['loading','empty','error','missing'].includes(params.get('state'))?params.get('state'):'default';
     state.addEventListener('change',()=>{const u=new URL(location.href);u.searchParams.set('state',state.value);location.href=u.href;});
   }
-  const navigation = `<a href="skills.html" ${['skills','skill'].includes(page)?'aria-current="page"':''}>${t('探索 Skills','Explore skills')}</a><a href="index.html#categories">${t('使用场景','Use cases')}</a><a href="index.html#tutorials">${t('学习中心','Learn')}</a><a href="dashboard.html">${t('开发者社区','Community')}</a>`;
+  const navigation = `<a href="skills.html" ${['skills','skill'].includes(page)?'aria-current="page"':''}>${t('Skills 目录','Skills')}</a><a href="index.html#categories">${t('分类','Categories')}</a><a href="index.html#tutorials">${t('教程','Tutorials')}</a>`;
   const header = document.getElementById('site-header');
   if (header) header.innerHTML = `<a class="skip-link" href="#main">${t('跳到主要内容','Skip to content')}</a><header class="site-header"><div class="container-shell header-row">${brand}<nav class="site-nav" aria-label="${t('主导航','Main navigation')}">${navigation}</nav><div class="flex items-center gap-2 md:gap-3"><a class="language-link" href="${switchURL.href}" lang="${locale==='zh'?'en':'zh-CN'}" data-language-switch>${locale==='zh'?'EN':'中文'}</a><a class="btn btn-secondary hidden md:inline-flex" href="dashboard.html">${t('投稿 Skill','Submit a skill')}</a><a class="icon-btn" href="dashboard.html" aria-label="${t('个人中心（设计演示）','My account (design demo)')}">${icon('user')}</a></div></div><details class="mobile-menu"><summary class="container-shell">${t('浏览导航','Browse navigation')}${icon('menu')}</summary><nav class="container-shell" aria-label="${t('移动导航','Mobile navigation')}">${navigation}<a href="dashboard.html">${t('投稿 Skill','Submit a skill')}</a></nav></details></header>`;
   const footer = document.getElementById('site-footer');
@@ -89,7 +89,7 @@
   });
   document.querySelectorAll('form[data-demo-form]').forEach(form=>form.addEventListener('submit',event=>{event.preventDefault();if(!form.reportValidity())return;form.closest('dialog')?.close();toast(t('示例已进入待审核状态演示。未创建真实投稿或评价。','Demo moved to a pending-review illustration. No real review or submission was created.'));}));
   document.querySelectorAll('form[data-search-form]').forEach(form=>form.addEventListener('submit',event=>{event.preventDefault();const q=new FormData(form).get('q')||'';location.href=`skills.html?lang=${locale}&q=${encodeURIComponent(q)}`;}));
-  document.querySelectorAll('.mobile-menu').forEach(details=>details.addEventListener('keydown',e=>{if(e.key==='Escape'){details.open=false;details.querySelector('summary').focus();}}));
+  document.querySelectorAll('.mobile-menu, .account-mobile-nav').forEach(details=>details.addEventListener('keydown',e=>{if(e.key==='Escape'){details.open=false;details.querySelector('summary').focus();}}));
   const filter=document.getElementById('filter-disclosure');
   if(filter&&innerWidth<1024)filter.open=false;
   const query=document.getElementById('catalog-query');

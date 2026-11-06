@@ -10,7 +10,7 @@ WordPress 原创中英文主题，内置 AI Skills Hub Core。Phase 0–7 已完
 
 ## Phase 7.5 设计评审
 
-新增五份设计规范与五页独立静态原型，尚未进入 Phase 8。先看 [原型预览与截图说明](docs/design-prototype/README.md)、[设备预览器](docs/design-prototype/preview.html) 或 [首页HTML](docs/design-prototype/index.html)。GitHub源码页面不会直接运行HTML；下载原型目录后打开，或在Cloud内通过本地静态服务预览，不需要安装WordPress或部署外部服务器。
+五份设计规范与五页独立静态原型已按 SkillsMP 视觉参考调整为白灰、紧凑的专业资源目录，保留原创品牌，尚未进入 Phase 8。先看 [五页修改前后截图对比](docs/DESIGN_COMPARISON.md) 或 [交互对比页](docs/design-prototype/comparison/index.html)。先看 [原型预览与截图说明](docs/design-prototype/README.md)、[设备预览器](docs/design-prototype/preview.html) 或 [首页HTML](docs/design-prototype/index.html)。GitHub源码页面不会直接运行HTML；下载原型目录后打开，或在Cloud内通过本地静态服务预览，不需要安装WordPress或部署外部服务器。
 
 规范：[设计系统](docs/DESIGN_SYSTEM.md) · [前台](docs/FRONTEND_DESIGN_SPEC.md) · [用户中心](docs/USER_CENTER_DESIGN.md) · [后台](docs/ADMIN_DESIGN_SPEC.md) · [响应式](docs/RESPONSIVE_DESIGN.md)。后续Phase 8–14必须依据这些规范开发。全部示例数据和草稿/发布交互仅用于设计，正式主题及安装包未改。
 

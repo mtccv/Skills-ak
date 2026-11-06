@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Phase 7.5 视觉修改前后对比 · AI Skills Hub</title>
+  <link rel="stylesheet" href="comparison.css">
+  <script defer src="comparison.js"></script>
+</head>
+<body>
+  <header class="review-header">
+    <a href="../preview.html">AI Skills Hub / 设计评审</a>
+    <h1>Phase 7.5 视觉修改前后对比</h1>
+    <p>五个页面，同一语言、视口、浏览器与默认状态。所有内容和数字均为静态设计示例；不是已部署的 WordPress 页面。</p>
+    <form class="review-controls" id="comparison-controls">
+      <label for="page-choice">页面
+        <select id="page-choice" name="page">
+          <option value="home">首页</option><option value="skills">Skills 列表</option><option value="skill">Skill 详情</option><option value="dashboard">用户 Dashboard</option><option value="admin">WordPress 后台 Dashboard</option>
+        </select>
+      </label>
+      <label for="device-choice">视口 / 语言
+        <select id="device-choice" name="device"><option value="desktop">桌面 1440 × 1000 · 中文</option><option value="mobile">手机 390 × 844 · English</option></select>
+      </label>
+      <label for="extent-choice">截图范围
+        <select id="extent-choice" name="extent"><option value="viewport">首屏对比</option><option value="full">完整页面</option></select>
+      </label>
+      <a id="live-preview" href="../index.html?lang=zh">打开修改后原型</a>
+    </form>
+  </header>
+  <main id="comparison-board">
+    <div class="board-heading"><h2 id="comparison-title">首页</h2><p id="comparison-meta">桌面 1440 × 1000 · 中文 · 首屏对比</p></div>
+    <div class="comparison-columns">
+      <figure>
+        <figcaption><strong>修改前</strong><span>已提交设计 · 04a8190</span></figcaption>
+        <a id="before-link" href="home-desktop-before-viewport.png"><img id="before-image" src="home-desktop-before-viewport.png" alt="修改前首页桌面截图"></a>
+      </figure>
+      <figure>
+        <figcaption><strong>修改后</strong><span>Skills Directory · 待审核</span></figcaption>
+        <a id="after-link" href="home-desktop-after-viewport.png"><img id="after-image" src="home-desktop-after-viewport.png" alt="修改后首页桌面截图"></a>
+      </figure>
+    </div>
+  </main>
+  <footer class="review-footer">
+    <p>点击截图查看原始 PNG。这里仅按容器等比缩放显示，没有裁掉页面、重绘截图或拉伸比例。完整页面可通过上方选择器查看。</p>
+    <p>产品预览使用既有 <code>embed=1</code> 隐藏原型工具栏；后台保留原生风格顶栏。屏幕尺寸是浏览器视口，不代表真实手机设备测试。</p>
+    <a href="../../DESIGN_COMPARISON.md">设计变化与截图说明</a> · <a href="before-capture.json">修改前截图证据</a> · <a href="after-capture.json">修改后截图证据</a>
+  </footer>
+</body>
+</html>

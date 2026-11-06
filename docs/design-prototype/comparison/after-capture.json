@@ -1,0 +1,278 @@
+{
+  "scope": "Static design screenshots only. All content and numbers are demonstration data.",
+  "stage": "after",
+  "baselineCommit": "04a8190fd7938749efbb142430c6e5ff23cb38c5",
+  "browser": "155.0.8059.79",
+  "capturedAt": "2026-11-06T01:18:16.563Z",
+  "deviceScaleFactor": 1,
+  "query": "lang=zh|en&state=default&embed=1",
+  "toolbarNote": "embed=1 is the existing prototype preview option. Only the design toolbar is hidden; no CSS or DOM is injected into product pages.",
+  "captures": [
+    {
+      "page": "home",
+      "device": "desktop",
+      "language": "zh",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "documentHeight": 2545,
+      "viewportHeight": 1000,
+      "headerHeight": 65,
+      "firstSkillTop": 535.046875,
+      "searchTop": 207.25,
+      "heroHeight": 127.25,
+      "files": {
+        "viewport": {
+          "file": "home-desktop-after-viewport.png",
+          "sha256": "5bd38e6456d4d37b0085340b4030220d2b9ed8026d46726b4e310d741d085658"
+        },
+        "full": {
+          "file": "home-desktop-after-full.png",
+          "sha256": "240b59e28abf54fc134df39fede9615bfc854a977e7e2e8b51a0ba04ed221af8"
+        }
+      }
+    },
+    {
+      "page": "home",
+      "device": "mobile",
+      "language": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentHeight": 5299,
+      "viewportHeight": 844,
+      "headerHeight": 110,
+      "firstSkillTop": 781.8125,
+      "searchTop": 288,
+      "heroHeight": 163,
+      "files": {
+        "viewport": {
+          "file": "home-mobile-after-viewport.png",
+          "sha256": "e3dff96f5fd12351196527da0ddecb048af5172a7349f76bda7f0f197aa21ab2"
+        },
+        "full": {
+          "file": "home-mobile-after-full.png",
+          "sha256": "52e6e80132e7e221e8fd513afda8097fda403ff80b293b8dde34016f8c814454"
+        }
+      }
+    },
+    {
+      "page": "skills",
+      "device": "desktop",
+      "language": "zh",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "documentHeight": 1929,
+      "viewportHeight": 1000,
+      "headerHeight": 65,
+      "firstSkillTop": 429,
+      "searchTop": 255,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "skills-desktop-after-viewport.png",
+          "sha256": "a188de95439e0e1d4d438c101e16da85acebc76ee8df8bb1d2de6af94917155a"
+        },
+        "full": {
+          "file": "skills-desktop-after-full.png",
+          "sha256": "853d29108e12dfd37afdb0c1fe89e94d14cb116ecc1cce1783df584ff2d04652"
+        }
+      }
+    },
+    {
+      "page": "skills",
+      "device": "mobile",
+      "language": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentHeight": 3202,
+      "viewportHeight": 844,
+      "headerHeight": 110,
+      "firstSkillTop": 653,
+      "searchTop": 315,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "skills-mobile-after-viewport.png",
+          "sha256": "6543d0da352d8097defb992352d44afef4af38136787c44fb96f93977f3bd956"
+        },
+        "full": {
+          "file": "skills-mobile-after-full.png",
+          "sha256": "b02274a5476510125a0929af42a3fd1c93601ec065d28713348a03ec97ce6d82"
+        }
+      }
+    },
+    {
+      "page": "skill",
+      "device": "desktop",
+      "language": "zh",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "documentHeight": 2650,
+      "viewportHeight": 1000,
+      "headerHeight": 65,
+      "firstSkillTop": 2103.796875,
+      "searchTop": null,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "skill-desktop-after-viewport.png",
+          "sha256": "dd6ac8b91b79d428466f81095e23bc86d9b664a54c5f35e2f925629d5f30375b"
+        },
+        "full": {
+          "file": "skill-desktop-after-full.png",
+          "sha256": "f2b83cff58e246d5fc33ebba0a0b4c7cdc00869b91ac7d1493c76330b55b3c1e"
+        }
+      }
+    },
+    {
+      "page": "skill",
+      "device": "mobile",
+      "language": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentHeight": 5710,
+      "viewportHeight": 844,
+      "headerHeight": 110,
+      "firstSkillTop": 4001,
+      "searchTop": null,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "skill-mobile-after-viewport.png",
+          "sha256": "c79c7fa27c5fc674fef247d9852118ac1562d0f2810c445ea1219b41d38ced79"
+        },
+        "full": {
+          "file": "skill-mobile-after-full.png",
+          "sha256": "7f3be3e7a963a0bf87878c4f8ce685040b056ed256ffd48266f82a4920af185b"
+        }
+      }
+    },
+    {
+      "page": "dashboard",
+      "device": "desktop",
+      "language": "zh",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "documentHeight": 1671,
+      "viewportHeight": 1000,
+      "headerHeight": 65,
+      "firstSkillTop": null,
+      "searchTop": null,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "dashboard-desktop-after-viewport.png",
+          "sha256": "36080ac99bcc70002ec9d54576f24cf3b79586da4d9e5ae68d5c50613fdd2272"
+        },
+        "full": {
+          "file": "dashboard-desktop-after-full.png",
+          "sha256": "c25f073648889df5e1507227d90a491e14b9c910263e8cb78efcb590c8a789ca"
+        }
+      }
+    },
+    {
+      "page": "dashboard",
+      "device": "mobile",
+      "language": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentHeight": 3477,
+      "viewportHeight": 844,
+      "headerHeight": 110,
+      "firstSkillTop": null,
+      "searchTop": null,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "dashboard-mobile-after-viewport.png",
+          "sha256": "13e1ea9b390cad277573ab7b2eceb1c1a6e021714b397860c3dc72c4f252413e"
+        },
+        "full": {
+          "file": "dashboard-mobile-after-full.png",
+          "sha256": "4af96f0414938ebb973d55c05907f04db0e8286ae3e8a3b8d3675f22bb5f80d5"
+        }
+      }
+    },
+    {
+      "page": "admin",
+      "device": "desktop",
+      "language": "zh",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "documentHeight": 1488,
+      "viewportHeight": 1000,
+      "headerHeight": null,
+      "firstSkillTop": null,
+      "searchTop": null,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "admin-desktop-after-viewport.png",
+          "sha256": "80e19c8d1e0a8596e54b9179610255c723cfc2e5f18732d815d25f54683d780e"
+        },
+        "full": {
+          "file": "admin-desktop-after-full.png",
+          "sha256": "a08c88f123c09143b83c335090d8cb3819b0cfc10d9dbee518be1cb226ab8569"
+        }
+      }
+    },
+    {
+      "page": "admin",
+      "device": "mobile",
+      "language": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentHeight": 2702,
+      "viewportHeight": 844,
+      "headerHeight": null,
+      "firstSkillTop": null,
+      "searchTop": null,
+      "heroHeight": null,
+      "files": {
+        "viewport": {
+          "file": "admin-mobile-after-viewport.png",
+          "sha256": "41a1caa86aba034267772d8e65703d651ee72ba3682ef76630ee4d85406ca49b"
+        },
+        "full": {
+          "file": "admin-mobile-after-full.png",
+          "sha256": "af57d0250cea9e15f9014be90f66d992dda291241d5fdb275f27c5fd17503ccb"
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "failedResources": [],
+  "sourceHashes": {
+    "index.html": "d868f550deebab0e563d0b01e2d47ea81015d8ff3ae1f1b4e49fb48667005c1d",
+    "skills.html": "a1d88434640323b0aac3a56b12190e143658c3bcbbba7eed44b8b44c4469d9fc",
+    "skill.html": "a276d10859bc7959c30d8315594cc0bce982d1e693bb593154cb097a3f963f2f",
+    "dashboard.html": "e0e815253a206093160dd48599a94bb98cb60da1d24e3e8fcea9912eec8bd54a",
+    "admin.html": "589684b7868ce45623f9c024db59e60dbf55c5c8bc021d0bb801de70c5017e1e",
+    "assets/prototype.css": "3b0d7ffbe94c121812559ce53cce3e23ec8b4e66d745bc142a1e8545da6953ed",
+    "assets/prototype.js": "5723c0a6e58041c2d4fd17488028d00cbd00fa28e291ad36a43bc3807be9291f",
+    "assets/admin-prototype.css": "cae0844ef0a811488b3d7acc459248cf47c9f6d0ad8927405aad6f24d7312534",
+    "assets/admin-prototype.js": "492363663d910106b5c71177dc79ec4cf10e7c8eadd0f76bbba16e70d580f2db"
+  },
+  "captureCount": 10,
+  "passed": true
+}

@@ -11,6 +11,7 @@
 - 确定的用户决策见第 2 节。本文其余带“建议”的实现策略、默认期限和阈值供本次评审；不能将其冒充用户已经确认的决定。
 - V2 产品规划轮次只阅读代码和编写 Markdown；随后新增 Phase 7.5 设计准备，允许独立静态原型，不修改正式 PHP/JS/CSS、数据库或迁移，不启动 Phase 8。
 - Phase 8–14 的强制设计基准为 [DESIGN_SYSTEM](docs/DESIGN_SYSTEM.md)、[前台](docs/FRONTEND_DESIGN_SPEC.md)、[用户中心](docs/USER_CENTER_DESIGN.md)、[后台](docs/ADMIN_DESIGN_SPEC.md)、[响应式](docs/RESPONSIVE_DESIGN.md)。先评审产品、数据库和设计，再明确授权功能实施；可运行原型不代表账户/评分/首页配置已上线。
+- Phase 7.5 当前视觉方向为专业 Skills 资源目录：以 [SkillsMP](https://skillsmp.com/) 的导航、布局、搜索和资源信息呈现为参考，白色/浅灰为主、少量品牌紫色；前台不采用通用 AI SaaS 仪表盘。用户中心采用记录列表，后台保留 WordPress 原生体系；不复制竞品商标、代码、页面资产或功能架构。本轮仅修订独立设计文档和静态原型，提供前后截图后等待审核。
 - 历史 [Final QA](FINAL_QA_REPORT.md) 为 25 个工作包中 20 通过、0 失败、5 未执行。真实 WPML、GitHub/AI API、生成质量及账单限制仍见 [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md)；不能将该历史验收转为新增功能通过。
 
 ## 2. 产品定位与已确定的决策
