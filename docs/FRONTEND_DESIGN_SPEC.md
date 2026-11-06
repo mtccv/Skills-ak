@@ -1,14 +1,14 @@
 # Phase 7.5 前台设计规格
 
-> 恢复说明（2026-11-06）：按用户最新要求，本文件恢复自 `04a8190fd7938749efbb142430c6e5ff23cb38c5`，采用完整原设计，覆盖首页、Skills 列表、详情、用户中心及 WordPress 后台；撤销后续目录化和双风格方案。正文基线、参考说明及检查记录保留为初稿历史，本轮验证见[当前原型说明](design-prototype/README.md)；仅恢复设计，不修改正式主题，不进入 Phase 8。
+> 当前配色修订（2026-11-06）：基线 `2d6df357f871bb31183182c02f7cd28dc80b1b18`。保留已从 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 恢复的完整五页布局、文案与功能；仅按 SkillsMP 配色方向将紫色改为白/浅灰、深灰文字与小面积陶土棕强调。目录化和双风格方案仍撤销，`modern-saas` 仅表示原布局。配色以[设计系统](DESIGN_SYSTEM.md)为准；旧基线及检查属于历史，本轮证据见[原型说明](design-prototype/README.md)。正式主题不变，不进入 Phase 8。
 
 状态：**设计评审稿，未开始 Phase 8，未接入生产页面。**
 
-设计准备基线：`main` / `6f7790d58d1884d400d7fd6ad5156449ec134081`；主题/Core **0.7.1**，schema **1.5.0**，既有 14 张 Core 表不变。日期：2026-11-06（Asia/Shanghai）。本轮授权范围是设计 Markdown 和 `docs/design-prototype/` 内独立可浏览 HTML 原型；本文不是 PHP、数据库、迁移、业务接口或上线变更。
+初稿设计准备基线：`main` / `6f7790d58d1884d400d7fd6ad5156449ec134081`；主题/Core **0.7.1**，schema **1.5.0**，既有 14 张 Core 表不变。日期：2026-11-06（Asia/Shanghai）。本轮授权范围是设计 Markdown 和 `docs/design-prototype/` 内独立可浏览 HTML 原型；本文不是 PHP、数据库、迁移、业务接口或上线变更。
 
-本轮没有收到可用的页面参考图，因此以下为基于产品目标和现有源码的原创设计，不宣称按图复刻或完成像素对齐。方向是现代 SaaS 浅白科技资源平台：清楚的信息层级、可扫描的资源目录、克制的紫色重点、真实来源与评价证据，不复制参考站品牌、标识或页面。
+原五页 Modern SaaS 布局继续采用已恢复版本，不新增风格切换。本轮只参考已在 Cloud Chromium 查看过的 SkillsMP 首页和搜索页配色：白/浅灰大面积、深灰文字、小面积陶土棕强调；具体参考色值与本项目分配见设计系统。不改导航、排版、模块、文案或功能，不声称像素比例一致，不复制参考站品牌、标识或页面。
 
-依据：[总规格](../CODEX_MASTER_SPEC.md)、[V2 产品规格](../PRODUCT_SPEC_V2.md)、[Core](CORE.md)、[现有前台](FRONTEND.md)、[SEO](SEO.md)、[进度](PROGRESS.md)、[模块审计](PRODUCT_MODULE_AUDIT.md)、[产品路线图](PRODUCT_ROADMAP.md)、[数据设计](PRODUCT_DATABASE_DESIGN.md)。历史文档的当时版本与未测记录保留；最新运行状态以 Final QA 和本轮基线为准。[用户中心](USER_CENTER_DESIGN.md)、[后台设计](ADMIN_DESIGN_SPEC.md)及[响应式设计](RESPONSIVE_DESIGN.md)负责各自细节，本文约束它们与公开页面共用的品牌、状态、路由和语言合同。WordPress 原生后台保留自身操作蓝、字级和间距体系，不强行套用前台紫色卡片布局。
+依据：[总规格](../CODEX_MASTER_SPEC.md)、[V2 产品规格](../PRODUCT_SPEC_V2.md)、[Core](CORE.md)、[现有前台](FRONTEND.md)、[SEO](SEO.md)、[进度](PROGRESS.md)、[模块审计](PRODUCT_MODULE_AUDIT.md)、[产品路线图](PRODUCT_ROADMAP.md)、[数据设计](PRODUCT_DATABASE_DESIGN.md)。历史文档的当时版本与未测记录保留；最新运行状态以 Final QA 和本轮基线为准。[用户中心](USER_CENTER_DESIGN.md)、[后台设计](ADMIN_DESIGN_SPEC.md)及[响应式设计](RESPONSIVE_DESIGN.md)负责各自细节，本文约束它们与公开页面共用的品牌、状态、路由和语言合同。WordPress 原生后台保留自身操作蓝、字级和间距体系，不强行套用前台强调色或卡片布局。
 
 ## 1. 设计目标与现状边界
 
@@ -45,14 +45,15 @@
 
 | Token | 值 | 用法 |
 | --- | --- | --- |
-| brand / brand-hover | `#7047EB` / `#5934C7` | 主行动、选中导航、链接和可见焦点；大块页面保持白色 |
-| ink / muted | `#182134` / `#596579` | 标题/正文、次要说明；不能用极浅灰承载必要信息 |
-| canvas / surface / line | `#F6F7FB` / `#FFFFFF` / `#DFE4ED` | 页面背景、内容面板、边框；边框不用来单独标识状态 |
+| brand / brand-hover | `#AD5E48` / `#9F513C` | 主行动、选中导航、链接和可见焦点；大块页面保持白色 |
+| ink / muted | `#111827` / `#5B6370` | 标题/正文、次要说明；不能用极浅灰承载必要信息 |
+| canvas / surface / line | `#F9FAFB` / `#FFFFFF` / `#D9DDE3` | 页面背景、内容面板、边框；边框不用来单独标识状态 |
+| muted-surface / input-border | `#F3F4F6` / `#858C97` | Hero、编辑推荐、教程图采用中性浅灰；控件边界独立于装饰分隔，须按实际相邻背景核对对比 |
 | mint | `#15734F` | 成功与已确认状态的文字；不表示安全认证 |
 | warning / danger | `#92400E` / `#991B1B` | 待处理/限制、失败/破坏性操作；搭配文字和图标 |
-| brand-soft / mint-soft | `#F3EFFF` / `#EBFBF4` | 小面积强调背景、标签；禁止无对比的浅字 |
+| brand-soft / mint-soft | `#F8F1EE` / `#EBFBF4` | 小面积强调背景、标签；禁止无对比的浅字 |
 | card / button / field radius | 16 / 10 / 10 px | 卡片/控件统一；pill 只用于小标签与筛选选中项 |
-| shadow | `0 8px 24px #1821340A` | 弹层和重点卡片；普通列表以边框为主 |
+| shadow | `0 8px 24px #1118270A` | 弹层和重点卡片；普通列表以边框为主 |
 | spacing | 4、8、12、16、20、24、32、40、48、64、80 px | 8 px 主网格，4 px 微调；不可逐页任意新建间距 |
 | content container | 内容本身最大 1280 px，gutter 另计 | 大屏居中；桌面 gutter 32、平板 24、手机 16 px |
 | control / icon | 触控区至少 44×44 px；图标 16/20/24 px | 收藏、语言、分页、小图标即使视觉较小也保留触控区 |

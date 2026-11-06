@@ -1,10 +1,21 @@
-# Phase 7.5 — 已恢复整套修改前设计
+# Phase 7.5 — 原版布局 · 灰白与陶土棕配色
 
-这里是设计交付物，不是 WordPress 主题安装包或上线功能。当前按用户最新要求，从 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 恢复全部五页原设计；原初稿开发基线为 `6f7790d58d1884d400d7fd6ad5156449ec134081`；主题/Core `0.7.1`、schema `1.5.0` 保持不变。本轮没有修改生产 PHP/CSS/JS，没有启动 WordPress/MySQL 或写入任何业务数据库。
+这里是设计交付物，不是 WordPress 主题安装包或上线功能。当前布局采用 `04a8190` 的全部五页原设计，本轮以 `2d6df357f871bb31183182c02f7cd28dc80b1b18` 为基线仅调整颜色；主题/Core `0.7.1`、schema `1.5.0` 保持不变。本轮没有修改生产 PHP/CSS/JS，没有启动 WordPress/MySQL 或写入任何业务数据库。
 
 所有 Skill、来源名称、用户、收藏、评分、数量、通知、任务和费用都是**设计演示数据**。原型顶部与相关模块明确标记；收藏、表单、首页草稿/发布仅影响当前页内存，刷新重置，无 Cookie、localStorage、账号服务、API、邮件或分析请求。脚本只操作固定演示 DOM；不执行 Skill 命令、不安装依赖、不调用 GitHub/AI。
 
-**当前采用原完整 Modern SaaS 方案**，包括首页、Skills列表、Skill详情、用户Dashboard和WordPress原生后台Dashboard，以及共享导航、排版、卡片和控件。取消后来目录改版与双风格切换，相关活动资源、对比页面和截图不再随包交付；历史提交仍可追溯。此次从原提交直接恢复源文件，没有重新设计另一套样式。
+**原版五页的布局、文案、组件尺寸与交互保持**，包括首页、Skills列表、Skill详情、用户Dashboard和WordPress后台Dashboard。本轮只参考 [SkillsMP](https://skillsmp.com/) 的颜色配比，去掉紫色；目录改版和双风格切换继续取消。
+
+已实际用Cloud Chromium查看参考首页与[搜索页](https://skillsmp.com/search)，读取可见页面和计算样式：白/浅灰占主要表面、深灰正文，陶土棕用于少量重点。没有复制其布局、代码或页面资产，也未测量或编造像素面积比例。
+
+| 用途 | 当前原型颜色 |
+| --- | --- |
+| 页面与卡片 | 白 `#FFFFFF`、浅灰 `#F9FAFB` / `#F3F4F6` |
+| 标题与正文 | 深灰 `#111827`、辅助文字 `#5B6370` |
+| 品牌与主要操作 | 陶土棕 `#AD5E48`、悬停/链接 `#9F513C` |
+| 边界 | 分隔 `#D9DDE3`；必要控件轮廓 `#858C97` |
+
+Hero、编辑推荐和教程配图的大面积紫底改为中性浅灰；紫色按钮/链接/状态标记同步替换。WordPress原生操作蓝及绿色/红色/琥珀语义色保留。参考观察及完整token合同见[设计系统](../DESIGN_SYSTEM.md#3-品牌与色彩)。
 
 ## 1. 打开设计
 
@@ -61,7 +72,7 @@ node_modules/.bin/tailwindcss -c docs/design-prototype/tailwind.config.cjs \
 
 ## 4. 实际执行的检查
 
-本轮恢复后重新运行原有浏览器脚本、构建与静态检查。检查环境：Codex Cloud、Chromium **155.0.8059.79**、本机静态HTTP服务；没有真实账户、WordPress、MySQL、WPML、外部API或生产数据。
+本轮换色后重新运行原有浏览器脚本、配色/布局比对、构建与静态检查。检查环境：Codex Cloud、Chromium **155.0.8059.79**、本机静态HTTP服务；没有真实账户、WordPress、MySQL、WPML、外部API或生产数据。
 
 | 类别 | 实际结果 | 证据与口径 |
 | --- | --- | --- |
@@ -69,21 +80,24 @@ node_modules/.bin/tailwindcss -c docs/design-prototype/tailwind.config.cjs \
 | 五页×Loading/Empty/Error/Missing | 20/20通过 | 真实浏览器反馈可见；演示区块状态，不代表服务器恢复逻辑 |
 | 搜索/筛选/分页/收藏/弹窗/移动导航/预览等 | 17/17通过 | 含必填、焦点、减动画、320px详情reflow、无外部请求/JS错误/失败资源；[preview-checks.json](preview-checks.json) |
 | 后台内存配置与预览流程 | 24/24通过 | 双语独立、保存不改线上示例、发布确认、恢复草稿、窄屏与原生状态；[admin-checks.json](admin-checks.json) |
-| 固定颜色配对WCAG对比度计算 | 保留原版10/10历史结果，本轮未重跑 | [contrast-checks.json](contrast-checks.json)；颜色源文件与原提交一致，不等于新执行或全量无障碍审计 |
-| 设计Tailwind构建、JS语法 | 通过 | 独立CSS构建；3个浏览器JS、2个检查脚本与Tailwind配置语法 |
-| 文档/边界 | 通过 | 本地Markdown链接、6个HTML资源/锚点与字段label、15个原版运行/检查源文件字节比对、差异检查；正式主题和数据库文件不变；[static-checks.json](static-checks.json) |
+| 换色前后布局与配色 | 27/27通过 | [palette-checks.json](palette-checks.json)：五页×中英×1440/390，9,332个DOM节点与7,240个可见元素一致，最大几何差0 CSS px；含5页无紫色与主色/hover/focus检查 |
+| 当前颜色配对WCAG对比度 | 14/14通过 | [contrast-checks.json](contrast-checks.json)；阈值按未舍入数值判断，不等于完整无障碍审计 |
+| 设计Tailwind构建、JS语法 | 通过 | 独立CSS构建；3个浏览器JS、3个检查脚本与Tailwind配置语法 |
+| 文档/边界 | 通过 | 本地Markdown链接、6个HTML资源/锚点与字段label、色彩差异与原布局边界核对、差异检查；正式主题和数据库文件不变；[static-checks.json](static-checks.json) |
 | 直接file://导航 | 历史被策略阻止，本轮未重试 | 不绕过托管浏览器策略；HTTP为已验证替代 |
 
-本轮浏览器检查合计 **101项通过、0项最终失败**（77+24）；10项颜色计算仅为保留的原版历史结果。计数是设计检查用例，既不是完整产品验收数，也不是PHP/WordPress集成测试数。
+本轮浏览器检查合计 **128项通过、0项最终失败**（77+24+27）；另有14项当前颜色对比度计算通过。计数是设计检查用例，既不是完整产品验收数，也不是PHP/WordPress集成测试数。
 
-可复现脚本：[check-preview.cjs](check-preview.cjs)、[check-admin.cjs](check-admin.cjs)。环境需已有Playwright和Chromium；本轮未新增项目依赖。可通过`NODE_PATH`指向环境已有模块、`AISH_CHROMIUM_PATH`指定浏览器、`AISH_DESIGN_URL`指定**独立静态服务**：
+可复现脚本：[check-preview.cjs](check-preview.cjs)、[check-admin.cjs](check-admin.cjs)、[check-palette.cjs](check-palette.cjs)。环境需已有Playwright和Chromium；本轮未新增项目依赖。可通过`NODE_PATH`指向环境已有模块、`AISH_CHROMIUM_PATH`指定浏览器、`AISH_DESIGN_URL`指定**独立静态服务**：
 
 ```sh
 node docs/design-prototype/check-preview.cjs
 node docs/design-prototype/check-admin.cjs
 ```
 
-检查会在本设计目录重写结果JSON与截图，不访问业务服务。本轮以恢复后的代码重新生成截图和结果。以下为初稿历史，不是此次新发现：初轮检查中8项将合法的额外`noarchive`误判为失败，1项选中了折叠菜单的隐藏按钮，已修正测试断言/定位；另1项发现预览iframe边框占用2px，已移除边框并回归。规范审查还修正了投稿enum、重复token、应用筛选交互和缺译演示区块。最终记录为修正后的完整结果，不掩盖初轮发现。
+配色检查还需要将基线 `2d6df357` 的原型封存到另一个Cloud静态HTTP服务（本轮使用8768），以 `AISH_PALETTE_BEFORE_URL` 指定，当前服务用 `AISH_DESIGN_URL` 指定，再执行 `node docs/design-prototype/check-palette.cjs`。它只比较页面，不修改原型。
+
+检查会在本设计目录重写结果JSON与截图，不访问业务服务。本轮以新配色重新生成截图和结果。配色比对首次将两本地服务端口不同导致的绝对href差异计入，已仅归一化同源URL的origin，保留路径/参数/锚点，27项完整重跑通过。以下为初稿历史，不是此次新发现：初轮检查中8项将合法的额外`noarchive`误判为失败，1项选中了折叠菜单的隐藏按钮，已修正测试断言/定位；另1项发现预览iframe边框占用2px，已移除边框并回归。规范审查还修正了投稿enum、重复token、应用筛选交互和缺译演示区块。最终记录为修正后的完整结果，不掩盖初轮发现。
 
 ## 5. 仍需后续验收的范围
 

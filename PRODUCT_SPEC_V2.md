@@ -1,6 +1,6 @@
 # AI Skills Hub 产品规格 V2
 
-> 恢复说明（2026-11-06）：按用户最新要求，本文件恢复自 `04a8190fd7938749efbb142430c6e5ff23cb38c5`，采用完整原设计，覆盖首页、Skills 列表、详情、用户中心及 WordPress 后台；撤销后续目录化和双风格方案。正文基线、参考说明及检查记录保留为初稿历史，本轮验证见[当前原型说明](docs/design-prototype/README.md)；仅恢复设计，不修改正式主题，不进入 Phase 8。
+> 当前配色修订（2026-11-06）：基线 `2d6df357f871bb31183182c02f7cd28dc80b1b18`。保留已从 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 恢复的完整五页布局、文案与功能；仅按 SkillsMP 配色方向将紫色改为白/浅灰、深灰文字与小面积陶土棕强调。目录化和双风格方案仍撤销，`modern-saas` 仅表示原布局。配色以[设计系统](docs/DESIGN_SYSTEM.md)为准；旧基线及检查属于历史，本轮证据见[原型说明](docs/design-prototype/README.md)。正式主题不变，不进入 Phase 8。
 
 状态：**产品扩展评审稿；仅完成规格、代码审查、数据设计和计划，Phase 8 未获实施授权。**
 
@@ -29,7 +29,7 @@ AI Skills Hub 升级为 **全球 AI Agent Skills 发现、学习、评价与开�
 
 用户已经确定：邮箱注册并验证；邮箱登录；WordPress 原生 Users 及默认 Subscriber；1–5 星评分、评论与使用体验；注册用户投稿、管理员人工审核；目前免费运营，未来逐步商业化；不接入支付，不设付费墙。
 
-参考方向为 [skills.sh](https://skills.sh/)、[SkillsMP](https://skillsmp.com/)、[Anthropic Skills](https://github.com/anthropics/skills)、[Agent Skills 标准](https://agentskills.io/) 的资源发现、排行、安装体验、标准、可信来源和多语言理念。这里只声明参考方向，未做竞品现状的逐项实测，不复制其品牌或页面。
+参考方向为 [skills.sh](https://skills.sh/)、[SkillsMP](https://skillsmp.com/)、[Anthropic Skills](https://github.com/anthropics/skills)、[Agent Skills 标准](https://agentskills.io/) 的资源发现、排行、安装体验、标准、可信来源和多语言理念。此处是原产品参考范围，未做竞品功能现状的逐项实测。本轮已在 Cloud Chromium 查看 SkillsMP 首页与搜索页，仅用其配色作为视觉参考；保留已恢复的五页原布局、文案和功能，采用白/浅灰、深灰文字与小面积陶土棕，具体观察色值与项目分配见[设计系统](docs/DESIGN_SYSTEM.md)。不复制其品牌、代码或页面，不宣称测得像素面积比例。
 
 差异化优先级：真正的中英双语、精选与场景导航、中文安装教程、真实使用评价、GitHub 与 License 透明、静态风险检查和人工审核。评分高、来源知名或 AI 分析通过，均不能被宣传为安全认证。
 

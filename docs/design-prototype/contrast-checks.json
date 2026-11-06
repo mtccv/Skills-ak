@@ -1,43 +1,59 @@
 {
-  "scope": "WCAG relative luminance calculation for 10 named solid-color pairs only; not a complete accessibility audit",
+  "scope": "Current palette WCAG luminance calculation for 14 named solid-color pairs; threshold checked before rounding; not a complete accessibility audit",
   "pairs": [
     {
       "name": "Primary text",
-      "foreground": "#182134",
+      "foreground": "#111827",
       "background": "#FFFFFF",
-      "ratio": 16.08,
+      "ratio": 17.7397,
       "target": 4.5,
       "pass_": true
     },
     {
       "name": "Secondary text",
-      "foreground": "#596579",
+      "foreground": "#5B6370",
       "background": "#FFFFFF",
-      "ratio": 5.9,
+      "ratio": 6.0632,
       "target": 4.5,
       "pass_": true
     },
     {
       "name": "Secondary on canvas",
-      "foreground": "#596579",
-      "background": "#F6F7FB",
-      "ratio": 5.51,
+      "foreground": "#5B6370",
+      "background": "#F9FAFB",
+      "ratio": 5.8019,
       "target": 4.5,
       "pass_": true
     },
     {
       "name": "Primary button",
       "foreground": "#FFFFFF",
-      "background": "#7047EB",
-      "ratio": 5.54,
+      "background": "#AD5E48",
+      "ratio": 4.6964,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Primary button hover",
+      "foreground": "#FFFFFF",
+      "background": "#9F513C",
+      "ratio": 5.6506,
       "target": 4.5,
       "pass_": true
     },
     {
       "name": "Link",
-      "foreground": "#5934C7",
+      "foreground": "#9F513C",
       "background": "#FFFFFF",
-      "ratio": 7.66,
+      "ratio": 5.6506,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Accent notice",
+      "foreground": "#9F513C",
+      "background": "#F8F1EE",
+      "ratio": 5.0608,
       "target": 4.5,
       "pass_": true
     },
@@ -45,7 +61,7 @@
       "name": "Success",
       "foreground": "#15734F",
       "background": "#EBFBF4",
-      "ratio": 5.46,
+      "ratio": 5.4593,
       "target": 4.5,
       "pass_": true
     },
@@ -53,7 +69,7 @@
       "name": "Warning",
       "foreground": "#92400E",
       "background": "#FFFBEB",
-      "ratio": 6.84,
+      "ratio": 6.837,
       "target": 4.5,
       "pass_": true
     },
@@ -61,23 +77,39 @@
       "name": "Error",
       "foreground": "#991B1B",
       "background": "#FEF2F2",
-      "ratio": 7.6,
+      "ratio": 7.5966,
       "target": 4.5,
       "pass_": true
     },
     {
-      "name": "Input border",
-      "foreground": "#64748B",
+      "name": "Input border on white",
+      "foreground": "#858C97",
       "background": "#FFFFFF",
-      "ratio": 4.76,
+      "ratio": 3.3896,
       "target": 3,
       "pass_": true
     },
     {
-      "name": "Focus",
-      "foreground": "#7047EB",
+      "name": "Input border on canvas",
+      "foreground": "#858C97",
+      "background": "#F9FAFB",
+      "ratio": 3.2436,
+      "target": 3,
+      "pass_": true
+    },
+    {
+      "name": "Focus on white",
+      "foreground": "#AD5E48",
       "background": "#FFFFFF",
-      "ratio": 5.54,
+      "ratio": 4.6964,
+      "target": 3,
+      "pass_": true
+    },
+    {
+      "name": "Focus on canvas",
+      "foreground": "#AD5E48",
+      "background": "#F9FAFB",
+      "ratio": 4.4941,
       "target": 3,
       "pass_": true
     }

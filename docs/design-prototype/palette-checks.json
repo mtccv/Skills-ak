@@ -1,0 +1,230 @@
+{
+  "scope": "Static color-only design regression; no WordPress, database, API, or production tests",
+  "baselineCommit": "2d6df357f871bb31183182c02f7cd28dc80b1b18",
+  "geometryToleranceCssPx": 0.1,
+  "matrix": [
+    {
+      "name": "index/zh/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 611,
+      "visibleElementsCompared": 587,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "9f31014aca6c557cc798343341ffe9a4ca612fa6d5a6ea4da3078bec136c2059"
+    },
+    {
+      "name": "skills/zh/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 440,
+      "visibleElementsCompared": 314,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "4d0a5efda45c5a5d3d25bdb3da112c2c93e5dd0091859ee1974c09b430efc1ca"
+    },
+    {
+      "name": "skill/zh/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 421,
+      "visibleElementsCompared": 362,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "2f38d5f54cc8a4cbc7e099a2082a7dc42e0fb1ed84db4d32bc55651a13f3c12a"
+    },
+    {
+      "name": "dashboard/zh/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 336,
+      "visibleElementsCompared": 301,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "a5155990b17fb2266fb304667a18c38f6d52300c7d51f7aac49d549bcfddfaff"
+    },
+    {
+      "name": "admin/zh/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 525,
+      "visibleElementsCompared": 285,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "2f93f1d5e6f26ca238c49da2a298d44f8f57271a8293a9c218fa7b64611b59f0"
+    },
+    {
+      "name": "index/en/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 611,
+      "visibleElementsCompared": 587,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "99e5961034c37ed5049f086657e704b8a05cb59848eeacd3025a0d82319a0825"
+    },
+    {
+      "name": "skills/en/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 440,
+      "visibleElementsCompared": 314,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "c8efd6e0899f95710cef6f97d57160c0d65e1ccf7a06475b3138699e27a14645"
+    },
+    {
+      "name": "skill/en/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 421,
+      "visibleElementsCompared": 362,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "e06dc6e77089f73ca7f5457a28194d9773f0f46288d3f1147248d8c0203f44e7"
+    },
+    {
+      "name": "dashboard/en/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 336,
+      "visibleElementsCompared": 301,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "22130621bc7f1349d5079d300a56964d122bfd1db1d371641c2d31ec359eb52b"
+    },
+    {
+      "name": "admin/en/1440: original layout and text",
+      "pass": true,
+      "domNodesCompared": 525,
+      "visibleElementsCompared": 285,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "4d41f6c30080ce478381c633de2479adcf54204896df42b5ed42156c4728383c"
+    },
+    {
+      "name": "index/zh/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 611,
+      "visibleElementsCompared": 586,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "9f31014aca6c557cc798343341ffe9a4ca612fa6d5a6ea4da3078bec136c2059"
+    },
+    {
+      "name": "skills/zh/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 440,
+      "visibleElementsCompared": 318,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "65f469f59e348b6be5a1b9c894b8ce7b42aff606232944022054454741d0e20d"
+    },
+    {
+      "name": "skill/zh/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 421,
+      "visibleElementsCompared": 366,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "2f38d5f54cc8a4cbc7e099a2082a7dc42e0fb1ed84db4d32bc55651a13f3c12a"
+    },
+    {
+      "name": "dashboard/zh/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 336,
+      "visibleElementsCompared": 260,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "a5155990b17fb2266fb304667a18c38f6d52300c7d51f7aac49d549bcfddfaff"
+    },
+    {
+      "name": "admin/zh/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 525,
+      "visibleElementsCompared": 241,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "2f93f1d5e6f26ca238c49da2a298d44f8f57271a8293a9c218fa7b64611b59f0"
+    },
+    {
+      "name": "index/en/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 611,
+      "visibleElementsCompared": 586,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "99e5961034c37ed5049f086657e704b8a05cb59848eeacd3025a0d82319a0825"
+    },
+    {
+      "name": "skills/en/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 440,
+      "visibleElementsCompared": 318,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "2d6a5a8cb840fcc7a625b21ec1dc0f366313849af4381f753ca5335923ac95b0"
+    },
+    {
+      "name": "skill/en/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 421,
+      "visibleElementsCompared": 366,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "e06dc6e77089f73ca7f5457a28194d9773f0f46288d3f1147248d8c0203f44e7"
+    },
+    {
+      "name": "dashboard/en/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 336,
+      "visibleElementsCompared": 260,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "22130621bc7f1349d5079d300a56964d122bfd1db1d371641c2d31ec359eb52b"
+    },
+    {
+      "name": "admin/en/390: original layout and text",
+      "pass": true,
+      "domNodesCompared": 525,
+      "visibleElementsCompared": 241,
+      "maxGeometryDeltaCssPx": 0,
+      "domSignature": "4d41f6c30080ce478381c633de2479adcf54204896df42b5ed42156c4728383c"
+    }
+  ],
+  "colors": [
+    {
+      "name": "index: no purple in computed colors or effects",
+      "pass": true,
+      "sampledStyleTargets": 613,
+      "uniqueRgbColors": 18,
+      "purple": []
+    },
+    {
+      "name": "skills: no purple in computed colors or effects",
+      "pass": true,
+      "sampledStyleTargets": 441,
+      "uniqueRgbColors": 13,
+      "purple": []
+    },
+    {
+      "name": "skill: no purple in computed colors or effects",
+      "pass": true,
+      "sampledStyleTargets": 422,
+      "uniqueRgbColors": 20,
+      "purple": []
+    },
+    {
+      "name": "dashboard: no purple in computed colors or effects",
+      "pass": true,
+      "sampledStyleTargets": 337,
+      "uniqueRgbColors": 26,
+      "purple": []
+    },
+    {
+      "name": "admin: no purple in computed colors or effects",
+      "pass": true,
+      "sampledStyleTargets": 527,
+      "uniqueRgbColors": 31,
+      "purple": []
+    }
+  ],
+  "interactions": [
+    {
+      "name": "Homepage uses the approved warm accent and neutral surfaces",
+      "pass": true,
+      "actual": {
+        "brand": "#ad5e48",
+        "button": "rgb(173, 94, 72)",
+        "logo": "rgb(173, 94, 72)",
+        "text": "rgb(17, 24, 39)",
+        "body": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "name": "Hover and keyboard focus use the new palette without layout changes",
+      "pass": true,
+      "hover": "#9F513C",
+      "focus": "#AD5E48"
+    }
+  ],
+  "failures": [],
+  "consoleErrors": [],
+  "failedResources": [],
+  "externalRequests": [],
+  "browser": "155.0.8059.79",
+  "passed": 27,
+  "failed": 0
+}

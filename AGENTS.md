@@ -2,8 +2,8 @@
 
 先阅读根目录 CODEX_MASTER_SPEC.md 和已有阶段报告。
 
-- 当前任务按用户最新要求，将 Phase 7.5 全部设计恢复到 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 的原始 Modern SaaS 方案，覆盖首页、Skills列表、Skill详情、用户Dashboard、WordPress后台Dashboard及设计规范；取消后来的目录改版与双风格切换。只允许设计Markdown与 `docs/design-prototype/` 下隔离HTML/CSS/JS/截图/检查证据及预览包变更，不修改正式主题、数据库或迁移，不开始Phase 8。静态原型必须标明示例数据且不写正式数据库。新增提交正常同步main，不重写历史，完成后等待用户审核。
-- 后续Phase 8–14前后台必须遵循 docs/DESIGN_SYSTEM.md、FRONTEND_DESIGN_SPEC.md、USER_CENTER_DESIGN.md、ADMIN_DESIGN_SPEC.md、RESPONSIVE_DESIGN.md；当前恢复原整套Modern SaaS设计，WordPress后台仍沿原生设计。首页样式与运营配置分离，当前只保留原版Modern SaaS，不继续提供目录/双风格选项。真实配置草稿/发布属于后续明确授权范围，不把原型内存交互称为生产功能。
+- Phase 7.5 当前保留用户选定的原设计布局，来自 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 的原始 Modern SaaS 方案，覆盖首页、Skills列表、Skill详情、用户Dashboard、WordPress后台Dashboard及设计规范；目录改版与双风格切换保持取消。按最新要求仅参考SkillsMP颜色配比，去掉紫色：白/浅灰底、深灰字、少量陶土棕#AD5E48，悬停#9F513C；不得改原布局、文案、模块、尺寸和交互。只允许设计Markdown与 `docs/design-prototype/` 下隔离HTML/CSS/JS/截图/检查证据及预览包变更，不修改正式主题、数据库或迁移，不开始Phase 8。静态原型必须标明示例数据且不写正式数据库。新增提交正常同步main，不重写历史，完成后等待用户审核。
+- 后续Phase 8–14前后台必须遵循 docs/DESIGN_SYSTEM.md、FRONTEND_DESIGN_SPEC.md、USER_CENTER_DESIGN.md、ADMIN_DESIGN_SPEC.md、RESPONSIVE_DESIGN.md；当前采用原整套Modern SaaS布局配合灰白/陶土棕新配色，WordPress后台仍沿原生设计，保留操作蓝色并替换紫色品牌标记。首页样式与运营配置分离，当前只保留原版Modern SaaS，不继续提供目录/双风格选项。真实配置草稿/发布属于后续明确授权范围，不把原型内存交互称为生产功能。
 - 开发仅限 Codex Cloud，不部署外部服务，不要求用户本机开发。
 - 原创 WordPress 主题；Core 内置于主题。不得修改 WordPress 核心。
 - PHP 8.3+、MySQL、Tailwind CSS、Alpine.js；WordPress 原生后台。

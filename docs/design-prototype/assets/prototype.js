@@ -79,7 +79,7 @@
     event.preventDefault();
     if(el.hasAttribute('data-favorite')) {
       const selected=el.getAttribute('aria-pressed')==='true';el.setAttribute('aria-pressed',String(!selected));
-      el.classList.toggle('bg-violet-50',!selected);el.classList.toggle('text-violet-700',!selected);
+      el.classList.toggle('bg-accent-50',!selected);el.classList.toggle('text-accent-700',!selected);
       toast(t(selected?'已取消示例收藏；刷新即重置，未写入账户。':'已收藏此示例；仅当前页面内存演示。',selected?'Demo favorite removed. No account was changed.':'Demo favorite saved in this page only.'));return;
     }
     if(el.dataset.openDialog){const dialog=document.getElementById(el.dataset.openDialog);if(dialog?.showModal)dialog.showModal();return;}

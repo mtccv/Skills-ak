@@ -12,10 +12,16 @@
 | Phase 7 安全、性能与稳定性 | 用户已验收 | PHASE_7_REPORT.md / PHASE_7_ROUND_2.md / ../CHANGELOG.md |
 | Final QA | 已执行范围通过，外部验收有保留；20 通过 / 0 失败 / 5 未执行 | ../FINAL_QA_REPORT.md；真实 WPML / GitHub / AI 仍未验证 |
 | V2 产品扩展准备 | 规划文档待用户审核；没有开始 Phase 8 | ../PRODUCT_SPEC_V2.md；PRODUCT_DATABASE_DESIGN.md / PRODUCT_MODULE_AUDIT.md / PRODUCT_ROADMAP.md |
-| Phase 7.5 全站 UI/UX 设计 | 已按最新要求恢复整套修改前设计，待用户审核 | DESIGN_SYSTEM.md；design-prototype/README.md；正式代码/数据库未变 |
+| Phase 7.5 全站 UI/UX 设计 | 原布局已保留、紫色已改灰白/陶土棕，待用户审核 | DESIGN_SYSTEM.md；design-prototype/README.md；正式代码/数据库未变 |
 | Phase 8–14 | 尚未实施 | 需逐阶段明确授权；规划不等于开发完成 |
 
-## Phase 7.5 恢复整套修改前设计（当前交付）
+## Phase 7.5 原布局配色调整（当前交付）
+
+以 `2d6df357f871bb31183182c02f7cd28dc80b1b18` 为本轮基线，保留原五页布局、文案、模块及交互。按用户要求实际查看SkillsMP首页与搜索页，仅借鉴白/浅灰底、深灰字与少量陶土棕的配色；参考主色#AD5E48、悬停#9F513C，原紫色及紫色渐变/阴影已移除。控件边框采用本项目对比度校验后的#858C97；后台操作蓝及语义状态色保留。
+
+仅设计规范、隔离原型颜色、截图/检查证据及预览包变化。Chromium155的101项原流程与27项颜色/布局检查全部通过（128/128）；五页中英桌面/手机几何差0 CSS px，14项当前配色对比度计算通过；设计构建、JS语法与边界检查通过。完整证据见[当前原型说明](design-prototype/README.md)。正式主题、数据库、生产安装包和历史Final QA结论均不变，不开始Phase8，等待用户审核。
+
+## Phase 7.5 恢复整套修改前设计（历史，布局继续采用）
 
 用户明确要求全部采用修改前设计，不保留后来改版。当前从 `04a8190fd7938749efbb142430c6e5ff23cb38c5` 恢复首页、Skills列表、Skill详情、用户Dashboard、WordPress后台Dashboard、共享组件和五份设计规范；取消目录改版、双风格选择器及其活动资源。后续修改保留在Git历史中，不覆盖原提交；当前原型与预览包仅包含原方案。
 

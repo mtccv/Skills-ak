@@ -10,7 +10,7 @@ WordPress 原创中英文主题，内置 AI Skills Hub Core。Phase 0–7 已完
 
 ## Phase 7.5 设计评审
 
-按用户最新要求，**整套恢复到修改前 `04a8190` 的原始设计**，覆盖首页、Skills列表、Skill详情、用户Dashboard和WordPress后台Dashboard；取消后来的目录风格和双风格切换。查看[原型与五页截图](docs/design-prototype/README.md)、[设备预览器](docs/design-prototype/preview.html)或下载[原版设计预览包](docs/ai-skills-hub-design-preview.zip)。GitHub文件页显示源码；Cloud静态HTTP为已验证预览方式。全部变更仅限设计，尚未进入Phase 8。
+当前保留**修改前 `04a8190` 的整套原布局**，并按最新要求参考SkillsMP调整为白/浅灰、深灰文字及少量陶土棕，去掉紫色，覆盖首页、Skills列表、Skill详情、用户Dashboard和WordPress后台Dashboard；取消后来的目录风格和双风格切换。查看[原型与五页截图](docs/design-prototype/README.md)、[设备预览器](docs/design-prototype/preview.html)或下载[当前配色预览包](docs/ai-skills-hub-design-preview.zip)。GitHub文件页显示源码；Cloud静态HTTP为已验证预览方式。全部变更仅限设计，尚未进入Phase 8。
 
 规范：[设计系统](docs/DESIGN_SYSTEM.md) · [前台](docs/FRONTEND_DESIGN_SPEC.md) · [用户中心](docs/USER_CENTER_DESIGN.md) · [后台](docs/ADMIN_DESIGN_SPEC.md) · [响应式](docs/RESPONSIVE_DESIGN.md)。后续Phase 8–14必须依据这些规范开发。全部示例数据和草稿/发布交互仅用于设计，正式主题及安装包未改。
 
