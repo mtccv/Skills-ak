@@ -1,10 +1,10 @@
 # AI Skills Hub
 
-**当前：Phase 8 用户账户与个人中心，主题/Core 0.8.0、schema 1.6.0。** 以 WordPress 原生身份提供邮箱验证、登录/恢复、资料/头像、安全、隐私申请及账户通知；只增三表至 17 表，保留原业务数据。见 [账户说明](ACCOUNT_SYSTEM.md)、[邮件配置](EMAIL_SETUP.md)、[隐私与安全](PRIVACY_AND_SECURITY.md)和 [Phase 8 独立报告](docs/PHASE_8_REPORT.md)。下方 0.7.1 ZIP 和 Final QA 是历史交付，不包含账户功能；本轮源码先执行 `npm ci && npm run build` 再由 `scripts/package-theme.py` 构建主题。Phase 9 尚未开始。
+**当前：Phase 8 用户账户与个人中心，主题/Core 0.8.0、schema 1.6.0。** 以 WordPress 原生身份提供邮箱验证、登录/恢复、资料/头像、安全、隐私申请及账户通知；只增三表至 17 表，保留原业务数据。见 [账户说明](ACCOUNT_SYSTEM.md)、[邮件配置](EMAIL_SETUP.md)、[隐私与安全](PRIVACY_AND_SECURITY.md)和 [Phase 8 独立报告](docs/PHASE_8_REPORT.md)。[下载 0.8.0 可安装主题 ZIP](release/ai-skills-hub-0.8.0.zip)，已包含构建资源，无需用户本机开发。下方 0.7.1 和 Final QA 为历史交付记录；从源码构建时先执行 `npm ci && npm run build` 再由 `scripts/package-theme.py` 打包。Phase 9 尚未开始。
 
-WordPress 原创中英文主题，内置 AI Skills Hub Core。Phase 0–7 已完成；Final QA 已执行真实 WordPress、PHP 8.3/8.4、MySQL 8.0、三引擎浏览器及原生 SEO 插件测试，修复 7 个实际问题。验收矩阵 **20 项工作包通过、0 失败、5 项外部验收未执行**：没有合法 WPML 包或真实 GitHub/AI 应用凭据，不能宣布完全通过。主题/Core **0.7.1**，schema **1.5.0**，不改变十四表、Skill ID、双语关系或人工审核规则。
+WordPress 原创中英文主题，内置 AI Skills Hub Core。以下为 Phase 0–7 历史验收：Final QA 已执行真实 WordPress、PHP 8.3/8.4、MySQL 8.0、三引擎浏览器及原生 SEO 插件测试，修复 7 个实际问题。验收矩阵 **20 项工作包通过、0 失败、5 项外部验收未执行**：没有合法 WPML 包或真实 GitHub/AI 应用凭据，不能宣布完全通过。主题/Core **0.7.1**，schema **1.5.0**，不改变十四表、Skill ID、双语关系或人工审核规则。
 
-[下载安装主题 ZIP](release/ai-skills-hub-0.7.1.zip) · [安装与配置](INSTALLATION.md) · [Final QA 总报告](FINAL_QA_REPORT.md) · [已知限制](KNOWN_LIMITATIONS.md)。包已通过真实全新安装、原生升级和重复安装；[SHA256SUMS](release/SHA256SUMS) 用于校验。下载 GitHub 整个源码 ZIP 不能直接当作 WordPress 主题安装。
+[历史 0.7.1 主题 ZIP](release/ai-skills-hub-0.7.1.zip) · [安装与配置](INSTALLATION.md) · [Final QA 总报告](FINAL_QA_REPORT.md) · [已知限制](KNOWN_LIMITATIONS.md)。历史 0.7.1 包已通过真实全新安装、原生升级和重复安装；[SHA256SUMS](release/SHA256SUMS) 用于校验。下载 GitHub 整个源码 ZIP 不能直接当作 WordPress 主题安装。
 
 完整需求见 [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md)，技术说明见 [Core](docs/CORE.md)、[前台](docs/FRONTEND.md)、[SEO](docs/SEO.md)、[GitHub 采集](docs/GITHUB_IMPORT.md)、[AI 使用](docs/AI_USAGE.md)、[API 配置](docs/API_CONFIGURATION.md)。最终 [安全](SECURITY_AUDIT.md)、[兼容](COMPATIBILITY_REPORT.md)、[性能](PERFORMANCE_REPORT.md) 报告与 [开发进度](docs/PROGRESS.md) 分开记录真实、Mock、静态及未测范围；Phase 0–7 报告保留历史事实。
 

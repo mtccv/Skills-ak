@@ -1,6 +1,6 @@
 # AI Skills Hub 安装与维护
 
-适用于主题 / 内置 Core **0.7.1**，数据库 schema **1.5.0**。安装包、版本和 SHA-256 应来自同一次正式构建。本指南沿用 Codex Cloud 开发与验收环境，不要求本机开发、宝塔或外部服务器部署。
+适用于主题 / 内置 Core **0.8.0**，数据库 schema **1.6.0**。安装包、版本和 SHA-256 应来自同一次正式构建。本指南沿用 Codex Cloud 开发与验收环境，不要求本机开发、宝塔或外部服务器部署。
 
 主题提供前台和全部 Core 模块；WordPress、数据库、配置密钥、媒体及业务数据不包含在 ZIP 中。切换主题会停用 Hub 路由和后台功能，并清理其 Cron 事件，但不删除 Skills、译文、任务或历史。GitHub 采集与 AI 草稿都必须经过人工审核，安装不会自动生成或发布示例资源。
 
@@ -9,7 +9,7 @@
 | 项目 | 要求 |
 | --- | --- |
 | WordPress | 主题声明最低 6.8；使用受维护版本，具体已验版本见本次交付测试记录 |
-| PHP | 8.3+；启用 mysqli、JSON、mbstring、DOM/XML，支持 WordPress HTTPS 请求；核对所用 PHP 版本的实际验收记录 |
+| PHP | 8.3+；启用 mysqli、JSON、mbstring、DOM/XML、sodium；头像需要 GD 或 Imagick，隐私 ZIP 导出需要 ZipArchive，支持 WordPress HTTPS 请求；核对所用 PHP 版本的实际验收记录 |
 | 数据库 | MySQL、InnoDB、utf8mb4；Compose 默认 MySQL 8.4。Cloud完成8.0真实矩阵，独立CI另通过8.4.13的Core基线；两者覆盖范围分别记录 |
 | Web | 正常运行的 WordPress；Apache 允许 `.htaccess` 重写，或实例现有 Web 层具有等效 WordPress 路由规则 |
 | 权限 | 管理员安装主题；数据库用户能执行正常读写、版本化 CREATE / ALTER / 索引和连接锁操作 |
@@ -26,11 +26,11 @@ python3 scripts/package-theme.py --check
 python3 scripts/package-theme.py
 ```
 
-输出为 `release/ai-skills-hub-0.7.1.zip` 和 `release/SHA256SUMS`；实际文件名自动读取 `style.css` 的 Version，并要求 Core 版本一致。脚本不会代替前端构建；缺少非空 `assets/dist/app.css` / `app.js` 或必要模板时直接失败。`--check` 只校验输入，不创建安装包。
+输出为 `release/ai-skills-hub-0.8.0.zip` 和 `release/SHA256SUMS`；实际文件名自动读取 `style.css` 的 Version，并要求 Core 版本一致。脚本不会代替前端构建；缺少非空 `assets/dist/app.css` / `app.js` 或必要模板时直接失败。`--check` 只校验输入，不创建安装包。
 
 ZIP 只有一个 `ai-skills-hub/` 顶级目录，包含主题 PHP、模板、资源源码、已构建资源，以及从仓库根复制的 `LICENSE`。不打入整个 GitHub 仓库、WordPress 核心、数据库、测试、依赖目录、隐藏文件、缓存、备份及已知敏感配置文件；拒绝主题中的符号链接和特殊文件。打包前仍须人工检查源码没有硬编码凭据，文件筛选不能替代密钥审查。
 
-文件顺序和元信息固定，目录权限为 0755、文件为 0644；ZIP 使用无需压缩器的存储格式。默认时间统一为 1980-01-01 UTC，可显式设置合法的 `SOURCE_DATE_EPOCH`（1980–2107）。相同内容与时间参数产生相同 ZIP；`SHA256SUMS` 只列本次生成的版本。`--output-dir` 可指定其他交付目录。
+文件顺序和元信息固定，目录权限为 0755、文件为 0644；ZIP 使用无需压缩器的存储格式。默认时间统一为 1980-01-01 UTC，可显式设置合法的 `SOURCE_DATE_EPOCH`（1980–2107）。相同内容与时间参数产生相同 ZIP；打包脚本生成的 `SHA256SUMS` 只列本次版本；仓库交付清单另保留历史 0.7.1 和当前 0.8.0 两项校验。`--output-dir` 可指定其他交付目录。
 
 在 Cloud 中核对下载或复制后的包：
 
@@ -67,15 +67,17 @@ docker compose run --rm cli wp --user=cloud_admin eval 'do_action("admin_init");
 此方式用于已有的、主题目录可写的 Cloud WordPress 实例；不要同时让同一主题路径被仓库只读挂载。
 
 1. 确认 WordPress 已安装、上述依赖可用，检查 ZIP 的 SHA-256；已有数据先按第 8 节备份。
-2. 管理员打开“外观 → 主题 → 安装主题 → 上传主题”，选择 `ai-skills-hub-0.7.1.zip`，安装并启用。已有同名主题时按 WordPress 界面确认替换当前版本。
-3. 再次打开后台，确认 AI Skills Hub 顶级菜单存在，且没有数据库升级错误通知。首装及旧版升级通过现有迁移器执行；成功版本应为 `1.5.0`。
+2. 管理员打开“外观 → 主题 → 安装主题 → 上传主题”，选择 `ai-skills-hub-0.8.0.zip`，安装并启用。已有同名主题时按 WordPress 界面确认替换当前版本。
+3. 再次打开后台，确认 AI Skills Hub 顶级菜单存在，且没有数据库升级错误通知。首装及旧版升级通过现有迁移器执行；成功版本应为 `1.6.0`。
 4. 打开“设置 → 固定链接”保存一次，检查 `/zh/`、`/en/`。主题首次管理员初始化会为普通链接设置 `/%postname%/`，保留已有非空固定链接规则。
 5. 确认前台加载 `assets/dist/app.css` 和 `app.js`；没有内容时应显示真实空状态。
+6. 按 [邮件配置](EMAIL_SETUP.md) 配置 sodium 专用加密密钥、`AISH_ACCOUNT_MAIL_ENABLED`、可信邮件传输与 Cron，再测试中英文注册、验证及恢复。没有配置时新注册保持关闭，已有管理员仍可原生登录。`wp_mail()` 成功仅表示传输受理，不等于收到邮件。
+7. 核对 `/zh/login/`、`/en/register/`、本人账户中心、私有头像和隐私申请；详见 [账户说明](ACCOUNT_SYSTEM.md) 与 [隐私安全](PRIVACY_AND_SECURITY.md)。账户策略随主题加载，主题切换保留数据，但不继续执行账户保护和邮件调度。
 
 也可在同一 Cloud 实例使用 WP-CLI，路径应指向该实例实际可读的 ZIP：
 
 ```sh
-wp theme install /path/to/ai-skills-hub-0.7.1.zip --activate
+wp theme install /path/to/ai-skills-hub-0.8.0.zip --activate
 wp --user=YOUR_ADMIN_USER eval 'do_action("admin_init"); echo AISkillsHub\Core\Core::boot()->migrator()->version(), PHP_EOL;'
 ```
 
@@ -126,7 +128,7 @@ AI Generation 可对已采集来源生成双语、单语言、摘要或使用场
 
 ## 7. Cron 调度与观察
 
-首次以管理员访问后台会注册每分钟的 `aish_import_tick` 和 `aish_ai_tick`。来源任务每次推进一个可恢复步骤，AI 每次最多一个请求，均受数据库锁和任务租约控制。普通前台不在页面处理栈执行长扫描或生成；WordPress 默认 Cron 依赖访问触发，低流量时会延迟。
+首次以管理员访问后台会注册每分钟的 `aish_import_tick`、`aish_ai_tick` 和 `aish_account_mail_tick`。来源任务每次推进一个可恢复步骤，AI 每次最多一个请求，账户邮件每次处理有界工作，均受数据库锁和任务租约控制。普通前台不在页面处理栈执行长扫描或生成；WordPress 默认 Cron 依赖访问触发，低流量时会延迟。
 
 在现有 Compose 中查看事件：
 
@@ -148,7 +150,7 @@ docker compose run --rm -T cli wp cron event run --due-now
 
 **升级前**：暂停 AI 队列，暂停 Cloud 外部调度，并安排维护窗口阻止新的站点写入与 WP-Cron 触发；等待已发出的请求结束。仅关闭来源定期同步不足以停止现有任务。不要为升级而归档业务仓库或取消所有任务，暂停调度即可。
 
-备份范围包括完整 WordPress 数据库（含原生 posts/postmeta/options/users 和全部十四张 `{$wpdb->prefix}aish_*` 表）、`wp-content` 媒体/插件/主题、受保护的 WordPress/秘密配置、上一版本安装包及校验值。没有“只备份主题就保留数据”的替代方案。
+备份范围包括完整 WordPress 数据库（含原生 posts/postmeta/options/users 和全部十七张 `{$wpdb->prefix}aish_*` 表）、`wp-content` 媒体/插件/主题、受保护的 WordPress/秘密配置、上一版本安装包及校验值。没有“只备份主题就保留数据”的替代方案。
 
 先将 `AISH_BACKUP_DIR` 设置为**仓库外、非 Web 目录的受保护持久备份路径**。确认数据库表为 InnoDB，停止 DDL/写入后可用现有 Compose 导出：
 
@@ -162,7 +164,7 @@ docker compose exec -T wordpress tar -C /var/www/html -czf - wp-content > "$AISH
 
 另行私密备份 `wp-config.php` 和真实秘密配置，不打印或提交它们。核对导出命令成功、文件非空，并在独立 Cloud 验证实例实际恢复后再认为备份可用。命令失败生成的空文件不是有效备份；Cloud 临时目录也不能替代持久备份。
 
-**升级步骤**：记录当前主题/Core/schema 版本 → 备份 → 校验新包 → 在可写主题模式通过 WordPress 替换同名包，或在源码挂载模式更新代码并重新构建 → 管理员进入后台执行版本化迁移 → 确认 schema `1.5.0`、前台资源/双语路由/私有门禁正常 → 核对原有 Skill ID、译文、来源、版本及 AI 历史仍在 → 恢复调度与需要的队列。
+**升级步骤**：记录当前主题/Core/schema 版本 → 备份 → 校验新包 → 在可写主题模式通过 WordPress 替换同名包，或在源码挂载模式更新代码并重新构建 → 管理员进入后台执行版本化迁移 → 确认 schema `1.6.0`、前台资源/双语路由/私有门禁正常 → 核对原有 Skill ID、译文、来源、版本及 AI 历史仍在 → 恢复调度与需要的队列。
 
 迁移只在授权后台或可信 WP-CLI 中执行，前台不执行 DDL；版本成功验证后才推进。升级错误时保留现有数据和最后成功版本，修复原因后重试，不清表重建、不改写 schema option 冒充成功。MySQL DDL 不能承诺整体回滚；断线后的 COMMIT 或已发 HTTP 也不能假称撤销。
 
@@ -176,10 +178,11 @@ docker compose exec -T wordpress tar -C /var/www/html -czf - wp-content > "$AISH
 | 页面无样式或菜单不工作 | ZIP 是否包含非空 `assets/dist/app.css` / `app.js`，资源请求是否 200；源码模式重新构建 |
 | 数据库升级提示 | 数据库权限/可用性、当前 schema；使用现有迁移器重试，保留数据，不删除表 |
 | Skills 列表为空 | 当前语言内容完整、状态 published、当前修订已批准；草稿/缺译应保持不可见 |
+| 新用户注册提示服务未就绪 | sodium、专用加密密钥、明确启用标志、邮件传输及账户 Cron；不要用放宽验证绕过配置 |
 | 队列一直 queued / paused | Cron 是否注册和实际触发、全局/单任务暂停、下次执行时间、仓库开关、密钥是否传入实际 worker |
 | GitHub 限流 / incomplete | 查看受控错误和限流时间；等待退避或修复源格式，不能强制改成 complete |
 | AI failed / uncertain | 查配置/模型参数/输出错误及供应商账单；未知结果不盲重试，不手工清零用量 |
 | Canonical / hreflang / XML 不正确 | 对应语言是否真实公开、noindex 设置、SEO 插件所有权与缓存；缺译不应伪造链接 |
 | 私有内容或旧发布页仍被缓存 | 保留主题 no-store/noindex 及权限检查，核对额外缓存层；清理缓存不能代替修复公开门禁 |
 
-最终包已在独立WP7.1.4/PHP8.4.27/MySQL8.0.46中实际全新安装、升级、重装和切换恢复，十四表指纹与78文件匹配，详见 [Final QA](FINAL_QA_REPORT.md)。启用本主题会通过公开filters关闭Yoast/RankMath XML Sitemap缓存，保证Hub索引动态更新；正常只选择一个SEO插件。交付验收范围和未执行项以最新 [进度记录](docs/PROGRESS.md) 及 Final QA 结果为准。真实 AI Key、WPML 商业插件或目标数据库版本缺失时须保留对应限制；本指南和 ZIP 构建成功不构成真实 API、插件全版本或生产部署验收。
+历史 0.7.1 包的全新安装、升级、重装和切换恢复记录见 [Final QA](FINAL_QA_REPORT.md)，不能直接作为新版本验收。当前 0.8.0 包包含 96 个主题文件，源码验证、邮件 Mock 和未执行范围见 [Phase 8 报告](docs/PHASE_8_REPORT.md)，包的实际校验记录见 [发布证据](release/PHASE_8_PACKAGE.json)：本轮已在隔离 WordPress/PHP 8.4/MySQL 8.0 实际完成原生 ZIP 升级，原十四表数据保留、schema 1.6.0 十七表和全部 96 文件核对通过；未重新执行 0.8.0 空库 ZIP 安装。启用本主题会通过公开filters关闭Yoast/RankMath XML Sitemap缓存，保证Hub索引动态更新；正常只选择一个SEO插件。交付验收范围和未执行项以最新 [进度记录](docs/PROGRESS.md) 及 Final QA 结果为准。真实 AI Key、WPML 商业插件或目标数据库版本缺失时须保留对应限制；本指南和 ZIP 构建成功不构成真实 API、插件全版本或生产部署验收。

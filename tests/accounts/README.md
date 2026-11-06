@@ -124,3 +124,22 @@ in `results/`. Raw credentials, queue payloads, cookies, source logs and databas
 are excluded. Real SMTP/inbox delivery, production HTTPS/proxy/caches, WPML,
 multisite, external authentication plugins and physical mobile devices remain
 separate unexecuted integrations.
+
+## Frozen ZIP upgrade smoke
+
+`package-upgrade.php` is a separate, one-time check for the existing writable
+`aishqa-package` / `qa_package` fixture at theme 0.7.1 and schema 1.5.0. Do not
+run it on business data or reset a database to make the preconditions pass.
+Copy the frozen 0.8.0 ZIP and script into `/tmp/aish-phase8-package/` in that
+container, owned by its `www-data` service user. Set `AISH_PHASE8_QA=1`,
+`AISH_QA_ZIP_SHA256` to the published archive digest and run the copied script
+as `www-data`, first with `AISH_PACKAGE_MODE=upgrade`, then in a new process
+with `AISH_PACKAGE_MODE=verify`. The first step snapshots the original fourteen
+table fingerprints and uses native `Theme_Upgrader`; the second loads the new
+theme with `WP_CLI=true`, triggering the registered trusted-CLI migration hook,
+checks schema 1.6.0 / 17 tables, original data and all installed file bytes.
+The script refuses to overwrite its original snapshot.
+
+The actual result is `release/phase8-install-check.json`, with separate real
+localhost HTTP checks for `/en/`, `/zh/` and their login pages. This is a ZIP
+upgrade check, not a new empty-site installation or real mail-delivery test.

@@ -2,6 +2,8 @@
 
 ## 0.8.0 — Phase 8 用户账户与个人中心
 
+- 补充交付可直接上传 WordPress 的 0.8.0 主题 ZIP、SHA-256 校验与当前安装/邮件说明；保留历史 0.7.1 包。
+
 - 新增 Accounts Core 模块；原生 Users/Subscriber 的双语注册、邮箱验证、登录/退出、恢复/重置、改密码/邮箱、会话撤销、资料、私有头像和个人中心。
 - schema 1.6.0 只追加 email_verifications、user_notifications、notification_outbox 三表，保留原十四表及 Skills/人工译文/来源历史/匿名私有来信。
 - 一次性 HMAC 验证、版本化密钥加密 outbox、有界 Cron、租约恢复；明确区分排队、传输受理和结果不确定，不声称真实送达。

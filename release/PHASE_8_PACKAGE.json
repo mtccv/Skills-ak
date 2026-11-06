@@ -1,0 +1,32 @@
+{
+  "theme": "ai-skills-hub",
+  "version": "0.8.0",
+  "schema": "1.6.0",
+  "source_commit": "40777e537f84184e6438005aec39f3bf8ba1b05c",
+  "archive": "ai-skills-hub-0.8.0.zip",
+  "bytes": 1015610,
+  "files": 96,
+  "sha256": "45e22438e008f40964e529d77fc7dcea30fee964f076eddc7296708a8d52e1f0",
+  "build": "Tailwind/esbuild and asset check passed",
+  "packager_unit_tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "archive_checks": {
+    "zip_crc": true,
+    "single_theme_root": true,
+    "exact_source_and_asset_match": true,
+    "safe_paths_and_file_modes": true,
+    "reproducible_archive": true,
+    "historical_0_7_1_unchanged": true
+  },
+  "runtime_evidence": "../docs/PHASE_8_REPORT.md",
+  "mail_delivery": "not executed; no real mail transport configured",
+  "native_wordpress_zip_upgrade": {
+    "status": "passed",
+    "from": "0.7.1",
+    "to": "0.8.0",
+    "evidence": "phase8-install-check.json"
+  },
+  "fresh_wordpress_zip_install": "not repeated for 0.8.0; native upgrade checked, prior 0.7.1 fresh install is historical evidence"
+}
