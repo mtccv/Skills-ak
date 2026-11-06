@@ -1,0 +1,85 @@
+{
+  "scope": "WCAG relative luminance calculation for 10 named solid-color pairs only; not a complete accessibility audit",
+  "pairs": [
+    {
+      "name": "Primary text",
+      "foreground": "#182134",
+      "background": "#FFFFFF",
+      "ratio": 16.08,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Secondary text",
+      "foreground": "#596579",
+      "background": "#FFFFFF",
+      "ratio": 5.9,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Secondary on canvas",
+      "foreground": "#596579",
+      "background": "#F6F7FB",
+      "ratio": 5.51,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Primary button",
+      "foreground": "#FFFFFF",
+      "background": "#7047EB",
+      "ratio": 5.54,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Link",
+      "foreground": "#5934C7",
+      "background": "#FFFFFF",
+      "ratio": 7.66,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Success",
+      "foreground": "#15734F",
+      "background": "#EBFBF4",
+      "ratio": 5.46,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Warning",
+      "foreground": "#92400E",
+      "background": "#FFFBEB",
+      "ratio": 6.84,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Error",
+      "foreground": "#991B1B",
+      "background": "#FEF2F2",
+      "ratio": 7.6,
+      "target": 4.5,
+      "pass_": true
+    },
+    {
+      "name": "Input border",
+      "foreground": "#64748B",
+      "background": "#FFFFFF",
+      "ratio": 4.76,
+      "target": 3,
+      "pass_": true
+    },
+    {
+      "name": "Focus",
+      "foreground": "#7047EB",
+      "background": "#FFFFFF",
+      "ratio": 5.54,
+      "target": 3,
+      "pass_": true
+    }
+  ]
+}

@@ -2,7 +2,8 @@
 
 先阅读根目录 CODEX_MASTER_SPEC.md 和已有阶段报告。
 
-- 当前任务仅为 V2 产品扩展准备：以 main `1c27f8770fc3bd20b2ffd92d8873444ba92d54c8` 为基线，阅读现有代码、设计数据库和 Phase 8–14 计划，只编写 Markdown。规格见根 `PRODUCT_SPEC_V2.md` 及 docs 下 PRODUCT_DATABASE_DESIGN / PRODUCT_MODULE_AUDIT / PRODUCT_ROADMAP。不得修改业务代码、数据库结构、执行迁移、启动 Phase 8 或自动进入后续阶段；规划提交同步 main 后等待用户审核。原 CODEX_MASTER_SPEC.md 和历史 QA 证据保留。
+- 当前任务为 Phase 7.5 UI/UX 设计准备，以 main `6f7790d58d1884d400d7fd6ad5156449ec134081` 为基线。允许阅读审查、Markdown规划及 `docs/design-prototype/` 下隔离静态HTML/演示专用CSS/JS/截图/检查证据；不得修改正式PHP/CSS/JS、数据库或迁移，不开始Phase 8。静态原型必须显著标明示例数据且不写正式数据库。设计提交main后等待用户审核。
+- 后续Phase 8–14前后台必须遵循 docs/DESIGN_SYSTEM.md、FRONTEND_DESIGN_SPEC.md、USER_CENTER_DESIGN.md、ADMIN_DESIGN_SPEC.md、RESPONSIVE_DESIGN.md；页面/组件交付要有两语言、响应式、状态与无障碍证据。首页风格与运营配置分离，仅实现已批准风格；当前仅设计Modern SaaS，真实配置草稿/发布属于后续明确授权范围，不把原型内存交互称为生产功能。
 - 开发仅限 Codex Cloud，不部署外部服务，不要求用户本机开发。
 - 原创 WordPress 主题；Core 内置于主题。不得修改 WordPress 核心。
 - PHP 8.3+、MySQL、Tailwind CSS、Alpine.js；WordPress 原生后台。

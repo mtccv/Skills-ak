@@ -1,0 +1,38 @@
+{
+  "scope": "Static native-style admin prototype; no WordPress, persistence, permissions, APIs, or Cron exercised",
+  "browser": "155.0.8059.79",
+  "checks": [
+    "Native WP shell colors and sidebar",
+    "Desktop dashboard has no page overflow",
+    "Operational module detail and close focus",
+    "Only modern-saas is selectable",
+    "Independent bilingual copy retains unsaved values",
+    "Module visibility and keyboard order",
+    "Saving draft keeps live revision unchanged",
+    "Same-origin iframe reflects copy and disabled module",
+    "Mobile preview width",
+    "Publication requires explicit review dialog",
+    "Publication changes memory revision",
+    "Restore makes a draft without changing live",
+    "Mobile appearance has no page overflow",
+    "Mobile menu opens and routes",
+    "Mobile dashboard has no page overflow",
+    "English UI and page reload resets memory",
+    "Native admin empty state",
+    "Native admin error state",
+    "Native admin loading state",
+    "No browser JavaScript errors",
+    "360px dashboard: no page overflow",
+    "360px appearance: no page overflow",
+    "Unfocused skip link is clipped",
+    "Native missing translation notice"
+  ],
+  "passed": 24,
+  "errors": [],
+  "screenshots": [
+    "screenshots/admin-dashboard-1440.png",
+    "screenshots/admin-appearance-1440.png",
+    "screenshots/admin-dashboard-390.png",
+    "screenshots/admin-appearance-390.png"
+  ]
+}

@@ -8,6 +8,12 @@ WordPress 原创中英文主题，内置 AI Skills Hub Core。Phase 0–7 已完
 
 当前新增的是 **V2 产品扩展规划，尚未开始 Phase 8 编码**：[产品规格](PRODUCT_SPEC_V2.md)、[数据库设计](docs/PRODUCT_DATABASE_DESIGN.md)、[模块审查](docs/PRODUCT_MODULE_AUDIT.md)、[Phase 8–14 路线图](docs/PRODUCT_ROADMAP.md)。规划使用 WordPress 原生用户，复用私有投稿和原十四表，分阶段设计账户、收藏评价、开发者、发现、运营及免费商业化预留；所有新表/页面均为待实施建议，当前主题和 schema 不变。
 
+## Phase 7.5 设计评审
+
+新增五份设计规范与五页独立静态原型，尚未进入 Phase 8。先看 [原型预览与截图说明](docs/design-prototype/README.md)、[设备预览器](docs/design-prototype/preview.html) 或 [首页HTML](docs/design-prototype/index.html)。GitHub源码页面不会直接运行HTML；下载原型目录后打开，或在Cloud内通过本地静态服务预览，不需要安装WordPress或部署外部服务器。
+
+规范：[设计系统](docs/DESIGN_SYSTEM.md) · [前台](docs/FRONTEND_DESIGN_SPEC.md) · [用户中心](docs/USER_CENTER_DESIGN.md) · [后台](docs/ADMIN_DESIGN_SPEC.md) · [响应式](docs/RESPONSIVE_DESIGN.md)。后续Phase 8–14必须依据这些规范开发。全部示例数据和草稿/发布交互仅用于设计，正式主题及安装包未改。
+
 ## Codex Cloud 开发
 
 仅在 Codex Cloud 运行，不需要本机环境、宝塔或外部服务器。要求 Docker Compose、Node.js 22/24、npm、Python 3；PHP 和 MySQL 运行在容器内。

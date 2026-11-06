@@ -1,0 +1,9 @@
+{
+  "scope": "Attempt to open the static prototype through file:// in managed Chromium",
+  "status": "blocked",
+  "passed": 0,
+  "executed_page_checks": 0,
+  "reason": "Managed Chromium returned net::ERR_BLOCKED_BY_ADMINISTRATOR for file:// navigation.",
+  "alternative": "All five designs and the viewport preview were tested through the Cloud-only 127.0.0.1 static HTTP server; see preview-checks.json and admin-checks.json.",
+  "limit": "Do not claim that direct-file or offline-browser interactions were verified. No browser policy was bypassed."
+}

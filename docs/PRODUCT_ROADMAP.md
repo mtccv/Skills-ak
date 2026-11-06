@@ -2,7 +2,7 @@
 
 规划日期：2026-11-06（Asia/Shanghai）。状态：**待用户审核，仅产品与技术规划；Phase 8 未开始**。规划基线：`main` / `1c27f8770fc3bd20b2ffd92d8873444ba92d54c8`，主题/Core `0.7.1`，schema `1.5.0`。
 
-本轮只编写 Markdown；没有修改 PHP、数据库定义、迁移、测试、构建或运行配置，没有启动 WordPress、数据库、服务或执行迁移。本文中的任务、模块、表、能力、URL 和验收均为后续计划，不表示已经实现。用户审核本规划并明确授权后，才能开始 Phase 8；各阶段完成后提交证据并等待下一阶段安排。
+V2 产品规划轮次只编写 Markdown；没有修改 PHP、数据库定义、迁移、测试、构建或运行配置，没有启动 WordPress、数据库、服务或执行迁移。本文中的任务、模块、表、能力、URL 和验收均为后续计划，不表示已经实现。用户审核本规划并明确授权后，才能开始 Phase 8；各阶段完成后提交证据并等待下一阶段安排。
 
 配套依据：[V2 产品规格](../PRODUCT_SPEC_V2.md)、[模块审计](PRODUCT_MODULE_AUDIT.md)、[总规格](../CODEX_MASTER_SPEC.md)、[数据库设计](PRODUCT_DATABASE_DESIGN.md)、[Core](CORE.md)、[前台](FRONTEND.md)、[SEO](SEO.md)、[进度](PROGRESS.md)、[Final QA](../FINAL_QA_REPORT.md)、[已知限制](../KNOWN_LIMITATIONS.md)。Phase 0–7 报告保留为历史证据，不重写其当时的未测项目。
 
@@ -31,6 +31,10 @@ V2 从双语 Skills 目录扩展为可注册、收藏、评价、投稿和持续
 | Final QA 25 工作包：20 通过、0 失败、5 未执行 | 新功能需新证据；真实 WPML、GitHub、OpenAI、兼容 Provider、生成质量/账单五项未执行继续保留 |
 
 ## 2. 阶段安排与先后依赖
+
+**新增前置 Phase 7.5：** 产品/数据库设计 → 全站 UI/UX 设计评审 → 用户明确授权 Phase 8 → 后续按阶段依赖推进。五份设计规范 [设计系统](DESIGN_SYSTEM.md)、[前台](FRONTEND_DESIGN_SPEC.md)、[用户中心](USER_CENTER_DESIGN.md)、[后台](ADMIN_DESIGN_SPEC.md)、[响应式](RESPONSIVE_DESIGN.md) 为 P8–14 的共同验收基准。[五页静态原型](design-prototype/README.md) 仅验证布局与演示交互。现有主题代码不因此修改。
+
+首页模块的视觉/运营/查询分层从后续视觉实施开始遵循；P11接真实榜单，P12实现原生首页外观、权限、配置修订/CAS、草稿发布与缓存失效。首期只开发 Modern SaaS；未来定时切换先保留不可变修订/时区/幂等/失败合同，不在Phase 7.5实现服务或完整页面构建器。
 
 | 阶段 | 核心交付 | 前置与完成后的可用能力 |
 | --- | --- | --- |

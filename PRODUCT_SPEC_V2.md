@@ -9,7 +9,8 @@
 - [CODEX_MASTER_SPEC.md](CODEX_MASTER_SPEC.md) 保留原文，继续约束 Phase 0–7 的技术、安全、内容和人工审核规则。本文件补充 Phase 8–14，不重建原系统。
 - [数据库设计](docs/PRODUCT_DATABASE_DESIGN.md) 负责真实字段、索引、关联及候选表取舍；[模块审查](docs/PRODUCT_MODULE_AUDIT.md) 区分现状与缺口；[开发路线图](docs/PRODUCT_ROADMAP.md) 负责阶段任务、依赖和检查。
 - 确定的用户决策见第 2 节。本文其余带“建议”的实现策略、默认期限和阈值供本次评审；不能将其冒充用户已经确认的决定。
-- 本次只阅读现有代码和编写 Markdown；不修改 PHP/JS/CSS、依赖、测试或数据库，不执行迁移，不启动 Phase 8，不部署服务器。
+- V2 产品规划轮次只阅读代码和编写 Markdown；随后新增 Phase 7.5 设计准备，允许独立静态原型，不修改正式 PHP/JS/CSS、数据库或迁移，不启动 Phase 8。
+- Phase 8–14 的强制设计基准为 [DESIGN_SYSTEM](docs/DESIGN_SYSTEM.md)、[前台](docs/FRONTEND_DESIGN_SPEC.md)、[用户中心](docs/USER_CENTER_DESIGN.md)、[后台](docs/ADMIN_DESIGN_SPEC.md)、[响应式](docs/RESPONSIVE_DESIGN.md)。先评审产品、数据库和设计，再明确授权功能实施；可运行原型不代表账户/评分/首页配置已上线。
 - 历史 [Final QA](FINAL_QA_REPORT.md) 为 25 个工作包中 20 通过、0 失败、5 未执行。真实 WPML、GitHub/AI API、生成质量及账单限制仍见 [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md)；不能将该历史验收转为新增功能通过。
 
 ## 2. 产品定位与已确定的决策

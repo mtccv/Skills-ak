@@ -1,0 +1,324 @@
+{
+  "scope": "Static Phase 7.5 design prototype only; no WordPress/database/API tests",
+  "matrix": [
+    {
+      "name": "index/zh/1440",
+      "pass": true
+    },
+    {
+      "name": "skills/zh/1440",
+      "pass": true
+    },
+    {
+      "name": "skill/zh/1440",
+      "pass": true
+    },
+    {
+      "name": "dashboard/zh/1440",
+      "pass": true
+    },
+    {
+      "name": "admin/zh/1440",
+      "pass": true
+    },
+    {
+      "name": "index/en/1440",
+      "pass": true
+    },
+    {
+      "name": "skills/en/1440",
+      "pass": true
+    },
+    {
+      "name": "skill/en/1440",
+      "pass": true
+    },
+    {
+      "name": "dashboard/en/1440",
+      "pass": true
+    },
+    {
+      "name": "admin/en/1440",
+      "pass": true
+    },
+    {
+      "name": "index/zh/768",
+      "pass": true
+    },
+    {
+      "name": "skills/zh/768",
+      "pass": true
+    },
+    {
+      "name": "skill/zh/768",
+      "pass": true
+    },
+    {
+      "name": "dashboard/zh/768",
+      "pass": true
+    },
+    {
+      "name": "admin/zh/768",
+      "pass": true
+    },
+    {
+      "name": "index/en/768",
+      "pass": true
+    },
+    {
+      "name": "skills/en/768",
+      "pass": true
+    },
+    {
+      "name": "skill/en/768",
+      "pass": true
+    },
+    {
+      "name": "dashboard/en/768",
+      "pass": true
+    },
+    {
+      "name": "admin/en/768",
+      "pass": true
+    },
+    {
+      "name": "index/zh/390",
+      "pass": true
+    },
+    {
+      "name": "skills/zh/390",
+      "pass": true
+    },
+    {
+      "name": "skill/zh/390",
+      "pass": true
+    },
+    {
+      "name": "dashboard/zh/390",
+      "pass": true
+    },
+    {
+      "name": "admin/zh/390",
+      "pass": true
+    },
+    {
+      "name": "index/en/390",
+      "pass": true
+    },
+    {
+      "name": "skills/en/390",
+      "pass": true
+    },
+    {
+      "name": "skill/en/390",
+      "pass": true
+    },
+    {
+      "name": "dashboard/en/390",
+      "pass": true
+    },
+    {
+      "name": "admin/en/390",
+      "pass": true
+    },
+    {
+      "name": "index/zh/360",
+      "pass": true
+    },
+    {
+      "name": "skills/zh/360",
+      "pass": true
+    },
+    {
+      "name": "skill/zh/360",
+      "pass": true
+    },
+    {
+      "name": "dashboard/zh/360",
+      "pass": true
+    },
+    {
+      "name": "admin/zh/360",
+      "pass": true
+    },
+    {
+      "name": "index/en/360",
+      "pass": true
+    },
+    {
+      "name": "skills/en/360",
+      "pass": true
+    },
+    {
+      "name": "skill/en/360",
+      "pass": true
+    },
+    {
+      "name": "dashboard/en/360",
+      "pass": true
+    },
+    {
+      "name": "admin/en/360",
+      "pass": true
+    }
+  ],
+  "states": [
+    {
+      "name": "index/loading",
+      "pass": true
+    },
+    {
+      "name": "index/empty",
+      "pass": true
+    },
+    {
+      "name": "index/error",
+      "pass": true
+    },
+    {
+      "name": "index/missing",
+      "pass": true
+    },
+    {
+      "name": "skills/loading",
+      "pass": true
+    },
+    {
+      "name": "skills/empty",
+      "pass": true
+    },
+    {
+      "name": "skills/error",
+      "pass": true
+    },
+    {
+      "name": "skills/missing",
+      "pass": true
+    },
+    {
+      "name": "skill/loading",
+      "pass": true
+    },
+    {
+      "name": "skill/empty",
+      "pass": true
+    },
+    {
+      "name": "skill/error",
+      "pass": true
+    },
+    {
+      "name": "skill/missing",
+      "pass": true
+    },
+    {
+      "name": "dashboard/loading",
+      "pass": true
+    },
+    {
+      "name": "dashboard/empty",
+      "pass": true
+    },
+    {
+      "name": "dashboard/error",
+      "pass": true
+    },
+    {
+      "name": "dashboard/missing",
+      "pass": true
+    },
+    {
+      "name": "admin/loading",
+      "pass": true
+    },
+    {
+      "name": "admin/empty",
+      "pass": true
+    },
+    {
+      "name": "admin/error",
+      "pass": true
+    },
+    {
+      "name": "admin/missing",
+      "pass": true
+    }
+  ],
+  "interactions": [
+    {
+      "name": "Home search passes keyword and locale",
+      "pass": true
+    },
+    {
+      "name": "Category links populate controls",
+      "pass": true
+    },
+    {
+      "name": "Category/platform/tag combined filter",
+      "pass": true
+    },
+    {
+      "name": "No results and reset",
+      "pass": true
+    },
+    {
+      "name": "Pagination persists URL",
+      "pass": true
+    },
+    {
+      "name": "Alphabetical sort",
+      "pass": true
+    },
+    {
+      "name": "Favorite toggles in memory only",
+      "pass": true
+    },
+    {
+      "name": "Detail review modal and Escape focus",
+      "pass": true
+    },
+    {
+      "name": "Required review fields and pending demo feedback",
+      "pass": true
+    },
+    {
+      "name": "Missing translation hides sample content and offers real prototype fallback",
+      "pass": true
+    },
+    {
+      "name": "Mobile navigation toggles and Escape restores focus",
+      "pass": true
+    },
+    {
+      "name": "Mobile filter is inline collapsed disclosure",
+      "pass": true
+    },
+    {
+      "name": "Dashboard account notice is demo only",
+      "pass": true
+    },
+    {
+      "name": "Preview switches real iframe width and language",
+      "pass": true
+    },
+    {
+      "name": "Reduced motion disables skeleton animation",
+      "pass": true
+    },
+    {
+      "name": "320px reflow sample",
+      "pass": true
+    },
+    {
+      "name": "No JavaScript/console errors or failed/external requests",
+      "pass": true
+    }
+  ],
+  "failures": [],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "failedResources": [],
+  "browser": "155.0.8059.79",
+  "passed": 77,
+  "failed": 0
+}
