@@ -1,5 +1,17 @@
 # AI Skills Hub V2 数据库设计规划
 
+## Phase 11 实施增量（当前）
+
+已在代码与独立真实MySQL核对：1.8.0有26张Core表，1.9.0仅追加7表为33表：editorial_collections、collection_translations、collection_items、use_cases、use_case_translations、use_case_skills、term_translations。定义/列/唯一索引/查询索引见 Schema.php；原26表在1.9的DDL与历史版本逐字一致，新增版本不修改旧迁移。
+
+集合和场景以稳定ID加locale译文，引用原SkillID；关系唯一键阻止重复成员，locale+slug唯一键保护地址。父revision CAS与InnoDB事务保护元数据、译文和成员变更；已选slug保持稳定，归档保留。分类/标签译文采用父对象行锁加内容摘要CAS，不新增原表列，不复制taxonomy。
+
+规划表没有结束时间/教程关系字段，因此使用非autoload JSON option `aish_discovery_{collection|use_case}_{id}` 保存 ends_at 与最多20个 tutorial_ids，和父实体同事务提交；无需第八张表。首页/平台配置使用 `aish_discovery_settings` 单一JSON option 的 draft/published 快照，连接锁+revision CAS，发布前校验真实platform-*标签与人工证据。
+
+有效浏览复用metric_events/daily_metrics，policy=discovery-1，固定metric=skill_view、dimension=skill、locale空（中英共用）。预算使用过期原生transient；日事件唯一键+行锁+事务维持一次观察一次聚合。RecentlyUpdated复用workflow_events已批准公共内容指纹，不新增普通更新时间伪造历史。原SkillID、收藏、评价、投稿与匿名Inbox不迁移或重建。
+
+独立Cloud测试迁移前后原26表DDL/数据指纹及Inbox比对、重复升级见 [Phase11报告](PHASE_11_REPORT.md) 和 `tests/discovery/results/`。以下早期基线和候选规划属于历史。
+
 ## Phase 10 实施增量（当前）
 
 schema **1.7.0 → 1.8.0** 仅增加 `author_claims`（17 列），共 **26 表**。原 25 表定义与数据保留；未创建 submissions 主表，也未创建 Phase 11–14 表。认领的 request_key、active_request_key、approved_skill_key 分别约束幂等申请、有效申请和已批准归属；可空唯一键只在明确终态释放。

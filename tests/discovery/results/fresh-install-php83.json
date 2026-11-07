@@ -1,0 +1,23 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real MySQL fresh schema under an isolated new table prefix; no existing table modified",
+    "cases": [
+        {
+            "id": "fresh_33_tables",
+            "status": "passed"
+        },
+        {
+            "id": "repeat_fresh_install_and_downgrade_refused",
+            "status": "passed"
+        }
+    ],
+    "assertions": 6,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 2,
+    "failed": 0
+}

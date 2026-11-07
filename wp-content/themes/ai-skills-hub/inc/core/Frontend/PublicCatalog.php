@@ -184,10 +184,12 @@ final class PublicCatalog {
 			list( $entity, $link, $column ) = $this->termConfig( $kind );
 			$terms = $this->db->table( $entity );
 			$links = $this->db->table( $link );
-			$from .= " INNER JOIN $links l ON l.skill_id=s.id INNER JOIN $terms t ON t.id=l.$column";
-			$where .= ' AND t.is_archived=0';
+			$termTranslations = $this->db->table( 'term_translations' );
+			$from .= " INNER JOIN $links l ON l.skill_id=s.id INNER JOIN $terms t ON t.id=l.$column INNER JOIN $termTranslations tt ON tt.term_id=t.id AND tt.term_type=%s AND tt.locale=%s";
+			array_unshift( $values, $kind, $locale );
+			$where .= " AND t.is_archived=0 AND tt.name REGEXP '[^[:space:]]'";
 			$identity = 't.id';
-			$fields = 't.id,t.slug,MAX(GREATEST(t.created_at,s.updated_at,tr.updated_at)) AS updated_at';
+			$fields = 't.id,t.slug,MAX(GREATEST(t.created_at,tt.updated_at,s.updated_at,tr.updated_at)) AS updated_at';
 			$group = ' GROUP BY t.id,t.slug';
 		}
 		if ( $excluded ) {
@@ -288,16 +290,33 @@ final class PublicCatalog {
 		$this->ready();
 		$locale = $this->locale( $locale );
 		list( $entity, $link, $column ) = $this->termConfig( $kind );
-		return $this->remember( 'terms:' . $kind . ':' . $locale . ':' . (int) $platforms, function () use ( $entity, $link, $column, $locale, $platforms ): array {
+		return $this->remember( 'terms:' . $kind . ':' . $locale . ':' . (int) $platforms, function () use ( $kind, $entity, $link, $column, $locale, $platforms ): array {
 			$terms = $this->db->table( $entity );
 			$links = $this->db->table( $link );
 			$from = $this->tables( false );
 			$where = $this->visibility() . ' AND tr.locale=%s AND ' . $this->translationVisibility();
 			$values = array( $locale );
 			if ( $platforms ) { $where .= ' AND t.slug LIKE %s'; $values[] = 'platform-%'; }
-			$rows = $this->db->rows( "SELECT t.id,t.name,t.slug,COUNT(DISTINCT s.id) AS skill_count FROM $from INNER JOIN $links l ON l.skill_id=s.id INNER JOIN $terms t ON t.id=l.$column WHERE $where AND t.is_archived=0 GROUP BY t.id,t.name,t.slug ORDER BY skill_count DESC,t.name ASC,t.id ASC LIMIT 200", $values );
-			return array_map( static fn( array $row ): array => array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'], 'skill_count' => (int) $row['skill_count'], 'count' => (int) $row['skill_count'] ), $rows );
+			$translations = $this->db->table( 'term_translations' );
+			$parent = 'category' === $kind ? ',t.parent_id' : '';
+			$rows = $this->db->rows( "SELECT t.id,COALESCE(NULLIF(TRIM(tt.name),''),t.name) AS name,t.slug,tt.description,(tt.name IS NULL OR TRIM(tt.name)='') AS translation_missing$parent,COUNT(DISTINCT s.id) AS skill_count FROM $from INNER JOIN $links l ON l.skill_id=s.id INNER JOIN $terms t ON t.id=l.$column LEFT JOIN $translations tt ON tt.term_id=t.id AND tt.term_type=%s AND tt.locale=%s WHERE $where AND t.is_archived=0 GROUP BY t.id,t.name,t.slug,tt.name,tt.description$parent ORDER BY skill_count DESC,name ASC,t.id ASC LIMIT 200", array_merge( array( $kind, $locale ), $values ) );
+			if ( 'category' === $kind ) { $rows = $this->categoryAncestors( $rows, $locale ); }
+			return array_map( fn( array $row ): array => array_merge( $this->translatedTerm( $row, $locale ), array( 'skill_count' => (int) $row['skill_count'], 'count' => (int) $row['skill_count'] ) ), $rows );
 		} );
+	}
+
+	/** A child-only assignment must retain its hierarchy. One bounded, cycle-safe ancestor batch. */
+	private function categoryAncestors( array $rows, string $locale ): array {
+		$known = array_fill_keys( array_map( 'intval', array_column( $rows, 'id' ) ), true ); $parents = array();
+		foreach ( $rows as $row ) { $parent = (int) ( $row['parent_id'] ?? 0 ); if ( $parent > 0 && ! isset( $known[ $parent ] ) ) { $parents[ $parent ] = $parent; } }
+		if ( ! $parents ) { return $rows; }
+		$terms = $this->db->table( 'categories' ); $links = $this->db->table( 'skill_categories' ); $translations = $this->db->table( 'term_translations' ); $from = $this->tables( false );
+		$where = $this->visibility() . ' AND tr.locale=%s AND ' . $this->translationVisibility();
+		$seed = implode( ',', array_slice( array_values( $parents ), 0, 200 ) );
+		// At most 200 seeds x 16 levels. The visited path stops cycles without assuming a valid tree.
+		$sql = "WITH RECURSIVE category_ancestors AS (SELECT id,parent_id,0 AS depth,CAST(CONCAT('/',id,'/') AS CHAR(1024)) AS visited FROM $terms WHERE id IN ($seed) AND is_archived=0 UNION ALL SELECT p.id,p.parent_id,a.depth+1,CONCAT(a.visited,p.id,'/') FROM $terms p INNER JOIN category_ancestors a ON p.id=a.parent_id WHERE p.is_archived=0 AND a.depth<15 AND LOCATE(CONCAT('/',p.id,'/'),a.visited)=0) SELECT DISTINCT t.id,t.parent_id,t.slug,COALESCE(NULLIF(TRIM(tt.name),''),t.name) AS name,tt.description,(tt.name IS NULL OR TRIM(tt.name)='') AS translation_missing,COALESCE(c.skill_count,0) AS skill_count FROM category_ancestors a INNER JOIN $terms t ON t.id=a.id LEFT JOIN $translations tt ON tt.term_id=t.id AND tt.term_type=%s AND tt.locale=%s LEFT JOIN (SELECT l.category_id,COUNT(DISTINCT s.id) AS skill_count FROM $from INNER JOIN $links l ON l.skill_id=s.id WHERE $where GROUP BY l.category_id) c ON c.category_id=t.id ORDER BY t.id ASC LIMIT 200";
+		foreach ( $this->db->rows( $sql, array( 'category', $locale, $locale ) ) as $parent ) { $id = (int) $parent['id']; if ( ! isset( $known[ $id ] ) ) { $rows[] = $parent; $known[ $id ] = true; } }
+		return $rows;
 	}
 
 	public function platforms( string $locale ): array {
@@ -310,11 +329,20 @@ final class PublicCatalog {
 		$locale = $this->locale( $locale );
 		list( $entity, $link, $column ) = $this->termConfig( $kind );
 		$terms = $this->db->table( $entity );
-		$row = $this->db->row( "SELECT id,name,slug FROM $terms WHERE slug=%s AND is_archived=0", array( Input::slug( $slug ) ) );
+		$translations = $this->db->table( 'term_translations' ); $parent = 'category' === $kind ? ',t.parent_id' : '';
+		$row = $this->db->row( "SELECT t.id,COALESCE(NULLIF(TRIM(tt.name),''),t.name) AS name,t.slug,tt.description,(tt.name IS NULL OR TRIM(tt.name)='') AS translation_missing$parent FROM $terms t LEFT JOIN $translations tt ON tt.term_id=t.id AND tt.term_type=%s AND tt.locale=%s WHERE t.slug=%s AND t.is_archived=0", array( $kind, $locale, Input::slug( $slug ) ) );
 		if ( ! $row ) { return null; }
 		list( $where, $values ) = $this->searchWhere( $locale, array( $kind => $slug ) );
 		$total = $this->countMatches( $where, $values );
-		return array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'], 'skill_count' => $total, 'count' => $total );
+		return array_merge( $this->translatedTerm( $row, $locale ), array( 'skill_count' => $total, 'count' => $total ) );
+	}
+
+	/** Preserve one taxonomy identity; a missing translation is never represented as authored copy. */
+	private function translatedTerm( array $row, string $locale ): array {
+		$missing = ! empty( $row['translation_missing'] );
+		$result = array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'], 'description' => $missing ? '' : (string) ( $row['description'] ?? '' ), 'translation_missing' => $missing, 'translation_locale' => $missing ? null : $locale );
+		if ( array_key_exists( 'parent_id', $row ) ) { $result['parent_id'] = null === $row['parent_id'] ? null : (int) $row['parent_id']; }
+		return $result;
 	}
 
 	public function related( int $id, string $locale, int $limit = 3 ): array {
@@ -377,10 +405,11 @@ final class PublicCatalog {
 			$terms = $this->db->table( $entity );
 			$links = $this->db->table( $link );
 			$skills = $this->db->table( 'skills' );
-			$sql = "SELECT skill_id,id,name,slug FROM (SELECT l.skill_id,t.id,t.name,t.slug,ROW_NUMBER() OVER (PARTITION BY l.skill_id ORDER BY t.name ASC,t.id ASC) AS term_position FROM $terms t INNER JOIN $links l ON l.$column=t.id INNER JOIN $skills s ON s.id=l.skill_id WHERE s.id IN ($placeholders) AND t.is_archived=0 AND " . $this->visibility() . ') public_terms WHERE term_position<=100 ORDER BY skill_id,term_position';
-			foreach ( $this->db->rows( $sql, $ids ) as $row ) {
+			$translations = $this->db->table( 'term_translations' ); $locale = $this->locale( $items[0]['locale'] );
+			$sql = "SELECT skill_id,id,name,slug,description,translation_missing FROM (SELECT l.skill_id,t.id,COALESCE(NULLIF(TRIM(tt.name),''),t.name) AS name,t.slug,tt.description,(tt.name IS NULL OR TRIM(tt.name)='') AS translation_missing,ROW_NUMBER() OVER (PARTITION BY l.skill_id ORDER BY COALESCE(NULLIF(TRIM(tt.name),''),t.name) ASC,t.id ASC) AS term_position FROM $terms t INNER JOIN $links l ON l.$column=t.id INNER JOIN $skills s ON s.id=l.skill_id LEFT JOIN $translations tt ON tt.term_id=t.id AND tt.term_type=%s AND tt.locale=%s WHERE s.id IN ($placeholders) AND t.is_archived=0 AND " . $this->visibility() . ') public_terms WHERE term_position<=100 ORDER BY skill_id,term_position';
+			foreach ( $this->db->rows( $sql, array_merge( array( $kind, $locale ), $ids ) ) as $row ) {
 				$index = $indices[ (int) $row['skill_id'] ];
-				$items[ $index ][ $key ][] = array( 'id' => (int) $row['id'], 'name' => $row['name'], 'slug' => $row['slug'] );
+				$items[ $index ][ $key ][] = $this->translatedTerm( $row, $locale );
 			}
 		}
 		foreach ( $items as &$item ) {

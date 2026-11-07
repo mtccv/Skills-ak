@@ -62,6 +62,10 @@ final class Pages {
 				}
 			}
 		}
+		if ( ! $editorial && current_user_can( 'aish_manage_discovery' ) ) {
+			add_menu_page( 'AI Skills Hub', 'AI Skills Hub', 'aish_manage_discovery', 'aish', static function (): void { do_action( 'aish_discovery_admin_landing' ); }, 'dashicons-lightbulb', 25 );
+			return;
+		}
 		$top = 'aish_manage_skills';
 		foreach ( self::CAPABILITIES as $cap ) { if ( self::can( $cap ) ) { $top = current_user_can( $cap ) ? $cap : 'manage_options'; break; } }
 		add_menu_page( 'AI Skills Hub', 'AI Skills Hub', $top, 'aish', array( $this, 'dashboard' ), 'dashicons-lightbulb', 25 );

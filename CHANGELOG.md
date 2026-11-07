@@ -1,5 +1,16 @@
 # 变更记录
 
+## 0.11.0 — Phase 11 资源发现与推荐
+
+- 新增DiscoveryModule，复用PublicCatalog、Community事实、Editorial与现有SEO；六类真实排行榜及明确口径、样本和覆盖说明。
+- schema1.9.0仅增加规划七表至33表，原26表DDL/数据、SkillID、互动和私有Inbox保留。
+- 明确同意、每日匿名跨语言去重、8秒可见停留、限流、事务聚合与有界清理；默认关闭，不保存IP/用户ID/跨日轨迹。
+- 原生后台策展集合/场景/术语翻译、配置draft/published、平台证据、权限/Nonce/CAS；不修改Skill发布状态，不编辑虚假计数。
+- 双语排行榜/专题/相关与相似推荐、十个首页模块、白灰/陶土棕响应式布局、真实缺译与空状态；原型保持。
+- 扩展真实翻译Sitemap、共享Canonical/hreflang与语言适配，修复重复目录、无效分页、固定平台筛选、分类祖先与旧首页重复查询。
+- 真实WP/PHP8.3/MySQL8.0迁移、并发、领域/生命周期及Chromium检查通过；完整证据和PHP8.4/外部依赖未验范围见[Phase11报告](docs/PHASE_11_REPORT.md)。
+- 新增0.11.0主题安装包、使用/数据库/隐私说明；正常同步main后暂停，不进入Phase12。
+
 ## 0.10.0 — Phase 10 用户投稿与开发者中心
 
 - 新增 ContributionsModule，复用私有 aish_message/postmeta/revisions 实现受控用户投稿和版本更新建议，不另建投稿主表。

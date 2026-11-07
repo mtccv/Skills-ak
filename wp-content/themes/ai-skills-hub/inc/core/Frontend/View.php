@@ -19,7 +19,18 @@ final class View {
 		return self::url( 'skill', array( 'id' => $skill['id'], 'slug' => $slug ), $locale );
 	}
 	public static function tutorialUrl( array $tutorial, ?string $locale = null ): string { return self::url( 'tutorial', array( 'id' => $tutorial['id'] ), $locale ); }
+	/** Show hierarchy from the already loaded term set; never issue per-option queries. */
+	public static function termLabel( array $term, array $terms = array() ): string {
+		$index = array_column( $terms, null, 'id' ); $labels = array(); $seen = array();
+		for ( $depth = 0; $depth < 12; ++$depth ) {
+			$id = (int) ( $term['id'] ?? 0 ); if ( isset( $seen[ $id ] ) ) { break; } $seen[ $id ] = true;
+			array_unshift( $labels, (string) ( $term['name'] ?? '' ) . ( empty( $term['translation_missing'] ) ? '' : ' *' ) );
+			$parent = (int) ( $term['parent_id'] ?? 0 ); if ( ! $parent || ! isset( $index[ $parent ] ) ) { break; } $term = $index[ $parent ];
+		}
+		return implode( ' / ', $labels );
+	}
 	public static function switchUrl( string $locale ): string {
+		if ( class_exists( \AISkillsHub\Core\Discovery\Frontend::class ) && \AISkillsHub\Core\Discovery\Frontend::active() ) { return \AISkillsHub\Core\Discovery\Frontend::switchUrl( $locale ); }
 		$context = Router::context();
 		if ( isset( $context['alternates'][ $locale ] ) ) { return $context['alternates'][ $locale ]; }
 		if ( in_array( $context['route'], array( 'skills', 'category', 'tag', 'tutorials', 'search' ), true ) ) {

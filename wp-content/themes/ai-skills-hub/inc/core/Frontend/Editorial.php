@@ -219,6 +219,21 @@ final class Editorial {
 		} );
 	}
 
+	/** Bounded editorial collections, with one query and shared metadata/author priming. */
+	public function cardsByIds( array $ids, string $locale ): array {
+		$locale = self::locale( $locale );
+		if ( count( $ids ) > 24 ) { throw new \InvalidArgumentException( 'Too many tutorial IDs.' ); }
+		foreach ( $ids as $id ) { Input::id( $id ); }
+		$ids = array_values( array_unique( $ids ) );
+		if ( ! $ids ) { return array(); }
+		return $this->remember( 'tutorial-cards:' . $locale . ':' . implode( ',', $ids ), function () use ( $ids, $locale ): array {
+			$query = self::query( array( 'post_type' => self::TUTORIAL, 'post_status' => 'publish', 'has_password' => false, 'post__in' => $ids, 'posts_per_page' => count( $ids ), 'orderby' => 'post__in', 'no_found_rows' => true, 'meta_key' => '_aish_locale', 'meta_value' => $locale, 'ignore_sticky_posts' => true, 'suppress_filters' => true, 'update_post_meta_cache' => true, 'update_post_term_cache' => false ) );
+			self::prime( $query->posts ); $items = array();
+			foreach ( $query->posts as $post ) { if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post, false ); } }
+			return $items;
+		} );
+	}
+
 	private static function translationId( int $id, string $locale ): mixed {
 		$mapped = self::meta( $id, '_aish_translation_id', true );
 		if ( has_filter( 'wpml_object_id' ) ) {

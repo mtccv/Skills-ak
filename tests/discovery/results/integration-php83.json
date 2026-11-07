@@ -1,0 +1,107 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL discovery services; synthetic isolated fixtures; email transport mocked; external APIs blocked",
+    "cases": [
+        {
+            "id": "all_rankings_execute_real_mysql",
+            "status": "passed"
+        },
+        {
+            "id": "current_language_and_public_gate",
+            "status": "passed"
+        },
+        {
+            "id": "favorite_current_state_and_idempotence",
+            "status": "passed"
+        },
+        {
+            "id": "deleting_identity_excluded_immediately",
+            "status": "passed"
+        },
+        {
+            "id": "rating_true_average_distribution_and_minimum",
+            "status": "passed"
+        },
+        {
+            "id": "pending_revision_keeps_approved_rating",
+            "status": "passed"
+        },
+        {
+            "id": "hidden_rating_leaves_ranking",
+            "status": "passed"
+        },
+        {
+            "id": "recently_updated_approved_content_only",
+            "status": "passed"
+        },
+        {
+            "id": "trending_approved_rating_quality",
+            "status": "passed"
+        },
+        {
+            "id": "view_window_closed_utc_days_and_policy",
+            "status": "passed"
+        },
+        {
+            "id": "incomplete_editorial_language_not_public",
+            "status": "passed"
+        },
+        {
+            "id": "collection_order_public_filter_before_pagination",
+            "status": "passed"
+        },
+        {
+            "id": "usecase_same_ids_and_missing_alternates",
+            "status": "passed"
+        },
+        {
+            "id": "schedule_and_archive_gate",
+            "status": "passed"
+        },
+        {
+            "id": "editorial_cas_and_atomic_rollback",
+            "status": "passed"
+        },
+        {
+            "id": "unauthorized_discovery_write",
+            "status": "passed"
+        },
+        {
+            "id": "term_translation_identity_hierarchy_fallback",
+            "status": "passed"
+        },
+        {
+            "id": "category_empty_parent_hierarchy",
+            "status": "passed"
+        },
+        {
+            "id": "platform_requires_evidence_and_locale",
+            "status": "passed"
+        },
+        {
+            "id": "related_and_similar_stable_public_gate",
+            "status": "passed"
+        },
+        {
+            "id": "bounded_query_count_no_n_plus_one",
+            "status": "passed"
+        },
+        {
+            "id": "home_draft_publish_and_optimistic_lock",
+            "status": "passed"
+        },
+        {
+            "id": "archive_removes_rank_topics_recommendations_immediately",
+            "status": "passed"
+        }
+    ],
+    "assertions": 76,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 23,
+    "failed": 0
+}

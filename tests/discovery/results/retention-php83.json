@@ -1,0 +1,23 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL bounded discovery-retention cleanup; synthetic expired data only",
+    "cases": [
+        {
+            "id": "bounded_backlog_retention_continuation",
+            "status": "passed"
+        },
+        {
+            "id": "retention_preserves_healthy_and_other_module_events",
+            "status": "passed"
+        }
+    ],
+    "assertions": 5,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 2,
+    "failed": 0
+}

@@ -2,6 +2,7 @@
 use AISkillsHub\Core\Frontend\Router;
 use AISkillsHub\Core\Frontend\View;
 use AISkillsHub\Core\Accounts\Frontend as AccountFrontend;
+use AISkillsHub\Core\Discovery\Frontend as DiscoveryFrontend;
 
 defined( 'ABSPATH' ) || exit;
 $context = Router::context();
@@ -30,6 +31,7 @@ $navigation = array( 'home' => 'nav.home', 'skills' => 'nav.skills', 'tutorials'
 			<?php foreach ( $navigation as $target => $key ) : ?>
 			<a href="<?php echo esc_url( View::url( $target ) ); ?>" <?php echo $target === $route || ( 'skills' === $target && in_array( $route, array( 'skill', 'category', 'tag' ), true ) ) || ( 'tutorials' === $target && 'tutorial' === $route ) ? 'aria-current="page"' : ''; ?>><?php echo esc_html( View::t( $key ) ); ?></a>
 			<?php endforeach; ?>
+			<a href="<?php echo esc_url( DiscoveryFrontend::link( 'trending', $locale ) ); ?>" <?php echo 'discovery' === $route ? 'aria-current="page"' : ''; ?>><?php echo esc_html( DiscoveryFrontend::t( 'discover', $locale ) ); ?></a>
 		</nav>
 		<div class="header-actions">
 			<nav class="language-switch" aria-label="<?php echo esc_attr( View::t( 'nav.language' ) ); ?>">
@@ -45,6 +47,7 @@ $navigation = array( 'home' => 'nav.home', 'skills' => 'nav.skills', 'tutorials'
 		<summary class="aish-container"><?php echo View::icon( 'menu' ); ?><?php echo esc_html( View::t( 'nav.menu' ) ); ?></summary>
 		<nav class="aish-container" aria-label="<?php echo esc_attr( View::t( 'nav.mobile' ) ); ?>">
 			<?php foreach ( $navigation as $target => $key ) : ?><a href="<?php echo esc_url( View::url( $target ) ); ?>"><?php echo esc_html( View::t( $key ) ); ?></a><?php endforeach; ?>
+			<a href="<?php echo esc_url( DiscoveryFrontend::link( 'trending', $locale ) ); ?>" <?php echo 'discovery' === $route ? 'aria-current="page"' : ''; ?>><?php echo esc_html( DiscoveryFrontend::t( 'discover', $locale ) ); ?></a>
 			<a href="<?php echo esc_url( View::url( 'submit' ) ); ?>"><?php echo esc_html( View::t( 'nav.submit' ) ); ?></a>
 			<a href="<?php echo esc_url( AccountFrontend::url( is_user_logged_in() ? 'account' : 'login', $locale ) ); ?>"><?php echo esc_html( is_user_logged_in() ? ( 'zh_CN' === $locale ? '个人中心' : 'Account' ) : ( 'zh_CN' === $locale ? '登录' : 'Sign in' ) ); ?></a>
 		</nav>

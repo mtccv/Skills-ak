@@ -1,5 +1,11 @@
 # 产品 V2 模块审计与复用边界
 
+## Phase 11 增量实现核对
+
+新增 DiscoveryModule，依赖现有 community/contributions/frontend/admin，复用 PublicCatalog、Editorial、Seo/Sitemap 和稳定 Skill ID。Query负责公开排行/推荐与主题投影，Management/Input负责集合/场景/翻译事务，Settings/Admin负责原生运营，Views负责自愿有效观察；没有向functions.php集中业务逻辑。
+
+现有26表保留，七张规划表落地至33；metric_events/daily_metrics/workflow_events复用。原账户、投稿、收藏、评价接口不重建；缺译和非公开资源先过滤再计数。前后台共享既有视觉，原型不修改。实际修复与证据见 [Phase11报告](PHASE_11_REPORT.md)。下方审计差距为实施前历史，不能代表当前未实现。
+
 > Phase 10 当前增量：新增 ContributionsModule 及 Submissions/Developers 服务、独立原生后台、双语页面、受控 Inbox 原生接口保护、公开资料快照和账户隐私接入。schema 1.8.0 仅增加 author_claims，原 25 表保持。Forms 的旧 Submit 接口转至验证账户投稿流程，Contact 与历史匿名记录保留。下方历史差距表不代表当前仍缺已交付功能。见 [Phase 10 报告](PHASE_10_REPORT.md)。
 
 > 实施增量：Phase 8 已验收，Phase 9 新增 `CommunityModule`（Service/Query、不可变修订、Admin/Frontend、Events/Metrics、Privacy/Scheduler），复用既有 Accounts/Database/PublicCatalog。schema 1.7.0 共 25 表；历史审计表保留当时差距，不代表当前仍缺账户/社区能力。详见 [社区说明](../COMMUNITY_REVIEWS.md) 和 [Phase 9 报告](PHASE_9_REPORT.md)。未实施 Phase 10–14。

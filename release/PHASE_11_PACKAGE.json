@@ -1,0 +1,12 @@
+{
+  "version": "0.11.0",
+  "schema": "1.9.0",
+  "core_tables": 33,
+  "files": 160,
+  "bytes": 1687642,
+  "sha256": "e9945b16e76260bbf9a7a4ac893774212bd811d5c212b68eb551b3310c880fd1",
+  "base_commit": "c7fa503432ceb4fc971c3b7d44b44591e3c0a7af",
+  "package_checks": "8 isolated Python packaging tests passed; independent rebuild byte-identical",
+  "production_data_included": false,
+  "native_wordpress_upgrade": "passed: 6 real WordPress checks; 160 file hashes match; 33 Core tables and Inbox unchanged"
+}

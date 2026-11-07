@@ -1,0 +1,22 @@
+{
+  "kind": "Real Node/Tailwind/esbuild build and asset validation; isolated JS/packaging checks separately identified",
+  "node": "v24.22.1",
+  "npm": "11.9.0",
+  "npm_ci": "passed with locked dependencies; no new dependency",
+  "build": "passed",
+  "check_assets": "passed",
+  "js_isolated_assertions": 16,
+  "python_packaging_tests": 8,
+  "assets": {
+    "wp-content/themes/ai-skills-hub/assets/dist/app.css": {
+      "bytes": 69255,
+      "sha256": "eb1fcf0a3b029c2ac3c648a36294dd10ac7ab9eaf4d9f85c8e65640f1474bae0"
+    },
+    "wp-content/themes/ai-skills-hub/assets/dist/app.js": {
+      "bytes": 64991,
+      "sha256": "7f2a03cf0fdd5e26bd9433d0a3b87197817afa31aa438da000f97789d0e053f9"
+    }
+  },
+  "prototype_changes": false,
+  "known_nonblocking_notice": "Browserslist caniuse-lite database outdated; lockfile intentionally retained"
+}

@@ -1,5 +1,7 @@
 # AI Skills Hub V2 产品路线图（Phase 8–14）
 
+> Phase 11 当前交付：0.11.0 / schema1.9.0，真实资源发现13项范围完成开发；仅增加规划7表至33表，不开发Phase12。安装与必要真实/隔离检查分别见 [Phase11报告](PHASE_11_REPORT.md)。本轮详细用户请求 [PHASE_11_REQUEST](PHASE_11_REQUEST.md) 优先于下方早期规划。main同步后暂停等待Phase12指令。
+
 > 当前进度：Phase 9 已验收；Phase 10 实施投稿、版本更新建议、开发者公开资料和人工作者认领。只增加 author_claims，schema 1.8.0 共 26 表。完成本轮检查与正常 main 同步后暂停等待 Phase 11；不启动榜单、运营分析、支付或 Phase 11–14 表。实际范围见 [Phase 10 报告](PHASE_10_REPORT.md)，下文阶段描述保留规划历史。
 
 > 当前进度：Phase 8 已由用户验收；本轮实施 Phase 9 收藏、评价修订、审核、举报纠错及最小互动事件。真实数量取事实表，仅记录收藏增减、首次批准评价和公开内容批准；本轮未启用下文原规划中的详情浏览跟踪，浏览/搜索统计须在后续发现/运营阶段授权并积累真实数据后使用，不回填虚假历史。Phase 10–14 未开始。实现/检查见 [社区说明](../COMMUNITY_REVIEWS.md)、[Phase 9 报告](PHASE_9_REPORT.md)。

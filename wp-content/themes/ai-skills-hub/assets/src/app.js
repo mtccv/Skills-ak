@@ -2,6 +2,7 @@ import Alpine from 'alpinejs';
 import './accounts.js';
 import './community.js';
 import './contributions.js';
+import './discovery-views.js';
 
 window.Alpine = Alpine;
 Alpine.start();

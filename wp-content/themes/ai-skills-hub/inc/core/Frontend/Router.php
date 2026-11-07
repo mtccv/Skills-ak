@@ -15,7 +15,8 @@ final class Router {
 
 	public function __construct( private PublicCatalog $catalog, private Editorial $editorial ) {}
 
-	public static function context(): array { return self::$context; }
+	/** Shared presentation context also serves bounded Core extension routes. */
+	public static function context(): array { return apply_filters( 'aish_frontend_context', self::$context ); }
 
 	/** Site root before language plugins decorate home_url; adapters still own the final URL filter. */
 	public static function siteUrl( string $path = '/' ): string {
@@ -76,6 +77,7 @@ final class Router {
 	}
 
 	private function parseRequest( \WP $wp ): void {
+		if ( class_exists( \AISkillsHub\Core\Discovery\Frontend::class ) && \AISkillsHub\Core\Discovery\Frontend::active() ) { return; }
 		// Account routes own their private response, authentication and metadata.
 		if ( class_exists( \AISkillsHub\Core\Accounts\Frontend::class ) && \AISkillsHub\Core\Accounts\Frontend::active() ) { return; }
 		if ( class_exists( \AISkillsHub\Core\Community\Frontend::class ) && \AISkillsHub\Core\Community\Frontend::active() ) { return; }
@@ -195,7 +197,9 @@ final class Router {
 		$canonicalArgs = array();
 		try {
 			if ( 'home' === $route ) {
-				$data = array( 'featured' => $this->catalog->featured( $locale, 3 ), 'latest' => $this->catalog->latest( $locale, 6 ), 'categories' => $this->catalog->terms( 'category', $locale ), 'platforms' => $this->catalog->platforms( $locale ), 'tutorials' => $this->editorial->tutorials( $locale, array( 'per_page' => 3 ) )['items'] );
+				$data = has_action( 'aish_discovery_home' )
+					? array( 'featured' => $this->catalog->featured( $locale, 1 ), 'latest' => $this->catalog->latest( $locale, 1 ), 'categories' => $this->catalog->terms( 'category', $locale ) )
+					: array( 'featured' => $this->catalog->featured( $locale, 3 ), 'latest' => $this->catalog->latest( $locale, 6 ), 'categories' => $this->catalog->terms( 'category', $locale ), 'platforms' => $this->catalog->platforms( $locale ), 'tutorials' => $this->editorial->tutorials( $locale, array( 'per_page' => 3 ) )['items'] );
 			} elseif ( in_array( $route, array( 'skills', 'category', 'tag', 'search' ), true ) ) {
 				$filters = self::filters();
 				if ( in_array( $route, array( 'category', 'tag' ), true ) ) {
@@ -220,7 +224,7 @@ final class Router {
 				} else {
 					$canonicalArgs = array( 'id' => $id, 'slug' => $skill['slug'] );
 					if ( ( $this->request['slug'] ?? '' ) !== $skill['slug'] ) { wp_safe_redirect( self::url( 'skill', $canonicalArgs, $locale ), 301 ); exit; }
-					$data = array( 'skill' => $skill, 'sections' => View::sections( $skill['content'] ), 'related' => $this->catalog->related( $id, $locale, 3 ), 'tutorials' => $this->editorial->relatedTutorials( $id, $locale, 3 ) );
+					$data = array( 'skill' => $skill, 'sections' => View::sections( $skill['content'] ), 'related' => has_action( 'aish_discovery_recommendations' ) ? array() : $this->catalog->related( $id, $locale, 3 ), 'tutorials' => $this->editorial->relatedTutorials( $id, $locale, 3 ) );
 					foreach ( $available as $language => $slug ) { $alternates[ $language ] = self::url( 'skill', array( 'id' => $id, 'slug' => $slug ), $language ); }
 				}
 			} elseif ( 'tutorials' === $route ) {
@@ -258,7 +262,7 @@ final class Router {
 					}
 					if ( in_array( $route, array( 'category', 'tag' ), true ) ) {
 						$translated = $this->catalog->term( $route, $data['term']['slug'], $language );
-						if ( ! $translated || (int) $translated['count'] < 1 ) { continue; }
+						if ( ! $translated || (int) $translated['count'] < 1 || ! empty( $translated['translation_missing'] ) ) { continue; }
 					}
 					$alternates[ $language ] = self::url( $route, $canonicalArgs, $language );
 				}
@@ -268,7 +272,7 @@ final class Router {
 		$description = Strings::get( 'page.' . $route . '.description', $locale );
 		if ( ! empty( $data['skill'] ) ) { $title = $data['skill']['seo_title'] ?: $data['skill']['title']; $description = $data['skill']['seo_description'] ?: $data['skill']['summary']; }
 		elseif ( ! empty( $data['tutorial'] ) ) { $title = $data['tutorial']['title']; $description = $data['tutorial']['summary']; }
-		elseif ( ! empty( $data['term'] ) ) { $title = $data['term']['name'] . ' · ' . $title; }
+		elseif ( ! empty( $data['term'] ) ) { $title = $data['term']['name'] . ' · ' . $title; $description = ( $data['term']['description'] ?? '' ) ?: $description; }
 		elseif ( ! empty( $data['page'] ) ) { $title = $data['page']['title']; $description = $data['page']['summary']; }
 		if ( $status >= 500 ) { $title = 'zh_CN' === $locale ? '暂时无法加载' : 'Temporarily unavailable'; $description = ''; }
 		self::$context = array( 'route' => $route, 'locale' => $locale, 'language' => 'zh_CN' === $locale ? 'zh' : 'en', 'title' => $title . ' · AI Skills Hub', 'description' => wp_strip_all_tags( $description ), 'canonical' => 200 === $status ? self::url( $route, $canonicalArgs, $locale ) : '', 'alternates' => 200 === $status ? $alternates : array(), 'data' => $data, 'error' => $status >= 500, 'status' => $status );
@@ -286,7 +290,7 @@ final class Router {
 	}
 
 	public static function url( string $route, array $args = array(), ?string $locale = null ): string {
-		$locale ??= self::$context['locale'];
+		$locale ??= self::context()['locale'];
 		if ( ! in_array( $locale, array( 'zh_CN', 'en_US' ), true ) || ! in_array( $route, self::ROUTES, true ) ) { throw new \InvalidArgumentException( 'Invalid route.' ); }
 		$prefix = 'zh_CN' === $locale ? 'zh' : 'en';
 		$path = match ( $route ) {
@@ -306,6 +310,11 @@ final class Router {
 		$url = self::siteUrl( '/' . $prefix . '/' . $path );
 		// WordPress requires newly added query values to be URL encoded by the caller.
 		if ( $query ) { $url = add_query_arg( array_map( 'rawurlencode', $query ), $url ); }
+		return self::adaptedUrl( $url, $route, $args, $locale );
+	}
+
+	/** Shared adapter validation for bounded extension routes and their sitemap URLs. */
+	public static function adaptedUrl( string $url, string $route, array $args, string $locale ): string {
 		if ( self::$adapterFailed ) { return $url; }
 		try {
 			$adjusted = apply_filters( 'aish_frontend_url', $url, $route, $args, $locale );

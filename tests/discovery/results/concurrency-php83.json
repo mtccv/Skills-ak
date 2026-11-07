@@ -1,0 +1,55 @@
+{
+  "kind": "Real MySQL concurrent independent PHP8.3 worker processes; direct private persistence method used only by CLI-only QA harness",
+  "view_workers": [
+    {
+      "state": "already_counted"
+    },
+    {
+      "state": "already_counted"
+    },
+    {
+      "state": "recorded"
+    },
+    {
+      "state": "already_counted"
+    },
+    {
+      "state": "already_counted"
+    },
+    {
+      "state": "already_counted"
+    },
+    {
+      "state": "already_counted"
+    },
+    {
+      "state": "already_counted"
+    }
+  ],
+  "editor_workers": [
+    {
+      "state": "saved",
+      "revision": 2
+    },
+    {
+      "state": "rejected",
+      "reason": "RuntimeException"
+    },
+    {
+      "state": "rejected",
+      "reason": "RuntimeException"
+    },
+    {
+      "state": "rejected",
+      "reason": "RuntimeException"
+    }
+  ],
+  "checks": {
+    "eight_parallel_views_one_record": true,
+    "seven_crosslanguage_retries_deduplicated": true,
+    "four_parallel_editorial_edits_one_commit": true,
+    "three_stale_editors_rejected": true
+  },
+  "passed": 4,
+  "failed": 0
+}

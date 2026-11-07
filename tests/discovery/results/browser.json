@@ -1,0 +1,78 @@
+{
+  "kind": "Real Chromium HTTP/UI tests against isolated WordPress7.1.4/PHP8.3/MySQL8; synthetic fixtures; no external API/mail",
+  "viewports": [
+    1440,
+    768,
+    375
+  ],
+  "cases": [
+    {
+      "id": "responsive_en_1440",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_zh_1440",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_en_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_zh_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_en_375",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_zh_375",
+      "status": "passed"
+    },
+    {
+      "id": "discovery_seo_public_and_noindex",
+      "status": "passed"
+    },
+    {
+      "id": "discovery_canonical_alias_and_invalid_pages",
+      "status": "passed"
+    },
+    {
+      "id": "sitemap_public_bilingual_topics",
+      "status": "passed"
+    },
+    {
+      "id": "view_consent_nonce_origin_and_dwell",
+      "status": "passed"
+    },
+    {
+      "id": "view_bot_dnt_and_privacy_exclusion",
+      "status": "passed"
+    },
+    {
+      "id": "view_parallel_http_dedup_and_crosslanguage",
+      "status": "passed"
+    },
+    {
+      "id": "native_admin_login_and_four_discovery_screens",
+      "status": "passed"
+    },
+    {
+      "id": "admin_http_create_and_nonce_permission",
+      "status": "passed"
+    },
+    {
+      "id": "administrator_view_tracking_excluded",
+      "status": "passed"
+    },
+    {
+      "id": "browser_javascript_errors",
+      "status": "passed"
+    }
+  ],
+  "assertions": 413,
+  "console_errors": [],
+  "passed": 16,
+  "failed": 0
+}

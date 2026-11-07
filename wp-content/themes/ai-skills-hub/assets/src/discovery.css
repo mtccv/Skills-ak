@@ -1,0 +1,42 @@
+/* Phase 11: approved white/gray directory language; no alternative theme. */
+.discovery-page { padding: 1.5rem 0 4rem; background: #fff; color: #111827; }
+.discovery-navigation { display: flex; flex-wrap: wrap; gap: .25rem .75rem; padding: .75rem 0; border-block: 1px solid #d9dde3; }
+.discovery-navigation a { display: inline-flex; align-items: center; min-height: 44px; padding: .35rem .6rem; font-size: .875rem; color: #5b6370; border-bottom: 2px solid transparent; }
+.discovery-navigation a[aria-current="page"] { color: #9f513c; border-bottom-color: #ad5e48; font-weight: 700; }
+.discovery-intro { padding: 2rem 0 1.5rem; }
+.discovery-intro h1 { font-size: clamp(1.875rem, 3vw, 2.625rem); line-height: 1.25; font-weight: 700; overflow-wrap: anywhere; }
+.discovery-intro p { max-width: 76ch; margin-top: .75rem; color: #5b6370; line-height: 1.8; }
+.discovery-module { padding-top: 3rem; padding-bottom: 1rem; }
+.discovery-module h2 { font-size: 1.5rem; line-height: 1.4; }
+.discovery-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
+.discovery-resource, .discovery-topic { min-width: 0; padding: 1.25rem; border: 1px solid #d9dde3; border-radius: 10px; background: #fff; }
+.discovery-resource-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+.discovery-resource h3, .discovery-topic h3 { font-size: 1.125rem; line-height: 1.5; font-weight: 700; overflow-wrap: anywhere; }
+.discovery-resource h3 a:hover, .discovery-topic h3 a:hover { color: #9f513c; text-decoration: underline; }
+.discovery-resource-heading > .chip { flex-shrink: 0; font-size: .75rem; color: #5b6370; background: #f9fafb; }
+.discovery-summary, .discovery-topic p { margin-top: .75rem; color: #5b6370; font-size: .875rem; line-height: 1.8; overflow-wrap: anywhere; }
+.discovery-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+.discovery-tags a { min-height: 44px; }
+.discovery-tags .chip { background: #f9fafb; color: #5b6370; }
+.discovery-metrics { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; border-top: 1px solid #d9dde3; margin-top: 1rem; padding-top: .875rem; font-size: .8125rem; }
+.discovery-metrics dt { color: #5b6370; }
+.discovery-metrics dd { font-weight: 600; margin-top: .2rem; }
+.discovery-distribution { margin-top: .75rem; font-size: .8125rem; }
+.discovery-distribution summary { cursor: pointer; min-height: 44px; padding-top: .75rem; color: #9f513c; }
+.discovery-distribution dl > div { display: flex; justify-content: space-between; padding: .25rem 0; }
+.discovery-topic-footer { display: flex; justify-content: space-between; margin-top: 1rem; padding-top: .75rem; border-top: 1px solid #d9dde3; font-size: .8125rem; color: #5b6370; }
+.discovery-category { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; padding: 1rem; border: 1px solid #d9dde3; border-radius: 8px; min-height: 64px; }
+.discovery-category small { flex-basis: 100%; color: #5b6370; font-size: .75rem; }
+.discovery-category > span { color: #5b6370; font-size: .8125rem; }
+.discovery-method, .discovery-empty, .discovery-notice { padding: 1rem 1.25rem; background: #f9fafb; border: 1px solid #d9dde3; border-radius: 8px; color: #5b6370; font-size: .875rem; line-height: 1.8; }
+.discovery-method { margin-bottom: 1.5rem; }
+.discovery-method p + p { margin-top: .4rem; }
+.discovery-empty h2 { font-weight: 600; color: #111827; }
+.discovery-filters { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; padding: 1.25rem; border: 1px solid #d9dde3; border-radius: 10px; }
+.discovery-search { grid-column: 1 / -1; }
+.discovery-filter-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; grid-column: 1 / -1; }
+.discovery-filter-actions a { display: inline-flex; align-items: center; min-height: 44px; color: #9f513c; }
+.discovery-filter-note { grid-column: 1 / -1; color: #5b6370; font-size: .75rem; }
+.discovery-page a:focus-visible, .discovery-module a:focus-visible, .discovery-page summary:focus-visible { outline: 2px solid #ad5e48; outline-offset: 3px; }
+@media (max-width: 1023px) { .discovery-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 767px) { .discovery-grid, .discovery-filters { grid-template-columns: minmax(0,1fr); } .discovery-module { padding-top: 2rem; } .discovery-resource, .discovery-topic { padding: 1rem; } .discovery-resource-heading { flex-wrap: wrap; } .discovery-navigation { gap: .25rem; } }

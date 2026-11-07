@@ -6,7 +6,7 @@ namespace AISkillsHub\Core\Database;
 defined( 'ABSPATH' ) || exit;
 
 final class Schema {
-	public const VERSION = '1.8.0';
+	public const VERSION = '1.9.0';
 
 	public const COLUMNS = array(
 		'repositories' => array( 'id' => '%d', 'owner' => '%s', 'name' => '%s', 'created_at' => '%s', 'is_archived' => '%d', 'github_id' => '%d', 'default_branch' => '%s', 'sync_enabled' => '%d', 'sync_interval' => '%d', 'last_sync_at' => '%s', 'last_sync_commit' => '%s', 'last_scan_at' => '%s', 'sync_status' => '%s', 'license_spdx' => '%s' ),
@@ -35,6 +35,13 @@ final class Schema {
 		'metric_events' => array( 'id' => '%d', 'metric_name' => '%s', 'dimension_type' => '%s', 'dimension_key' => '%s', 'locale' => '%s', 'event_day' => '%s', 'dedupe_key' => '%s', 'policy_version' => '%s', 'occurred_at' => '%s', 'expires_at' => '%s' ),
 		'daily_metrics' => array( 'stat_day' => '%s', 'metric_name' => '%s', 'dimension_type' => '%s', 'dimension_key' => '%s', 'locale' => '%s', 'metric_count' => '%d', 'policy_version' => '%s', 'updated_at' => '%s' ),
 		'author_claims' => array( 'id' => '%d', 'skill_id' => '%d', 'claimant_user_id' => '%d', 'claim_role' => '%s', 'repository_id' => '%d', 'source_revision' => '%d', 'state' => '%s', 'proof_kind' => '%s', 'proof_json' => '%s', 'request_key' => '%s', 'active_request_key' => '%s', 'approved_skill_key' => '%d', 'reviewer_id' => '%d', 'reviewed_at' => '%s', 'expires_at' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'editorial_collections' => array( 'id' => '%d', 'status' => '%s', 'revision' => '%d', 'owner_user_id' => '%d', 'sort_order' => '%d', 'created_at' => '%s', 'updated_at' => '%s', 'published_at' => '%s' ),
+		'collection_translations' => array( 'id' => '%d', 'collection_id' => '%d', 'locale' => '%s', 'title' => '%s', 'slug' => '%s', 'description' => '%s', 'seo_title' => '%s', 'seo_description' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'collection_items' => array( 'collection_id' => '%d', 'skill_id' => '%d', 'sort_order' => '%d', 'added_by' => '%d', 'created_at' => '%s' ),
+		'use_cases' => array( 'id' => '%d', 'status' => '%s', 'revision' => '%d', 'sort_order' => '%d', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'use_case_translations' => array( 'id' => '%d', 'use_case_id' => '%d', 'locale' => '%s', 'name' => '%s', 'slug' => '%s', 'description' => '%s', 'seo_title' => '%s', 'seo_description' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
+		'use_case_skills' => array( 'use_case_id' => '%d', 'skill_id' => '%d', 'assigned_by' => '%d', 'created_at' => '%s' ),
+		'term_translations' => array( 'id' => '%d', 'term_type' => '%s', 'term_id' => '%d', 'locale' => '%s', 'name' => '%s', 'description' => '%s', 'created_at' => '%s', 'updated_at' => '%s' ),
 	);
 
 	public const UNIQUE_KEYS = array(
@@ -64,6 +71,13 @@ final class Schema {
 		'metric_events' => array( 'PRIMARY' => array( 'id' ), 'daily_event' => array( 'event_day', 'metric_name', 'dedupe_key' ) ),
 		'daily_metrics' => array( 'PRIMARY' => array( 'stat_day', 'metric_name', 'dimension_type', 'dimension_key', 'locale' ) ),
 		'author_claims' => array( 'PRIMARY' => array( 'id' ), 'request_identity' => array( 'request_key' ), 'active_request' => array( 'active_request_key' ), 'approved_skill' => array( 'approved_skill_key' ) ),
+		'editorial_collections' => array( 'PRIMARY' => array( 'id' ) ),
+		'collection_translations' => array( 'PRIMARY' => array( 'id' ), 'collection_locale' => array( 'collection_id', 'locale' ), 'locale_slug' => array( 'locale', 'slug' ) ),
+		'collection_items' => array( 'PRIMARY' => array( 'collection_id', 'skill_id' ) ),
+		'use_cases' => array( 'PRIMARY' => array( 'id' ) ),
+		'use_case_translations' => array( 'PRIMARY' => array( 'id' ), 'use_case_locale' => array( 'use_case_id', 'locale' ), 'locale_slug' => array( 'locale', 'slug' ) ),
+		'use_case_skills' => array( 'PRIMARY' => array( 'use_case_id', 'skill_id' ) ),
+		'term_translations' => array( 'PRIMARY' => array( 'id' ), 'term_locale' => array( 'term_type', 'term_id', 'locale' ) ),
 	);
 
 	/** Columns introduced with the importer, masked when verifying historical migrations. */
@@ -76,6 +90,7 @@ final class Schema {
 	private const ACCOUNT_TABLES = array( 'email_verifications', 'user_notifications', 'notification_outbox' );
 	private const COMMUNITY_TABLES = array( 'favorites', 'reviews', 'review_revisions', 'review_reports', 'skill_reports', 'workflow_events', 'metric_events', 'daily_metrics' );
 	private const DEVELOPER_TABLES = array( 'author_claims' );
+	private const DISCOVERY_TABLES = array( 'editorial_collections', 'collection_translations', 'collection_items', 'use_cases', 'use_case_translations', 'use_case_skills', 'term_translations' );
 
 	/** Phase 4 non-unique access paths; existing identity constraints stay unchanged. */
 	public const SEARCH_KEYS = array(
@@ -93,6 +108,11 @@ final class Schema {
 		'metric_events' => array( 'dimension_day' => array( 'dimension_type', 'dimension_key', 'event_day' ), 'expiry' => array( 'expires_at', 'id' ) ),
 		'daily_metrics' => array( 'metric_window' => array( 'metric_name', 'dimension_type', 'stat_day', 'dimension_key' ) ),
 		'author_claims' => array( 'skill_state' => array( 'skill_id', 'state', 'id' ), 'claimant_state' => array( 'claimant_user_id', 'state', 'id' ), 'claim_queue' => array( 'state', 'created_at', 'id' ) ),
+		'editorial_collections' => array( 'public_order' => array( 'status', 'sort_order', 'id' ) ),
+		'use_cases' => array( 'public_order' => array( 'status', 'sort_order', 'id' ) ),
+		'collection_items' => array( 'collection_order' => array( 'collection_id', 'sort_order', 'skill_id' ), 'skill_collections' => array( 'skill_id', 'collection_id' ) ),
+		'use_case_skills' => array( 'skill_use_cases' => array( 'skill_id', 'use_case_id' ) ),
+		'term_translations' => array( 'locale_name' => array( 'term_type', 'locale', 'name', 'term_id' ) ),
 	);
 
 	public static function definitions( Database $db, string $version ): array {
@@ -528,6 +548,78 @@ KEY claimant_state (claimant_user_id,state,id),
 KEY claim_queue (state,created_at,id)";
 		}
 
+		if ( version_compare( $version, '1.9.0', '>=' ) ) {
+			$bodies['editorial_collections'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+status varchar(20) NOT NULL DEFAULT 'draft',
+revision bigint(20) unsigned NOT NULL DEFAULT 1,
+owner_user_id bigint(20) unsigned DEFAULT NULL,
+sort_order int(10) unsigned NOT NULL DEFAULT 0,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+published_at datetime DEFAULT NULL,
+PRIMARY KEY  (id),
+KEY public_order (status,sort_order,id)";
+			$bodies['collection_translations'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+collection_id bigint(20) unsigned NOT NULL,
+locale varchar(10) NOT NULL,
+title varchar(191) NOT NULL,
+slug varchar(191) DEFAULT NULL,
+description text NOT NULL,
+seo_title varchar(191) NOT NULL DEFAULT '',
+seo_description varchar(320) NOT NULL DEFAULT '',
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY collection_locale (collection_id,locale),
+UNIQUE KEY locale_slug (locale,slug)";
+			$bodies['collection_items'] = "collection_id bigint(20) unsigned NOT NULL,
+skill_id bigint(20) unsigned NOT NULL,
+sort_order int(10) unsigned NOT NULL DEFAULT 0,
+added_by bigint(20) unsigned DEFAULT NULL,
+created_at datetime NOT NULL,
+PRIMARY KEY  (collection_id,skill_id),
+KEY collection_order (collection_id,sort_order,skill_id),
+KEY skill_collections (skill_id,collection_id)";
+			$bodies['use_cases'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+status varchar(20) NOT NULL DEFAULT 'draft',
+revision bigint(20) unsigned NOT NULL DEFAULT 1,
+sort_order int(10) unsigned NOT NULL DEFAULT 0,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+KEY public_order (status,sort_order,id)";
+			$bodies['use_case_translations'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+use_case_id bigint(20) unsigned NOT NULL,
+locale varchar(10) NOT NULL,
+name varchar(191) NOT NULL,
+slug varchar(191) DEFAULT NULL,
+description text NOT NULL,
+seo_title varchar(191) NOT NULL DEFAULT '',
+seo_description varchar(320) NOT NULL DEFAULT '',
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY use_case_locale (use_case_id,locale),
+UNIQUE KEY locale_slug (locale,slug)";
+			$bodies['use_case_skills'] = "use_case_id bigint(20) unsigned NOT NULL,
+skill_id bigint(20) unsigned NOT NULL,
+assigned_by bigint(20) unsigned DEFAULT NULL,
+created_at datetime NOT NULL,
+PRIMARY KEY  (use_case_id,skill_id),
+KEY skill_use_cases (skill_id,use_case_id)";
+			$bodies['term_translations'] = "id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+term_type varchar(16) NOT NULL,
+term_id bigint(20) unsigned NOT NULL,
+locale varchar(10) NOT NULL,
+name varchar(191) NOT NULL,
+description text NOT NULL,
+created_at datetime NOT NULL,
+updated_at datetime NOT NULL,
+PRIMARY KEY  (id),
+UNIQUE KEY term_locale (term_type,term_id,locale),
+KEY locale_name (term_type,locale,name,term_id)";
+		}
+
 		$definitions = array();
 		foreach ( $bodies as $entity => $body ) {
 			$definitions[ $entity ] = 'CREATE TABLE ' . trim( $db->table( $entity ), '`' ) . " (\n$body\n)$suffix";
@@ -538,6 +630,7 @@ KEY claim_queue (state,created_at,id)";
 	/** Verify physical schema before advancing the version; dbDelta's messages alone are insufficient. */
 	public static function verify( Database $db, string $version ): void {
 		foreach ( self::COLUMNS as $entity => $columns ) {
+			if ( version_compare( $version, '1.9.0', '<' ) && in_array( $entity, self::DISCOVERY_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.8.0', '<' ) && in_array( $entity, self::DEVELOPER_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.7.0', '<' ) && in_array( $entity, self::COMMUNITY_TABLES, true ) ) { continue; }
 			if ( version_compare( $version, '1.6.0', '<' ) && in_array( $entity, self::ACCOUNT_TABLES, true ) ) { continue; }
@@ -554,7 +647,7 @@ KEY claim_queue (state,created_at,id)";
 			}
 			$table  = $db->table( $entity );
 			$fields = $db->rows( "SHOW COLUMNS FROM $table" );
-			if ( in_array( $entity, self::ACCOUNT_TABLES, true ) || in_array( $entity, self::COMMUNITY_TABLES, true ) || in_array( $entity, self::DEVELOPER_TABLES, true ) ) { self::verifyTypedFields( $db, $entity, $version ); }
+			if ( in_array( $entity, self::ACCOUNT_TABLES, true ) || in_array( $entity, self::COMMUNITY_TABLES, true ) || in_array( $entity, self::DEVELOPER_TABLES, true ) || in_array( $entity, self::DISCOVERY_TABLES, true ) ) { self::verifyTypedFields( $db, $entity, $version ); }
 			$actual = array_column( $fields, 'Field' );
 			if ( array_diff( array_keys( $columns ), $actual ) ) {
 				throw new \RuntimeException( 'Core schema columns are incomplete.' );

@@ -81,14 +81,14 @@ try {
 	do_action( 'admin_init' );
 	$core = Core::boot();
 	check( $core->migrator()->isCurrent(), 'authorized admin initializes active theme database' );
-	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin', 'frontend', 'sources', 'ai', 'accounts', 'community', 'contributions' ), 'Core modules loaded in dependency order' );
+	check( $core->modules() === array( 'database', 'language', 'catalog', 'admin', 'frontend', 'sources', 'ai', 'accounts', 'community', 'contributions', 'discovery' ), 'Core modules loaded in dependency order' );
 	check( Core::boot() === $core, 'Core boot is idempotent' );
 
 	list( $db, $migrator, $catalog, $option ) = fixture();
 	check( true === $migrator->migrate(), 'fresh database installation' );
 	Schema::verify( $db, Schema::VERSION );
 	check( Schema::VERSION === get_option( $option ), 'physical schema verified before version stored' );
-	check( 26 === count( Schema::COLUMNS ), 'eight Core, six import/AI, three account eight community and one author-claim table defined' );
+	check( 33 === count( Schema::COLUMNS ), '33 Core tables including seven discovery tables defined' );
 	foreach ( array_keys( Schema::COLUMNS ) as $entity ) {
 		check( 0 === count_rows( $db, $entity ), 'fresh table empty: ' . $entity );
 	}

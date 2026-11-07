@@ -1,5 +1,9 @@
 # AI Skills Hub Core 使用与维护
 
+## Phase 11 当前增量
+
+主题/Core0.11.0，schema1.9.0共33表，新增DiscoveryModule；原26表、用户/SkillID、版本与双语关系保持。服务注册 discovery_query、discovery_management、discovery_settings、discovery_views、discovery_frontend、discovery_admin；sitemap实例复用现有前台模块并注入发现查询。查询无跨请求排行榜缓存，权限aish_manage_discovery与原审核权限分离。详细接口与口径见 [资源发现](../DISCOVERY_SYSTEM.md)、[场景](../USE_CASES.md)、[报告](PHASE_11_REPORT.md)。
+
 > Phase 10 增量：主题/Core **0.10.0**、schema **1.8.0**、26 表；`ContributionsModule` 依赖既有 accounts/community/admin/frontend，注册 `submissions`、`submission_query`、`developers`、`developer_query` 服务。复用私有原生 Inbox、Users 和既有 workflow_events/user_notifications，仅新增 author_claims。原生编辑器/metadata/revision 恢复受保护，人工操作须经过独立域服务的归属、能力、状态、CAS、事务与幂等校验。四项能力：`aish_manage_submissions`、`aish_manage_update_suggestions`、`aish_manage_developers`、`aish_manage_author_claims`。使用与限制见 [投稿](SUBMISSIONS.md)、[开发者](DEVELOPER_CENTER.md)、[Phase 10 报告](PHASE_10_REPORT.md)。
 
 > Phase 9 增量：当前主题/Core 0.9.0、schema 1.7.0，新增 CommunityModule 与八张互动/审计/最小计数表，共 25 表，原 17 表保持。服务键 `community` / `community_query`；独立能力 `aish_moderate_community` / `aish_manage_community_reports`（取代规划中的泛化命名，避免混用 Skill/AI 审核）。写操作按账户锁→Skill 行→评价头/修订或举报行顺序，CAS 与幂等审计同事务。前后台接口及数据保留见 [COMMUNITY_REVIEWS.md](../COMMUNITY_REVIEWS.md)。

@@ -1,5 +1,7 @@
 # AI Skills Hub 产品规格 V2
 
+> Phase 11 当前实施：主题/Core 0.11.0、schema 1.9.0（33表），基于已验收Phase10 main c7fa503。六榜单、集合/场景、术语翻译、平台专题、相关/相似推荐与首页配置见 [资源发现](DISCOVERY_SYSTEM.md)、[场景](USE_CASES.md)、[本轮报告](docs/PHASE_11_REPORT.md)。浏览统计默认关闭且需访客同意；当前语言公开门禁优先。按本轮详细需求，策展集合独立维护、不自动改写历史featured标签；第8节旧建议由该具体规则补充。Phase12–14未实施；以下早期“当前”均为历史。
+
 > 当前实施状态：Phase 9 已由用户验收；Phase 10 投稿与开发者中心基于 `93738c1` 实施，主题/Core 0.10.0、schema 1.8.0 共 26 表。只增加 author_claims，投稿/更新建议复用原生私有 Inbox。公开开发者 URL 按本轮用户要求为 `/zh|en/developers/{slug}/`；下文 `/authors/` 为旧规划。详情见 [投稿](SUBMISSIONS.md)、[开发者中心](DEVELOPER_CENTER.md)、[Phase 10 报告](docs/PHASE_10_REPORT.md)。Phase 11–14 未实施。
 
 > 当前实施状态：用户已验收 Phase 8，并授权 Phase 9。主题/Core 0.9.0、schema 1.7.0 共 25 表；收藏、评价修订、人工审核和举报纠错实现见 [社区说明](COMMUNITY_REVIEWS.md) 与 [Phase 9 报告](docs/PHASE_9_REPORT.md)。下文“尚未开发”及旧表数属于规划时基线；Phase 10–14 仍待授权。本轮最小统计只记真实互动，不启用浏览/搜索跟踪或运营界面。

@@ -20,6 +20,7 @@ namespace {
 		public array $prepared = array();
 		public array $executed = array();
 		public array $rows = array();
+		public array $ancestors = array();
 		public int $total = 2;
 		public function suppress_errors( bool $value ): bool { return false; }
 		public function esc_like( string $value ): string { return addcslashes( $value, '_%\\' ); }
@@ -30,6 +31,7 @@ namespace {
 		public function get_var( string $sql ): int { $this->executed[] = $sql; return $this->total; }
 		public function get_results( string $sql, string $format ): array {
 			$this->executed[] = $sql;
+			if ( str_contains( $sql, 'WITH RECURSIVE category_ancestors' ) ) { return $this->ancestors; }
 			return str_contains( $sql, 'public_terms' ) ? array() : $this->rows;
 		}
 	}
@@ -99,10 +101,23 @@ namespace {
 		guard( $sql );
 		check( in_array( 91, $values, true ) && array_slice( $values, -2 ) === array( 200, 200 ), 'Sitemap noindex and pagination are bound.' );
 		check( array_keys( $rows[0] ) === array( 'id', 'slug', 'updated_at' ), 'Sitemap projection stays compact.' );
-		if ( 'skill' !== $kind ) { check( str_contains( $sql, 't.is_archived=0' ) && str_contains( $sql, 'GROUP BY t.id,t.slug' ), 'Taxonomy sitemap contains active terms with matching public content only.' ); }
+		if ( 'skill' !== $kind ) { check( str_contains( $sql, 'INNER JOIN `test_aish_term_translations` tt' ) && str_contains( $sql, "tt.name REGEXP '[^[:space:]]'" ) && array_slice( $values, 0, 3 ) === array( $kind, 'en_US', 'en_US' ), 'Taxonomy sitemap excludes missing translations before counting/pagination.' ); check( str_contains( $sql, 't.is_archived=0' ) && str_contains( $sql, 'GROUP BY t.id,t.slug' ), 'Taxonomy sitemap contains active terms with matching public content only.' ); }
 	}
 	rejects( fn() => $catalog->sitemapItems( 'skill', 'en_US', 0 ) );
 	rejects( fn() => $catalog->sitemapCount( 'repository', 'en_US' ) );
+	$connection->rows = array( array( 'id' => 8, 'name' => 'Original name', 'slug' => 'original', 'description' => 'Incomplete description', 'translation_missing' => 1, 'parent_id' => 4, 'skill_count' => 2 ) );
+	$connection->ancestors = array( array( 'id' => 4, 'name' => 'Parent without direct skills', 'slug' => 'parent', 'description' => '', 'translation_missing' => 1, 'parent_id' => null, 'skill_count' => 0 ) );
+	$before = count( $connection->executed );
+	$terms = $catalog->terms( 'category', 'zh_CN' );
+	check( array( 8, 4 ) === array_column( $terms, 'id' ) && 0 === $terms[1]['count'] && 2 === count( $connection->executed ) - $before, 'Child-only assignments include their active ancestor in one batch with honest zero direct count.' );
+	check( 8 === $terms[0]['id'] && 'original' === $terms[0]['slug'] && 4 === $terms[0]['parent_id'], 'Taxonomy translation keeps original ID, slug and hierarchy.' );
+	check( true === $terms[0]['translation_missing'] && null === $terms[0]['translation_locale'] && '' === $terms[0]['description'], 'Missing authored translation is explicit and cannot leak a partial description.' );
+	list( $sql, $values ) = end( $connection->prepared );
+	check( array_slice( $values, 0, 3 ) === array( 'category', 'zh_CN', 'zh_CN' ) && str_contains( $sql, 'COALESCE(NULLIF(TRIM(tt.name)' ), 'Translated taxonomy query binds its type and locale independently of public Skill locale.' );
+	check( str_contains( $sql, 'a.depth<15' ) && str_contains( $sql, 'LOCATE(' ) && str_ends_with( $sql, 'LIMIT 200' ), 'Ancestor traversal is depth/row bounded and terminates cycles.' );
+	$connection->rows = array( array( 'id' => 8, 'name' => 'Translated name', 'slug' => 'original', 'description' => 'Human-authored translation.', 'translation_missing' => 0, 'parent_id' => 4, 'skill_count' => 2 ) );
+	$term = $catalog->term( 'category', 'original', 'en_US' );
+	check( 8 === $term['id'] && false === $term['translation_missing'] && 'en_US' === $term['translation_locale'] && 'Human-authored translation.' === $term['description'], 'Real category translation is returned without duplicating taxonomy identity.' );
 	$previous = Schema::definitions( $db, '1.2.0' );
 	$current = Schema::definitions( $db, '1.3.0' );
 	check( ! str_contains( $previous['skills'], 'KEY public_updated' ) && str_contains( $current['skills'], 'KEY public_updated (status,review_status,updated_at,id)' ), 'Time index introduced only at 1.3.0.' );

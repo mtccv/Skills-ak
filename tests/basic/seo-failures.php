@@ -48,6 +48,7 @@ namespace {
 		return $GLOBALS['metadata'][ $id ][ $key ] ?? '';
 	}
 	function wp_cache_delete( int|string $key, string $group ): void { unset( $GLOBALS['cache'][ $group ][ $key ] ); $GLOBALS['invalidated'][] = array( $group, $key ); }
+	function has_action( string $name ): bool { return false; }
 	function apply_filters( string $name, mixed $value, mixed ...$args ): mixed {
 		$GLOBALS['filter_calls'][ $name ] = ( $GLOBALS['filter_calls'][ $name ] ?? 0 ) + 1;
 		return isset( $GLOBALS['filters'][ $name ] ) ? $GLOBALS['filters'][ $name ]( $value, ...$args ) : $value;

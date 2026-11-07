@@ -1,8 +1,10 @@
 # AI Skills Hub
 
-当前开发交付为 **Phase 10 投稿与开发者中心**，基于 `93738c1`，主题/Core **0.10.0**、schema **1.8.0**（26 表）。新投稿及更新建议复用私有 Inbox；作者认领、公开资料均经人工审核，接受投稿不等于发布 Skill。原 Phase 0–9 数据和设计原型保留；未进入 Phase 11。
+当前交付 **Phase 11 资源发现与推荐**，主题/Core **0.11.0**、schema **1.9.0**（33表）。六类真实排行榜、明确同意的匿名有效浏览、编辑集合、使用场景、双语分类标签、经核实平台专题、相关/相似推荐与首页模块化配置；原26表、Skill ID、收藏、评价和投稿保持，不进入Phase12。
 
-[0.10.0可安装主题ZIP](release/ai-skills-hub-0.10.0.zip) · [投稿使用说明](SUBMISSIONS.md) · [开发者中心](DEVELOPER_CENTER.md) · [Phase 10 检查报告](docs/PHASE_10_REPORT.md) · [安装与配置](INSTALLATION.md)。以下旧版本及测试是历史交付记录。
+[0.11.0可安装主题ZIP](release/ai-skills-hub-0.11.0.zip) · [发现系统](DISCOVERY_SYSTEM.md) · [场景维护](USE_CASES.md) · [Phase11报告](docs/PHASE_11_REPORT.md) · [安装与配置](INSTALLATION.md)。本轮PHP8.3/WordPress/MySQL/Chromium已有真实验证；PHP8.4及未提供的外部依赖如实未验。以下版本和测试数字为历史记录，不自动代表新代码通过。
+
+历史 [0.10.0投稿与开发者版](release/ai-skills-hub-0.10.0.zip) 和 [Phase10报告](docs/PHASE_10_REPORT.md) 保留。
 
 **当前：Phase 9 用户互动系统，主题/Core 0.9.0、schema 1.7.0。** 复用 Phase 8 原生账户，实现私有收藏、评分与不可变评价修订、人工审核、举报纠错、社区通知和隐私清理；追加八表至 25 表，原 17 表及数据保留。见 [社区说明](COMMUNITY_REVIEWS.md)、[账户说明](ACCOUNT_SYSTEM.md)、[邮件配置](EMAIL_SETUP.md)、[隐私与安全](PRIVACY_AND_SECURITY.md)和 [Phase 9 报告](docs/PHASE_9_REPORT.md)。[下载 0.9.0 可安装主题 ZIP](release/ai-skills-hub-0.9.0.zip)，包含构建资源，无需用户本机开发。保留历史 [0.8.0 账户版](release/ai-skills-hub-0.8.0.zip) 与 0.7.1；从源码构建需先执行 `npm ci && npm run build` 再运行 `scripts/package-theme.py`。Phase 10 未开始。
 

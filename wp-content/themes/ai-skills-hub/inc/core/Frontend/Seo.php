@@ -55,7 +55,7 @@ final class Seo {
 				if ( is_string( $candidate ) && self::validUrl( $candidate ) ) { $alternates[ $language ] = $candidate; }
 			}
 			// The current URL is always self referencing and uses its own locale.
-			if ( $context['canonical'] ) { $alternates[ $locale ] = $context['canonical']; }
+			if ( $context['canonical'] && empty( $data['term']['translation_missing'] ) ) { $alternates[ $locale ] = $context['canonical']; }
 		}
 		$context['seo_alternates'] = $alternates;
 		$context['x_default'] = $alternates[ Router::defaultLocale() ] ?? ( $alternates ? reset( $alternates ) : '' );
@@ -77,7 +77,8 @@ final class Seo {
 	public static function noindex( array $context, array $query, bool $configured = false ): bool {
 		if ( $configured || ! SeoSettings::indexableSite() || 200 !== $context['status'] || in_array( $context['route'], array( 'search', 'submit', '404' ), true ) ) { return true; }
 		if ( in_array( $context['route'], array( 'about', 'contact' ), true ) && empty( $context['data']['page'] ) ) { return true; }
-		if ( isset( $context['data']['term'] ) && (int) ( $context['data']['term']['count'] ?? 0 ) < 1 ) { return true; }
+		if ( isset( $context['data']['term'] ) && ( (int) ( $context['data']['term']['count'] ?? 0 ) < 1 || ! empty( $context['data']['term']['translation_missing'] ) ) ) { return true; }
+		if ( 'discovery' === $context['route'] && ( ( isset( $context['data']['result'] ) && (int) ( $context['data']['result']['total'] ?? 0 ) < 1 ) || ( isset( $context['data']['topics'] ) && ! $context['data']['topics'] ) ) ) { return true; }
 		foreach ( $query as $key => $value ) {
 			if ( 'page' === $key && isset( $context['data']['filters'] ) && is_scalar( $value ) && preg_match( '/^[1-9][0-9]*$/D', (string) $value ) ) { continue; }
 			// Includes form outcomes, previews, sort/default parameters and unknown URL combinations.
@@ -146,7 +147,7 @@ final class Seo {
 		if ( $context['description'] ) { $page['description'] = $context['description']; }
 		$graph = array( $website );
 		if ( 'home' !== $context['route'] ) {
-			$title = $context['data']['skill']['title'] ?? $context['data']['tutorial']['title'] ?? $context['data']['term']['name'] ?? $context['data']['page']['title'] ?? Strings::get( 'page.' . $context['route'] . '.title', $locale );
+			$title = $context['data']['discovery_title'] ?? $context['data']['skill']['title'] ?? $context['data']['tutorial']['title'] ?? $context['data']['term']['name'] ?? $context['data']['page']['title'] ?? Strings::get( 'page.' . $context['route'] . '.title', $locale );
 			$items[] = array( $title, $canonical );
 			$breadcrumbs = array( '@type' => 'BreadcrumbList', '@id' => $canonical . '#breadcrumb', 'itemListElement' => array() );
 			foreach ( $items as $position => list( $label, $url ) ) { $breadcrumbs['itemListElement'][] = array( '@type' => 'ListItem', 'position' => $position + 1, 'name' => wp_strip_all_tags( $label ), 'item' => $url ); }

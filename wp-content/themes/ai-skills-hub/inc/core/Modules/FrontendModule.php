@@ -27,7 +27,9 @@ final class FrontendModule implements Module {
 		( new Forms( $core->get( 'database' ) ) )->register();
 		( new SeoSettings( $core->get( 'database' ) ) )->register();
 		( new Seo() )->register();
-		( new Sitemap( $catalog, $editorial ) )->register();
+		$sitemap = new Sitemap( $catalog, $editorial );
+		$core->set( 'sitemap', $sitemap );
+		$sitemap->register();
 		$router = new Router( $catalog, $editorial );
 		$core->set( 'frontend', $router );
 		$router->register();

@@ -8,12 +8,15 @@ defined( 'ABSPATH' ) || exit;
 /** One bounded, uncached XML source, advertised through the active sitemap owner's index. */
 final class Sitemap {
 	public const PAGE_SIZE = 200;
-	private const KINDS = array( 'skills', 'category', 'tag', 'tutorials', 'pages' );
+	private const KINDS = array( 'skills', 'category', 'tag', 'tutorials', 'pages', 'collections', 'use_cases', 'platforms' );
+	private const DISCOVERY_KINDS = array( 'collections' => 'collection', 'use_cases' => 'use_case', 'platforms' => 'platform' );
 	private const LOCALES = array( 'zh' => 'zh_CN', 'en' => 'en_US' );
 	private ?array $request = null;
 	private array $memo = array();
+	private ?\AISkillsHub\Core\Discovery\Query $discovery = null;
 
 	public function __construct( private PublicCatalog $catalog, private Editorial $editorial ) {}
+	public function setDiscovery( \AISkillsHub\Core\Discovery\Query $query ): void { $this->discovery = $query; $this->memo = array(); }
 
 	public function register(): void {
 		add_filter( 'query_vars', static fn( array $vars ): array => array_merge( $vars, array( 'aish_sitemap' ) ) );
@@ -53,7 +56,7 @@ final class Sitemap {
 	public static function url(): string { return Router::siteUrl( '/aish-sitemap.xml' ); }
 
 	public function rewrites(): void {
-		add_rewrite_rule( '^aish-sitemap(?:-(?:skills|category|tag|tutorials|pages)-(?:zh|en)-[1-9][0-9]*)?\.xml$', 'index.php?aish_sitemap=1', 'top' );
+		add_rewrite_rule( '^aish-sitemap(?:-(?:skills|category|tag|tutorials|pages|collections|use_cases|platforms)-(?:zh|en)-[1-9][0-9]*)?\.xml$', 'index.php?aish_sitemap=1', 'top' );
 	}
 
 	/** The same parser also works before the next administrator rewrite refresh. */
@@ -66,7 +69,7 @@ final class Sitemap {
 		if ( is_string( $uriPath ) && strlen( $uriPath ) <= 4096 && ( '' === $homePath || str_starts_with( $uriPath, $homePath . '/' ) ) ) { $path = trim( substr( $uriPath, strlen( $homePath ) ), '/' ); }
 		$path = preg_replace( '#^index\.php(?:/|$)#', '', $path );
 		if ( 'aish-sitemap.xml' === $path ) { $this->request = array( 'kind' => 'index' ); }
-		elseif ( preg_match( '/^aish-sitemap-(skills|category|tag|tutorials|pages)-(zh|en)-([1-9][0-9]{0,6})\.xml$/D', $path, $matches ) ) {
+		elseif ( preg_match( '/^aish-sitemap-(skills|category|tag|tutorials|pages|collections|use_cases|platforms)-(zh|en)-([1-9][0-9]{0,6})\.xml$/D', $path, $matches ) ) {
 			$this->request = array( 'kind' => $matches[1], 'locale' => self::LOCALES[ $matches[2] ], 'page' => (int) $matches[3] );
 		} elseif ( str_starts_with( $path, 'aish-sitemap' ) ) { $this->request = array( 'kind' => 'invalid' ); }
 		if ( null !== $this->request ) { $wp->query_vars = array( 'aish_sitemap' => 1 ); }
@@ -105,6 +108,7 @@ final class Sitemap {
 	private function count( string $kind, string $locale ): int {
 		$key = $kind . ':' . $locale;
 		if ( isset( $this->memo['count'][ $key ] ) ) { return $this->memo['count'][ $key ]; }
+		if ( isset( self::DISCOVERY_KINDS[ $kind ] ) ) { return $this->memo['count'][ $key ] = $this->discovery ? $this->discovery->sitemapCount( self::DISCOVERY_KINDS[ $kind ], $locale ) : 0; }
 		return $this->memo['count'][ $key ] = match ( $kind ) {
 			'tutorials' => $this->editorial->sitemapCount( $locale ),
 			'pages' => count( $this->staticItems( $locale ) ),
@@ -154,6 +158,16 @@ final class Sitemap {
 		if ( ! self::enabled() || ! in_array( $kind, self::KINDS, true ) || ! in_array( $locale, self::LOCALES, true ) || $page < 1 || $page > 1000000 ) { return array(); }
 		if ( $page > (int) ceil( $this->count( $kind, $locale ) / self::PAGE_SIZE ) ) { return array(); }
 		if ( 'pages' === $kind ) { return array_slice( $this->staticItems( $locale ), ( $page - 1 ) * self::PAGE_SIZE, self::PAGE_SIZE ); }
+		if ( isset( self::DISCOVERY_KINDS[ $kind ] ) && $this->discovery ) {
+			$entries = array(); $route = self::DISCOVERY_KINDS[ $kind ];
+			foreach ( $this->discovery->sitemapItems( $route, $locale, $page, self::PAGE_SIZE ) as $row ) {
+				$item = array( 'loc' => \AISkillsHub\Core\Discovery\Frontend::url( 'use_cases' === $kind ? 'use-cases' : $kind, $locale, array( 'id' => (int) $row['id'], 'slug' => (string) $row['slug'] ) ) );
+				$lastmod = self::lastmod( (string) ( $row['updated_at'] ?? '' ) );
+				if ( null !== $lastmod ) { $item['lastmod'] = $lastmod; }
+				$entries[] = $item;
+			}
+			return $entries;
+		}
 		$rows = 'tutorials' === $kind ? $this->editorial->sitemapItems( $locale, $page, self::PAGE_SIZE ) : $this->catalog->sitemapItems( 'skills' === $kind ? 'skill' : $kind, $locale, $page, self::PAGE_SIZE );
 		$entries = array();
 		foreach ( $rows as $row ) {

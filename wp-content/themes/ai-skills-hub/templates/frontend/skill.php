@@ -114,6 +114,7 @@ $not_provided = View::t( 'detail_not_provided' );
 			</section>
 		</aside>
 	</div>
+	<?php if ( has_action( 'aish_discovery_recommendations' ) ) : do_action( 'aish_discovery_recommendations', $skill, $context['locale'] ); else : ?>
 	<section class="pt-16" aria-labelledby="related-skills">
 		<div class="section-heading"><h2 id="related-skills"><?php echo esc_html( View::t( 'detail_related_skills' ) ); ?></h2><a href="<?php echo esc_url( View::url( 'skills' ) ); ?>"><?php echo esc_html( View::t( 'detail_browse_skills' ) ); ?> →</a></div>
 		<?php if ( ! empty( $data['related'] ) ) : ?>
@@ -122,6 +123,7 @@ $not_provided = View::t( 'detail_not_provided' );
 			<p class="surface surface-pad muted"><?php echo esc_html( View::t( 'detail_no_related_skills' ) ); ?></p>
 		<?php endif; ?>
 	</section>
+	<?php endif; ?>
 	<section class="pb-8 pt-12" aria-labelledby="related-tutorials">
 		<div class="section-heading"><h2 id="related-tutorials"><?php echo esc_html( View::t( 'detail_related_tutorials' ) ); ?></h2><a href="<?php echo esc_url( View::url( 'tutorials' ) ); ?>"><?php echo esc_html( View::t( 'detail_browse_tutorials' ) ); ?> →</a></div>
 		<?php if ( ! empty( $data['tutorials'] ) ) : ?>

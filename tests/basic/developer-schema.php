@@ -45,7 +45,7 @@ function fixture(): array {
 }
 [ $connection, $db ] = fixture();
 $baseline = json_decode( file_get_contents( dirname( __DIR__ ) . '/contributions/fixtures/schema-1.7.0.json' ), true, 512, JSON_THROW_ON_ERROR );
-check( '1.8.0' === Schema::VERSION, 'Current schema is Phase 10 version 1.8.0.' );
+check( version_compare( Schema::VERSION, '1.8.0', '>=' ), 'Historical Phase 10 schema remains supported.' );
 $current = Schema::definitions( $db, '1.8.0' );
 check( 26 === count( $current ), 'Exactly 26 business tables, retaining the existing 25.' );
 check( array( 'author_claims' ) === array_values( array_diff( array_keys( $current ), array_keys( $baseline['definition_sha256'] ) ) ), 'Claims are the only new table; submissions remain native WordPress records.' );

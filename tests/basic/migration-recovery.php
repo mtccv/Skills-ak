@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AISkillsHub\Core\Database {
 	final class Schema {
 		public const VERSION = '1.5.0';
-		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array(), 'email_verifications' => array(), 'user_notifications' => array(), 'notification_outbox' => array(), 'favorites' => array(), 'reviews' => array(), 'review_revisions' => array(), 'review_reports' => array(), 'skill_reports' => array(), 'workflow_events' => array(), 'metric_events' => array(), 'daily_metrics' => array(), 'author_claims' => array() );
+		public const COLUMNS = array( 'skills' => array(), 'skill_translations' => array(), 'ai_jobs' => array(), 'ai_attempts' => array(), 'ai_reviews' => array(), 'email_verifications' => array(), 'user_notifications' => array(), 'notification_outbox' => array(), 'favorites' => array(), 'reviews' => array(), 'review_revisions' => array(), 'review_reports' => array(), 'skill_reports' => array(), 'workflow_events' => array(), 'metric_events' => array(), 'daily_metrics' => array(), 'author_claims' => array(), 'editorial_collections' => array(), 'collection_translations' => array(), 'collection_items' => array(), 'use_cases' => array(), 'use_case_translations' => array(), 'use_case_skills' => array(), 'term_translations' => array() );
 		public static bool $verify_failure = false;
 		public static bool $nested_transaction = false;
 		public static function definitions( Database $database, string $version ): array {
@@ -20,6 +20,7 @@ namespace AISkillsHub\Core\Database {
 				foreach ( array( 'favorites', 'reviews', 'review_revisions', 'review_reports', 'skill_reports', 'workflow_events', 'metric_events', 'daily_metrics' ) as $entity ) { $definitions[ $entity ] = 'DDL:' . $version . ':' . $entity; }
 			}
 			if ( version_compare( $version, '1.8.0', '>=' ) ) { $definitions['author_claims'] = 'DDL:' . $version . ':author_claims'; }
+			if ( version_compare( $version, '1.9.0', '>=' ) ) { foreach ( array( 'editorial_collections', 'collection_translations', 'collection_items', 'use_cases', 'use_case_translations', 'use_case_skills', 'term_translations' ) as $entity ) { $definitions[ $entity ] = 'DDL:' . $version . ':' . $entity; } }
 			return $definitions;
 		}
 		public static function verify( Database $database, string $version ): void {
@@ -318,6 +319,25 @@ namespace {
 		check( true === $migrator->migrate( '1.8.0' ) && $ddl === $connection->ddl, 'Repeated Phase 10 installation applies no DDL.' );
 		failed( $migrator->migrate( '1.7.0' ), 'aish_schema_version' );
 		check( '1.8.0' === $migrator->version() && $ddl === $connection->ddl, 'A Phase 10 downgrade cannot remove claims or previous data.' );
+		restored( $connection, MYSQLI_REPORT_OFF );
+
+		[ $connection, $database, $migrator ] = setup( '1.8.0' );
+		foreach ( Schema::definitions( $database, '1.8.0' ) as $entity => $definition ) { $connection->tables[ 'test_aish_' . $entity ] = '1.8.0'; }
+		$connection->disconnect_at = 'DDL:1.9.0:use_cases';
+		failed( $migrator->migrate( '1.9.0' ) );
+		check( '1.8.0' === $migrator->version() && 0 === $connection->replays, 'Interrupted discovery DDL retains the verified version without lockless replay.' );
+		check( array( 'test_aish_editorial_collections', 'test_aish_collection_translations', 'test_aish_collection_items', 'test_aish_use_cases' ) === $connection->created, 'Only absent discovery tables were created before interruption.' );
+		$partialTables = $connection->tables;
+		[ $connection, $database, $migrator ] = setup( '1.8.0' ); $connection->tables = $partialTables;
+		Schema::$verify_failure = true;
+		failed( $migrator->migrate( '1.9.0' ) );
+		check( '1.8.0' === $migrator->version() && array( 'test_aish_use_case_translations', 'test_aish_use_case_skills', 'test_aish_term_translations' ) === $connection->created, 'Partial retry only creates remaining tables; verification failure never advances schema.' );
+		Schema::$verify_failure = false;
+		check( true === $migrator->migrate( '1.9.0' ) && '1.9.0' === $migrator->version(), 'A subsequent verified request completes all discovery definitions.' );
+		$ddl = $connection->ddl;
+		check( true === $migrator->migrate( '1.9.0' ) && $ddl === $connection->ddl, 'Repeated discovery migration performs no extra DDL.' );
+		failed( $migrator->migrate( '1.8.0' ), 'aish_schema_version' );
+		check( '1.9.0' === $migrator->version() && $ddl === $connection->ddl, 'Downgrading cannot remove discovery tables or existing data.' );
 		restored( $connection, MYSQLI_REPORT_OFF );
 
 		foreach ( array( 0, 1, 2 ) as $caseMode ) {

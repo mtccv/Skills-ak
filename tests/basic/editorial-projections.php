@@ -104,6 +104,14 @@ check( array( array( 'id' => 1, 'locale' => 'en_US', 'updated_at' => '2026-11-05
 check( 1 === count( $db->reads ) && $primed === $GLOBALS['meta_primes'] && $sanitized === $GLOBALS['kses_calls'], 'Projection does N+1 or primes/sanitizes bodies.' );
 $editorial->sitemapItems( 'en_US', 2, 200 );
 check( 1 === count( $db->reads ), 'Repeated request did not reuse its compact projection.' );
+$GLOBALS['after_query'] = null; $GLOBALS['selected_ids'] = array( 1, 2, 3, 4 );
+$before = count( WP_Query::$calls ); $batch = $editorial->cardsByIds( array( 1, 2, 3, 4 ), 'en_US' ); $call = end( WP_Query::$calls );
+check( array( 1 ) === array_column( $batch, 'id' ), 'Topic tutorial batch leaked draft, password-protected or other-locale content.' );
+check( count( WP_Query::$calls ) === $before + 1 && $call['arguments']['post__in'] === array( 1, 2, 3, 4 ) && 'post__in' === $call['arguments']['orderby'], 'Topic tutorial batch must use a single bounded ordered query.' );
+check( ! array_key_exists( 'content', $batch[0] ), 'Topic tutorial card retains full body.' );
+$editorial->cardsByIds( array( 1, 2, 3, 4 ), 'en_US' );
+check( count( WP_Query::$calls ) === $before + 1, 'Repeated topic batch does not reuse request projection.' );
+foreach ( array( range( 1, 25 ), array( 0 ), array( array( 1 ) ) ) as $invalid ) { try { $editorial->cardsByIds( $invalid, 'en_US' ); check( false, 'Invalid topic tutorial ID accepted.' ); } catch ( InvalidArgumentException $expected ) { check( true, 'Invalid batch rejected.' ); } }
 $GLOBALS['after_query'] = null; $GLOBALS['selected_ids'] = array();
 check( array() === $editorial->sitemapItems( 'zh_CN', 1 ) && 1 === count( $db->reads ), 'Empty selection made an unnecessary query.' );
 for ( $id = 9; $id <= 13; ++$id ) { $GLOBALS['posts'][ $id ] = new WP_Post( $id ); $GLOBALS['meta'][ $id ] = array( '_aish_locale' => 'en_US' ); }
