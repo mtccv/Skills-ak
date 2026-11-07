@@ -1,0 +1,23 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real native WordPress privacy request confirmation/export/erasure and real MySQL fault-injection rollback of sponsor/bundle/enterprise configuration and private Inbox. Only this run's synthetic inquiry erased.",
+    "cases": [
+        {
+            "id": "enterprise_native_confirmed_privacy_export_and_controlled_erasure",
+            "status": "passed"
+        },
+        {
+            "id": "commercial_option_and_private_inbox_transactional_audit_rollback",
+            "status": "passed"
+        }
+    ],
+    "assertions": 19,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 2,
+    "failed": 0
+}

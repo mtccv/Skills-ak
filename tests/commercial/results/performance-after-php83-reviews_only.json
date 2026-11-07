@@ -1,0 +1,167 @@
+[
+  {
+    "kind": "Real WordPress/MySQL Dashboard snapshot; one fresh PHP process, no persistent cache reset or HTTP/browser timing",
+    "phase": "after",
+    "scope": "reviews_only",
+    "environment": {
+      "php": "8.3.36",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_discovery",
+      "theme_version": "0.13.0",
+      "dashboard_sha256": "139dbdc5773bc28a971fe8b5b029d4d94ba36c64b4462c6fb5a3bef5f026b0fd"
+    },
+    "fixture_rows": {
+      "skills": 34,
+      "skill_translations": 64,
+      "reviews": 39,
+      "review_revisions": 43,
+      "review_reports": 0,
+      "skill_reports": 0,
+      "author_claims": 0,
+      "repositories": 5,
+      "jobs": 0,
+      "imports": 2,
+      "ai_jobs": 0,
+      "ai_attempts": 0,
+      "notification_outbox": 13,
+      "native_users": 75,
+      "private_inbox": 11,
+      "owned_submissions": 9
+    },
+    "measurement": {
+      "elapsed_ms": 2.644,
+      "sql_time_ms": 1.623,
+      "sql_queries": 31,
+      "query_categories": {
+        "permission_state_reads": 30,
+        "aggregate_counts": 1,
+        "private_content_projection": 0,
+        "other": 0
+      },
+      "repeated_identical_queries": 28
+    },
+    "metrics": {
+      "reviews_pending": {
+        "label": "Community reviews and revisions",
+        "unit": "pending revisions",
+        "scope": "Current state across all creation dates; UTC · Pending",
+        "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+        "value": 10,
+        "status": "available"
+      }
+    },
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  },
+  {
+    "kind": "Real WordPress/MySQL Dashboard snapshot; one fresh PHP process, no persistent cache reset or HTTP/browser timing",
+    "phase": "after",
+    "scope": "reviews_only",
+    "environment": {
+      "php": "8.3.36",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_discovery",
+      "theme_version": "0.13.0",
+      "dashboard_sha256": "139dbdc5773bc28a971fe8b5b029d4d94ba36c64b4462c6fb5a3bef5f026b0fd"
+    },
+    "fixture_rows": {
+      "skills": 34,
+      "skill_translations": 64,
+      "reviews": 39,
+      "review_revisions": 43,
+      "review_reports": 0,
+      "skill_reports": 0,
+      "author_claims": 0,
+      "repositories": 5,
+      "jobs": 0,
+      "imports": 2,
+      "ai_jobs": 0,
+      "ai_attempts": 0,
+      "notification_outbox": 13,
+      "native_users": 75,
+      "private_inbox": 11,
+      "owned_submissions": 9
+    },
+    "measurement": {
+      "elapsed_ms": 3.003,
+      "sql_time_ms": 1.647,
+      "sql_queries": 31,
+      "query_categories": {
+        "permission_state_reads": 30,
+        "aggregate_counts": 1,
+        "private_content_projection": 0,
+        "other": 0
+      },
+      "repeated_identical_queries": 28
+    },
+    "metrics": {
+      "reviews_pending": {
+        "label": "Community reviews and revisions",
+        "unit": "pending revisions",
+        "scope": "Current state across all creation dates; UTC · Pending",
+        "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+        "value": 10,
+        "status": "available"
+      }
+    },
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  },
+  {
+    "kind": "Real WordPress/MySQL Dashboard snapshot; one fresh PHP process, no persistent cache reset or HTTP/browser timing",
+    "phase": "after",
+    "scope": "reviews_only",
+    "environment": {
+      "php": "8.3.36",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_discovery",
+      "theme_version": "0.13.0",
+      "dashboard_sha256": "139dbdc5773bc28a971fe8b5b029d4d94ba36c64b4462c6fb5a3bef5f026b0fd"
+    },
+    "fixture_rows": {
+      "skills": 34,
+      "skill_translations": 64,
+      "reviews": 39,
+      "review_revisions": 43,
+      "review_reports": 0,
+      "skill_reports": 0,
+      "author_claims": 0,
+      "repositories": 5,
+      "jobs": 0,
+      "imports": 2,
+      "ai_jobs": 0,
+      "ai_attempts": 0,
+      "notification_outbox": 13,
+      "native_users": 75,
+      "private_inbox": 11,
+      "owned_submissions": 9
+    },
+    "measurement": {
+      "elapsed_ms": 2.755,
+      "sql_time_ms": 1.601,
+      "sql_queries": 31,
+      "query_categories": {
+        "permission_state_reads": 30,
+        "aggregate_counts": 1,
+        "private_content_projection": 0,
+        "other": 0
+      },
+      "repeated_identical_queries": 28
+    },
+    "metrics": {
+      "reviews_pending": {
+        "label": "Community reviews and revisions",
+        "unit": "pending revisions",
+        "scope": "Current state across all creation dates; UTC · Pending",
+        "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+        "value": 10,
+        "status": "available"
+      }
+    },
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  }
+]

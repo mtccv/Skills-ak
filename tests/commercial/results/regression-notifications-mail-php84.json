@@ -1,0 +1,55 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL notification ownership, encrypted outbox and worker transitions; ALL mail acceptance/rejection responses are Mock, no external SMTP/delivery",
+    "cases": [
+        {
+            "id": "notification_idempotency_ownership_atomic_read",
+            "status": "passed"
+        },
+        {
+            "id": "notification_filters_private_projection_and_current_target",
+            "status": "passed"
+        },
+        {
+            "id": "notification_pagination_no_duplicates_and_foreign_exclusion",
+            "status": "passed"
+        },
+        {
+            "id": "optional_preferences_do_not_disable_security_or_delete_history",
+            "status": "passed"
+        },
+        {
+            "id": "privacy_preferences_preserve_developer_owned_optin",
+            "status": "passed"
+        },
+        {
+            "id": "pending_email_manager_recovery_and_subscriber_denial",
+            "status": "passed"
+        },
+        {
+            "id": "mail_permission_redaction_preview_and_truthful_configuration",
+            "status": "passed"
+        },
+        {
+            "id": "mail_definite_rejection_retry_no_business_replay",
+            "status": "passed"
+        },
+        {
+            "id": "mail_uncertain_not_retried_and_pause_resumes_without_send",
+            "status": "passed"
+        },
+        {
+            "id": "mail_interruption_recovery_distinguishes_presend_and_sending",
+            "status": "passed"
+        }
+    ],
+    "assertions": 50,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 3,
+    "passed": 10,
+    "failed": 0
+}

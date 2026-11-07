@@ -9,12 +9,14 @@ document.querySelectorAll('[data-discovery-view]').forEach((element) => {
   let seconds = 0;
   let busy = false;
   let generation = 0;
+  let cancelled = false;
   const stop = () => { clearInterval(timer); timer = undefined; ticket = undefined; seconds = 0; generation += 1; };
   const text = (chinese, english) => { status.textContent = zh ? chinese : english; };
   const request = async (step, proof = element.dataset.ticket) => {
     const endpoint = new URL(element.dataset.endpoint, window.location.href);
     if (endpoint.origin !== window.location.origin) throw new Error('origin');
-    const response = await fetch(endpoint, {
+    const perform = async () => {
+      const response = await fetch(endpoint, {
       method: 'POST', credentials: 'same-origin', cache: 'no-store', redirect: 'error',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({ action: 'aish_discovery_view', step, nonce: element.dataset.nonce,
@@ -23,9 +25,17 @@ document.querySelectorAll('[data-discovery-view]').forEach((element) => {
     if (!response.ok) throw new Error('unavailable');
     const data = await response.json();
     if (!data.success || !data.data || typeof data.data.state !== 'string') throw new Error('response');
-    return data.data;
+      if (step === 'withdraw' && data.data.state !== 'stopped') throw new Error('unconfirmed');
+      return data.data;
+    };
+    if (step !== 'consent' && step !== 'withdraw') return perform();
+    // All measurement widgets share one cookie. Preserve explicit mutation order.
+    const pending = (window.aishMeasurementConsentTail || Promise.resolve()).catch(() => {}).then(perform);
+    window.aishMeasurementConsentTail = pending.catch(() => {});
+    return pending;
   };
   const measure = (result) => {
+    if (cancelled) return;
     stop();
     if (result.state !== 'ready' || typeof result.ticket !== 'string') return;
     ticket = result.ticket;
@@ -50,23 +60,25 @@ document.querySelectorAll('[data-discovery-view]').forEach((element) => {
   };
   allow.addEventListener('click', async () => {
     if (busy) return;
-    busy = true; allow.disabled = true;
+    busy = true; allow.disabled = true; cancelled = false;
     try { measure(await request('consent')); }
     catch { text('暂时无法启用，请刷新页面后重试。', 'Measurement is unavailable. Reload the page to try again.'); }
     finally { busy = false; allow.disabled = false; }
   });
   withdraw.addEventListener('click', async () => {
     if (busy) return;
-    stop(); busy = true; withdraw.disabled = true;
+    stop(); cancelled = true; busy = true; withdraw.disabled = true;
+    window.dispatchEvent(new Event('aish-measurement-withdrawn'));
     try {
       await request('withdraw');
       withdraw.hidden = true; allow.hidden = false;
       text('已停止，匿名汇总不会关联到您的账户。', 'Stopped. Anonymous totals are not linked to your account.');
-    } catch { text('当前页面已停止统计，未能确认清除当天 Cookie；请重试。', 'This page has stopped measuring. Cookie removal could not be confirmed; please retry.'); }
+    } catch { allow.hidden = true; withdraw.hidden = false; text('当前页面已停止统计，未能确认清除当天 Cookie；请重试。', 'This page has stopped measuring. Cookie removal could not be confirmed; please retry.'); }
     finally { busy = false; withdraw.disabled = false; }
   });
   // Without an existing, signed consent cookie this request writes nothing.
   busy = true; allow.disabled = true;
   request('start').then(measure).catch(() => {}).finally(() => { busy = false; allow.disabled = false; });
-  window.addEventListener('pagehide', stop, { once: true });
+  window.addEventListener('aish-measurement-withdrawn', () => { stop(); cancelled = true; allow.hidden = false; withdraw.hidden = true; text('此页面的所有当天统计已停止。', 'All daily measurement on this page stopped.'); });
+  window.addEventListener('pagehide', () => { cancelled = true; stop(); }, { once: true });
 });

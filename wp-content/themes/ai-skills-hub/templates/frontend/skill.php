@@ -132,4 +132,5 @@ $not_provided = View::t( 'detail_not_provided' );
 			<p class="surface surface-pad muted"><?php echo esc_html( View::t( 'detail_no_related_tutorials' ) ); ?></p>
 		<?php endif; ?>
 	</section>
+	<?php do_action( 'aish_commercial_placement', 'skill_detail_footer', $context['locale'] ); ?>
 </div>

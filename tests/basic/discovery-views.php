@@ -229,6 +229,30 @@ check( count( $_COOKIE ) === 1 && str_ends_with( $_COOKIE['__Host-aish_discovery
 check( $newObserver === call( $views, 'observer', $_COOKIE['__Host-aish_discovery_observer'] ), 'analytics-purpose consent remains compatible with existing view dedupe' );
 $_COOKIE['__Host-aish_discovery_observer'] = $legacy . '.analytics';
 check( null === $views->analyticsObserver(), 'appending an unsigned broader purpose cannot bypass consent' );
+
+$views->grantAnalyticsConsent();
+check( null === $views->commercialObserver(), 'old analytics consent never silently grants sponsorship measurement' );
+$commercialObserver = $views->grantCommercialConsent();
+check( $commercialObserver === $views->commercialObserver() && $commercialObserver === $views->analyticsObserver(), 'explicit commercial consent reuses daily observer and preserves prior analytics purpose' );
+check( count( $_COOKIE ) === 1 && str_ends_with( $_COOKIE['__Host-aish_discovery_observer'], '.analytics.commercial' ), 'combined purpose is authenticated inside the same cookie' );
+$views->grantAnalyticsConsent(); check( null !== $views->commercialObserver(), 'renewing analytics consent preserves previously granted commercial purpose' );
 $views->withdrawAnalyticsConsent(); check( array() === $_COOKIE && null === $views->analyticsObserver(), 'withdrawal clears the shared observer and all measurement purposes' );
+$onlyCommercial = $views->grantCommercialConsent();
+check( $onlyCommercial === $views->commercialObserver() && null === $views->analyticsObserver(), 'commercial-only consent does not grant search or account activity consent' );
+
+check( null === call( $views, 'viewObserver' ), 'commercial-only cookie does not authorize natural Skill views' );
+$_SERVER['REQUEST_METHOD'] = 'POST'; $_SERVER['HTTP_ORIGIN'] = 'https://directory.example';
+$before = $db->data; $reply = endpoint( $views );
+check( $reply->success && 'consent_required' === $reply->payload['state'] && $before === $db->data, 'commercial-only visitor reaches next Skill page without contributing to natural rankings' );
+$reply = endpoint( $views, array( 'step' => 'record', 'ticket' => call( $views, 'ticket', 'view', 1, 'en_US', $onlyCommercial, time() - 9 ) ) );
+check( ! $reply->success && 400 === $reply->status && $before === $db->data, 'even a structurally valid dwell ticket cannot replace missing natural-view consent' );
+$reply = endpoint( $views, array( 'step' => 'consent', 'ticket' => call( $views, 'ticket', 'page', 1, 'en_US' ) ) );
+check( $reply->success && 'ready' === $reply->payload['state'] && $onlyCommercial === call( $views, 'viewObserver' ) && $onlyCommercial === $views->commercialObserver() && null === $views->analyticsObserver(), 'explicit natural-view consent upgrades commercial-only cookie without search/activity consent or new identity' );
+$_COOKIE['__Host-aish_discovery_observer'] = $legacy;
+$preservedView = $views->grantCommercialConsent();
+check( $preservedView === call( $views, 'viewObserver' ) && $preservedView === $views->commercialObserver() && null === $views->analyticsObserver(), 'commercial opt-in preserves an existing view-only purpose without adding analytics' );
+check( str_ends_with( $_COOKIE['__Host-aish_discovery_observer'], '.views.commercial' ), 'view and commercial purposes are independently authenticated' );
+$views->withdrawAnalyticsConsent(); check( null === $views->commercialObserver() && array() === $_COOKIE, 'withdrawal clears all commercial purposes too' );
+
 
 echo "Discovery views: $checks isolated assertions passed (real service and transactional wpdb model; no real WordPress/MySQL/browser).\n";

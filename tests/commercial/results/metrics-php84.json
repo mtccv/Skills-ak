@@ -1,0 +1,39 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real MySQL commercial event/daily aggregates, distinct signed-cookie consent, proof revisions, exact dedupe, rollback and bounded quotas. Private persistence method invoked through reflection; actual HTTP/browser contract covered separately. No external service.",
+    "cases": [
+        {
+            "id": "commercial_requires_distinct_consent_no_identity_or_destination_in_proof",
+            "status": "passed"
+        },
+        {
+            "id": "commercial_exact_observations_unique_daily_and_language_counters",
+            "status": "passed"
+        },
+        {
+            "id": "commercial_durable_rows_have_only_bounded_opaque_dimensions",
+            "status": "passed"
+        },
+        {
+            "id": "commercial_transaction_rolls_back_event_budget_and_aggregate_on_failure",
+            "status": "passed"
+        },
+        {
+            "id": "commercial_current_state_revocation_staff_bot_privacy_guards",
+            "status": "passed"
+        },
+        {
+            "id": "commercial_daily_limit_and_replay_do_not_inflate_natural_metrics",
+            "status": "passed"
+        }
+    ],
+    "assertions": 168,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 6,
+    "failed": 0
+}

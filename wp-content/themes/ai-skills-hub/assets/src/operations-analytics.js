@@ -11,7 +11,8 @@ document.querySelectorAll('[data-search-metric]').forEach((element) => {
   const request = async (step) => {
     const endpoint = new URL(element.dataset.endpoint, window.location.href);
     if (endpoint.origin !== window.location.origin) throw new Error('origin');
-    const response = await fetch(endpoint, {
+    const perform = async () => {
+      const response = await fetch(endpoint, {
       method: 'POST', credentials: 'same-origin', cache: 'no-store', redirect: 'error',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({ action: 'aish_search_metric', step, nonce: element.dataset.nonce, proof: element.dataset.proof }),
@@ -19,7 +20,14 @@ document.querySelectorAll('[data-search-metric]').forEach((element) => {
     if (!response.ok) throw new Error('unavailable');
     const result = await response.json();
     if (!result.success || typeof result.data?.state !== 'string') throw new Error('response');
-    return result.data;
+      if (step === 'withdraw' && result.data.state !== 'stopped') throw new Error('unconfirmed');
+      return result.data;
+    };
+    if (step !== 'consent' && step !== 'withdraw') return perform();
+    // All measurement widgets share one cookie. Preserve explicit mutation order.
+    const pending = (window.aishMeasurementConsentTail || Promise.resolve()).catch(() => {}).then(perform);
+    window.aishMeasurementConsentTail = pending.catch(() => {});
+    return pending;
   };
   const measure = (result) => {
     if (result.state !== 'ready' || cancelled) return;
@@ -43,10 +51,12 @@ document.querySelectorAll('[data-search-metric]').forEach((element) => {
   withdraw.addEventListener('click', async () => {
     if (busy) return;
     cancelled = true; clearInterval(timer); busy = true; withdraw.disabled = true;
-    try { await request('withdraw'); allow.hidden = false; withdraw.hidden = true; text('已停止当天浏览、搜索和账户活跃统计。', 'Daily view, search and account-activity measurement stopped.'); }
-    catch { text('此页面已停止统计，Cookie 清除未确认，请重试。', 'This page stopped measuring; cookie removal is unconfirmed. Please retry.'); }
+    window.dispatchEvent(new Event('aish-measurement-withdrawn'));
+    try { await request('withdraw'); allow.hidden = false; withdraw.hidden = true; text('已停止当天浏览、搜索、账户活跃及已同意的赞助统计。', 'Daily view, search, account-activity and any sponsorship measurement stopped.'); }
+    catch { allow.hidden = true; withdraw.hidden = false; text('此页面已停止统计，Cookie 清除未确认，请重试。', 'This page stopped measuring; cookie removal is unconfirmed. Please retry.'); }
     finally { busy = false; withdraw.disabled = false; }
   });
   request('start').then(measure).catch(() => {});
+  window.addEventListener('aish-measurement-withdrawn', () => { cancelled = true; clearInterval(timer); allow.hidden = false; withdraw.hidden = true; text('此页面的所有当天统计已停止。', 'All daily measurement on this page stopped.'); });
   window.addEventListener('pagehide', () => { cancelled = true; clearInterval(timer); }, { once: true });
 });

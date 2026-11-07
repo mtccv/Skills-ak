@@ -1,5 +1,10 @@
 # 产品 V2 模块审计与复用边界
 
+## Phase 13 实施复用核对
+
+CommercialModule依赖既有operations/discovery/accounts/contributions/frontend/admin。Entitlements只读资格，赞助使用既有模板挂点、PublicCatalog及审计；套装只引用现有集合；企业咨询扩展Forms和私有Inbox；指标复用既有观察凭证/事件/维护任务。没有第二套身份、通知、商品、投稿或统计存储。默认配置缺失即关闭，不自动初始化演示记录。原生三个独立能力与发现管理能力不混用。运营概览只优化统计投影，不缓存安全决策。
+
+
 ## Phase 12 增量复用核对
 
 `OperationsModule` 在 discovery/accounts/contributions/sources/ai/admin 之后加载。新增 Dashboard、Workbench、Users、Health、Analytics、SearchMetrics 及原生界面；不复制业务状态机。统一工作台操作回到已有 Submissions/Community/Developers 服务；按修订审核、逐项验权、有限批量和明确结果。AccountService 复用原生身份门禁，Accounts 保留唯一通知/加密邮件存储，Discovery 保留唯一排行与首页配置。

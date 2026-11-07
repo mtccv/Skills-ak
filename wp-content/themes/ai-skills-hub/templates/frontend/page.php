@@ -20,6 +20,7 @@ $form_messages = array( 'sent', 'invalid', 'expired', 'limited', 'error' );
 			<?php if ( ! empty( $page['content'] ) ) : ?>
 				<div class="prose-aish mt-9"><?php echo View::rich( (string) $page['content'] ); ?></div>
 			<?php endif; ?>
+			<?php if ( 'contact' === $kind ) { do_action( 'aish_contact_enterprise', (string) $context['locale'] ); } ?>
 			<?php if ( 'about' !== $kind ) : ?>
 				<div class="mt-9 rounded-2xl border border-slate-200 bg-white p-6">
 					<h2 class="mb-3 text-base font-semibold"><?php echo esc_html( View::t( 'page_before_sending' ) ); ?></h2>

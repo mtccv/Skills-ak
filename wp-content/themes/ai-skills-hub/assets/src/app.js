@@ -1,3 +1,4 @@
+import './commercial-metrics.js';
 import Alpine from 'alpinejs';
 import './accounts.js';
 import './community.js';

@@ -1,5 +1,10 @@
 # AI Skills Hub V2 数据库设计规划
 
+## Phase 13 实施：仍为 schema 1.9.0 / 33 表
+
+没有DDL或迁移。人工赞助、集合套装及企业说明使用有界非autoload options；咨询仍是原生私有aish_message/postmeta独立enterprise类型，保留旧Contact/投稿归属。workflow_events追加受控赞助/套装/企业审计；商业观测使用既有metric_events/daily_metrics的commercial-1政策及sponsor独立维度，不改变自然排行。权利/价格/订单/支付/会员表均未创建。元数据、修订和幂等边界见[使用说明](COMMERCIAL_READINESS.md)。
+
+
 ## Phase 12 实施：沿用 schema 1.9.0 / 33 表
 
 本阶段无 DDL、无新迁移、无重复建表。新增运营投影复用原生 users/usermeta/posts/postmeta/options 和既有 workflow_events、metric_events、daily_metrics、user_notifications、notification_outbox。原 Skill ID、用户 ID、译文、投稿归属和审核版本不改变。实际逐表 DDL/数据指纹、原生 Inbox/用户保护、重复迁移和主题切换证据见 [阶段报告](PHASE_12_REPORT.md)。

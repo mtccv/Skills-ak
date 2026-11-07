@@ -1,0 +1,140 @@
+[
+  {
+    "kind": "Real WordPress/MySQL Dashboard snapshot; one fresh PHP process, no persistent cache reset or HTTP/browser timing",
+    "phase": "after",
+    "scope": "overview_only",
+    "environment": {
+      "php": "8.4.27",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_operations84",
+      "theme_version": "0.13.0",
+      "dashboard_sha256": "139dbdc5773bc28a971fe8b5b029d4d94ba36c64b4462c6fb5a3bef5f026b0fd"
+    },
+    "fixture_rows": {
+      "skills": 17,
+      "skill_translations": 34,
+      "reviews": 10,
+      "review_revisions": 10,
+      "review_reports": 0,
+      "skill_reports": 0,
+      "author_claims": 0,
+      "repositories": 4,
+      "jobs": 0,
+      "imports": 2,
+      "ai_jobs": 0,
+      "ai_attempts": 0,
+      "notification_outbox": 33,
+      "native_users": 43,
+      "private_inbox": 11,
+      "owned_submissions": 10
+    },
+    "measurement": {
+      "elapsed_ms": 2.278,
+      "sql_time_ms": 1.342,
+      "sql_queries": 26,
+      "query_categories": {
+        "permission_state_reads": 26,
+        "aggregate_counts": 0,
+        "private_content_projection": 0,
+        "other": 0
+      },
+      "repeated_identical_queries": 24
+    },
+    "metrics": [],
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  },
+  {
+    "kind": "Real WordPress/MySQL Dashboard snapshot; one fresh PHP process, no persistent cache reset or HTTP/browser timing",
+    "phase": "after",
+    "scope": "overview_only",
+    "environment": {
+      "php": "8.4.27",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_operations84",
+      "theme_version": "0.13.0",
+      "dashboard_sha256": "139dbdc5773bc28a971fe8b5b029d4d94ba36c64b4462c6fb5a3bef5f026b0fd"
+    },
+    "fixture_rows": {
+      "skills": 17,
+      "skill_translations": 34,
+      "reviews": 10,
+      "review_revisions": 10,
+      "review_reports": 0,
+      "skill_reports": 0,
+      "author_claims": 0,
+      "repositories": 4,
+      "jobs": 0,
+      "imports": 2,
+      "ai_jobs": 0,
+      "ai_attempts": 0,
+      "notification_outbox": 33,
+      "native_users": 43,
+      "private_inbox": 11,
+      "owned_submissions": 10
+    },
+    "measurement": {
+      "elapsed_ms": 2.805,
+      "sql_time_ms": 1.48,
+      "sql_queries": 26,
+      "query_categories": {
+        "permission_state_reads": 26,
+        "aggregate_counts": 0,
+        "private_content_projection": 0,
+        "other": 0
+      },
+      "repeated_identical_queries": 24
+    },
+    "metrics": [],
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  },
+  {
+    "kind": "Real WordPress/MySQL Dashboard snapshot; one fresh PHP process, no persistent cache reset or HTTP/browser timing",
+    "phase": "after",
+    "scope": "overview_only",
+    "environment": {
+      "php": "8.4.27",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_operations84",
+      "theme_version": "0.13.0",
+      "dashboard_sha256": "139dbdc5773bc28a971fe8b5b029d4d94ba36c64b4462c6fb5a3bef5f026b0fd"
+    },
+    "fixture_rows": {
+      "skills": 17,
+      "skill_translations": 34,
+      "reviews": 10,
+      "review_revisions": 10,
+      "review_reports": 0,
+      "skill_reports": 0,
+      "author_claims": 0,
+      "repositories": 4,
+      "jobs": 0,
+      "imports": 2,
+      "ai_jobs": 0,
+      "ai_attempts": 0,
+      "notification_outbox": 33,
+      "native_users": 43,
+      "private_inbox": 11,
+      "owned_submissions": 10
+    },
+    "measurement": {
+      "elapsed_ms": 2.555,
+      "sql_time_ms": 1.422,
+      "sql_queries": 26,
+      "query_categories": {
+        "permission_state_reads": 26,
+        "aggregate_counts": 0,
+        "private_content_projection": 0,
+        "other": 0
+      },
+      "repeated_identical_queries": 24
+    },
+    "metrics": [],
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  }
+]

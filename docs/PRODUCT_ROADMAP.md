@@ -1,5 +1,10 @@
 # AI Skills Hub V2 产品路线图（Phase 8–14）
 
+## Phase 13 当前实施范围
+
+以[确认需求](PHASE_13_REQUEST.md)为准：先免费运营，商业化以后再做。原候选独立商业URL与通用会员授权器本轮不建立；复用Contact/集合现有地址，赞助仅在人工启用后显示。免费权益只有只读扩展接口；无付费墙/订单/价格/扣费/营销订阅/外部部署。schema1.9.0/33表不变，版本0.13.0，完成正常同步main及开发包验证后暂停，等待Phase14。
+
+
 > Phase 12 当前开发交付：0.12.0，schema 1.9.0 / 33 表保持。完整用户范围 [PHASE_12_REQUEST](PHASE_12_REQUEST.md) 优先于早期规划；真实、隔离/Mock及未执行验收分别见 [PHASE_12_REPORT](PHASE_12_REPORT.md)。运营功能扩展已有服务，不实施 Phase 13/14、不正式发布。
 
 > Phase 11 当前交付：0.11.0 / schema1.9.0，真实资源发现13项范围完成开发；仅增加规划7表至33表，不开发Phase12。安装与必要真实/隔离检查分别见 [Phase11报告](PHASE_11_REPORT.md)。本轮详细用户请求 [PHASE_11_REQUEST](PHASE_11_REQUEST.md) 优先于下方早期规划。main同步后暂停等待Phase12指令。

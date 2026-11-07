@@ -1,5 +1,10 @@
 # AI Skills Hub Core 使用与维护
 
+## Phase 13：商业预留模块
+
+主题/Core0.13.0，schema1.9.0/33表不变。CommercialModule在Operations之后注册，只读免费权益、默认关闭的有界赞助/套装/企业说明、独立私有咨询权限及commercial-1观察。现有领域服务继续拥有发布、身份、状态、事务和所有权；新模块不写自然排行榜事实，不请求支付或外部API。详见[商业预留说明](COMMERCIAL_READINESS.md)。
+
+
 ## Phase 12 当前增量
 
 主题/Core 0.12.0，schema 1.9.0 共33表不变。新增 OperationsModule 及 `operations_dashboard/workbench/health/users/mail/analytics/search_metrics` 服务，菜单与前台通知继续使用原有身份、数据访问、发布和审核门禁。新增四项运营 Capability，原管理员按版本化能力标记取得权限；其他角色明确授权。来源 enqueue 增加可选 `requireEnabled` 参数，仅运营重试使用锁内停用检查，原手动采集契约保持。统计完成钩子只在业务提交后执行，异常不能回滚业务。详见 [运营指南](OPERATIONS_GUIDE.md)、[指标口径](ANALYTICS_DEFINITIONS.md)、[报告](PHASE_12_REPORT.md)。

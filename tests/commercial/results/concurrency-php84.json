@@ -1,0 +1,25 @@
+{
+  "kind": "Real parallel fresh PHP workers and MySQL row/advisory locks; four processes per operation. Native Inbox contention returns busy; each busy request retried once after parallel workers complete. Synthetic settings/Inbox only.",
+  "php_runtime": "84",
+  "checks": {
+    "sponsor_one_writer": true,
+    "sponsor_stale_writers_rejected": true,
+    "enterprise_one_writer": true,
+    "enterprise_stale_writers_rejected": true,
+    "bundle_one_writer": true,
+    "bundle_stale_writers_rejected": true,
+    "concurrent_receipt_one_identity": true,
+    "one_private_inquiry": true,
+    "one_revision_each": true,
+    "four_committed_audit_events": true
+  },
+  "passed": 10,
+  "failed": 0,
+  "workers_per_operation": 4,
+  "initial_busy_responses": {
+    "sponsor": 0,
+    "enterprise": 3,
+    "bundle": 0,
+    "receive": 3
+  }
+}

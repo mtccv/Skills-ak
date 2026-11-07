@@ -1,0 +1,19 @@
+{
+  "kind": "Real Chromium HTTP/UI, isolated WordPress7.1.4/MySQL8.0; synthetic identities and content; outbound destination intercepted locally; no real mail or external API",
+  "php_runtime": "83",
+  "viewports": [
+    1440,
+    768,
+    375
+  ],
+  "cases": [
+    {
+      "id": "hostile_sponsor_copy_is_inert_in_real_chromium",
+      "status": "passed"
+    }
+  ],
+  "assertions": 13,
+  "console_errors": [],
+  "passed": 1,
+  "failed": 0
+}

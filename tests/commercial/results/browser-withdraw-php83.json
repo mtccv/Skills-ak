@@ -1,0 +1,32 @@
+{
+  "kind": "Real Chromium retry UI with one intentionally aborted local withdrawal transport per widget; Real Chromium HTTP/UI, isolated WordPress7.1.4/MySQL8.0; synthetic identities and content; outbound destination intercepted locally; no real mail or external API",
+  "php_runtime": "83",
+  "viewports": [
+    1440,
+    768,
+    375
+  ],
+  "cases": [
+    {
+      "id": "withdraw_network_failure_retry_sponsor",
+      "status": "passed"
+    },
+    {
+      "id": "withdraw_network_failure_retry_search",
+      "status": "passed"
+    },
+    {
+      "id": "withdraw_network_failure_retry_views",
+      "status": "passed"
+    }
+  ],
+  "assertions": 37,
+  "console_errors": [],
+  "intentionally_aborted_transport_errors": [
+    "Failed to load resource: net::ERR_FAILED",
+    "Failed to load resource: net::ERR_FAILED",
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "passed": 3,
+  "failed": 0
+}

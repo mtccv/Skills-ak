@@ -1,0 +1,1511 @@
+[
+  {
+    "kind": "Fresh PHP process, paired same-transaction snapshot comparison; only Dashboard class is substituted for baseline; fixture setup excluded from measurement",
+    "environment": {
+      "php": "8.3.36",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_discovery"
+    },
+    "baseline_commit": "46d63dbfd256ae38c579f65608ee46876cf545f0",
+    "baseline_source_sha256": "3ad144b16de0268755a6e6a84d4c36243c5a98dc1d86bd63b751bdeb6eedcb35",
+    "order": "before_first",
+    "fixture_rows": {
+      "synthetic_submissions_added_in_transaction": 0,
+      "owned_submissions": 9,
+      "skills": 40,
+      "reviews": 39
+    },
+    "measurements": {
+      "before": {
+        "elapsed_ms": 19.941,
+        "sql_time_ms": 15.306,
+        "sql_queries": 201,
+        "metrics": {
+          "ai_configuration": {
+            "label": "AI queue configuration",
+            "unit": "enabled profiles with configured keys",
+            "scope": "Configuration only; no API call; current pause setting is preserved",
+            "value": null,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-ai-generation"
+          },
+          "ai_drafts": {
+            "label": "AI drafts awaiting review",
+            "unit": "job drafts",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=needs_review&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_failed": {
+            "label": "Failed AI jobs (including uncertain outcomes)",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_uncertain": {
+            "label": "Uncertain AI outcomes",
+            "unit": "subset of failed jobs",
+            "scope": "Current state across all creation dates; UTC; open failed jobs to inspect attempt evidence",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "claims_pending": {
+            "label": "Author claims",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=claims&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "github_failed": {
+            "label": "Failed GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=failed&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_incomplete": {
+            "label": "Incomplete GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=incomplete&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_retry": {
+            "label": "GitHub retries waiting",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=retry&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "mail_failed": {
+            "label": "Failed mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 0,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_queued": {
+            "label": "Queued mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_uncertain": {
+            "label": "Uncertain mail outcomes",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "public_en_US": {
+            "label": "Public Skills · English",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 20,
+            "status": "available"
+          },
+          "public_zh_CN": {
+            "label": "Public Skills · 简体中文",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 16,
+            "status": "available"
+          },
+          "review_reports_pending": {
+            "label": "Review reports · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "review_reports_reviewing": {
+            "label": "Review reports · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "reviews_pending": {
+            "label": "Community reviews and revisions",
+            "unit": "pending revisions",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+            "value": 10,
+            "status": "available"
+          },
+          "skill_reports_pending": {
+            "label": "Skill corrections · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "skill_reports_reviewing": {
+            "label": "Skill corrections · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "source_changes": {
+            "label": "Source changes awaiting import review",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; operational acknowledgements do not replace import review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=needs_check&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "source_missing": {
+            "label": "Sources suspected missing",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; includes operationally acknowledged snapshots; not permanent deletion",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=missing&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_in_review": {
+            "label": "User submissions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=in_review&page=aish-workbench",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_needs_information": {
+            "label": "Submissions needing information",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=needs_changes&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "submissions_submitted": {
+            "label": "User submissions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=submitted&page=aish-workbench",
+            "value": 5,
+            "status": "available"
+          },
+          "updates_in_review": {
+            "label": "Update suggestions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=in_review&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "updates_submitted": {
+            "label": "Update suggestions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=submitted&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "users_pending_email": {
+            "label": "Accounts awaiting verification",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=pending_email"
+          },
+          "users_registered": {
+            "label": "Native accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 85,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          },
+          "users_suspended": {
+            "label": "Suspended / erasure-isolated accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=suspended"
+          },
+          "users_verification_record": {
+            "label": "Accounts with verification-time evidence",
+            "unit": "users",
+            "scope": "Current native accounts with a verification-time marker; current email binding must be checked per account.",
+            "value": 76,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          }
+        }
+      },
+      "after": {
+        "elapsed_ms": 7.967,
+        "sql_time_ms": 6.418,
+        "sql_queries": 85,
+        "metrics": {
+          "ai_configuration": {
+            "label": "AI queue configuration",
+            "unit": "enabled profiles with configured keys",
+            "scope": "Configuration only; no API call; current pause setting is preserved",
+            "value": null,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-ai-generation"
+          },
+          "ai_drafts": {
+            "label": "AI drafts awaiting review",
+            "unit": "job drafts",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=needs_review&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_failed": {
+            "label": "Failed AI jobs (including uncertain outcomes)",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_uncertain": {
+            "label": "Uncertain AI outcomes",
+            "unit": "subset of failed jobs",
+            "scope": "Current state across all creation dates; UTC; open failed jobs to inspect attempt evidence",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "claims_pending": {
+            "label": "Author claims",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=claims&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "github_failed": {
+            "label": "Failed GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=failed&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_incomplete": {
+            "label": "Incomplete GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=incomplete&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_retry": {
+            "label": "GitHub retries waiting",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=retry&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "mail_failed": {
+            "label": "Failed mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 0,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_queued": {
+            "label": "Queued mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_uncertain": {
+            "label": "Uncertain mail outcomes",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "public_en_US": {
+            "label": "Public Skills · English",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 20,
+            "status": "available"
+          },
+          "public_zh_CN": {
+            "label": "Public Skills · 简体中文",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 16,
+            "status": "available"
+          },
+          "review_reports_pending": {
+            "label": "Review reports · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "review_reports_reviewing": {
+            "label": "Review reports · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "reviews_pending": {
+            "label": "Community reviews and revisions",
+            "unit": "pending revisions",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+            "value": 10,
+            "status": "available"
+          },
+          "skill_reports_pending": {
+            "label": "Skill corrections · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "skill_reports_reviewing": {
+            "label": "Skill corrections · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "source_changes": {
+            "label": "Source changes awaiting import review",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; operational acknowledgements do not replace import review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=needs_check&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "source_missing": {
+            "label": "Sources suspected missing",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; includes operationally acknowledged snapshots; not permanent deletion",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=missing&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_in_review": {
+            "label": "User submissions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=in_review&page=aish-workbench",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_needs_information": {
+            "label": "Submissions needing information",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=needs_changes&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "submissions_submitted": {
+            "label": "User submissions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=submitted&page=aish-workbench",
+            "value": 5,
+            "status": "available"
+          },
+          "updates_in_review": {
+            "label": "Update suggestions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=in_review&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "updates_submitted": {
+            "label": "Update suggestions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=submitted&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "users_pending_email": {
+            "label": "Accounts awaiting verification",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=pending_email"
+          },
+          "users_registered": {
+            "label": "Native accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 85,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          },
+          "users_suspended": {
+            "label": "Suspended / erasure-isolated accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=suspended"
+          },
+          "users_verification_record": {
+            "label": "Accounts with verification-time evidence",
+            "unit": "users",
+            "scope": "Current native accounts with a verification-time marker; current email binding must be checked per account.",
+            "value": 76,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          }
+        }
+      }
+    },
+    "identical_metrics": true,
+    "remaining_synthetic_posts": 0,
+    "remaining_synthetic_metadata": 0,
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  },
+  {
+    "kind": "Fresh PHP process, paired same-transaction snapshot comparison; only Dashboard class is substituted for baseline; fixture setup excluded from measurement",
+    "environment": {
+      "php": "8.3.36",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_discovery"
+    },
+    "baseline_commit": "46d63dbfd256ae38c579f65608ee46876cf545f0",
+    "baseline_source_sha256": "3ad144b16de0268755a6e6a84d4c36243c5a98dc1d86bd63b751bdeb6eedcb35",
+    "order": "after_first",
+    "fixture_rows": {
+      "synthetic_submissions_added_in_transaction": 0,
+      "owned_submissions": 9,
+      "skills": 40,
+      "reviews": 39
+    },
+    "measurements": {
+      "after": {
+        "elapsed_ms": 11.116,
+        "sql_time_ms": 8.362,
+        "sql_queries": 87,
+        "metrics": {
+          "ai_configuration": {
+            "label": "AI queue configuration",
+            "unit": "enabled profiles with configured keys",
+            "scope": "Configuration only; no API call; current pause setting is preserved",
+            "value": null,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-ai-generation"
+          },
+          "ai_drafts": {
+            "label": "AI drafts awaiting review",
+            "unit": "job drafts",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=needs_review&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_failed": {
+            "label": "Failed AI jobs (including uncertain outcomes)",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_uncertain": {
+            "label": "Uncertain AI outcomes",
+            "unit": "subset of failed jobs",
+            "scope": "Current state across all creation dates; UTC; open failed jobs to inspect attempt evidence",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "claims_pending": {
+            "label": "Author claims",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=claims&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "github_failed": {
+            "label": "Failed GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=failed&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_incomplete": {
+            "label": "Incomplete GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=incomplete&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_retry": {
+            "label": "GitHub retries waiting",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=retry&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "mail_failed": {
+            "label": "Failed mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 0,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_queued": {
+            "label": "Queued mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_uncertain": {
+            "label": "Uncertain mail outcomes",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "public_en_US": {
+            "label": "Public Skills · English",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 20,
+            "status": "available"
+          },
+          "public_zh_CN": {
+            "label": "Public Skills · 简体中文",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 16,
+            "status": "available"
+          },
+          "review_reports_pending": {
+            "label": "Review reports · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "review_reports_reviewing": {
+            "label": "Review reports · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "reviews_pending": {
+            "label": "Community reviews and revisions",
+            "unit": "pending revisions",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+            "value": 10,
+            "status": "available"
+          },
+          "skill_reports_pending": {
+            "label": "Skill corrections · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "skill_reports_reviewing": {
+            "label": "Skill corrections · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "source_changes": {
+            "label": "Source changes awaiting import review",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; operational acknowledgements do not replace import review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=needs_check&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "source_missing": {
+            "label": "Sources suspected missing",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; includes operationally acknowledged snapshots; not permanent deletion",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=missing&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_in_review": {
+            "label": "User submissions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=in_review&page=aish-workbench",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_needs_information": {
+            "label": "Submissions needing information",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=needs_changes&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "submissions_submitted": {
+            "label": "User submissions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=submitted&page=aish-workbench",
+            "value": 5,
+            "status": "available"
+          },
+          "updates_in_review": {
+            "label": "Update suggestions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=in_review&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "updates_submitted": {
+            "label": "Update suggestions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=submitted&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "users_pending_email": {
+            "label": "Accounts awaiting verification",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=pending_email"
+          },
+          "users_registered": {
+            "label": "Native accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 85,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          },
+          "users_suspended": {
+            "label": "Suspended / erasure-isolated accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=suspended"
+          },
+          "users_verification_record": {
+            "label": "Accounts with verification-time evidence",
+            "unit": "users",
+            "scope": "Current native accounts with a verification-time marker; current email binding must be checked per account.",
+            "value": 76,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          }
+        }
+      },
+      "before": {
+        "elapsed_ms": 17.777,
+        "sql_time_ms": 13.486,
+        "sql_queries": 199,
+        "metrics": {
+          "ai_configuration": {
+            "label": "AI queue configuration",
+            "unit": "enabled profiles with configured keys",
+            "scope": "Configuration only; no API call; current pause setting is preserved",
+            "value": null,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-ai-generation"
+          },
+          "ai_drafts": {
+            "label": "AI drafts awaiting review",
+            "unit": "job drafts",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=needs_review&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_failed": {
+            "label": "Failed AI jobs (including uncertain outcomes)",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_uncertain": {
+            "label": "Uncertain AI outcomes",
+            "unit": "subset of failed jobs",
+            "scope": "Current state across all creation dates; UTC; open failed jobs to inspect attempt evidence",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "claims_pending": {
+            "label": "Author claims",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=claims&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "github_failed": {
+            "label": "Failed GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=failed&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_incomplete": {
+            "label": "Incomplete GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=incomplete&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_retry": {
+            "label": "GitHub retries waiting",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=retry&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "mail_failed": {
+            "label": "Failed mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 0,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_queued": {
+            "label": "Queued mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_uncertain": {
+            "label": "Uncertain mail outcomes",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "public_en_US": {
+            "label": "Public Skills · English",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 20,
+            "status": "available"
+          },
+          "public_zh_CN": {
+            "label": "Public Skills · 简体中文",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 16,
+            "status": "available"
+          },
+          "review_reports_pending": {
+            "label": "Review reports · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "review_reports_reviewing": {
+            "label": "Review reports · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "reviews_pending": {
+            "label": "Community reviews and revisions",
+            "unit": "pending revisions",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+            "value": 10,
+            "status": "available"
+          },
+          "skill_reports_pending": {
+            "label": "Skill corrections · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "skill_reports_reviewing": {
+            "label": "Skill corrections · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "source_changes": {
+            "label": "Source changes awaiting import review",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; operational acknowledgements do not replace import review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=needs_check&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "source_missing": {
+            "label": "Sources suspected missing",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; includes operationally acknowledged snapshots; not permanent deletion",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=missing&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_in_review": {
+            "label": "User submissions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=in_review&page=aish-workbench",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_needs_information": {
+            "label": "Submissions needing information",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=needs_changes&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "submissions_submitted": {
+            "label": "User submissions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=submitted&page=aish-workbench",
+            "value": 5,
+            "status": "available"
+          },
+          "updates_in_review": {
+            "label": "Update suggestions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=in_review&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "updates_submitted": {
+            "label": "Update suggestions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=submitted&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "users_pending_email": {
+            "label": "Accounts awaiting verification",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=pending_email"
+          },
+          "users_registered": {
+            "label": "Native accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 85,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          },
+          "users_suspended": {
+            "label": "Suspended / erasure-isolated accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=suspended"
+          },
+          "users_verification_record": {
+            "label": "Accounts with verification-time evidence",
+            "unit": "users",
+            "scope": "Current native accounts with a verification-time marker; current email binding must be checked per account.",
+            "value": 76,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          }
+        }
+      }
+    },
+    "identical_metrics": true,
+    "remaining_synthetic_posts": 0,
+    "remaining_synthetic_metadata": 0,
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  },
+  {
+    "kind": "Fresh PHP process, paired same-transaction snapshot comparison; only Dashboard class is substituted for baseline; fixture setup excluded from measurement",
+    "environment": {
+      "php": "8.3.36",
+      "wordpress": "7.1.4",
+      "mysql": "8.0.46",
+      "database": "qa_discovery"
+    },
+    "baseline_commit": "46d63dbfd256ae38c579f65608ee46876cf545f0",
+    "baseline_source_sha256": "3ad144b16de0268755a6e6a84d4c36243c5a98dc1d86bd63b751bdeb6eedcb35",
+    "order": "before_first",
+    "fixture_rows": {
+      "synthetic_submissions_added_in_transaction": 0,
+      "owned_submissions": 9,
+      "skills": 40,
+      "reviews": 39
+    },
+    "measurements": {
+      "before": {
+        "elapsed_ms": 21.464,
+        "sql_time_ms": 16.672,
+        "sql_queries": 201,
+        "metrics": {
+          "ai_configuration": {
+            "label": "AI queue configuration",
+            "unit": "enabled profiles with configured keys",
+            "scope": "Configuration only; no API call; current pause setting is preserved",
+            "value": null,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-ai-generation"
+          },
+          "ai_drafts": {
+            "label": "AI drafts awaiting review",
+            "unit": "job drafts",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=needs_review&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_failed": {
+            "label": "Failed AI jobs (including uncertain outcomes)",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_uncertain": {
+            "label": "Uncertain AI outcomes",
+            "unit": "subset of failed jobs",
+            "scope": "Current state across all creation dates; UTC; open failed jobs to inspect attempt evidence",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "claims_pending": {
+            "label": "Author claims",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=claims&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "github_failed": {
+            "label": "Failed GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=failed&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_incomplete": {
+            "label": "Incomplete GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=incomplete&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_retry": {
+            "label": "GitHub retries waiting",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=retry&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "mail_failed": {
+            "label": "Failed mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 0,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_queued": {
+            "label": "Queued mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_uncertain": {
+            "label": "Uncertain mail outcomes",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "public_en_US": {
+            "label": "Public Skills · English",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 20,
+            "status": "available"
+          },
+          "public_zh_CN": {
+            "label": "Public Skills · 简体中文",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 16,
+            "status": "available"
+          },
+          "review_reports_pending": {
+            "label": "Review reports · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "review_reports_reviewing": {
+            "label": "Review reports · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "reviews_pending": {
+            "label": "Community reviews and revisions",
+            "unit": "pending revisions",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+            "value": 10,
+            "status": "available"
+          },
+          "skill_reports_pending": {
+            "label": "Skill corrections · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "skill_reports_reviewing": {
+            "label": "Skill corrections · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "source_changes": {
+            "label": "Source changes awaiting import review",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; operational acknowledgements do not replace import review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=needs_check&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "source_missing": {
+            "label": "Sources suspected missing",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; includes operationally acknowledged snapshots; not permanent deletion",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=missing&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_in_review": {
+            "label": "User submissions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=in_review&page=aish-workbench",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_needs_information": {
+            "label": "Submissions needing information",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=needs_changes&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "submissions_submitted": {
+            "label": "User submissions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=submitted&page=aish-workbench",
+            "value": 5,
+            "status": "available"
+          },
+          "updates_in_review": {
+            "label": "Update suggestions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=in_review&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "updates_submitted": {
+            "label": "Update suggestions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=submitted&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "users_pending_email": {
+            "label": "Accounts awaiting verification",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=pending_email"
+          },
+          "users_registered": {
+            "label": "Native accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 85,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          },
+          "users_suspended": {
+            "label": "Suspended / erasure-isolated accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=suspended"
+          },
+          "users_verification_record": {
+            "label": "Accounts with verification-time evidence",
+            "unit": "users",
+            "scope": "Current native accounts with a verification-time marker; current email binding must be checked per account.",
+            "value": 76,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          }
+        }
+      },
+      "after": {
+        "elapsed_ms": 13.368,
+        "sql_time_ms": 10.422,
+        "sql_queries": 85,
+        "metrics": {
+          "ai_configuration": {
+            "label": "AI queue configuration",
+            "unit": "enabled profiles with configured keys",
+            "scope": "Configuration only; no API call; current pause setting is preserved",
+            "value": null,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-ai-generation"
+          },
+          "ai_drafts": {
+            "label": "AI drafts awaiting review",
+            "unit": "job drafts",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=needs_review&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_failed": {
+            "label": "Failed AI jobs (including uncertain outcomes)",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "ai_uncertain": {
+            "label": "Uncertain AI outcomes",
+            "unit": "subset of failed jobs",
+            "scope": "Current state across all creation dates; UTC; open failed jobs to inspect attempt evidence",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?status=failed&page=aish-ai-generation",
+            "value": 0,
+            "status": "available"
+          },
+          "claims_pending": {
+            "label": "Author claims",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=claims&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "github_failed": {
+            "label": "Failed GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=failed&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_incomplete": {
+            "label": "Incomplete GitHub scans",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=incomplete&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "github_retry": {
+            "label": "GitHub retries waiting",
+            "unit": "jobs",
+            "scope": "Current state across all creation dates; UTC; job records, not unavailable resources",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=jobs&state=retry&page=aish-source-health",
+            "value": 0,
+            "status": "available"
+          },
+          "mail_failed": {
+            "label": "Failed mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 0,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_queued": {
+            "label": "Queued mail",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "mail_uncertain": {
+            "label": "Uncertain mail outcomes",
+            "unit": "messages",
+            "scope": "Created within 30 days, current state; UTC",
+            "value": 4,
+            "status": "not_configured",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-mail-operations"
+          },
+          "public_en_US": {
+            "label": "Public Skills · English",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 20,
+            "status": "available"
+          },
+          "public_zh_CN": {
+            "label": "Public Skills · 简体中文",
+            "unit": "resources in this language",
+            "scope": "Current state across all creation dates; UTC; approved current revision and complete translation; language totals are not distinct Skill totals",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-skills",
+            "value": 16,
+            "status": "available"
+          },
+          "review_reports_pending": {
+            "label": "Review reports · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "review_reports_reviewing": {
+            "label": "Review reports · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=review_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "reviews_pending": {
+            "label": "Community reviews and revisions",
+            "unit": "pending revisions",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=reviews&state=pending&page=aish-workbench",
+            "value": 10,
+            "status": "available"
+          },
+          "skill_reports_pending": {
+            "label": "Skill corrections · Pending",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Pending",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=pending&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "skill_reports_reviewing": {
+            "label": "Skill corrections · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=skill_reports&state=reviewing&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "source_changes": {
+            "label": "Source changes awaiting import review",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; operational acknowledgements do not replace import review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=needs_check&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "source_missing": {
+            "label": "Sources suspected missing",
+            "unit": "source records",
+            "scope": "Current state across all creation dates; UTC; includes operationally acknowledged snapshots; not permanent deletion",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?view=sources&state=missing&page=aish-source-health",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_in_review": {
+            "label": "User submissions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=in_review&page=aish-workbench",
+            "value": 2,
+            "status": "available"
+          },
+          "submissions_needs_information": {
+            "label": "Submissions needing information",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=needs_changes&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "submissions_submitted": {
+            "label": "User submissions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=submissions&state=submitted&page=aish-workbench",
+            "value": 5,
+            "status": "available"
+          },
+          "updates_in_review": {
+            "label": "Update suggestions · In review",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · In review",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=in_review&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "updates_submitted": {
+            "label": "Update suggestions · Submitted",
+            "unit": "records",
+            "scope": "Current state across all creation dates; UTC · Submitted",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?queue=updates&state=submitted&page=aish-workbench",
+            "value": 0,
+            "status": "available"
+          },
+          "users_pending_email": {
+            "label": "Accounts awaiting verification",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=pending_email"
+          },
+          "users_registered": {
+            "label": "Native accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 85,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          },
+          "users_suspended": {
+            "label": "Suspended / erasure-isolated accounts",
+            "unit": "users",
+            "scope": "Current database account stock; not new or active users.",
+            "value": 8,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=suspended"
+          },
+          "users_verification_record": {
+            "label": "Accounts with verification-time evidence",
+            "unit": "users",
+            "scope": "Current native accounts with a verification-time marker; current email binding must be checked per account.",
+            "value": 76,
+            "status": "available",
+            "url": "http://127.0.0.1:18183/wp-admin/admin.php?page=aish-users&state=all"
+          }
+        }
+      }
+    },
+    "identical_metrics": true,
+    "remaining_synthetic_posts": 0,
+    "remaining_synthetic_metadata": 0,
+    "external_http_attempts": 0,
+    "mail_attempts": 0
+  }
+]

@@ -1,0 +1,43 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real MySQL search transaction/threshold/dedupe and analytics aggregates; synthetic known samples; private persist exercised by reflection, HTTP consent covered separately in browser tests",
+    "cases": [
+        {
+            "id": "search_sensitive_input_and_failed_page_suppression",
+            "status": "passed"
+        },
+        {
+            "id": "real_search_threshold_exact_dedupe_and_no_private_dimensions",
+            "status": "passed"
+        },
+        {
+            "id": "real_mysql_accent_insensitive_collation_keeps_terms_separate",
+            "status": "passed"
+        },
+        {
+            "id": "search_disabled_admin_bot_privacy_guards",
+            "status": "passed"
+        },
+        {
+            "id": "active_users_require_consent_current_binding_and_deduplicate_across_cookies",
+            "status": "passed"
+        },
+        {
+            "id": "analytics_known_sample_window_real_relations_and_low_frequency",
+            "status": "passed"
+        },
+        {
+            "id": "analytics_skill_archive_invalidates_current_facts",
+            "status": "passed"
+        }
+    ],
+    "assertions": 408,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 7,
+    "failed": 0
+}

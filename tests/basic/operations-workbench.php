@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /** Isolated orchestration tests. Domain query/service substitutes do not constitute WordPress/MySQL tests. */
 namespace AISkillsHub\Core\Submissions {
-	final class Query { public int $calls = 0; public array $filters = array(); public string $kind = ''; public function adminList( string $kind, array $f ): array { ++$this->calls; $this->filters = $f; $this->kind = $kind; return array( 'items' => array( array( 'id' => 7, 'name' => '<script>private</script>', 'state' => 'submitted', 'revision' => 3, 'locale' => 'zh_CN', 'created_at' => '2026-01-01 00:00:00' ) ), 'total' => 3, 'page' => $f['page'] ?? 1, 'per_page' => $f['per_page'] ); } public function adminDetail( string $kind, int $id ): ?array { ++$this->calls; return 99 === $id ? null : array( 'id' => $id ); } public function history( int $id, string $kind, int $page ): array { return array( 'items' => array(), 'total' => 0, 'page' => $page, 'per_page' => 20 ); } }
+	final class Query { public int $calls = 0; public array $filters = array(); public string $kind = ''; public function ownedSql(): string { return "p.post_type='aish_message' AND p.post_status='private' AND p.post_author>0 AND marker_contract=1"; } public function adminList( string $kind, array $f ): array { ++$this->calls; $this->filters = $f; $this->kind = $kind; return array( 'items' => array( array( 'id' => 7, 'name' => '<script>private</script>', 'state' => 'submitted', 'revision' => 3, 'locale' => 'zh_CN', 'created_at' => '2026-01-01 00:00:00' ) ), 'total' => 3, 'page' => $f['page'] ?? 1, 'per_page' => $f['per_page'] ); } public function adminDetail( string $kind, int $id ): ?array { ++$this->calls; return 99 === $id ? null : array( 'id' => $id ); } public function history( int $id, string $kind, int $page ): array { return array( 'items' => array(), 'total' => 0, 'page' => $page, 'per_page' => 20 ); } }
 	final class Service { public array $calls = array(); public bool $revoke = false; public function moderate( int $id, int $version, string $decision, string $feedback, string $note, array $skills, string $key ): array { $this->calls[] = func_get_args(); if ( $this->revoke ) { unset( $GLOBALS['caps']['aish_manage_submissions'] ); } if ( 8 === $id ) { throw new Exception( 'conflict' ); } return array(); } }
 }
 namespace AISkillsHub\Core\Community {
@@ -16,10 +16,13 @@ namespace AISkillsHub\Core\Developers {
 namespace AISkillsHub\Core\Database {
 	final class Migrator { public bool $current = true; public function isCurrent(): bool { return $this->current; } }
 	final class Database {
-		public array $calls = array(); public array $tables = array( 'repositories' => array(), 'jobs' => array(), 'imports' => array(), 'workflow_events' => array() );
+		public array $calls = array(); public bool $failAggregate = false; public int $aggregateTotal = 3; public array $tables = array( 'repositories' => array(), 'jobs' => array(), 'imports' => array(), 'workflow_events' => array() );
+		public function connection(): object { return (object) array( 'posts' => 'qa_posts', 'postmeta' => 'qa_postmeta' ); }
+		public function rows( string $sql, array $args = array() ): array { $this->calls[] = $sql; if ( $this->failAggregate ) { throw new \RuntimeException( 'private SQL error' ); } $result = array(); foreach ( $args as $state ) { if ( in_array( $state, array( 'submitted', 'in_review', 'needs_changes', 'pending', 'reviewing' ), true ) ) { $result[] = array( 'state' => $state, 'total' => $this->aggregateTotal ); } } return $result; }
 		public function prefix(): string { return 'qa_'; } public function table( string $name ): string { return 'qa_aish_' . $name; }
 		public function value( string $sql, array $args = array() ): mixed { $this->calls[] = $sql; if ( str_contains( $sql, 'GET_LOCK' ) || str_contains( $sql, 'RELEASE_LOCK' ) ) { return 1; } return null; }
 		public function row( string $sql, array $args = array() ): ?array { $this->calls[] = $sql;
+			if ( str_contains( $sql, 'COALESCE(SUM(' ) && str_contains( $sql, 'reviews' ) ) { return array( 'count_0' => 1 ); }
 			if ( str_contains( $sql, 'repositories' ) ) { return $this->tables['repositories'][ $args[0] ] ?? null; }
 			if ( str_contains( $sql, 'imports' ) ) { return $this->tables['imports'][ $args[0] ] ?? null; }
 			if ( str_contains( $sql, 'workflow_events' ) ) { foreach ( $this->tables['workflow_events'] as $event ) { if ( $event['event_key'] === $args[0] ) { return $event; } } return null; }
@@ -85,6 +88,17 @@ namespace {
 	$GLOBALS['caps']['aish_manage_accounts'] = true; $dashboard->snapshot(); check( 1 === $providerCalls, 'provider executes only with its dedicated capability' );
 	$GLOBALS['caps'] = array( Workbench::CAP => true, 'aish_manage_submissions' => true ); $snapshot = $dashboard->snapshot(); check( 3 === count( $snapshot['metrics'] ) && 'UTC' === $snapshot['timezone'] && 3 === $snapshot['metrics'][0]['value'], 'real query counts use separate state scopes and UTC snapshot' );
 	$migration->current = false; check( 'unavailable' === $dashboard->snapshot()['metrics'][0]['status'], 'unavailable storage is not represented as zero' ); $migration->current = true;
+	$beforeQueries = count( $db->calls ); $beforeProjections = $sq->calls; $dashboard->snapshot();
+	check( 1 === count( $db->calls ) - $beforeQueries && $sq->calls === $beforeProjections, 'three submission state cards share one aggregate without private payload projection' );
+	$sql = end( $db->calls ); check( str_contains( $sql, 'COUNT(DISTINCT p.ID)' ) && str_contains( $sql, "p.post_status='private'" ) && str_contains( $sql, 'marker_contract=1' ) && str_contains( $sql, '_aish_message_kind' ), 'count projection reuses ownership/type boundary and original EXISTS deduplication' );
+	$db->aggregateTotal = 8; check( 8 === $dashboard->snapshot()['metrics'][0]['value'], 'next snapshot observes changed data instead of reusing stale count cache' ); $db->aggregateTotal = 3;
+	$db->failAggregate = true; $failed = $dashboard->snapshot(); check( 'unavailable' === $failed['metrics'][0]['status'] && null === $failed['metrics'][0]['value'], 'failed grouped query remains unavailable rather than a cached or invented zero' ); $db->failAggregate = false;
+	unset( $GLOBALS['caps']['aish_manage_submissions'] ); $beforeQueries = count( $db->calls );
+	rejects( fn() => $workbench->counts( $db, $migration, 'submissions', array( 'submitted' ) ), 'direct count projection rechecks its business capability after a preceding authorized read' ); check( $beforeQueries === count( $db->calls ) && array() === $dashboard->snapshot()['metrics'], 'revoked permissions prevent aggregate SQL and suppress metric cards' );
+	$GLOBALS['caps']['aish_moderate_community'] = true; $pending = $workbench->counts( $db, $migration, 'reviews', array( 'pending' ) ); check( 1 === $pending['pending'] && str_contains( end( $db->calls ), 'pending_revision_id IS NOT NULL' ), 'pending review counts use revision pointer, not published head state' );
+	rejects( fn() => $workbench->counts( $db, $migration, 'reviews', array( 'pending', 'pending' ) ), 'duplicate state count request rejected' ); rejects( fn() => $workbench->counts( $db, $migration, 'reviews', array( 'pending); DROP TABLE' ) ), 'count states remain bounded validated inputs' );
+	$GLOBALS['caps']['aish_manage_submissions'] = true;
+
 	rejects( fn() => $health->retry( array( 1 ) ), 'health requires repository capability' );
 	$GLOBALS['caps']['aish_manage_repositories'] = true; $db->tables['repositories'][1] = array( 'id' => 1, 'sync_enabled' => 0, 'is_archived' => 0 ); $db->tables['repositories'][2] = array( 'id' => 2, 'sync_enabled' => 1, 'is_archived' => 0 );
 	$r = $health->retry( array( 1, 2 ) ); check( 'paused' === $r[0]['code'] && $r[1]['success'] && 1 === count( $db->tables['jobs'] ), 'retry refuses paused repository and queues enabled repository without HTTP' );

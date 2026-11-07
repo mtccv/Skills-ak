@@ -66,6 +66,7 @@ final class Forms {
 
 	public function metaBox( \WP_Post $post ): void {
 		if ( ! current_user_can( 'aish_manage_settings' ) && ! current_user_can( 'manage_options' ) ) { return; }
+		if ( get_post_meta( $post->ID, '_aish_enterprise_version', true ) ) { echo '<p>' . esc_html__( '请在企业咨询管理中处理此记录。 / Use Enterprise inquiries.', 'ai-skills-hub' ) . '</p>'; return; }
 		if ( get_post_meta( $post->ID, '_aish_submission_version', true ) ) { echo '<p>' . esc_html__( '请在专用投稿管理中处理此记录。', 'ai-skills-hub' ) . '</p>'; return; }
 		$fields = array( '_aish_sender_name' => 'Name', '_aish_sender_email' => 'Email', '_aish_message_locale' => 'Language', '_aish_github_url' => 'GitHub URL' );
 		echo '<dl>';
@@ -82,7 +83,7 @@ final class Forms {
 		if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) || $id < 1 || wp_is_post_revision( $id ) || wp_is_post_autosave( $id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ! current_user_can( 'edit_post', $id ) || ( ! current_user_can( 'aish_manage_settings' ) && ! current_user_can( 'manage_options' ) ) ) { return; }
 		$post = get_post( $id );
 		if ( ! $post instanceof \WP_Post || self::POST_TYPE !== $post->post_type ) { return; }
-		if ( get_post_meta( $id, '_aish_submission_version', true ) ) { return; }
+		if ( get_post_meta( $id, '_aish_submission_version', true ) || get_post_meta( $id, '_aish_enterprise_version', true ) ) { return; }
 		$nonce = $_POST['_aish_message_nonce'] ?? null;
 		if ( ! is_string( $nonce ) || ! wp_verify_nonce( wp_unslash( $nonce ), 'aish_message_state_' . $id ) ) { return; }
 		$key = 'aish_message_error_' . get_current_user_id();
@@ -121,7 +122,7 @@ final class Forms {
 	}
 
 	/** A single connection lock protects both counters. Only hashes, time and counts are stored. */
-	private function rateLimit(): bool {
+	public function rateLimit(): bool {
 		global $wpdb;
 		$raw_address = $_SERVER['REMOTE_ADDR'] ?? '';
 		$address = is_string( $raw_address ) && filter_var( $raw_address, FILTER_VALIDATE_IP ) ? $raw_address : 'unknown';
@@ -186,6 +187,18 @@ final class Forms {
 		} finally { $wpdb->suppress_errors( $previous ); }
 	}
 
+	/** Shared input contract for Contact and the separate enterprise subtype. */
+	public static function validateContact( array $data ): array {
+		if ( '' !== Input::utf8( $data['website'] ?? '', 200 ) ) { throw new \InvalidArgumentException(); }
+		$name = Input::plain( $data['name'] ?? '', 120 );
+		$email = Input::utf8( $data['email'] ?? '', 254 );
+		if ( ! is_email( $email ) ) { throw new \InvalidArgumentException(); }
+		$message = sanitize_textarea_field( Input::utf8( $data['message'] ?? '', 12000 ) );
+		if ( '' === trim( $message ) || preg_match_all( '/./us', $message ) > 3000 ) { throw new \InvalidArgumentException(); }
+		$github_url = self::githubUrl( $data['github_url'] ?? '' );
+		return array( 'name' => $name, 'email' => sanitize_email( $email ), 'message' => $message, 'github_url' => $github_url );
+	}
+
 	public function receive(): never {
 		$locale = 'zh_CN'; $kind = 'contact';
 		if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) ) { wp_die( esc_html__( 'Submit this form using POST.', 'ai-skills-hub' ), '', array( 'response' => 405 ) ); }
@@ -198,13 +211,8 @@ final class Forms {
 			if ( 'submit' === $kind ) { self::redirect( $locale, $kind, 'account_required' ); }
 			$nonce = $data['_wpnonce'] ?? null;
 			if ( ! is_string( $nonce ) || ! wp_verify_nonce( $nonce, 'aish_public_message' ) ) { self::redirect( $locale, $kind, 'expired' ); }
-			if ( '' !== Input::utf8( $data['website'] ?? '', 200 ) ) { throw new \InvalidArgumentException(); }
-			$name = Input::plain( $data['name'] ?? '', 120 );
-			$email = Input::utf8( $data['email'] ?? '', 254 );
-			if ( ! is_email( $email ) ) { throw new \InvalidArgumentException(); }
-			$message = sanitize_textarea_field( Input::utf8( $data['message'] ?? '', 12000 ) );
-			if ( '' === trim( $message ) || preg_match_all( '/./us', $message ) > 3000 ) { throw new \InvalidArgumentException(); }
-			$github_url = self::githubUrl( $data['github_url'] ?? '' );
+			$validated = self::validateContact( $data );
+			[ 'name' => $name, 'email' => $email, 'message' => $message, 'github_url' => $github_url ] = $validated;
 			if ( ! $this->rateLimit() ) { self::redirect( $locale, $kind, 'limited' ); }
 			$this->storeMessage( array(
 				'post_type' => self::POST_TYPE, 'post_status' => 'private', 'post_author' => 0,

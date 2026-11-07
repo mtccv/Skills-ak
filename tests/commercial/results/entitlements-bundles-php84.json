@@ -1,0 +1,31 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress Users/capabilities and MySQL free eligibility, verified action gates, private object protection, existing collection reuse, review/CAS and immediate current-publication filtering.",
+    "cases": [
+        {
+            "id": "free_entitlements_preserve_native_recovery_and_verified_write_gates",
+            "status": "passed"
+        },
+        {
+            "id": "entitlements_do_not_replace_object_authorization",
+            "status": "passed"
+        },
+        {
+            "id": "bundles_default_disabled_reuse_id_and_explicit_review",
+            "status": "passed"
+        },
+        {
+            "id": "bundles_live_member_public_gate_archive_and_pause",
+            "status": "passed"
+        }
+    ],
+    "assertions": 62,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 4,
+    "failed": 0
+}

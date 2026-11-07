@@ -1,0 +1,23 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real MySQL transaction failure injection via controlled SQL query filter; no DDL, no production data, rollback verified",
+    "cases": [
+        {
+            "id": "user_transition_rolls_back_when_audit_write_fails",
+            "status": "passed"
+        },
+        {
+            "id": "home_settings_roll_back_with_audit_failure",
+            "status": "passed"
+        }
+    ],
+    "assertions": 5,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 2,
+    "failed": 0
+}

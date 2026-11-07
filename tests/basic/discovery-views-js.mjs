@@ -7,7 +7,7 @@ const source = await readFile(new URL('../../wp-content/themes/ai-skills-hub/ass
 let assertions = 0;
 const check = (condition, message) => { assertions += 1; assert.ok(condition, message); };
 const settle = () => new Promise((resolve) => setImmediate(resolve));
-async function fixture({ existing = false, recordFailure = false, endpoint = 'https://directory.example/wp-admin/admin-ajax.php' } = {}) {
+async function fixture({ existing = false, recordFailure = false, withdrawFailure = false, endpoint = 'https://directory.example/wp-admin/admin-ajax.php' } = {}) {
   const calls = [];
   const intervals = new Map();
   const nodes = Object.fromEntries(['consent', 'withdraw', 'status'].map((name) => [name, {
@@ -23,18 +23,18 @@ async function fixture({ existing = false, recordFailure = false, endpoint = 'ht
   let serial = 0;
   const events = {};
   const document = { visibilityState: 'visible', hasFocus: () => focus, querySelectorAll: () => [element] };
-  const window = { location: { href: 'https://directory.example/en/skills/resource/', origin: 'https://directory.example' }, addEventListener: (name, fn) => { events[name] = fn; } };
-  vm.runInNewContext(source, { document, window, performance: { now: () => now }, URL, URLSearchParams,
+  const window = { location: { href: 'https://directory.example/en/skills/resource/', origin: 'https://directory.example' }, addEventListener: (name, fn) => { events[name] = fn; }, dispatchEvent: (event) => { events[event.type]?.(); } };
+  vm.runInNewContext(source, { document, window, Event: class { constructor(type) { this.type = type; } }, performance: { now: () => now }, URL, URLSearchParams,
     setInterval: (fn) => { const id = ++serial; intervals.set(id, fn); return id; }, clearInterval: (id) => intervals.delete(id),
     fetch: async (url, options) => {
       const body = Object.fromEntries(options.body.entries());
       calls.push({ body, options });
       const state = body.step === 'start' ? (existing ? 'ready' : 'consent_required') : body.step === 'consent' ? 'ready' : body.step === 'withdraw' ? 'stopped' : 'recorded';
-      return { ok: !(recordFailure && body.step === 'record'), json: async () => ({ success: true, data: { state, ticket: 'dwell-proof', minimum_seconds: 8 } }) };
+      return { ok: !(recordFailure && body.step === 'record') && !(withdrawFailure && body.step === 'withdraw'), json: async () => ({ success: true, data: { state, ticket: 'dwell-proof', minimum_seconds: 8 } }) };
     },
   });
   await settle();
-  return { calls, nodes, document, events, focus: (value) => { focus = value; },
+  return { calls, nodes, document, events, setWithdrawFailure: (value) => { withdrawFailure = value; }, focus: (value) => { focus = value; },
     tick: async (milliseconds = 1000) => { now += milliseconds; for (const fn of [...intervals.values()]) await fn(); await settle(); },
     click: async (name) => { await nodes[name].events.click(); await settle(); },
   };
@@ -74,6 +74,14 @@ for (let i = 0; i < 10; i += 1) await f.tick();
 check(!f.calls.some((call) => call.body.step === 'record') && f.calls.at(-1).body.step === 'withdraw', 'withdrawal stops the timer immediately and requests cookie removal');
 check(!f.nodes.consent.hidden && f.nodes.withdraw.hidden, 'withdrawal returns to the explicit opt-in state');
 
+f = await fixture({ existing: true, withdrawFailure: true }); await f.click('withdraw');
+for (let i = 0; i < 10; i += 1) await f.tick();
+check(!f.nodes.withdraw.hidden && !f.nodes.withdraw.disabled && f.nodes.consent.hidden && f.nodes.status.textContent.includes('could not be confirmed'), 'failed withdrawal keeps a visible enabled retry with an explicit unconfirmed warning');
+await f.click('withdraw'); await f.tick();
+check(f.calls.filter((call) => call.body.step === 'withdraw').length === 2 && !f.calls.some((call) => call.body.step === 'record'), 'retrying failed withdrawal never restarts natural-view timing');
+f.setWithdrawFailure(false); await f.click('withdraw'); await f.tick();
+check(f.nodes.withdraw.hidden && !f.nodes.consent.hidden && !f.calls.some((call) => call.body.step === 'record'), 'successful retry restores opt-in controls with measurement still stopped');
+
 f = await fixture({ existing: true, recordFailure: true });
 for (let i = 0; i < 30; i += 1) await f.tick();
 check(f.calls.filter((call) => call.body.step === 'record').length === 1 && f.nodes.status.textContent.includes('could not be confirmed'), 'ambiguous failed write is reported and never retried automatically');
@@ -86,4 +94,7 @@ check(!f.calls.some((call) => call.body.step === 'record'), 'leaving page cancel
 f = await fixture({ endpoint: 'https://foreign.example/admin-ajax.php' });
 await f.click('consent');
 check(f.calls.length === 0 && f.nodes.status.textContent.includes('unavailable'), 'cross-origin configured endpoint fails closed without any request');
+f = await fixture({ existing: true }); f.events['aish-measurement-withdrawn']();
+for (let i = 0; i < 10; i += 1) await f.tick();
+check(!f.calls.some((call) => call.body.step === 'record') && !f.nodes.consent.hidden && f.nodes.withdraw.hidden, 'another placement withdrawal stops natural-view timing and updates controls');
 console.log(`Discovery view browser logic: ${assertions} isolated DOM/time/fetch assertions passed; no real browser or HTTP integration.`);

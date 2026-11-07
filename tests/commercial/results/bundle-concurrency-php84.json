@@ -1,0 +1,50 @@
+{
+  "kind": "Actual MySQL repeated four-writer regression after exclusive no-op initialization upsert; five rounds, twenty independent PHP processes per runtime, no simulated locks.",
+  "php_runtime": "84",
+  "rounds": [
+    {
+      "writers": 4,
+      "committed": 1,
+      "revision_conflicts": 3,
+      "other_failures": 0
+    },
+    {
+      "writers": 4,
+      "committed": 1,
+      "revision_conflicts": 3,
+      "other_failures": 0
+    },
+    {
+      "writers": 4,
+      "committed": 1,
+      "revision_conflicts": 3,
+      "other_failures": 0
+    },
+    {
+      "writers": 4,
+      "committed": 1,
+      "revision_conflicts": 3,
+      "other_failures": 0
+    },
+    {
+      "writers": 4,
+      "committed": 1,
+      "revision_conflicts": 3,
+      "other_failures": 0
+    }
+  ],
+  "checks": {
+    "round_1_single_commit_three_conflicts": true,
+    "round_1_one_revision_one_audit": true,
+    "round_2_single_commit_three_conflicts": true,
+    "round_2_one_revision_one_audit": true,
+    "round_3_single_commit_three_conflicts": true,
+    "round_3_one_revision_one_audit": true,
+    "round_4_single_commit_three_conflicts": true,
+    "round_4_one_revision_one_audit": true,
+    "round_5_single_commit_three_conflicts": true,
+    "round_5_one_revision_one_audit": true
+  },
+  "passed": 10,
+  "failed": 0
+}

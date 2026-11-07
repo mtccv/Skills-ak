@@ -1,0 +1,12 @@
+{
+  "source": "Read-only MySQL InnoDB latest deadlock status; raw SQL and transaction text withheld.",
+  "deadlock_present": true,
+  "timestamp": "2026-11-07 09:18:55 139662032193088",
+  "bundle_option_involved": true,
+  "options_unique_key_involved": true,
+  "insert_ignore_involved": false,
+  "for_update_involved": true,
+  "shared_lock_present": true,
+  "exclusive_lock_present": true,
+  "victim_rolled_back": true
+}

@@ -5,6 +5,8 @@ namespace AISkillsHub\Core\Operations;
 use AISkillsHub\Core\Admin\ContributionUi as Ui;
 use AISkillsHub\Core\Community;
 use AISkillsHub\Core\Developers;
+use AISkillsHub\Core\Database\Database;
+use AISkillsHub\Core\Database\Migrator;
 use AISkillsHub\Core\Submissions;
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +36,9 @@ final class Workbench {
 	}
 	public static function defaultState( string $type ): string { self::authorize( $type ); return self::QUEUES[ $type ][2]; }
 	public static function states( string $type ): array {
-		self::authorize( $type );
+		self::authorize( $type ); return self::stateValues( $type );
+	}
+	private static function stateValues( string $type ): array {
 		return match ( $type ) {
 			'submissions', 'updates' => array( 'draft', 'submitted', 'in_review', 'needs_changes', 'accepted', 'rejected', 'withdrawn' ),
 			'reviews' => array( 'pending', 'approved', 'rejected', 'hidden', 'withdrawn' ),
@@ -62,6 +66,34 @@ final class Workbench {
 			'claims' => $this->developerQuery->adminClaims( $filters ),
 		};
 		$result['items'] = array_map( fn( array $row ): array => $this->project( $type, $row ), $result['items'] ); return $result;
+	}
+	/**
+	 * Dashboard counts only: one freshly authorized aggregate per domain, no private
+	 * payload/translation projection. Values are local to one snapshot, never cached.
+	 * The filters match the existing queue queries (including the owned Inbox guard).
+	 */
+	public function counts( Database $db, Migrator $migrator, string $type, array $states ): array {
+		self::authorize( $type ); if ( ! $migrator->isCurrent() ) { throw new \RuntimeException( 'storage_unavailable' ); }
+		if ( ! $states || count( $states ) > 7 || count( array_unique( $states, SORT_REGULAR ) ) !== count( $states ) ) { throw new \InvalidArgumentException( 'invalid_input' ); }
+		foreach ( $states as $state ) { Community\Input::choice( $state, self::stateValues( $type ) ); }
+		$counts = array_fill_keys( $states, 0 ); $holders = implode( ',', array_fill( 0, count( $states ), '%s' ) );
+		if ( in_array( $type, array( 'submissions', 'updates' ), true ) ) {
+			$c = $db->connection(); $kind = 'submissions' === $type ? 'submit' : 'update_suggestion';
+			// DISTINCT preserves the original EXISTS semantics even when repeated
+			// matching postmeta rows occur; neither Contact nor anonymous Inbox enters.
+			$rows = $db->rows( "SELECT ms.meta_value AS state,COUNT(DISTINCT p.ID) AS total FROM {$c->posts} p INNER JOIN {$c->postmeta} ms ON ms.post_id=p.ID AND ms.meta_key='_aish_submission_state' AND ms.meta_value IN ($holders) WHERE " . $this->submissionQuery->ownedSql() . " AND EXISTS (SELECT 1 FROM {$c->postmeta} mk WHERE mk.post_id=p.ID AND mk.meta_key='_aish_message_kind' AND mk.meta_value=%s) GROUP BY ms.meta_value", array_merge( $states, array( $kind ) ) );
+		} elseif ( 'reviews' === $type ) {
+			// One head can expose a pending revision while its approved revision stays
+			// public. Pending is a pointer predicate, not r.state='pending'.
+			$parts = array(); $values = array();
+			foreach ( $states as $index => $state ) { $parts[] = 'COALESCE(SUM(' . ( 'pending' === $state ? 'pending_revision_id IS NOT NULL' : 'state=%s' ) . '),0) AS count_' . $index; if ( 'pending' !== $state ) { $values[] = $state; } }
+			$row = $db->row( 'SELECT ' . implode( ',', $parts ) . ' FROM ' . $db->table( 'reviews' ), $values ); if ( ! $row ) { throw new \RuntimeException( 'storage_unavailable' ); }
+			foreach ( $states as $index => $state ) { $counts[ $state ] = (int) $row[ 'count_' . $index ]; } return $counts;
+		} else {
+			$table = $db->table( array( 'claims' => 'author_claims', 'review_reports' => 'review_reports', 'skill_reports' => 'skill_reports' )[ $type ] );
+			$rows = $db->rows( "SELECT state,COUNT(*) AS total FROM $table WHERE state IN ($holders) GROUP BY state", $states );
+		}
+		foreach ( $rows as $row ) { if ( array_key_exists( $row['state'], $counts ) ) { $counts[ $row['state'] ] = (int) $row['total']; } } return $counts;
 	}
 	private function project( string $type, array $row ): array {
 		$id = (int) $row['id']; $revision = 'reviews' === $type ? ( $row['pending'] ?? $row['approved'] ?? $row['latest'] ?? array() ) : array();

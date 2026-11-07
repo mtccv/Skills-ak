@@ -1,0 +1,35 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL Dashboard aggregate scopes, current publication and account authorization; rolled-back synthetic fixtures.",
+    "cases": [
+        {
+            "id": "unchanged-domain-queue-counts",
+            "status": "passed"
+        },
+        {
+            "id": "nonzero-state-aggregate-equivalence",
+            "status": "passed"
+        },
+        {
+            "id": "publication-freshness-no-security-cache",
+            "status": "passed"
+        },
+        {
+            "id": "fresh-actor-restriction-before-counts",
+            "status": "passed"
+        },
+        {
+            "id": "rollback-preserved-existing-data",
+            "status": "passed"
+        }
+    ],
+    "assertions": 123,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 5,
+    "failed": 0
+}

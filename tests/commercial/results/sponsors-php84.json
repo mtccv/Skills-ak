@@ -1,0 +1,35 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL manual sponsor configuration, native capabilities, optimistic revisions, current publication/language gates and UTC expiry; synthetic local entries, no external requests.",
+    "cases": [
+        {
+            "id": "sponsors_disabled_configuration_has_no_public_records",
+            "status": "passed"
+        },
+        {
+            "id": "sponsors_native_caps_draft_confirmation_cas_and_audit",
+            "status": "passed"
+        },
+        {
+            "id": "sponsor_url_and_image_validation_no_fetch_or_execution",
+            "status": "passed"
+        },
+        {
+            "id": "sponsors_current_language_future_pause_and_expiry_without_cron",
+            "status": "passed"
+        },
+        {
+            "id": "sponsors_skill_gate_keeps_publication_and_review_unchanged",
+            "status": "passed"
+        }
+    ],
+    "assertions": 37,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 5,
+    "failed": 0
+}

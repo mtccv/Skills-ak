@@ -1,0 +1,83 @@
+{
+  "kind": "Real Chromium HTTP/UI, isolated WordPress7.1.4/MySQL8.0; synthetic identities and content; outbound destination intercepted locally; no real mail or external API",
+  "php_runtime": "83",
+  "viewports": [
+    1440,
+    768,
+    375
+  ],
+  "cases": [
+    {
+      "id": "default_disabled_preserves_free_public_and_account_routes",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_sponsor_enterprise_en_1440",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_sponsor_enterprise_zh_1440",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_sponsor_enterprise_en_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_sponsor_enterprise_zh_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_sponsor_enterprise_en_375",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_sponsor_enterprise_zh_375",
+      "status": "passed"
+    },
+    {
+      "id": "first_native_upgrade_request_grants_three_commercial_menus",
+      "status": "passed"
+    },
+    {
+      "id": "native_three_capabilities_are_separate_with_private_preview",
+      "status": "passed"
+    },
+    {
+      "id": "real_admin_invalid_nonce_has_no_configuration_mutation",
+      "status": "passed"
+    },
+    {
+      "id": "real_enterprise_post_validation_privacy_replay_and_sent_seo",
+      "status": "passed"
+    },
+    {
+      "id": "browser_javascript_visible_impression_and_normal_link_click",
+      "status": "passed"
+    },
+    {
+      "id": "commercial_ajax_parallel_dedupe_origin_nonce_and_url_guards",
+      "status": "passed"
+    },
+    {
+      "id": "consent_purposes_never_expand_implicitly_and_preserve_prior_optins",
+      "status": "passed"
+    },
+    {
+      "id": "dnt_gpc_tracking_off_preserve_links_but_block_measurement",
+      "status": "passed"
+    },
+    {
+      "id": "scheduled_expired_paused_and_withdrawn_skill_live_public_gate",
+      "status": "passed"
+    },
+    {
+      "id": "no_php_or_browser_errors_and_no_script_injection",
+      "status": "passed"
+    }
+  ],
+  "assertions": 349,
+  "console_errors": [],
+  "passed": 17,
+  "failed": 0
+}

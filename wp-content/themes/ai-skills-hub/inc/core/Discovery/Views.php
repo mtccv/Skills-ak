@@ -26,13 +26,29 @@ final class Views {
 	public function analyticsEligible(): bool { return $this->eligible( 0 ); }
 	public function analyticsObserver(): ?string {
 		$cookie = $_COOKIE[ $this->cookieName() ] ?? '';
-		return is_string( $cookie ) && str_ends_with( $cookie, '.analytics' ) ? $this->observer( $cookie ) : null;
+		return is_string( $cookie ) && preg_match( '/\.analytics(?:\.commercial)?$/D', $cookie ) ? $this->observer( $cookie ) : null;
 	}
 	public function grantAnalyticsConsent(): string {
 		if ( ! Settings::tracking() || ! $this->analyticsEligible() ) { throw new \InvalidArgumentException( 'measurement_unavailable' ); }
 		$observer = $this->observer( $_COOKIE[ $this->cookieName() ] ?? '' ) ?? bin2hex( random_bytes( 32 ) );
 		$body = gmdate( 'Y-m-d' ) . '.' . $observer;
-		$cookie = $body . '.' . $this->mac( 'cookie:' . $body . '.analytics' ) . '.analytics';
+		$purpose = '.analytics' . ( null !== $this->commercialObserver() ? '.commercial' : '' );
+		$cookie = $body . '.' . $this->mac( 'cookie:' . $body . $purpose ) . $purpose;
+		$this->writeCookie( $cookie, strtotime( 'tomorrow UTC' ) );
+		$_COOKIE[ $this->cookieName() ] = $cookie;
+		return $observer;
+	}
+	/** Sponsorship measurement requires its own explicit opt-in; old analytics cookies do not grant it. */
+	public function commercialObserver(): ?string {
+		$cookie = $_COOKIE[ $this->cookieName() ] ?? '';
+		return is_string( $cookie ) && str_ends_with( $cookie, '.commercial' ) ? $this->observer( $cookie ) : null;
+	}
+	public function grantCommercialConsent(): string {
+		if ( ! Settings::tracking() || ! $this->analyticsEligible() ) { throw new \InvalidArgumentException( 'measurement_unavailable' ); }
+		$observer = $this->observer( $_COOKIE[ $this->cookieName() ] ?? '' ) ?? bin2hex( random_bytes( 32 ) );
+		$body = gmdate( 'Y-m-d' ) . '.' . $observer;
+		$purpose = ( null !== $this->analyticsObserver() ? '.analytics' : ( null !== $this->viewObserver() ? '.views' : '' ) ) . '.commercial';
+		$cookie = $body . '.' . $this->mac( 'cookie:' . $body . $purpose ) . $purpose;
 		$this->writeCookie( $cookie, strtotime( 'tomorrow UTC' ) );
 		$_COOKIE[ $this->cookieName() ] = $cookie;
 		return $observer;
@@ -89,7 +105,7 @@ final class Views {
 			$zh = 'zh_CN' === $locale;
 			$help = $zh ? '可自愿允许当天匿名去重浏览统计：仅在页面可见停留 8 秒后计数。不保存 IP、账户 ID 或跨日浏览历史，可随时停止。' : 'Optional anonymous, daily-deduplicated views: counted after 8 visible seconds. No IP, account ID or cross-day history is stored. You can stop at any time.';
 			$allow = $zh ? '允许当天匿名浏览统计' : 'Allow anonymous views today';
-			$stop = $zh ? '停止当天统计（含已同意的搜索/活跃统计）' : 'Stop daily measurement (including any search/activity consent)';
+			$stop = $zh ? '停止当天统计（含已同意的搜索、活跃及赞助统计）' : 'Stop daily measurement (including any search/activity/sponsorship consent)';
 			echo '<div class="mt-4 border-t border-slate-200 pt-3 text-xs text-slate-500" data-discovery-view data-endpoint="' . esc_url( admin_url( 'admin-ajax.php' ) ) . '" data-nonce="' . esc_attr( wp_create_nonce( self::ACTION ) ) . '" data-skill="' . esc_attr( (string) $id ) . '" data-locale="' . esc_attr( $locale ) . '" data-ticket="' . esc_attr( $this->ticket( 'page', $id, $locale ) ) . '">';
 			echo '<p>' . esc_html( $help ) . '</p><button type="button" class="mt-2 underline" data-discovery-consent>' . esc_html( $allow ) . '</button><button type="button" class="mt-2 underline" data-discovery-withdraw hidden>' . esc_html( $stop ) . '</button><p class="mt-2" role="status" aria-live="polite" data-discovery-status></p><noscript>' . esc_html( $zh ? '未启用 JavaScript，不记录浏览。' : 'Views are not recorded without JavaScript.' ) . '</noscript></div>';
 		} catch ( \Throwable $error ) { /* Optional measurement must not break the public page. */ }
@@ -117,7 +133,7 @@ final class Views {
 				$id = $this->id( $input['skill'] ?? '' );
 				$locale = $this->locale( $input['locale'] ?? '' );
 				if ( ! Settings::tracking() || ! $this->eligible( $id ) || ! $this->migrator->isCurrent() ) { throw new \InvalidArgumentException( 'measurement_unavailable' ); }
-				$observer = $this->observer( $_COOKIE[ $this->cookieName() ] ?? '' );
+				$observer = $this->viewObserver();
 				if ( 'start' === $step && null === $observer ) {
 					$result = array( 'state' => 'consent_required' );
 				} elseif ( 'record' === $step ) {
@@ -126,9 +142,13 @@ final class Views {
 				} else {
 					if ( ! $this->validTicket( $input['ticket'] ?? '', 'page', $id, $locale ) || ! $this->publicSkill( $id, $locale ) ) { throw new \InvalidArgumentException( 'request_rejected' ); }
 					if ( 'consent' === $step && null === $observer ) {
-						$observer = bin2hex( random_bytes( 32 ) );
+						$commercial = $this->commercialObserver();
+						$observer = $commercial ?? bin2hex( random_bytes( 32 ) );
 						$body = gmdate( 'Y-m-d' ) . '.' . $observer;
-						$this->writeCookie( $body . '.' . $this->mac( 'cookie:' . $body ), strtotime( 'tomorrow UTC' ) );
+						$purpose = null !== $commercial ? '.views.commercial' : '';
+						$cookie = $body . '.' . $this->mac( 'cookie:' . $body . $purpose ) . $purpose;
+						$this->writeCookie( $cookie, strtotime( 'tomorrow UTC' ) );
+						$_COOKIE[ $this->cookieName() ] = $cookie;
 					}
 					$result = array( 'state' => 'ready', 'ticket' => $this->ticket( 'view', $id, $locale, $observer ), 'minimum_seconds' => self::MIN_SECONDS );
 				}
@@ -192,8 +212,15 @@ final class Views {
 	}
 
 	private function observer( mixed $cookie ): ?string {
-		if ( ! is_string( $cookie ) || ! preg_match( '/^(\d{4}-\d{2}-\d{2})\.([a-f0-9]{64})\.([a-f0-9]{64})(\.analytics)?$/D', $cookie, $matches ) || gmdate( 'Y-m-d' ) !== $matches[1] || ! hash_equals( $this->mac( 'cookie:' . $matches[1] . '.' . $matches[2] . ( $matches[4] ?? '' ) ), $matches[3] ) ) { return null; }
+		if ( ! is_string( $cookie ) || ! preg_match( '/^(\d{4}-\d{2}-\d{2})\.([a-f0-9]{64})\.([a-f0-9]{64})(\.analytics(?:\.commercial)?|\.views\.commercial|\.commercial)?$/D', $cookie, $matches ) || gmdate( 'Y-m-d' ) !== $matches[1] || ! hash_equals( $this->mac( 'cookie:' . $matches[1] . '.' . $matches[2] . ( $matches[4] ?? '' ) ), $matches[3] ) ) { return null; }
 		return $matches[2];
+	}
+
+	/** A valid identity alone is not consent to contribute to natural Skill rankings. */
+	private function viewObserver(): ?string {
+		$cookie = $_COOKIE[ $this->cookieName() ] ?? '';
+		if ( ! is_string( $cookie ) || ( str_ends_with( $cookie, '.commercial' ) && ! str_ends_with( $cookie, '.views.commercial' ) && ! str_ends_with( $cookie, '.analytics.commercial' ) ) ) { return null; }
+		return $this->observer( $cookie );
 	}
 
 	private function ticket( string $kind, int $id, string $locale, string $observer = '', ?int $now = null ): string {

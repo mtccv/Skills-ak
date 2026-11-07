@@ -1,0 +1,15 @@
+No syntax errors detected in /repo/tests/commercial/baseline.php
+No syntax errors detected in /repo/tests/commercial/bootstrap.php
+No syntax errors detected in /repo/tests/commercial/browser-control.php
+No syntax errors detected in /repo/tests/commercial/enterprise.php
+No syntax errors detected in /repo/tests/commercial/entitlements-bundles.php
+No syntax errors detected in /repo/tests/commercial/metrics.php
+No syntax errors detected in /repo/tests/commercial/package-upgrade.php
+No syntax errors detected in /repo/tests/commercial/performance-dashboard.php
+No syntax errors detected in /repo/tests/commercial/performance-scale.php
+No syntax errors detected in /repo/tests/commercial/performance-semantics.php
+No syntax errors detected in /repo/tests/commercial/preservation.php
+No syntax errors detected in /repo/tests/commercial/privacy-transactions.php
+No syntax errors detected in /repo/tests/commercial/race-worker.php
+No syntax errors detected in /repo/tests/commercial/sponsors.php
+No syntax errors detected in /repo/tests/operations/analytics.php

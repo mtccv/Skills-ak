@@ -1,0 +1,39 @@
+{
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "kind": "Real WordPress/MySQL capability-partitioned workflow queues, source-health audit-only actions and home draft/publication controls",
+    "cases": [
+        {
+            "id": "workbench_capability_partition_and_no_approval_bulk",
+            "status": "passed"
+        },
+        {
+            "id": "workbench_partial_batch_cas_replay_preserves_private_content",
+            "status": "passed"
+        },
+        {
+            "id": "workbench_search_filters_and_unknown_types_fail_closed",
+            "status": "passed"
+        },
+        {
+            "id": "source_health_snapshot_ack_is_audit_only_and_no_network",
+            "status": "passed"
+        },
+        {
+            "id": "source_retry_limits_and_paused_source_not_queued",
+            "status": "passed"
+        },
+        {
+            "id": "home_draft_history_live_gate_and_stale_configuration",
+            "status": "passed"
+        }
+    ],
+    "assertions": 29,
+    "external_http_attempts": 0,
+    "mock_mail_calls": 0,
+    "passed": 6,
+    "failed": 0
+}

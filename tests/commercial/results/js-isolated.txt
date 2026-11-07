@@ -1,0 +1,3 @@
+Discovery view browser logic: 20 isolated DOM/time/fetch assertions passed; no real browser or HTTP integration.
+Operations search browser logic: 17 isolated DOM/time/fetch assertions passed; no real browser or HTTP integration.
+Commercial measurement browser logic: 23 isolated DOM/time/fetch assertions passed; no real browser assertions.

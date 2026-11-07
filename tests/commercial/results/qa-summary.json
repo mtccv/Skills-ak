@@ -1,0 +1,273 @@
+{
+  "date_utc": "2026-11-07",
+  "baseline_commit": "46d63dbfd256ae38c579f65608ee46876cf545f0",
+  "environment": {
+    "wordpress": "7.1.4",
+    "php83": "8.3.36",
+    "php84": "8.4.27",
+    "mysql": "8.0.46",
+    "browser": "Chromium 155",
+    "schema": "1.9.0",
+    "core_tables": 33
+  },
+  "functional": {
+    "per_runtime": {
+      "83": {
+        "suites": [
+          {
+            "suite": "sponsors",
+            "scenarios_passed": 5,
+            "scenarios_failed": 0,
+            "assertions": 37
+          },
+          {
+            "suite": "enterprise",
+            "scenarios_passed": 5,
+            "scenarios_failed": 0,
+            "assertions": 46
+          },
+          {
+            "suite": "entitlements-bundles",
+            "scenarios_passed": 4,
+            "scenarios_failed": 0,
+            "assertions": 62
+          },
+          {
+            "suite": "metrics",
+            "scenarios_passed": 6,
+            "scenarios_failed": 0,
+            "assertions": 168
+          },
+          {
+            "suite": "privacy-transactions",
+            "scenarios_passed": 2,
+            "scenarios_failed": 0,
+            "assertions": 19
+          },
+          {
+            "suite": "performance-semantics",
+            "scenarios_passed": 5,
+            "scenarios_failed": 0,
+            "assertions": 123
+          },
+          {
+            "suite": "regression-users",
+            "scenarios_passed": 9,
+            "scenarios_failed": 0,
+            "assertions": 38
+          },
+          {
+            "suite": "regression-notifications-mail",
+            "scenarios_passed": 10,
+            "scenarios_failed": 0,
+            "assertions": 50
+          },
+          {
+            "suite": "regression-workbench-home",
+            "scenarios_passed": 6,
+            "scenarios_failed": 0,
+            "assertions": 29
+          },
+          {
+            "suite": "regression-analytics",
+            "scenarios_passed": 7,
+            "scenarios_failed": 0,
+            "assertions": 408
+          },
+          {
+            "suite": "regression-transactions",
+            "scenarios_passed": 2,
+            "scenarios_failed": 0,
+            "assertions": 5
+          },
+          {
+            "suite": "browser",
+            "scenarios_passed": 17,
+            "scenarios_failed": 0,
+            "assertions": 349
+          },
+          {
+            "suite": "browser-xss",
+            "scenarios_passed": 1,
+            "scenarios_failed": 0,
+            "assertions": 13
+          },
+          {
+            "suite": "browser-withdraw",
+            "scenarios_passed": 3,
+            "scenarios_failed": 0,
+            "assertions": 37
+          }
+        ],
+        "scenarios_passed": 82,
+        "scenarios_failed": 0,
+        "assertions": 1384
+      },
+      "84": {
+        "suites": [
+          {
+            "suite": "sponsors",
+            "scenarios_passed": 5,
+            "scenarios_failed": 0,
+            "assertions": 37
+          },
+          {
+            "suite": "enterprise",
+            "scenarios_passed": 5,
+            "scenarios_failed": 0,
+            "assertions": 46
+          },
+          {
+            "suite": "entitlements-bundles",
+            "scenarios_passed": 4,
+            "scenarios_failed": 0,
+            "assertions": 62
+          },
+          {
+            "suite": "metrics",
+            "scenarios_passed": 6,
+            "scenarios_failed": 0,
+            "assertions": 168
+          },
+          {
+            "suite": "privacy-transactions",
+            "scenarios_passed": 2,
+            "scenarios_failed": 0,
+            "assertions": 19
+          },
+          {
+            "suite": "performance-semantics",
+            "scenarios_passed": 5,
+            "scenarios_failed": 0,
+            "assertions": 123
+          },
+          {
+            "suite": "regression-users",
+            "scenarios_passed": 9,
+            "scenarios_failed": 0,
+            "assertions": 38
+          },
+          {
+            "suite": "regression-notifications-mail",
+            "scenarios_passed": 10,
+            "scenarios_failed": 0,
+            "assertions": 50
+          },
+          {
+            "suite": "regression-workbench-home",
+            "scenarios_passed": 6,
+            "scenarios_failed": 0,
+            "assertions": 29
+          },
+          {
+            "suite": "regression-analytics",
+            "scenarios_passed": 7,
+            "scenarios_failed": 0,
+            "assertions": 406
+          },
+          {
+            "suite": "regression-transactions",
+            "scenarios_passed": 2,
+            "scenarios_failed": 0,
+            "assertions": 5
+          },
+          {
+            "suite": "browser",
+            "scenarios_passed": 17,
+            "scenarios_failed": 0,
+            "assertions": 349
+          },
+          {
+            "suite": "browser-xss",
+            "scenarios_passed": 1,
+            "scenarios_failed": 0,
+            "assertions": 13
+          },
+          {
+            "suite": "browser-withdraw",
+            "scenarios_passed": 3,
+            "scenarios_failed": 0,
+            "assertions": 37
+          }
+        ],
+        "scenarios_passed": 82,
+        "scenarios_failed": 0,
+        "assertions": 1382
+      }
+    },
+    "passed_scenarios": 164,
+    "failed_scenarios": 0,
+    "assertions": 2766
+  },
+  "standalone_checks": {
+    "preservation": {
+      "passed": 158,
+      "failed": 0
+    },
+    "concurrency": {
+      "passed": 20,
+      "failed": 0
+    },
+    "bundle-concurrency": {
+      "passed": 20,
+      "failed": 0
+    },
+    "package-baseline-install-php84": {
+      "passed": 6,
+      "failed": 0
+    },
+    "package-upgrade-php84": {
+      "passed": 6,
+      "failed": 0
+    },
+    "package-fresh-boot-php84": {
+      "passed": 6,
+      "failed": 0
+    },
+    "runtime-package-hashes": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "core_integration_assertions": 162,
+  "external_transport": "No real SMTP, GitHub or AI calls. Native notification regression uses Mock transport; browser withdrawal tests deliberately inject first-request transport failure, then verify actual WordPress retry. These remain labeled.",
+  "performance_samples": {
+    "fresh_before_after": 36,
+    "paired_scale": 18,
+    "measurement_samples_are_not_functional_assertions": true
+  },
+  "package": {
+    "version": "0.13.0",
+    "file_count": 190,
+    "sha256": "6fb760a7236108aabc66b32705f4efaacba1d53c1f510c6db4c656c3696c5367"
+  },
+  "not_executed": [
+    "Real SMTP acceptance and inbox delivery",
+    "Real GitHub/AI external APIs",
+    "Licensed WPML runtime",
+    "Real Rank Math/Yoast integration",
+    "Persistent Redis/Memcached",
+    "WordPress multisite",
+    "Non-Chromium browser compatibility",
+    "Production TLS deployment",
+    "Sustained high load or large production dataset"
+  ],
+  "limitations": [
+    "Dashboard performance is a local shared-host measurement, not a production guarantee.",
+    "Initial data preservation precedes synthetic Phase13 fixture creation; later tests retain existing prior records.",
+    "No payment/order/subscription system exists; those are outside Phase13."
+  ],
+  "historical_phase12_result_files_modified": false,
+  "real_environment_assertions_and_checks": 3148,
+  "mock_mail_transport_assertions_included": 100,
+  "not_executed_group_count": 7,
+  "not_executed_groups": [
+    "Real SMTP and delivery",
+    "Licensed WPML",
+    "Real GitHub collection API",
+    "Real AI Provider and billing",
+    "Real Yoast/Rank Math combination",
+    "Persistent object/page caches and CDN",
+    "Production load/TLS, multisite, other browsers and physical devices"
+  ]
+}

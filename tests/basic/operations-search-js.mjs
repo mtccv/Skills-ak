@@ -19,8 +19,8 @@ async function fixture({ consent = false, failure = '', endpoint = 'https://dire
   };
   let focus = true;
   const document = { visibilityState: 'visible', hasFocus: () => focus, querySelectorAll: () => [element] };
-  const window = { location: { href: 'https://directory.example/en/search/?q=example', origin: 'https://directory.example' }, addEventListener: (name, callback) => { events[name] = callback; } };
-  vm.runInNewContext(source, { document, window, URL, URLSearchParams,
+  const window = { location: { href: 'https://directory.example/en/search/?q=example', origin: 'https://directory.example' }, addEventListener: (name, callback) => { events[name] = callback; }, dispatchEvent: (event) => { events[event.type]?.(); } };
+  vm.runInNewContext(source, { document, window, Event: class { constructor(type) { this.type = type; } }, URL, URLSearchParams,
     setInterval: (callback) => { const id = ++timerId; intervals.set(id, callback); return id; }, clearInterval: (id) => intervals.delete(id),
     fetch: async (url, options) => {
       const body = Object.fromEntries(options.body.entries()); calls.push({ body, options });
@@ -29,7 +29,7 @@ async function fixture({ consent = false, failure = '', endpoint = 'https://dire
     },
   });
   await settle();
-  return { calls, nodes, document, events, focus: (value) => { focus = value; },
+  return { calls, nodes, document, events, setFailure: (value) => { failure = value; }, focus: (value) => { focus = value; },
     tick: async () => { for (const callback of [...intervals.values()]) await callback(); await settle(); },
     click: async (name) => { await nodes[name].events.click(); await settle(); },
   };
@@ -61,9 +61,17 @@ check(f.calls.filter((call) => call.body.step === 'record').length === 1 && f.no
 f = await fixture({ consent: true, failure: 'withdraw' });
 await f.click('withdraw'); await f.tick();
 check(!f.calls.some((call) => call.body.step === 'record') && f.nodes.status.textContent.includes('unconfirmed'), 'failed cookie removal still stops this page and reports uncertainty');
+check(!f.nodes.withdraw.hidden && !f.nodes.withdraw.disabled && f.nodes.consent.hidden, 'unconfirmed removal keeps the withdrawal retry visible and enabled');
+await f.click('withdraw'); await f.tick();
+check(f.calls.filter((call) => call.body.step === 'withdraw').length === 2 && !f.calls.some((call) => call.body.step === 'record'), 'explicit failed-removal retry remains available without restarting measurement');
+f.setFailure(''); await f.click('withdraw'); await f.tick();
+check(f.nodes.withdraw.hidden && !f.nodes.consent.hidden && !f.calls.some((call) => call.body.step === 'record'), 'confirmed retry returns to opt-in without collecting new events');
+
 
 f = await fixture({ consent: true }); f.events.pagehide(); await f.tick();
 check(!f.calls.some((call) => call.body.step === 'record'), 'leaving the page cancels pending collection');
 f = await fixture({ endpoint: 'https://foreign.example/admin-ajax.php' }); await f.click('consent');
 check(f.calls.length === 0 && f.nodes.status.textContent.includes('unavailable'), 'foreign endpoint fails before network request');
+f = await fixture({ consent: true }); f.events['aish-measurement-withdrawn'](); await f.tick();
+check(!f.calls.some((call) => call.body.step === 'record') && !f.nodes.consent.hidden && f.nodes.withdraw.hidden, 'another placement withdrawal stops search observation and updates controls');
 console.log(`Operations search browser logic: ${count} isolated DOM/time/fetch assertions passed; no real browser or HTTP integration.`);
