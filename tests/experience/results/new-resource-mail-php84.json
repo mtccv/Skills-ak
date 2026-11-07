@@ -1,0 +1,23 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL opt-in new-resource campaigns, pause/resume, bilingual URLs and HTTP-safe unsubscribe headers; actual message transport intercepted by pre_wp_mail, real HTTPS/SMTP delivery not verified",
+  "cases": [
+    {
+      "id": "new_resource_digest_current_language_pause_resume_and_http_headers_en_US",
+      "status": "passed"
+    },
+    {
+      "id": "new_resource_digest_current_language_pause_resume_and_http_headers_zh_CN",
+      "status": "passed"
+    }
+  ],
+  "assertions": 14,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 2,
+  "passed": 2,
+  "failed": 0
+}

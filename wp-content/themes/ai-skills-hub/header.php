@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit;
 $context = Router::context();
 $locale = $context['locale'] ?? 'zh_CN';
 $route = $context['route'] ?? 'home';
-$navigation = array( 'home' => 'nav.home', 'skills' => 'nav.skills', 'tutorials' => 'nav.tutorials', 'about' => 'nav.about' );
+$navigation = array( 'home' => 'nav.home', 'skills' => 'nav.skills', 'tutorials' => 'nav.tutorials', 'help' => 'nav.help' );
 ?>
 <!doctype html>
 <html lang="<?php echo esc_attr( 'en_US' === $locale ? 'en' : 'zh-CN' ); ?>">

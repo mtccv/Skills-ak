@@ -31,6 +31,7 @@ $not_provided = View::t( 'detail_not_provided' );
 			</div>
 		<?php endif; ?>
 		<?php do_action( 'aish_skill_actions', $skill, $context['locale'] ); ?>
+		<?php do_action( 'aish_skill_share', $skill, $context['locale'] ); ?>
 	</header>
 	<div class="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10">
 		<div class="min-w-0 space-y-8">
@@ -53,6 +54,7 @@ $not_provided = View::t( 'detail_not_provided' );
 						</div>
 					<?php endforeach; ?>
 				</div>
+				<?php do_action( 'aish_skill_installation', $skill, $context['locale'] ); ?>
 			</section>
 			<section class="rounded-2xl border border-amber-200 bg-amber-50 p-6 sm:p-8" aria-labelledby="skill-risk">
 				<div class="mb-3 flex flex-wrap items-center justify-between gap-3">

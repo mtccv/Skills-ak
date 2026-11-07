@@ -1,0 +1,24 @@
+{
+  "classification": "static frontend build and package-input validation; no browser or real service claim",
+  "commands": [
+    "npm run build",
+    "npm run check:assets",
+    "python3 tests/final/test-package-theme.py",
+    "python3 scripts/package-theme.py --check"
+  ],
+  "status": "passed",
+  "package_tool_tests": 8,
+  "assets": {
+    "wp-content/themes/ai-skills-hub/assets/dist/app.css": {
+      "bytes": 78362,
+      "sha256": "ba1c8f00fe7cdf9673d63378b2cf5b29975bb8d47024b1ebe44892022ce35103"
+    },
+    "wp-content/themes/ai-skills-hub/assets/dist/app.js": {
+      "bytes": 75936,
+      "sha256": "2e4215a8e5d9510925156a41192c4f6df458afca1f41160489f0c33e1fe1ad03"
+    }
+  },
+  "warnings": [
+    "Browserslist caniuse-lite database is outdated; build succeeded, dependency lockfile retained."
+  ]
+}

@@ -1,0 +1,271 @@
+{
+    "kind": "Read-only post-test original-data set-hash comparison, allowing new higher-primary-key QA fixtures; original baseline remains immutable",
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46"
+    },
+    "method": "For each original dataset, hash the first original-count records in primary-key order using original row bytes and IDs. Equality proves retention of the original set despite appended fixtures. A mismatch remains explicitly unresolved from the aggregate-only baseline; no original row is restored or guessed.",
+    "schema": "1.9.0",
+    "core_tables": 33,
+    "structure": {
+        "repositories": true,
+        "skills": true,
+        "skill_translations": true,
+        "skill_versions": true,
+        "categories": true,
+        "tags": true,
+        "skill_categories": true,
+        "skill_tags": true,
+        "imports": true,
+        "jobs": true,
+        "import_logs": true,
+        "ai_jobs": true,
+        "ai_attempts": true,
+        "ai_reviews": true,
+        "email_verifications": true,
+        "user_notifications": true,
+        "notification_outbox": true,
+        "favorites": true,
+        "reviews": true,
+        "review_revisions": true,
+        "review_reports": true,
+        "skill_reports": true,
+        "workflow_events": true,
+        "metric_events": true,
+        "daily_metrics": true,
+        "author_claims": true,
+        "editorial_collections": true,
+        "collection_translations": true,
+        "collection_items": true,
+        "use_cases": true,
+        "use_case_translations": true,
+        "use_case_skills": true,
+        "term_translations": true
+    },
+    "groups": {
+        "core_repositories": {
+            "baseline_rows": 7,
+            "current_rows": 13,
+            "original_set_hash_matches": true
+        },
+        "core_skills": {
+            "baseline_rows": 55,
+            "current_rows": 89,
+            "original_set_hash_matches": true
+        },
+        "core_skill_translations": {
+            "baseline_rows": 106,
+            "current_rows": 173,
+            "original_set_hash_matches": true
+        },
+        "core_skill_versions": {
+            "baseline_rows": 0,
+            "current_rows": 4,
+            "original_set_hash_matches": true
+        },
+        "core_categories": {
+            "baseline_rows": 8,
+            "current_rows": 8,
+            "original_set_hash_matches": true
+        },
+        "core_tags": {
+            "baseline_rows": 8,
+            "current_rows": 14,
+            "original_set_hash_matches": true
+        },
+        "core_skill_categories": {
+            "baseline_rows": 6,
+            "current_rows": 6,
+            "original_set_hash_matches": true
+        },
+        "core_skill_tags": {
+            "baseline_rows": 12,
+            "current_rows": 29,
+            "original_set_hash_matches": true
+        },
+        "core_imports": {
+            "baseline_rows": 3,
+            "current_rows": 8,
+            "original_set_hash_matches": true
+        },
+        "core_jobs": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_import_logs": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_ai_jobs": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_ai_attempts": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_ai_reviews": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_email_verifications": {
+            "baseline_rows": 113,
+            "current_rows": 235,
+            "original_set_hash_matches": true
+        },
+        "core_user_notifications": {
+            "baseline_rows": 265,
+            "current_rows": 387,
+            "original_set_hash_matches": true
+        },
+        "core_notification_outbox": {
+            "baseline_rows": 19,
+            "current_rows": 81,
+            "original_set_hash_matches": false
+        },
+        "core_favorites": {
+            "baseline_rows": 20,
+            "current_rows": 25,
+            "original_set_hash_matches": true
+        },
+        "core_reviews": {
+            "baseline_rows": 43,
+            "current_rows": 48,
+            "original_set_hash_matches": true
+        },
+        "core_review_revisions": {
+            "baseline_rows": 47,
+            "current_rows": 52,
+            "original_set_hash_matches": true
+        },
+        "core_review_reports": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_skill_reports": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_workflow_events": {
+            "baseline_rows": 482,
+            "current_rows": 702,
+            "original_set_hash_matches": true
+        },
+        "core_metric_events": {
+            "baseline_rows": 396,
+            "current_rows": 442,
+            "original_set_hash_matches": true
+        },
+        "core_daily_metrics": {
+            "baseline_rows": 121,
+            "current_rows": 140,
+            "original_set_hash_matches": false
+        },
+        "core_author_claims": {
+            "baseline_rows": 0,
+            "current_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "core_editorial_collections": {
+            "baseline_rows": 15,
+            "current_rows": 16,
+            "original_set_hash_matches": true
+        },
+        "core_collection_translations": {
+            "baseline_rows": 28,
+            "current_rows": 29,
+            "original_set_hash_matches": true
+        },
+        "core_collection_items": {
+            "baseline_rows": 23,
+            "current_rows": 25,
+            "original_set_hash_matches": true
+        },
+        "core_use_cases": {
+            "baseline_rows": 15,
+            "current_rows": 15,
+            "original_set_hash_matches": true
+        },
+        "core_use_case_translations": {
+            "baseline_rows": 23,
+            "current_rows": 23,
+            "original_set_hash_matches": true
+        },
+        "core_use_case_skills": {
+            "baseline_rows": 23,
+            "current_rows": 23,
+            "original_set_hash_matches": true
+        },
+        "core_term_translations": {
+            "baseline_rows": 6,
+            "current_rows": 6,
+            "original_set_hash_matches": true
+        },
+        "native_users": {
+            "baseline_rows": 120,
+            "candidate_rows": 120,
+            "original_set_hash_matches": true
+        },
+        "native_usermeta": {
+            "baseline_rows": 2193,
+            "candidate_rows": 2193,
+            "original_set_hash_matches": false
+        },
+        "native_inbox": {
+            "baseline_rows": 23,
+            "candidate_rows": 23,
+            "original_set_hash_matches": true
+        },
+        "native_inbox_meta": {
+            "baseline_rows": 332,
+            "candidate_rows": 332,
+            "original_set_hash_matches": true
+        },
+        "native_revisions": {
+            "baseline_rows": 16,
+            "candidate_rows": 16,
+            "original_set_hash_matches": true
+        },
+        "native_revision_meta": {
+            "baseline_rows": 32,
+            "candidate_rows": 32,
+            "original_set_hash_matches": true
+        },
+        "native_tutorials_and_pages": {
+            "baseline_rows": 2,
+            "candidate_rows": 2,
+            "original_set_hash_matches": true
+        },
+        "native_tutorials_and_pages_meta": {
+            "baseline_rows": 2,
+            "candidate_rows": 2,
+            "original_set_hash_matches": true
+        },
+        "native_editorial_revisions": {
+            "baseline_rows": 0,
+            "candidate_rows": 0,
+            "original_set_hash_matches": true
+        },
+        "native_editorial_revision_meta": {
+            "baseline_rows": 0,
+            "candidate_rows": 0,
+            "original_set_hash_matches": true
+        }
+    },
+    "differences": [
+        "core_notification_outbox",
+        "core_daily_metrics",
+        "native_usermeta"
+    ],
+    "matched_groups": 40,
+    "mismatched_groups": 3,
+    "limitation": "Initial baseline stores full-set hashes, not per-row plaintext backups. For mismatched sets, row-level historical reconstruction is unavailable; legitimate test-driven session/queue changes are reported separately and never disguised as unchanged."
+}

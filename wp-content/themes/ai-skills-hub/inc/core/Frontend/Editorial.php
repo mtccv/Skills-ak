@@ -11,6 +11,8 @@ defined( 'ABSPATH' ) || exit;
 /** Editorial content uses native WordPress posts; Skills remain exclusively in Core tables. */
 final class Editorial {
 	public const TUTORIAL = 'aish_tutorial';
+	/** Fixed learning categories in existing tutorial metadata; no second content store. */
+	public const HELP_CATEGORIES = array( 'getting-started', 'platforms', 'creating', 'community', 'safety', 'policies' );
 	private const LOCALES = array( 'zh_CN', 'en_US' );
 	private const PAGE_KINDS = array( 'about', 'contact', 'submit' );
 	private array $cache = array();
@@ -187,6 +189,18 @@ final class Editorial {
 		$sorts = array( 'newest' => array( 'modified' => 'DESC', 'ID' => 'DESC' ), 'oldest' => array( 'modified' => 'ASC', 'ID' => 'ASC' ), 'title' => array( 'title' => 'ASC', 'ID' => 'ASC' ) );
 		if ( ! is_string( $sort ) || ! isset( $sorts[ $sort ] ) ) { throw new \InvalidArgumentException( 'Invalid tutorial sort.' ); }
 		$where = $this->linkedFilter( $locale, $filters );
+		$help = $filters['help_only'] ?? false;
+		$helpCategory = $filters['help_category'] ?? '';
+		if ( ! is_bool( $help ) || ! is_string( $helpCategory ) || ( '' !== $helpCategory && ! in_array( $helpCategory, self::HELP_CATEGORIES, true ) ) ) { throw new \InvalidArgumentException( 'Invalid help category.' ); }
+		if ( $help || '' !== $helpCategory ) {
+			global $wpdb;
+			$categories = '' !== $helpCategory ? array( $helpCategory ) : self::HELP_CATEGORIES;
+			$holders = implode( ',', array_fill( 0, count( $categories ), '%s' ) );
+			// Read the first metadata value, matching native editorial semantics even
+			// if historic duplicate meta rows exist; drafts/passwords remain excluded.
+			$where .= $wpdb->prepare( " AND BINARY (SELECT hc.meta_value FROM $wpdb->postmeta hc WHERE hc.post_id=$wpdb->posts.ID AND BINARY hc.meta_key='_aish_help_category' ORDER BY hc.meta_id ASC LIMIT 1) IN ($holders)", $categories );
+		}
+
 		if ( '' !== $search ) {
 			global $wpdb;
 			$like = '%' . $wpdb->esc_like( $search ) . '%';
@@ -208,6 +222,25 @@ final class Editorial {
 				if ( self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[] = $this->payload( $post, false ); }
 			}
 			return array( 'items' => $items, 'total' => (int) $query->found_posts, 'page' => $page, 'per_page' => $limit );
+		} );
+	}
+
+	/** Bounded topic navigation over the same public tutorial source and language rules. */
+	public function helpTopicCards( string $locale, array $topics ): array {
+		self::locale( $locale );
+		if ( ! $topics || count( $topics ) > 24 ) { throw new \InvalidArgumentException( 'Invalid help topics.' ); }
+		foreach ( $topics as $topic ) { if ( ! is_string( $topic ) || ! preg_match( '/^[a-z][a-z0-9-]{0,63}$/D', $topic ) ) { throw new \InvalidArgumentException( 'Invalid help topic.' ); } }
+		return $this->remember( 'help-topics:' . $locale . ':' . implode( ',', $topics ), function () use ( $locale, $topics ): array {
+			global $wpdb;
+			$holders = implode( ',', array_fill( 0, count( $topics ), '%s' ) );
+			$where = $wpdb->prepare( " AND BINARY (SELECT ht.meta_value FROM $wpdb->postmeta ht WHERE ht.post_id=$wpdb->posts.ID AND BINARY ht.meta_key='_aish_help_topic' ORDER BY ht.meta_id ASC LIMIT 1) IN ($holders)", $topics );
+			$query = self::query( array( 'post_type' => self::TUTORIAL, 'post_status' => 'publish', 'has_password' => false, 'posts_per_page' => 48, 'no_found_rows' => true, 'meta_key' => '_aish_locale', 'meta_value' => $locale, 'orderby' => array( 'ID' => 'ASC' ), 'suppress_filters' => true, 'update_post_meta_cache' => true, 'update_post_term_cache' => false ), $where );
+			self::prime( $query->posts ); $items = array();
+			foreach ( $query->posts as $post ) {
+				$topic = self::meta( $post->ID, '_aish_help_topic', true );
+				if ( is_string( $topic ) && in_array( $topic, $topics, true ) && ! isset( $items[ $topic ] ) && self::publicPost( $post, self::TUTORIAL, $locale ) ) { $items[ $topic ] = $this->payload( $post, false ); }
+			}
+			return $items;
 		} );
 	}
 
@@ -361,6 +394,11 @@ final class Editorial {
 			echo '</select></p><p class="description">' . esc_html__( '每种语言及用途请只发布一个页面；若存在重复，前台使用 ID 最小的已发布页面。', 'ai-skills-hub' ) . '</p>';
 		} else {
 			echo '<p><label for="aish-editorial-translation">' . esc_html__( '对应另一语言的教程 ID（可选）', 'ai-skills-hub' ) . '</label><br /><input type="number" min="1" name="aish_editorial_translation" id="aish-editorial-translation" value="' . esc_attr( (string) get_post_meta( $post->ID, '_aish_translation_id', true ) ) . '" /></p>';
+			$helpCategory = (string) get_post_meta( $post->ID, '_aish_help_category', true );
+			echo '<p><label for="aish-help-category">' . esc_html__( '帮助中心分类 / Help category', 'ai-skills-hub' ) . '</label><br><select name="aish_help_category" id="aish-help-category"><option value="">—</option>';
+			$helpLabels = array( 'getting-started' => '入门 / Getting started', 'platforms' => '平台指南 / Platform guides', 'creating' => '创建 Skills / Creating Skills', 'community' => '参与社区 / Community', 'safety' => '来源与安全 / Sources and safety', 'policies' => '社区规范 / Guidelines' );
+			foreach ( $helpLabels as $value => $label ) { echo '<option value="' . esc_attr( $value ) . '"' . selected( $helpCategory, $value, false ) . '>' . esc_html( $label ) . '</option>'; }
+			echo '</select></p><p class="description">' . esc_html__( '选择分类后，当前语言已发布教程也出现在帮助中心。中文和英文正文分别维护。 / Published tutorials in a selected category appear in Help. Maintain each language independently.', 'ai-skills-hub' ) . '</p>';
 			$ids = array_map( 'intval', get_post_meta( $post->ID, '_aish_related_skill', false ) );
 			echo '<p><label for="aish-editorial-skills">' . esc_html__( '相关 Skill ID（逗号分隔，最多 100 个）', 'ai-skills-hub' ) . '</label><br /><input class="widefat" maxlength="2100" name="aish_editorial_skills" id="aish-editorial-skills" value="' . esc_attr( implode( ',', $ids ) ) . '" /></p><p class="description">' . esc_html__( '教程保存在 WordPress 原生文章中，不创建 Skill 副本。前台只链接已审核发布的 Skills。', 'ai-skills-hub' ) . '</p>';
 		}
@@ -384,12 +422,14 @@ final class Editorial {
 				} );
 				return;
 			}
+			$helpCategory = array_key_exists( 'aish_help_category', $_POST ) ? wp_unslash( $_POST['aish_help_category'] ) : null;
+			if ( null !== $helpCategory && ( ! is_string( $helpCategory ) || ( '' !== $helpCategory && ! in_array( $helpCategory, self::HELP_CATEGORIES, true ) ) ) ) { throw new \InvalidArgumentException(); }
 			$skills = self::ids( wp_unslash( $_POST['aish_editorial_skills'] ?? '' ) );
 			$value = wp_unslash( $_POST['aish_editorial_translation'] ?? '' );
 			if ( ! is_string( $value ) ) { throw new \InvalidArgumentException(); }
 			$other_id = '' === $value ? 0 : filter_var( $value, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
 			if ( false === $other_id || $other_id === $id ) { throw new \InvalidArgumentException(); }
-			$metadata->transaction( function ( NativeMetadata $metadata ) use ( $id, $locale, $other_id, $skills ): void {
+			$metadata->transaction( function ( NativeMetadata $metadata ) use ( $id, $locale, $other_id, $skills, $helpCategory ): void {
 				// Pair validation must use fresh metadata while all Hub pair writes share the lock.
 				$metadata->touch( $id );
 				if ( $other_id ) {
@@ -416,6 +456,7 @@ final class Editorial {
 				if ( $other_id ) { $metadata->set( $id, '_aish_translation_id', (string) $other_id ); $metadata->set( $other_id, '_aish_translation_id', (string) $id ); }
 				else { $metadata->remove( $id, '_aish_translation_id' ); }
 				$metadata->replace( $id, '_aish_related_skill', array_map( 'strval', $skills ) );
+				if ( null !== $helpCategory ) { $metadata->set( $id, '_aish_help_category', $helpCategory ); }
 			} );
 		} catch ( \Throwable $error ) {
 			set_transient( 'aish_editorial_error_' . get_current_user_id(), __( '正文已由 WordPress 保存，但 AI Skills Hub 语言或关联元数据未能整体保存。检查权限、语言、对应教程、Skill ID 和数据库状态后重试。', 'ai-skills-hub' ), 120 );

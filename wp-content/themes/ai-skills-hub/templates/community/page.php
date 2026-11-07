@@ -61,6 +61,7 @@ $pagination = static function ( array $listing ) use ( $url, $route, $params, $t
 	<header class="account-page-heading"><h1><?php echo esc_html( $t( $route ) ); ?></h1><p><?php echo esc_html( $t( 'private_help' ) ); ?></p></header>
 	<?php if ( $c['error'] ) : ?><div class="account-notice account-error" id="community-feedback" role="alert" tabindex="-1" data-community-feedback><h2><?php echo esc_html( $t( 'error_title' ) ); ?></h2><p><?php echo esc_html( $t( 'error.' . $c['error'] ) ); ?></p><a class="account-text-action" href="<?php echo esc_url( $url( $route, $params ) ); ?>"><?php echo esc_html( $t( 'reload' ) ); ?></a></div><?php endif; ?>
 	<?php if ( $c['message'] ) : ?><div class="account-notice" role="status" tabindex="-1" data-community-feedback><p><?php echo esc_html( $t( 'message.' . $c['message'] ) ); ?></p></div><?php endif; ?>
+<?php do_action( 'aish_onboarding_context', 'community', $locale, $c ); ?>
 	<?php if ( in_array( $route, array( 'favorites', 'reviews' ), true ) && isset( $c['listing'] ) ) : $listing = $c['listing']; ?>
 	<form method="get" action="<?php echo esc_url( $url( $route ) ); ?>" class="community-filters">
 		<?php if ( 'favorites' === $route ) : ?><div class="account-field"><label for="community-q"><?php echo esc_html( $t( 'search' ) ); ?></label><input id="community-q" type="search" name="q" maxlength="100" value="<?php echo esc_attr( $params['q'] ?? '' ); ?>"></div><?php endif; ?>

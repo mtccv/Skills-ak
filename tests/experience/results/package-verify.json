@@ -1,0 +1,17 @@
+{
+  "kind": "Fresh PHP process loads the installed Phase14 package after native upgrade; actual Core/modules and retained data.",
+  "php": "8.4.27",
+  "wordpress": "7.1.4",
+  "package_sha256": "d7e7c5a32e88432395d7a204d3c9683d58c7dcb3ac219dac09686bb6a18aaae5",
+  "checks": {
+    "fresh_process_core_version": true,
+    "theme_header_version": true,
+    "learning_services_loaded": true,
+    "current_migrator": true,
+    "exactly_33_core_tables": true,
+    "fresh_boot_preserves_native_and_core_data": true
+  },
+  "reason": null,
+  "passed": 6,
+  "failed": 0
+}

@@ -1,6 +1,8 @@
 import './commercial-metrics.js';
 import Alpine from 'alpinejs';
 import './accounts.js';
+import './onboarding.js';
+import './skill-experience.js';
 import './community.js';
 import './contributions.js';
 import './discovery-views.js';

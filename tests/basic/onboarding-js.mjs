@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import vm from 'node:vm';
+const source = await readFile(new URL('../../wp-content/themes/ai-skills-hub/assets/src/onboarding.js',import.meta.url),'utf8');
+let assertions=0;const check=(ok,message)=>{assertions++;assert.ok(ok,message);};
+const settle=()=>new Promise(resolve=>setImmediate(resolve));
+function fixture({guest=false,step='welcome',storage=new Map(),storageBlocked=false,endpoint='https://hub.test/wp-admin/admin-ajax.php',reset=false,response=null,throws=false,delay=false,fetchAvailable=true}={}) {
+ const calls=[];const status={textContent:''};const timers=new Map();let serial=0,release;
+ const buttons=[{disabled:false,events:{},addEventListener(name,cb){this.events[name]=cb;}},{disabled:false,events:{},addEventListener(name,cb){this.events[name]=cb;}}];
+ const form={events:{},data:{action:'aish_onboarding',operation:reset?'reset':'dismiss',locale:'en_US',_wpnonce:'valid',...(reset?{}:{step})},querySelectorAll:()=>buttons,addEventListener(name,cb){this.events[name]=cb;}};
+ const panel={hidden:guest,dataset:{onboardingScope:guest?'device':'account',...(reset?{onboardingSettings:''}:{onboardingStep:step}),onboardingEndpoint:endpoint,onboardingFailed:'Could not save.',onboardingReset:'Introductions reset.'},attributes:{},querySelector:s=>s.includes('status')?status:form,querySelectorAll:()=>buttons,setAttribute(k,v){this.attributes[k]=v;},removeAttribute(k){delete this.attributes[k];}};
+ const location={href:'https://hub.test/en/',origin:'https://hub.test'};
+ const fetch=async(url,options)=>{calls.push({url,options});if(delay)await new Promise(resolve=>{release=resolve;});if(throws)throw new Error('private network details');return response??{ok:true,json:async()=>({success:true,data:{version:1,completed:reset?[]:[step]}})};};
+ const localStorage={getItem:key=>{if(storageBlocked)throw Error('blocked');return storage.get(key)??null;},setItem:(key,value)=>{if(storageBlocked)throw Error('blocked');storage.set(key,value);}};
+ const document={readyState:'complete',querySelectorAll:()=>[panel]};
+ vm.runInNewContext(source,{document,window:{fetch:fetchAvailable?fetch:null},location,localStorage,fetch,URL,URLSearchParams,AbortController,FormData:class{constructor(f){this.data=f.data;}*[Symbol.iterator](){yield*Object.entries(this.data);}},setTimeout:cb=>{const id=++serial;timers.set(id,cb);return id;},clearTimeout:id=>timers.delete(id)});
+ return {panel,buttons,status,form,calls,storage,timers,release:()=>release?.(),submit:()=>{let prevented=false;const result=form.events.submit({preventDefault(){prevented=true;}});return {result,prevented};}};
+}
+const key='aish_help_introductions_v1';let f=fixture({guest:true});check(!f.panel.hidden&&f.calls.length===0,'guest welcome visible without network');f.buttons[1].events.click();check(f.panel.hidden,'guest skip works');check(f.storage.get(key)==='{"version":1,"completed":["welcome"]}','only topic flag persisted');
+let second=fixture({guest:true,storage:f.storage});check(second.panel.hidden&&second.calls.length===0,'same device across language suppresses complete welcome');second=fixture({guest:true,step:'search',storage:f.storage});second.buttons[0].events.click();check(JSON.parse(f.storage.get(key)).completed.join(',')==='welcome,search','different topics merge without personal data');
+f=fixture({guest:true,storageBlocked:true});f.buttons[0].events.click();check(f.panel.hidden&&f.calls.length===0,'storage denied still allows dismiss on current page');
+for(const invalid of ['{',JSON.stringify({version:99,completed:['welcome']}),'x'.repeat(257)]){f=fixture({guest:true,storage:new Map([[key,invalid]])});check(!f.panel.hidden,'invalid stored flags are ignored');}
+f=fixture({guest:true,storage:new Map([[key,JSON.stringify({version:1,completed:['other','welcome'],query:'private'})]])});check(f.panel.hidden,'only whitelisted completed topic used');f.buttons[0].events.click();check(!f.storage.get(key).includes('private')&&!f.storage.get(key).includes('other'),'rewrites remove unrecognized data');
+f=fixture();let req=f.submit();check(req.prevented,'enhanced signed POST');await req.result;check(f.panel.hidden&&f.calls.length===1,'hide only after confirmed owner preference');check(f.calls[0].options.credentials==='same-origin'&&f.calls[0].options.cache==='no-store'&&f.calls[0].options.redirect==='error','no caching or external credential redirect');check(f.calls[0].options.body.get('step')==='welcome'&&!f.calls[0].options.body.has('user_id'),'request bound only by authenticated server identity');check(!f.buttons[0].disabled&&f.timers.size===0&&!f.panel.attributes['aria-busy'],'completion releases busy controls and timer');
+for(const response of [{ok:false,json:async()=>({success:false})},{ok:true,json:async()=>({success:true,data:{version:1,completed:[]}})},{ok:true,json:async()=>{throw Error('invalid JSON');}}]){f=fixture({response});await f.submit().result;check(!f.panel.hidden&&f.status.textContent==='Could not save.'&&!f.buttons[0].disabled,'failed/unconfirmed persistence remains retryable without internal error');}
+f=fixture({throws:true});await f.submit().result;check(!f.panel.hidden&&!f.status.textContent.includes('private'),'network details not shown');
+for(const endpoint of ['https://foreign.test/','http://[invalid']){f=fixture({endpoint});await f.submit().result;check(f.calls.length===0&&!f.panel.hidden&&f.status.textContent==='Could not save.','foreign or invalid endpoint blocked');}
+f=fixture({reset:true});await f.submit().result;check(!f.panel.hidden&&f.status.textContent==='Introductions reset.'&&f.calls[0].options.body.get('operation')==='reset','reset confirms without dismissing settings');
+f=fixture({fetchAvailable:false});req=f.submit();check(!req.prevented&&f.calls.length===0,'without fetch native authenticated form remains usable');
+f=fixture({delay:true});const first=f.submit();await settle();await f.submit().result;check(f.calls.length===1&&f.buttons.every(b=>b.disabled),'duplicate click while pending does not duplicate mutation');f.release();await first.result;check(f.panel.hidden,'pending confirmed preference eventually completes');
+console.log(`Onboarding browser logic: ${assertions} isolated DOM/storage/fetch assertions passed; no real browser assertions.`);

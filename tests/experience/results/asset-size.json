@@ -1,0 +1,16 @@
+{
+  "classification": "local artifact byte counts, not network transfer or runtime performance",
+  "phase13_baseline_zip": "release/ai-skills-hub-0.13.0.zip",
+  "before_bytes": {
+    "app.css": 70009,
+    "app.js": 72107
+  },
+  "phase14_candidate_bytes": {
+    "app.css": 78362,
+    "app.js": 75936
+  },
+  "delta_bytes": {
+    "app.css": 8353,
+    "app.js": 3829
+  }
+}

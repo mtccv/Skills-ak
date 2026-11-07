@@ -1,5 +1,9 @@
 # AI Skills Hub V2 数据库设计规划
 
+## 当前 Phase 14 实施范围（2026-11-08，Asia/Shanghai）
+
+以 [确认需求](PHASE_14_REQUEST.md) 为本轮依据，基准 `1282c4b756b3a5b020aa18e62a9295cee213d549`。主题/Core0.14.0；默认保留 **schema1.9.0 / 33张Core表**。引导复用原生用户元数据，帮助/规范复用现有教程，订阅依§4.5仅限已验证原生账户主动双重确认，复用验证表和加密outbox；不增加匿名联系人、订阅主表或第二邮件队列。旧规划的1.10.0/34表为未实施候选，不能作为当前实际Schema。完成Phase14后暂停，Final QA2.0只提供计划，不自动执行或上线。
+
 ## Phase 13 实施：仍为 schema 1.9.0 / 33 表
 
 没有DDL或迁移。人工赞助、集合套装及企业说明使用有界非autoload options；咨询仍是原生私有aish_message/postmeta独立enterprise类型，保留旧Contact/投稿归属。workflow_events追加受控赞助/套装/企业审计；商业观测使用既有metric_events/daily_metrics的commercial-1政策及sponsor独立维度，不改变自然排行。权利/价格/订单/支付/会员表均未创建。元数据、修订和幂等边界见[使用说明](COMMERCIAL_READINESS.md)。

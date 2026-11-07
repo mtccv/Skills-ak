@@ -1,0 +1,16 @@
+{
+  "kind": "Real separate PHP/MySQL connections and deterministic transport barrier; constrained synthetic outbox rows; wp_mail acceptance Mock, not SMTP or delivery",
+  "php_runtime": "84",
+  "cases": [
+    {
+      "id": "two_real_concurrent_optins_and_retry_share_one_pending_consent",
+      "status": "passed"
+    },
+    {
+      "id": "real_two_worker_policy_contention_deduplication_and_cancel_send_serialization",
+      "status": "passed"
+    }
+  ],
+  "passed": 2,
+  "failed": 0
+}

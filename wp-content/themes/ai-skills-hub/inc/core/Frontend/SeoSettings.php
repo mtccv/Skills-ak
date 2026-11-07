@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 final class SeoSettings {
 	private const OPTION = 'aish_seo_settings';
 	private const LOCALES = array( 'zh_CN', 'en_US' );
-	private const ROUTES = array( 'home', 'skills', 'tutorials', 'about', 'contact', 'submit', 'category', 'tag', 'skill' );
+	private const ROUTES = array( 'home', 'skills', 'tutorials', 'help', 'about', 'contact', 'submit', 'category', 'tag', 'skill' );
 	private const ENTITIES = array( 'category' => 'categories', 'tag' => 'tags', 'skill' => 'skills' );
 	private const MAX_OVERRIDES = 1000;
 
@@ -161,7 +161,7 @@ final class SeoSettings {
 	public function screen(): void {
 		try { Access::write( 'aish_manage_settings' ); } catch ( \DomainException $error ) { wp_die( esc_html__( '无权管理 SEO 设置。', 'ai-skills-hub' ), '', array( 'response' => 403 ) ); }
 		echo '<div class="wrap"><h1>AI Skills Hub · SEO</h1>';
-		$labels = array( 'home' => '首页 / Home', 'skills' => 'Skills 列表 / Skills archive', 'tutorials' => '教程列表 / Tutorials', 'about' => '关于 / About', 'contact' => '联系 / Contact', 'submit' => '投稿 / Submit', 'category' => '分类 / Category', 'tag' => '标签 / Tag', 'skill' => 'Skill 分享及索引 / Skill sharing and indexing' );
+		$labels = array( 'home' => '首页 / Home', 'skills' => 'Skills 列表 / Skills archive', 'tutorials' => '教程列表 / Tutorials', 'help' => '帮助中心 / Help center', 'about' => '关于 / About', 'contact' => '联系 / Contact', 'submit' => '投稿 / Submit', 'category' => '分类 / Category', 'tag' => '标签 / Tag', 'skill' => 'Skill 分享及索引 / Skill sharing and indexing' );
 		echo '<p>' . esc_html__( '中文和英文独立配置。留空使用当前语言的已有标题和摘要；不会生成缺失译文。教程和说明页面也可在各自编辑器的 SEO 面板配置。', 'ai-skills-hub' ) . '</p>';
 		try { list( $route, $locale, $id ) = self::selection( $_GET ); } catch ( \InvalidArgumentException $error ) { $route = 'home'; $locale = 'zh_CN'; $id = 0; }
 		echo '<form method="get"><input type="hidden" name="page" value="aish-seo"><p><label for="aish-seo-route">' . esc_html__( '页面类型', 'ai-skills-hub' ) . '</label> <select name="seo_route" id="aish-seo-route">';

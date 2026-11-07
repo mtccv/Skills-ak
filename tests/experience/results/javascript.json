@@ -1,0 +1,35 @@
+{
+  "classification": "isolated JavaScript; Mock DOM/clipboard, not browser UI",
+  "scripts": [
+    {
+      "file": "tests/basic/commercial-metrics-js.mjs",
+      "status": "passed",
+      "output": "Commercial measurement browser logic: 23 isolated DOM/time/fetch assertions passed; no real browser assertions.",
+      "stderr": ""
+    },
+    {
+      "file": "tests/basic/discovery-views-js.mjs",
+      "status": "passed",
+      "output": "Discovery view browser logic: 20 isolated DOM/time/fetch assertions passed; no real browser or HTTP integration.",
+      "stderr": ""
+    },
+    {
+      "file": "tests/basic/onboarding-js.mjs",
+      "status": "passed",
+      "output": "Onboarding browser logic: 26 isolated DOM/storage/fetch assertions passed; no real browser assertions.",
+      "stderr": ""
+    },
+    {
+      "file": "tests/basic/operations-search-js.mjs",
+      "status": "passed",
+      "output": "Operations search browser logic: 17 isolated DOM/time/fetch assertions passed; no real browser or HTTP integration.",
+      "stderr": ""
+    },
+    {
+      "file": "tests/basic/skill-experience-js.mjs",
+      "status": "passed",
+      "output": "Skill experience browser logic: 31 isolated DOM/clipboard assertions passed; no real browser assertions.",
+      "stderr": ""
+    }
+  ]
+}

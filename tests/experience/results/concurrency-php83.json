@@ -1,0 +1,16 @@
+{
+  "kind": "Real separate PHP/MySQL processes against retained isolated WordPress; actual advisory-lock contention, no database Mock",
+  "php_runtime": "83",
+  "cases": [
+    {
+      "id": "eight_parallel_onboarding_merges_and_replays_one_private_state",
+      "status": "passed"
+    },
+    {
+      "id": "concurrent_repeat_native_help_import_is_idempotent_and_retryable",
+      "status": "passed"
+    }
+  ],
+  "passed": 2,
+  "failed": 0
+}

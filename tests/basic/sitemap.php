@@ -12,6 +12,8 @@ namespace AISkillsHub\Core\Frontend {
 	final class Editorial {
 		public array $pages = array();
 		public array $rows = array();
+		public array $help = array();
+		public function tutorials( string $locale, array $filters ): array { return array( 'items' => $this->help[ $locale ] ?? array() ); }
 		public function sitemapCount( string $locale ): int { return count( $this->rows[ $locale ] ?? array() ); }
 		public function sitemapItems( string $locale, int $page, int $perPage ): array { return array_slice( $this->rows[ $locale ] ?? array(), ( $page - 1 ) * $perPage, $perPage ); }
 		public function page( string $route, string $locale ): ?array { return $this->pages[ $route ][ $locale ] ?? null; }
@@ -123,5 +125,9 @@ namespace {
 		check( str_contains( $xml, 'aish-sitemap-' ), 'Actual rendering plugin always receives Hub children.' );
 		check( $xml === apply_filters( $indexHooks[1], $xml ) && $xml === apply_filters( $indexHooks[0], $xml ), 'Both hook orders and repeat calls preserve exact child uniqueness.' );
 	}
+	$helpEditorial = new Editorial(); $helpEditorial->help['en_US'] = array( array( 'id' => 90 ) );
+	$helpMap = new Sitemap( new PublicCatalog(), $helpEditorial );
+	check( in_array( 'https://example.test/site&safe/en/help/', array_column( $helpMap->urlEntries( 'pages', 'en_US', 1 ), 'loc' ), true ), 'Published help language should have its own index URL.' );
+	check( ! in_array( 'https://example.test/site&safe/zh/help/', array_column( $helpMap->urlEntries( 'pages', 'zh_CN', 1 ), 'loc' ), true ), 'Missing help translations must not create a sitemap URL.' );
 	echo 'PASS: ' . $count . " isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).\n";
 }

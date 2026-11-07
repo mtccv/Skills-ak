@@ -1,0 +1,63 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL verified-user explicit consent, existing verification/outbox storage, encrypted credential handling and privacy; ALL mail transport responses are Mock, no real SMTP or delivery verification",
+  "cases": [
+    {
+      "id": "verified_current_owner_explicit_consent_only_no_automatic_enrollment",
+      "status": "passed"
+    },
+    {
+      "id": "double_confirmation_hashed_token_replay_and_private_projection",
+      "status": "passed"
+    },
+    {
+      "id": "expired_confirmation_does_not_activate_or_regenerate",
+      "status": "passed"
+    },
+    {
+      "id": "bilingual_confirmation_transport_acceptance_is_mock_not_delivery",
+      "status": "passed"
+    },
+    {
+      "id": "unsubscribe_is_idempotent_cancels_pending_mail_and_never_changes_account",
+      "status": "passed"
+    },
+    {
+      "id": "new_consent_generation_invalidates_old_cancel_and_old_confirmation",
+      "status": "passed"
+    },
+    {
+      "id": "native_metadata_guard_and_email_change_preserve_consent_boundary",
+      "status": "passed"
+    },
+    {
+      "id": "manager_pause_bounce_projections_and_subscriber_permissions",
+      "status": "passed"
+    },
+    {
+      "id": "definite_transport_failure_retries_same_row_without_business_replay",
+      "status": "passed"
+    },
+    {
+      "id": "ambiguous_transport_result_is_not_automatically_retried",
+      "status": "passed"
+    },
+    {
+      "id": "shared_outbox_retry_requires_both_queue_and_newsletter_capabilities",
+      "status": "passed"
+    },
+    {
+      "id": "privacy_export_erasure_and_other_owner_isolation",
+      "status": "passed"
+    }
+  ],
+  "assertions": 75,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 7,
+  "passed": 12,
+  "failed": 0
+}

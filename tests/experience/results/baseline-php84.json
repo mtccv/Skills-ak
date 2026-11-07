@@ -1,0 +1,221 @@
+{
+  "kind": "Real WordPress/MySQL read-only preservation baseline; no raw user records",
+  "baseline_commit": "1282c4b756b3a5b020aa18e62a9295cee213d549",
+  "theme_version": "0.13.0",
+  "core_version": "0.13.0",
+  "schema": "1.9.0",
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "tables": {
+    "repositories": {
+      "count": 6,
+      "sha256": "f057d4a625450e5a3b840650df3653ae4bc9bfcbfb7f5c8dc67703b37f826d31",
+      "structure_sha256": "b60fb8e386143b909a9833ecd186c69e5c13d9bac90e9871cf44b14b407c1bc0"
+    },
+    "skills": {
+      "count": 40,
+      "sha256": "78f4b421a72901aba7cbc60f5d15e40722bc742e65e42fbe18391c7acd37750d",
+      "structure_sha256": "385c63f5ba5c2e50b14839b620249fc81fc71f44f363cfa94f773f55b1fd4adc"
+    },
+    "skill_translations": {
+      "count": 80,
+      "sha256": "f7649fa114c14970c2f6da7e69481530d9d4080c81b687c39d49e469b181fdc4",
+      "structure_sha256": "8a495c7899ce73f493ca35c88a3cef05a12d3224b769cb9ab4293f78ac6fab0d"
+    },
+    "skill_versions": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "9dc984bb21fd6e511cc18eeae85a6c304b9f7d921bc5805537e052cf973eba95"
+    },
+    "categories": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "ba5a0f53a1c7e0a7535c8c3852d4fb32c90ff411cfc2c502bf56a074d5d9cd29"
+    },
+    "tags": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "41070adc49b53b9a81e77deb88c5c0ed89ef41bde6a45d5c5bff99f1ef49a124"
+    },
+    "skill_categories": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "79ebcbad41249f50310c3a40217a40b02a3b38a3916374ae463f0852449a2b02"
+    },
+    "skill_tags": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "9e3df6008ad58d7b4eb4a4b54b5ba4ac66935b296771d706147d4628d65b01b0"
+    },
+    "imports": {
+      "count": 3,
+      "sha256": "e0df0a7e4953a37dbf0e4fc61daa61173891dbfec0a063c5820018f6953981c3",
+      "structure_sha256": "07a8bf0d25639e92d3db52ae0ff0783656d42507c17e7eb195a1812648b28e0a"
+    },
+    "jobs": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "ce388acb4d3629f08b58d6c32a516b5f7944ec684f8ee0b9cf3673d58e0cb710"
+    },
+    "import_logs": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "ca2ee016091ab723d39d51c4649dc8a1232d2c37ac09dc84926e25d7f0dec6d6"
+    },
+    "ai_jobs": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "e2ff74e6f25e20303628d169bd72ea7ab9f5a51fa81152ef7243f0c8386ded99"
+    },
+    "ai_attempts": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "7c0011bb5085a7639389b6a0e7dfc98a6d75912a36c57c817f3a10421ac71108"
+    },
+    "ai_reviews": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "a4eceb44d4667fd99e63ab151de5519af6c8692664610c0077bb699636b5331b"
+    },
+    "email_verifications": {
+      "count": 81,
+      "sha256": "6e68cafda3290f2a199793ef6b950a546a17e26933b7fe625b43858d23ebb655",
+      "structure_sha256": "8520132049fc3525d786f9db7e0c9e14ac25e9a49f96aa583b2cdf83b718c1ed"
+    },
+    "user_notifications": {
+      "count": 288,
+      "sha256": "e912e37d08d30489dd2523f94ad2e0fa17e523951f499e79713498fc73354b6b",
+      "structure_sha256": "5f89ddd1ca83d59eb42c09471c8c753a11a19f99f1b7b07e376d5f902f8387ce"
+    },
+    "notification_outbox": {
+      "count": 39,
+      "sha256": "f226de8c746b9f89a889cd43415fa227cacaf05a44cf8e8b761fdf8a6b88defc",
+      "structure_sha256": "a792208d022e761415e31b66bb1339b164121709b4b5b53970acb95fda97d461"
+    },
+    "favorites": {
+      "count": 9,
+      "sha256": "f574ae903b117044829ef8b9fab334d9a91871f296e3223d288369a7c1753719",
+      "structure_sha256": "d3f91db2a9606c887793bfa0c8dc92c3ff83944c738c8c5e5f817035e7bfe38d"
+    },
+    "reviews": {
+      "count": 14,
+      "sha256": "e1b2985b3fa1015b4714b403837cb10dc135adaa961760ca7d782d81b463922d",
+      "structure_sha256": "4db57a20a41d29cc07d5c6b5056fe3a46b153e947842496d280bbe0cfe1f6a1d"
+    },
+    "review_revisions": {
+      "count": 14,
+      "sha256": "2189703ea6880ee394b4f16dfacec63381e5acbfa49b128ab061d7df9709259d",
+      "structure_sha256": "d26a65ce5a65cdab6a34fd061062f545968997019fc4b31c9720e4a84ec3adbc"
+    },
+    "review_reports": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "c852ec7fbb283232c54d55c311e0960a18e9945e6f5d2d7cd60ef6c86a6be1f6"
+    },
+    "skill_reports": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "d97ca8e8088071b46955997c3c4f4d30562313ee53d47e5a55c5c2b95862bb63"
+    },
+    "workflow_events": {
+      "count": 324,
+      "sha256": "8d061dc9b94ba849e226599b08d6371c495e1724d06f271e3186a343a0649b42",
+      "structure_sha256": "39d7965c0e183ea318d74c1483c15b9292cb834bae35a2d8314e85860f03639a"
+    },
+    "metric_events": {
+      "count": 336,
+      "sha256": "f6effb52d48d3d1158915b986b271113d88ab1a5642bb1ad9ae74dde96925e91",
+      "structure_sha256": "496777c35f0e6153f0c67e2735ca5d96d221b75abf5c34354fc06e60daeb74d9"
+    },
+    "daily_metrics": {
+      "count": 90,
+      "sha256": "92df6c9011d3fd3b6d95e4e7efd24259d042438e49755cf77c355fa35b63347b",
+      "structure_sha256": "facfdbd7b3c48ccbc4ab5f40c59c348b363ff5bf0057c1e121b0fa7a0c5c4772"
+    },
+    "author_claims": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "588f73f7fe2fbeb5d67afee9bf94b30631571665af0392c56b024eaadd530c39"
+    },
+    "editorial_collections": {
+      "count": 2,
+      "sha256": "94f437aa505180bb1233e133237b47c1a7ee80e538a8f8234327f9067c1b8ecc",
+      "structure_sha256": "1e1e6e1da6fae0a88df02bc85bd5736870c3f8a6da44c6bfbcc8d2e579fb748d"
+    },
+    "collection_translations": {
+      "count": 2,
+      "sha256": "f79a82e150d3aaf8c909916584f856b5a8b1c702d46943341af8b1fb02f06f56",
+      "structure_sha256": "e2cf1f1b9dceaea85c0bd8e28db2113b212b8ac3a889d5fe499f4d75e03e83f9"
+    },
+    "collection_items": {
+      "count": 4,
+      "sha256": "16dde0556180a87602a38ace4dc8079ce18a7b0f289f302d20e34a398b0e0c27",
+      "structure_sha256": "82c8041cff10e22322aea051bc034551a16739d9e4681af5ead468f0a5800a69"
+    },
+    "use_cases": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "b8d7aae13a30f68a6a831f982f38400f3b5676a77c943a89cc3388e15fc6a118"
+    },
+    "use_case_translations": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "1b078dd251a4e474a6cba22cd2ca32cc11c3308a458b48334722b8dba7ea5c6a"
+    },
+    "use_case_skills": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "7b612254655e14be0f198072d408772d218f8d5ec1d0f2862d80160b17274222"
+    },
+    "term_translations": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "structure_sha256": "46920606df960c9ea42865699bdd2fd653954dd4b1c7cfc6d547cbb5fb717ec7"
+    }
+  },
+  "native": {
+    "users": {
+      "count": 92,
+      "sha256": "54dfbcb9b5adcac9f540111f56da98e6a566cdeb1dd22b054ae48bf8ca8665fd"
+    },
+    "usermeta": {
+      "count": 1681,
+      "sha256": "9813d9847ac1e27a397e9e1272964f2ce76a72580f4f188854da24bf0c396f30"
+    },
+    "inbox": {
+      "count": 21,
+      "sha256": "a65adb16b6b1779b31bdfb97ff63dc3fb194cd065495cb6d24e0cd390d141ca2"
+    },
+    "inbox_meta": {
+      "count": 328,
+      "sha256": "4a3fe5565907c7ebe214ac73b8d971b99b9ebe2d161ac5335049f27481ea34ff"
+    },
+    "revisions": {
+      "count": 17,
+      "sha256": "c7e55dc2fa32d12f6cbff288e88aca33c156625c9a6def6ba092763590ec8ef6"
+    },
+    "revision_meta": {
+      "count": 34,
+      "sha256": "d80b1833119624ab3259585e9f45aa6d10a1067bb95d153d6c2a3171ddbb93b4"
+    },
+    "tutorials_and_pages": {
+      "count": 2,
+      "sha256": "5e372278ca1742ac7893415d007b1d249e605c838126da76eb3787c469879711"
+    },
+    "tutorials_and_pages_meta": {
+      "count": 2,
+      "sha256": "e5f936735222f68f461a4a7b2340ffe236a3e98ea9750a20fe09904b91eeb96c"
+    },
+    "editorial_revisions": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "editorial_revision_meta": {
+      "count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

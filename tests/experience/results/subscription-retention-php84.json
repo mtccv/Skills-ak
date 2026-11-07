@@ -1,0 +1,19 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WP/MySQL owned synthetic 30/180/90-day retention, paused Cron and no transport; preflight refuses cleanup affecting any other run record",
+  "cases": [
+    {
+      "id": "real_optin_retention_while_marketing_paused_preserves_accounts_active_consent_and_recent_history",
+      "status": "passed"
+    }
+  ],
+  "assertions": 28,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 0,
+  "passed": 1,
+  "failed": 0
+}

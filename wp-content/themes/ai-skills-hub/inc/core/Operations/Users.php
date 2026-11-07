@@ -175,7 +175,7 @@ final class Users {
 	public function erase( bool $done, int $id ): bool {
 		if ( $id < 1 || ! $this->migrator->isCurrent() ) { return $done; }
 		return $this->locks->withUser( $id, function () use ( $done, $id ): bool {
-			if ( get_userdata( $id ) && '1' !== get_user_meta( $id, '_aish_account_deletion_pending', true ) && '1' !== get_user_meta( $id, '_aish_community_erasing', true ) ) { throw new \RuntimeException( 'users_forbidden' ); }
+			if ( ! \AISkillsHub\Core\Accounts\Privacy::isErasingAccount( $id ) ) { throw new \RuntimeException( 'users_forbidden' ); }
 			$t = $this->db->table( 'workflow_events' );
 			$this->db->execute( "UPDATE $t SET subject_id=0,actor_user_id=NULL,metadata_json='{}' WHERE subject_type='user' AND subject_id=%d ORDER BY id LIMIT 50", array( $id ) );
 			return null === $this->db->value( "SELECT id FROM $t WHERE subject_type='user' AND subject_id=%d LIMIT 1", array( $id ) ) && $done;

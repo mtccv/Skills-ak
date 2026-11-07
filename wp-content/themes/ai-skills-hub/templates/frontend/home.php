@@ -36,6 +36,7 @@ $spotlight = $featured[0] ?? $latest[0] ?? null;
 		</div>
 	</div>
 </section>
+<div class="aish-container"><?php do_action( 'aish_onboarding_context', 'home', Router::context()['locale'], Router::context() ); ?></div>
 <?php do_action( 'aish_commercial_placement', 'home_after_search', Router::context()['locale'] ); ?>
 <?php do_action( 'aish_discovery_home', Router::context()['locale'], $data ); ?>
 <section class="aish-container section-space"><div class="submit-banner"><div class="submit-banner-art" aria-hidden="true"><?php echo View::icon( 'sparkles' ); ?></div><div><p class="eyebrow"><?php echo esc_html( View::t( 'home.submit.kicker' ) ); ?></p><h2><?php echo esc_html( View::t( 'home.submit.title' ) ); ?></h2><p><?php echo esc_html( View::t( 'home.submit.description' ) ); ?></p></div><a class="button button-light" href="<?php echo esc_url( View::url( 'submit' ) ); ?>"><?php echo esc_html( View::t( 'nav.submit' ) ); ?><?php echo View::icon( 'arrow-right' ); ?></a></div></section>

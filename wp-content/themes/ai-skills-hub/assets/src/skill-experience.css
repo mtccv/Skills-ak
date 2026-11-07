@@ -1,0 +1,27 @@
+@layer components {
+  .aish-skill-share { @apply mt-6 min-w-0 border-t border-slate-200 pt-5 text-sm; }
+  .aish-skill-share-actions { @apply flex flex-wrap items-center gap-2; }
+  .aish-skill-share .button, .aish-installation-experience .button { min-height: 44px; }
+  .aish-share-network { @apply inline-flex items-center px-3 py-2 font-medium; min-height: 44px; }
+  .aish-share-text { @apply mt-3 text-xs text-slate-600; }
+  .aish-share-text summary { @apply cursor-pointer py-2; min-height: 44px; }
+  .aish-share-text label { @apply mb-1 mt-3 block; }
+  .aish-share-text input { min-width: 0; }
+  .aish-copy-status { @apply my-2 min-h-6 text-sm text-slate-600; overflow-wrap: anywhere; }
+  .aish-installation-experience { @apply mt-8 min-w-0 border-t border-slate-200 pt-6; }
+  .aish-installation-note { @apply my-3 text-sm leading-7 text-slate-600; overflow-wrap: anywhere; }
+  .aish-installation-command { @apply my-5 min-w-0; }
+  .aish-installation-command-heading { @apply mb-2 flex flex-wrap items-center justify-between gap-3; }
+  .aish-installation-command-heading h4 { @apply text-sm font-semibold; overflow-wrap: anywhere; }
+  .aish-installation-command pre { @apply w-full overflow-x-auto rounded-md border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-800; max-width: 100%; white-space: pre; tab-size: 4; }
+  .aish-installation-command code { white-space: pre; overflow-wrap: normal; word-break: normal; }
+  .aish-installation-facts { @apply mt-5 grid gap-3 text-xs text-slate-600; }
+  .aish-installation-facts > div { @apply grid min-w-0 gap-1 sm:grid-cols-[130px_minmax(0,1fr)]; }
+  .aish-installation-facts dt { @apply font-medium; }
+  .aish-installation-facts dd { min-width: 0; overflow-wrap: anywhere; }
+  .aish-installation-facts code { word-break: break-all; }
+  .aish-installation-facts a, .aish-installation-help { color: #AD5E48; text-decoration: underline; text-underline-offset: 3px; }
+  .aish-installation-help { @apply mt-5 inline-flex items-center text-sm font-medium; min-height: 44px; }
+  .aish-skill-share :focus-visible, .aish-installation-experience :focus-visible { outline: 2px solid #AD5E48; outline-offset: 3px; }
+  .aish-skill-share [hidden], .aish-installation-experience [hidden] { display: none !important; }
+}

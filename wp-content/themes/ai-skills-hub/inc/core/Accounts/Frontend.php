@@ -42,6 +42,7 @@ final class Frontend {
 		$path = $parts['path'] ?? '';
 		if ( '' !== $base && ! str_starts_with( $path, $base . '/' ) ) { return null; }
 		$relative = substr( $path, strlen( $base ) );
+		if ( preg_match( '#^/(zh|en)/newsletter/(?:confirm/)?$#D', $relative ) ) { return empty( $parts['query'] ) ? Router::siteUrl( $relative ) : null; }
 		if ( preg_match( '#^/(zh|en)/skills/[1-9][0-9]{0,18}/[a-z0-9-]{1,191}/$#D', $relative ) ) { return empty( $parts['query'] ) ? Router::siteUrl( $relative ) : null; }
 		$isSubmit = (bool) preg_match( '#^/(zh|en)/submit/$#D', $relative );
 		if ( ! $isSubmit && ! preg_match( '#^/(zh|en)/account(?:/(profile|settings|security|privacy|notifications|favorites|reviews|review|favorite|report-review|report-skill|submissions|submission|update-suggestion|developer|claim))?/$#D', $relative, $match ) ) { return null; }

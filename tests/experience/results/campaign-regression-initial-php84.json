@@ -1,0 +1,28 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL regression on retained first-run campaign rows after correcting test-only worker row selection; all wp_mail transport responses remain Mock",
+  "cases": [
+    {
+      "id": "same_generation_digest_headers_and_live_public_gate",
+      "status": "failed",
+      "reason": "One-click cancellation headers retained"
+    },
+    {
+      "id": "global_pause_defers_same_row_and_resume_preserves_attempt_budget",
+      "status": "passed"
+    },
+    {
+      "id": "chinese_issue_reuses_curated_content_and_only_selected_language",
+      "status": "passed"
+    }
+  ],
+  "assertions": 9,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 3,
+  "passed": 2,
+  "failed": 1
+}

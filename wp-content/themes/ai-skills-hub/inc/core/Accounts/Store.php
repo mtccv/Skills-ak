@@ -9,8 +9,8 @@ defined( 'ABSPATH' ) || exit;
 
 /** Internal account persistence. HTTP ownership/authorization belongs to AccountService. */
 final class Store {
-	private const PURPOSES = array( 'verify_email', 'change_email' );
-	private const MAIL_TEMPLATES = array( 'verify_email', 'change_email', 'password_reset', 'security_notice' );
+	private const PURPOSES = array( 'verify_email', 'change_email', 'newsletter' );
+	private const MAIL_TEMPLATES = array( 'verify_email', 'change_email', 'password_reset', 'security_notice', 'newsletter_confirm', 'newsletter_weekly', 'newsletter_new' );
 	public function __construct( private Database $db ) {}
 	public function database(): Database { return $this->db; }
 	public function transaction( callable $operation ): mixed { return $this->db->transaction( $operation ); }
@@ -104,13 +104,21 @@ final class Store {
 	public function claim(): ?array {
 		return $this->db->transaction( function (): ?array {
 			$table = $this->db->table( 'notification_outbox' ); $now = self::now();
-			$row = $this->db->row( "SELECT * FROM $table WHERE status IN ('queued','retry') AND available_at<=%s AND expires_at>%s AND attempts<5 ORDER BY available_at,id LIMIT 1 FOR UPDATE", array( $now, $now ) );
+			// Optional campaigns must never place an account verification/reset behind a digest backlog.
+			$row = $this->db->row( "SELECT * FROM $table WHERE status IN ('queued','retry') AND available_at<=%s AND expires_at>%s AND attempts<5 AND template_key NOT IN ('newsletter_weekly','newsletter_new') ORDER BY available_at,id LIMIT 1 FOR UPDATE", array( $now, $now ) );
+			if ( ! $row ) { $row = $this->db->row( "SELECT * FROM $table WHERE status IN ('queued','retry') AND available_at<=%s AND expires_at>%s AND attempts<5 AND template_key IN ('newsletter_weekly','newsletter_new') ORDER BY available_at,id LIMIT 1 FOR UPDATE", array( $now, $now ) ); }
 			if ( ! $row ) { return null; }
 			$lease = bin2hex( random_bytes( 32 ) );
 			$until = gmdate( 'Y-m-d H:i:s', time() + 120 );
 			$this->db->execute( "UPDATE $table SET status='claimed',attempts=attempts+1,lease_token=%s,locked_until=%s,updated_at=%s WHERE id=%d", array( $lease, $until, $now, (int) $row['id'] ) );
 			return array_replace( $row, array( 'status' => 'claimed', 'attempts' => (int) $row['attempts'] + 1, 'lease_token' => $lease, 'locked_until' => $until, 'updated_at' => $now ) );
 		} );
+	}
+
+	/** Pause is not a delivery attempt. Only an unsent newsletter claim may be deferred. */
+	public function deferNewsletter( int $id, string $lease ): bool {
+		self::user( $id ); self::hash( $lease ); $now = self::now();
+		return 1 === $this->db->execute( 'UPDATE ' . $this->db->table( 'notification_outbox' ) . " SET status='queued',attempts=GREATEST(attempts-1,0),available_at=%s,lease_token='',locked_until=NULL,updated_at=%s WHERE id=%d AND status='claimed' AND template_key IN ('newsletter_weekly','newsletter_new') AND lease_token=%s AND locked_until>%s AND expires_at>%s", array( gmdate( 'Y-m-d H:i:s', time() + 300 ), $now, $id, $lease, $now, $now ) );
 	}
 
 	public function markSending( int $id, string $lease ): bool {

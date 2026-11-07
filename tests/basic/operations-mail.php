@@ -3,9 +3,9 @@ declare(strict_types=1);
 /** Isolated real operations service/template policy with modeled wpdb. No transport is called. */
 if ( PHP_SAPI !== 'cli' ) { exit( 1 ); }
 define( 'ABSPATH', __DIR__ . '/' ); define( 'ARRAY_A', 'ARRAY_A' ); define( 'DAY_IN_SECONDS', 86400 ); define( 'DB_NAME', 'operations_mail_fixture' );
-$GLOBALS['mail_cap'] = true; $GLOBALS['mail_manager'] = false; $GLOBALS['mail_duplicate_state'] = false; $GLOBALS['mail_deletion'] = ''; $GLOBALS['mail_actor_state'] = ''; $GLOBALS['mail_options'] = array(); $GLOBALS['mail_wake'] = 0;
+$GLOBALS['mail_newsletter_cap'] = false; $GLOBALS['mail_cap'] = true; $GLOBALS['mail_manager'] = false; $GLOBALS['mail_duplicate_state'] = false; $GLOBALS['mail_deletion'] = ''; $GLOBALS['mail_actor_state'] = ''; $GLOBALS['mail_options'] = array(); $GLOBALS['mail_wake'] = 0;
 function get_option( string $key, mixed $default = false ): mixed { return 'aish_schema_version' === $key ? '1.9.0' : ( $GLOBALS['mail_options'][ $key ] ?? $default ); }
-function current_user_can( string $key ): bool { return 'manage_options' === $key ? $GLOBALS['mail_manager'] : $GLOBALS['mail_cap']; }
+function current_user_can( string $key ): bool { return match ( $key ) { 'manage_options' => $GLOBALS['mail_manager'], 'aish_manage_notifications' => $GLOBALS['mail_cap'], 'aish_manage_subscriptions' => $GLOBALS['mail_newsletter_cap'], default => false }; }
 function get_current_user_id(): int { return 7; }
 function get_user_locale(): string { return 'en_US'; }
 function wp_cache_delete( mixed $key, string $group ): void {}
@@ -87,4 +87,18 @@ $GLOBALS['mail_actor_state'] = 'active'; $GLOBALS['mail_duplicate_state'] = true
 $GLOBALS['mail_actor_state'] = 'pending_email'; $GLOBALS['mail_deletion'] = '1'; reject( fn() => $admin->listing(), 'mail_forbidden' ); $GLOBALS['mail_deletion'] = '';
 $GLOBALS['mail_actor_state'] = ''; $GLOBALS['mail_manager'] = false;
 check( ! array_filter( $native->sql, fn( $sql ) => preg_match( '/(?:UPDATE|INSERT|DELETE).*aish_(skills|reviews|imports|ai_jobs)/i', $sql ) ), 'Mail recovery never replays moderation, resource creation or AI/import work.' );
+// Phase14 keeps newsletter dispatch authorization separate from queue maintenance.
+foreach ( array( 'newsletter_confirm', 'newsletter_weekly', 'newsletter_new', 'newsletter_future' ) as $template ) {
+ $native->rows[1] = array_replace( $fixture, array( 'template_key' => $template ) ); $GLOBALS['mail_newsletter_cap'] = false;
+ $before = $native->rows[1]; $events = count( $native->events ); $wake = $GLOBALS['mail_wake'];
+ check( false === $admin->listing()[0]['can_retry'], 'Queue-only manager sees no newsletter retry affordance.' );
+ reject( fn() => $admin->retry( 1 ), 'mail_forbidden' );
+ check( $native->rows[1] === $before && count( $native->events ) === $events && $GLOBALS['mail_wake'] === $wake, 'Forged direct newsletter retry cannot schedule, audit or wake a worker.' );
+ $GLOBALS['mail_newsletter_cap'] = true; check( true === $admin->listing()[0]['can_retry'], 'Newsletter retry requires both capabilities.' );
+ $admin->retry( 1 ); check( $native->rows[1]['available_at'] <= Store::now() && 1 === $native->rows[1]['attempts'] && count( $native->events ) === $events + 1, 'Authorized marketing retry remains existing bounded outbox operation.' );
+}
+$GLOBALS['mail_cap'] = false; reject( fn() => $admin->retry( 1 ), 'mail_forbidden' ); $GLOBALS['mail_cap'] = true; $GLOBALS['mail_newsletter_cap'] = false;
+$native->rows[1] = $fixture; check( true === $admin->listing()[0]['can_retry'], 'Ordinary account messages preserve existing queue capability.' );
+$admin->retry( 1 ); $admin->pause( true ); $admin->pause( false ); check( '0' === $GLOBALS['mail_options']['aish_account_mail_paused'], 'Global queue maintenance remains available without marketing capability.' );
+check( count( array_filter( $native->sql, fn( $sql ) => str_contains( $sql, 'SELECT id,template_key,status' ) && str_contains( $sql, 'FOR UPDATE' ) ) ) >= 4, 'Authorization checks actual locked template rather than caller parameter.' );
 echo "Operations mail: $checks isolated assertions passed (modeled WordPress/SQL, no real mail).\n";

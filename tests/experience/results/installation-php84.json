@@ -1,0 +1,43 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL reviewed installation evidence, source SHA binding, public sharing and transaction/replay guards; synthetic GitHub snapshots, no GitHub request and no command execution",
+  "cases": [
+    {
+      "id": "unverified_copy_is_never_implicitly_enabled",
+      "status": "passed"
+    },
+    {
+      "id": "reviewed_editorial_copy_is_exact_locale_bound_private_notes_absent",
+      "status": "passed"
+    },
+    {
+      "id": "license_platform_and_visible_source_are_mandatory",
+      "status": "passed"
+    },
+    {
+      "id": "repository_snapshot_sha_and_source_change_invalidate_copy",
+      "status": "passed"
+    },
+    {
+      "id": "reviewed_content_change_archive_and_missing_translation_fail_closed",
+      "status": "passed"
+    },
+    {
+      "id": "public_share_discards_query_credentials_and_preserves_language",
+      "status": "passed"
+    },
+    {
+      "id": "hidden_controls_markup_substrings_and_duplicate_commands_rejected",
+      "status": "passed"
+    }
+  ],
+  "assertions": 36,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 0,
+  "passed": 7,
+  "failed": 0
+}

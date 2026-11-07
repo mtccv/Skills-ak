@@ -75,6 +75,10 @@ jobs:
         run: |
           set -e
           for test in tests/basic/commercial-*.php; do php "$test"; done
+      - name: Phase 14 learning, consent and safe-copy contracts (isolated/Mock)
+        run: |
+          set -e
+          for test in tests/basic/onboarding.php tests/basic/privacy-*.php tests/basic/help-*.php tests/basic/skill-experience*.php tests/basic/subscription*.php; do php "$test"; done
   assets:
     runs-on: ubuntu-latest
     steps:
@@ -89,6 +93,8 @@ jobs:
       - run: node tests/basic/discovery-views-js.mjs
       - run: node tests/basic/operations-search-js.mjs
       - run: node tests/basic/commercial-metrics-js.mjs
+      - run: node tests/basic/onboarding-js.mjs
+      - run: node tests/basic/skill-experience-js.mjs
       - run: python3 tests/final/test-package-theme.py
       - run: python3 scripts/package-theme.py --check
   wordpress-smoke:

@@ -1,0 +1,42 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL approved campaign snapshots, bounded cursor fault recovery, live public gates and one existing outbox; worker selection is test-constrained to owned rows; all transport responses are Mock, never real SMTP/delivery",
+  "cases": [
+    {
+      "id": "issue_exact_preview_public_language_and_private_native_storage",
+      "status": "passed"
+    },
+    {
+      "id": "batch_fault_rolls_back_recipient_cursor_then_retry_resumes_without_duplicates",
+      "status": "passed"
+    },
+    {
+      "id": "same_generation_digest_headers_and_live_public_gate",
+      "status": "failed",
+      "reason": "Existing worker accepts one intercepted digest"
+    },
+    {
+      "id": "unsubscribe_before_worker_prevents_transport_and_security_mail_is_unaffected",
+      "status": "passed"
+    },
+    {
+      "id": "global_pause_defers_same_row_and_resume_preserves_attempt_budget",
+      "status": "failed",
+      "reason": "Resume dispatches original row once"
+    },
+    {
+      "id": "chinese_issue_reuses_curated_content_and_only_selected_language",
+      "status": "failed",
+      "reason": "Chinese digest reaches only intercepted transport"
+    }
+  ],
+  "assertions": 39,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 1,
+  "passed": 3,
+  "failed": 3
+}

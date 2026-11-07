@@ -1,0 +1,19 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real retained owned digest rechecked after source withdrawal, with actual HTTP-safe cancellation headers and stable token; transport acceptance intercepted, no live SMTP or delivery",
+  "cases": [
+    {
+      "id": "same_generation_digest_headers_and_live_public_gate",
+      "status": "passed"
+    }
+  ],
+  "assertions": 7,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 1,
+  "passed": 1,
+  "failed": 0
+}

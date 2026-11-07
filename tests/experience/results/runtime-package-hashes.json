@@ -1,0 +1,14 @@
+{
+  "kind": "Byte-for-byte all executable/theme assets in repository and both real runtime mounts against final development ZIP; LICENSE added from repository root by packager",
+  "package_sha256": "d7e7c5a32e88432395d7a204d3c9683d58c7dcb3ac219dac09686bb6a18aaae5",
+  "package_files": 214,
+  "runtime_theme_files": 213,
+  "checks": {
+    "repository": true,
+    "qa83": true,
+    "qa84": true,
+    "packaged_license": true
+  },
+  "passed": 4,
+  "failed": 0
+}

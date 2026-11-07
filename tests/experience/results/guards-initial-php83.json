@@ -1,0 +1,40 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL native metadata guards, verified email change round trip, confirmed native privacy erasure and native user deletion; no real SMTP or external API",
+  "cases": [
+    {
+      "id": "protected_metadata_hidden_without_breaking_native_roles_or_blank_key",
+      "status": "passed"
+    },
+    {
+      "id": "configuration_guards_do_not_block_domain_save_or_unrelated_native_options",
+      "status": "passed"
+    },
+    {
+      "id": "native_email_round_trip_does_not_revive_previous_marketing_consent",
+      "status": "passed"
+    },
+    {
+      "id": "account_service_email_change_inside_transaction_has_no_nested_transaction_failure",
+      "status": "passed"
+    },
+    {
+      "id": "confirmed_native_privacy_eraser_clears_help_and_subscription_only_for_owner",
+      "status": "failed",
+      "reason": "users_forbidden"
+    },
+    {
+      "id": "native_user_deletion_and_reserved_metadata_remain_compatible",
+      "status": "passed"
+    }
+  ],
+  "assertions": 29,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 2,
+  "passed": 5,
+  "failed": 1
+}

@@ -1,5 +1,7 @@
 # 站内通知与邮件运营
 
+> Phase14：原通知和账户安全邮件保持，新增固定newsletter_confirm/newsletter_weekly/newsletter_new模板，复用同一outbox及Worker。营销同意、权限和暂停独立，退订不关闭密码恢复等必要账户消息；参见[订阅说明](../EMAIL_SUBSCRIPTION.md)。
+
 本说明对应 Phase 12，账户验证和凭据配置沿用 [ACCOUNT_SYSTEM](../ACCOUNT_SYSTEM.md)、[EMAIL_SETUP](../EMAIL_SETUP.md)。没有新通知表或第二套邮件队列。
 
 ## 我的通知

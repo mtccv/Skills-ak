@@ -7,7 +7,15 @@ defined( 'ABSPATH' ) || exit;
 
 /** One encrypted account message per tick; no native mail or network work on a frontend request. */
 final class MailWorker {
+	private array $handlers = array();
 	public function __construct( private Store $store, private Mail $mail, private Locks $locks ) {}
+	/** Trusted Core extension; only these fixed opt-in templates may use a different final send gate. */
+	public function registerNewsletterHandler( callable $handler ): void {
+		foreach ( array( 'newsletter_confirm', 'newsletter_weekly', 'newsletter_new' ) as $template ) {
+			if ( isset( $this->handlers[ $template ] ) ) { throw new \LogicException( 'Newsletter mail handler is already registered.' ); }
+			$this->handlers[ $template ] = $handler;
+		}
+	}
 
 	public function run(): void {
 		if ( ! ( ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) ) { return; }
@@ -17,6 +25,10 @@ final class MailWorker {
 		if ( ! $row ) { return; }
 		$id = (int) $row['id']; $lease = (string) $row['lease_token']; $sending = false;
 		try {
+			if ( isset( $this->handlers[ $row['template_key'] ] ) ) {
+				// The handler owns the same Store lease/state machine, and catches uncertain sends.
+				( $this->handlers[ $row['template_key'] ] )( $row ); return;
+			}
 			$userId = (int) ( $row['recipient_user_id'] ?? 0 );
 			if ( $userId < 1 ) { $this->store->finish( $id, $lease, 'cancelled', 'mail_recipient_unavailable' ); return; }
 			// Native email changes and deletion use the same user lock. A short external

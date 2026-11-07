@@ -19,6 +19,7 @@ use AISkillsHub\Core\Modules\ContributionsModule;
 use AISkillsHub\Core\Modules\DiscoveryModule;
 use AISkillsHub\Core\Modules\OperationsModule;
 use AISkillsHub\Core\Modules\CommercialModule;
+use AISkillsHub\Core\Modules\LearningModule;
 use AISkillsHub\Core\Admin\Management;
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +32,7 @@ final class Core {
 	public static function boot(): self {
 		if ( null === self::$instance ) {
 			$core          = new self();
-			$core->modules = ( new ModuleLoader() )->load( array( new DatabaseModule(), new LanguageModule(), new CatalogModule(), new AdminModule(), new FrontendModule(), new SourcesModule(), new AIModule(), new AccountsModule(), new CommunityModule(), new ContributionsModule(), new DiscoveryModule(), new OperationsModule(), new CommercialModule() ), $core );
+			$core->modules = ( new ModuleLoader() )->load( array( new DatabaseModule(), new LanguageModule(), new CatalogModule(), new AdminModule(), new FrontendModule(), new SourcesModule(), new AIModule(), new AccountsModule(), new CommunityModule(), new ContributionsModule(), new DiscoveryModule(), new OperationsModule(), new CommercialModule(), new LearningModule() ), $core );
 			self::$instance = $core;
 		}
 		return self::$instance;

@@ -1,0 +1,36 @@
+{
+  "kind": "Targeted real Chromium and local WordPress/MySQL with synthetic owned content/accounts; mocked email transport, intentionally denied clipboard and aborted one onboarding request; no external API, no real delivery, not Final QA 2.0",
+  "php_runtime": "84",
+  "viewports": [
+    375,
+    768,
+    1440
+  ],
+  "cases": [
+    {
+      "id": "no_implicit_subscription_and_anonymous_verified_account_guidance",
+      "status": "passed"
+    },
+    {
+      "id": "newsletter_nonce_consent_owner_and_confirmation_prg",
+      "status": "passed"
+    },
+    {
+      "id": "anonymous_cancellation_when_paused_and_rfc_oneclick",
+      "status": "passed"
+    },
+    {
+      "id": "unverified_own_cancellation_and_native_admin_capabilities",
+      "status": "passed"
+    },
+    {
+      "id": "no_unexpected_console_errors_or_failed_assets",
+      "status": "passed"
+    }
+  ],
+  "assertions": 101,
+  "console_errors": [],
+  "intentionally_injected_errors": [],
+  "passed": 5,
+  "failed": 0
+}

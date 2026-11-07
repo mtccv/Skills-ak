@@ -29,6 +29,17 @@ final class Crypto {
 		try { self::key( self::version() ); return true; } catch ( \Throwable $error ) { return false; }
 	}
 
+	/** A cancellation-only token remains stable for one explicit consent generation, including old emails. */
+	public static function newsletterToken( int $userId, int $generation, #[\SensitiveParameter] string $nonce, ?string $keyVersion = null ): array {
+		if ( $userId < 1 || $generation < 1 || ! preg_match( '/^[a-f0-9]{64}$/D', $nonce ) ) { throw new \InvalidArgumentException( 'Invalid newsletter token context.' ); }
+		$version = $keyVersion ?? self::version(); $key = self::key( $version );
+		try {
+			$derived = hash_hmac( 'sha256', 'aish-newsletter-cancellation-key:v1', $key, true );
+			try { return array( 'key_version' => $version, 'token' => hash_hmac( 'sha256', 'unsubscribe:' . $userId . ':' . $generation . ':' . $nonce . ':' . $version, $derived ) ); }
+			finally { sodium_memzero( $derived ); }
+		} finally { sodium_memzero( $key ); }
+	}
+
 	private static function aad( string $context, string $version ): string {
 		if ( ! preg_match( '/^outbox:[a-f0-9]{64}$/D', $context ) ) { throw new \InvalidArgumentException( 'Invalid encrypted mail context.' ); }
 		return 'aish-account-mail:v1:' . $version . ':' . $context;

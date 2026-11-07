@@ -1,0 +1,47 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL minimal onboarding preferences, native account ownership, request guards and privacy hooks; no external mail or API",
+  "cases": [
+    {
+      "id": "no_implicit_state_or_subscription_on_native_registration",
+      "status": "passed"
+    },
+    {
+      "id": "current_owner_ordered_whitelist_idempotency_and_locale_independence",
+      "status": "passed"
+    },
+    {
+      "id": "invalid_inputs_and_guest_state_fail_closed_without_mutations",
+      "status": "passed"
+    },
+    {
+      "id": "pending_can_skip_help_without_verification_and_suspended_is_denied",
+      "status": "passed"
+    },
+    {
+      "id": "nonce_origin_method_and_injected_owner_are_rejected",
+      "status": "passed"
+    },
+    {
+      "id": "settings_replay_resets_only_help_flags",
+      "status": "passed"
+    },
+    {
+      "id": "corrupt_metadata_does_not_guess_or_overwrite",
+      "status": "passed"
+    },
+    {
+      "id": "native_privacy_export_and_erasure_respect_target",
+      "status": "passed"
+    }
+  ],
+  "assertions": 43,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 0,
+  "passed": 8,
+  "failed": 0
+}

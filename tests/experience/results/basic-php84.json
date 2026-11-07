@@ -1,0 +1,609 @@
+{
+  "classification": "isolated/Mock; real PHP only, no real WordPress/MySQL or external API in this suite",
+  "runtime": "84",
+  "scripts": [
+    {
+      "file": "tests/basic/account-frontend.php",
+      "sha256": "14377b78c9b90be0d0e30d507e2d5a9fe45b8339bd5bbbd2c6af65aa9cd58237",
+      "status": "passed",
+      "output": "Account frontend isolated: 26 assertions passed; no real WP/HTTP/database/mail claim.",
+      "stderr": "",
+      "assertions": 26
+    },
+    {
+      "file": "tests/basic/account-mail.php",
+      "sha256": "2da347172e64816bc2ea9e0ba9e008b75c0c1db07aba1eb4ced86be5ced53788",
+      "status": "passed",
+      "output": "Account mail: 35 isolated/Mock checks passed; no SMTP delivery tested.",
+      "stderr": "",
+      "assertions": 35
+    },
+    {
+      "file": "tests/basic/account-native-guards.php",
+      "sha256": "6990ddc60d53c3e849c6d3e1ff23b2e9a0ba5cce6c29eeeb68151d979e6655a4",
+      "status": "passed",
+      "output": "{\n    \"suite\": \"account-native-guards\",\n    \"kind\": \"isolated PHP\\/WP API substitutes\",\n    \"checks\": 46,\n    \"status\": \"passed\"\n}",
+      "stderr": "",
+      "assertions": 46
+    },
+    {
+      "file": "tests/basic/account-storage.php",
+      "sha256": "d9d8be227fe01b6ded9ca5800102691eed330e7768056cf6e0b7fce41be1e4cf",
+      "status": "passed",
+      "output": "Account storage: 52 isolated assertions passed (real sodium; modeled wpdb, no WordPress/MySQL/mail).",
+      "stderr": "",
+      "assertions": 52
+    },
+    {
+      "file": "tests/basic/admin-settings.php",
+      "sha256": "2c5a513f9b6593df9a7cce5b21bc255ee456f7b20542967f803094335823c146",
+      "status": "passed",
+      "output": "Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).",
+      "stderr": "",
+      "assertions": 52
+    },
+    {
+      "file": "tests/basic/ai-admin.php",
+      "sha256": "0f7e0d5834027b094e06297dd6d07a54fbdcfe76fedf7019f8f83702acfd203f",
+      "status": "passed",
+      "output": "PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).",
+      "stderr": "",
+      "assertions": 74
+    },
+    {
+      "file": "tests/basic/ai-content.php",
+      "sha256": "1b7afd7ea91e9680ef1c1a58d7c28e833878d72e735c6dbb036033399062abe2",
+      "status": "passed",
+      "output": "PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).",
+      "stderr": "",
+      "assertions": 100
+    },
+    {
+      "file": "tests/basic/ai-locks.php",
+      "sha256": "7fff991b296ce41fbbd86fd8db0966bfb65c3d9587793d20cf83b41f5d55303b",
+      "status": "passed",
+      "output": "PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).",
+      "stderr": "",
+      "assertions": 99
+    },
+    {
+      "file": "tests/basic/ai-provider.php",
+      "sha256": "295d1ce28d4b974f2b110dd72406d084ce2d2be244e1a31cd7fdd0f97e0261ba",
+      "status": "passed",
+      "output": "PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).",
+      "stderr": "",
+      "assertions": 260
+    },
+    {
+      "file": "tests/basic/ai-source.php",
+      "sha256": "7d3f5809347dc567c109ef6feade4f62b770053919c235b056c96dba89b1a9fa",
+      "status": "passed",
+      "output": "PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).",
+      "stderr": "",
+      "assertions": 39
+    },
+    {
+      "file": "tests/basic/ai-store.php",
+      "sha256": "da2335ed4616f6efe642d4f73822fffeb41593e95b5dbf93d8ff80bdc3348e3a",
+      "status": "passed",
+      "output": "PASS: 105 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).",
+      "stderr": "",
+      "assertions": 105
+    },
+    {
+      "file": "tests/basic/ai-worker.php",
+      "sha256": "e538a7f0fcbe9cd0d614b268e8fb88bc76c7ec2d383f2906f879859104ae362a",
+      "status": "passed",
+      "output": "PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).",
+      "stderr": "",
+      "assertions": 157
+    },
+    {
+      "file": "tests/basic/commercial-enterprise.php",
+      "sha256": "79214f142e928c29867492717af379f078e0d32bd97d2bd89498d4682cbc8188",
+      "status": "passed",
+      "output": "Enterprise isolated policies: 49 assertions passed. No real WordPress/MySQL/mail transport.",
+      "stderr": "",
+      "assertions": 49
+    },
+    {
+      "file": "tests/basic/commercial-entitlements-bundles.php",
+      "sha256": "6b5e06258be79fee7e234f5a5fb38a7221a5846f15fb9db2da5c94dcf8c4db22",
+      "status": "passed",
+      "output": "Commercial free entitlement/bundle isolated assertions: 83 passed",
+      "stderr": "",
+      "assertions": 83
+    },
+    {
+      "file": "tests/basic/commercial-metrics.php",
+      "sha256": "177526758ce83f49194bc009825179354c2aa069d15180f005ad470171076a2e",
+      "status": "passed",
+      "output": "Commercial metrics isolated: 53 passed; mock storage and HTTP, no real service assertions.",
+      "stderr": "",
+      "assertions": 53
+    },
+    {
+      "file": "tests/basic/commercial-sponsors.php",
+      "sha256": "a85196565e57ba286fda4d64bc860ecf7742dbc48c2b6668090afc176a6a5911",
+      "status": "passed",
+      "output": "Sponsorship: 93 isolated assertions passed; no real WordPress/MySQL/browser claims.",
+      "stderr": "",
+      "assertions": 93
+    },
+    {
+      "file": "tests/basic/community-admin.php",
+      "sha256": "3b63424b2cbb9b9645d1533da39beffc5b42d2bea6e5a665b9f6355526770d32",
+      "status": "passed",
+      "output": "Community admin: 65 isolated assertions passed (WP/service/query substitutes; no real WordPress/MySQL).",
+      "stderr": "",
+      "assertions": 65
+    },
+    {
+      "file": "tests/basic/community-frontend.php",
+      "sha256": "a2cb7e298969ced2f85fd4a1526a02190ea5c23a5e8e0ec2da102dbeed7e14cd",
+      "status": "passed",
+      "output": "Community frontend isolated: 75 assertions passed; no real WP/HTTP/database claim.",
+      "stderr": "",
+      "assertions": 75
+    },
+    {
+      "file": "tests/basic/community-input.php",
+      "sha256": "f440b6f81161f70db9b6250391b92b1214541c39b27449c128912df904a974ed",
+      "status": "passed",
+      "output": "Community input: 65 isolated assertions passed; no WordPress/MySQL integration.",
+      "stderr": "",
+      "assertions": 65
+    },
+    {
+      "file": "tests/basic/community-privacy.php",
+      "sha256": "1f6bc1d8e4edd402a8ecb4d4677902029ebae50fcf2a4b8afb7ac8db16946d7f",
+      "status": "passed",
+      "output": "Community privacy: 32 isolated assertions passed (modeled WordPress/SQL; no real integration).",
+      "stderr": "",
+      "assertions": 32
+    },
+    {
+      "file": "tests/basic/community-publication.php",
+      "sha256": "bb8c24901470181e37ceccc6f889ea920150698736ee797b9b31600c2acffc53",
+      "status": "passed",
+      "output": "Community publication and notifications: 40 isolated assertions passed (real services, modeled wpdb; no WordPress/MySQL/mail integration).",
+      "stderr": "",
+      "assertions": 40
+    },
+    {
+      "file": "tests/basic/community-query.php",
+      "sha256": "9cd12f8431c058887f082a5475347d9978d54527313383460d8f1123b8ac72a7",
+      "status": "passed",
+      "output": "Community query: 62 isolated assertions passed; recording adapters, no WordPress/MySQL integration.",
+      "stderr": "",
+      "assertions": 62
+    },
+    {
+      "file": "tests/basic/community-schema.php",
+      "sha256": "02e6a7fb14a80d627cf471592b91baf8cc5f1592eb8c2bb34b31a29d4c955b13",
+      "status": "passed",
+      "output": "Community schema: 64 isolated assertions passed (DDL/physical metadata model, no real WordPress/MySQL).",
+      "stderr": "",
+      "assertions": 64
+    },
+    {
+      "file": "tests/basic/contribution-admin.php",
+      "sha256": "8a9915d38bc52795bb1b466a8617138e46d137961a99804bf5a149ae3804461b",
+      "status": "passed",
+      "output": "Contribution admin: 108 isolated assertions passed (WP/query/service substitutes; no real WordPress/MySQL or external requests).",
+      "stderr": "",
+      "assertions": 108
+    },
+    {
+      "file": "tests/basic/contribution-frontend.php",
+      "sha256": "f3bb47f5e881eab3ff2887baf5cf222512d86849c35392e2297c70794c32ae33",
+      "status": "passed",
+      "output": "Contribution frontend isolated: 65 assertions passed; no real WP/HTTP/database claim.",
+      "stderr": "",
+      "assertions": 65
+    },
+    {
+      "file": "tests/basic/contribution-guards.php",
+      "sha256": "31adb6d3e75412f55ede8dd1bd78fb5103dee8cad08c43ff8033b38ddf886901",
+      "status": "passed",
+      "output": "Contribution guards: 95 isolated assertions passed (WP/database substitutes; no real WordPress/MySQL).",
+      "stderr": "",
+      "assertions": 95
+    },
+    {
+      "file": "tests/basic/database-transactions.php",
+      "sha256": "9ef12f46dcfc6b6aead688d70419097a189ebfbc488488c14c10b866057a2832",
+      "status": "passed",
+      "output": "Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).",
+      "stderr": "",
+      "assertions": 92
+    },
+    {
+      "file": "tests/basic/developer-input.php",
+      "sha256": "5cb5856cdfd5ff79381b3261adc91f8a5af6cb60c56b99bc57a381c029ed6bd4",
+      "status": "passed",
+      "output": "Developer input/metadata: 85 isolated assertions passed; no WordPress, MySQL, or external requests.",
+      "stderr": "",
+      "assertions": 85
+    },
+    {
+      "file": "tests/basic/developer-query.php",
+      "sha256": "aaff148a008ae7b09278af1a4529bbd85447d1c9488227ca4aa5f6ff29480e5f",
+      "status": "passed",
+      "output": "Developer queries: 29 isolated assertions passed; recording SQL fixtures only.",
+      "stderr": "",
+      "assertions": 29
+    },
+    {
+      "file": "tests/basic/developer-schema.php",
+      "sha256": "cc5affd7b34290b75f8c099b256a7bf7e31cfa26c99f1073a3ef1fdd80cea387",
+      "status": "passed",
+      "output": "Developer schema: 76 isolated assertions passed (DDL/metadata model; no real WordPress/MySQL).",
+      "stderr": "",
+      "assertions": 76
+    },
+    {
+      "file": "tests/basic/developer-seo.php",
+      "sha256": "e64fdc71fb8d982ce6ceec520d309f7f6eac398962a86899e71a6bb30261f164",
+      "status": "passed",
+      "output": "Developer SEO: 34 isolated assertions passed (WP/router/settings/plugin-hook substitutes; no real third-party SEO/WPML integration).",
+      "stderr": "",
+      "assertions": 34
+    },
+    {
+      "file": "tests/basic/discovery-admin.php",
+      "sha256": "91439d00bd38c784c2040cd5e35ed2d7c2c5318ad0d6f306b82e20b50cf08edb",
+      "status": "passed",
+      "output": "Discovery admin/settings: 52 isolated assertions passed.",
+      "stderr": "",
+      "assertions": 52
+    },
+    {
+      "file": "tests/basic/discovery-frontend.php",
+      "sha256": "4bc240bb97a99ab51c4d11bf3d2b54c0e93dcc744c6b817c597f54f69ead630c",
+      "status": "passed",
+      "output": "Discovery frontend isolated: 81 assertions passed; no WordPress/MySQL/browser integration claim.",
+      "stderr": "",
+      "assertions": 81
+    },
+    {
+      "file": "tests/basic/discovery-input.php",
+      "sha256": "75b504b21fb73ef7548e79aa6cdf830a410cc7e36a5cb5f9758b053f9921f246",
+      "status": "passed",
+      "output": "Discovery input: 54 isolated assertions passed (sanitizer stubs; no real WordPress/MySQL).",
+      "stderr": "",
+      "assertions": 54
+    },
+    {
+      "file": "tests/basic/discovery-query.php",
+      "sha256": "5fb4e86b2add95a68a710984e2c1bdb1ced8ee2b68c2a2573b628c4a2903a306",
+      "status": "passed",
+      "output": "Discovery query isolated contracts: 97 passed; no live MySQL assertions.",
+      "stderr": "",
+      "assertions": 97
+    },
+    {
+      "file": "tests/basic/discovery-ranking.php",
+      "sha256": "0efb8060b687259fc2b2b6561b568373f9d6a8cf2179856b8ec4b27bd30e8810",
+      "status": "passed",
+      "output": "Discovery ranking: 22 isolated assertions passed; no WordPress/MySQL/browser integration.",
+      "stderr": "",
+      "assertions": 22
+    },
+    {
+      "file": "tests/basic/discovery-schema.php",
+      "sha256": "06b970b0ef0398d6adb4e0070026a33afcddf1e9cf8b681efd710d035e1b3bc5",
+      "status": "passed",
+      "output": "Discovery schema: 105 isolated assertions passed (DDL/metadata model; no real WordPress/MySQL).",
+      "stderr": "",
+      "assertions": 105
+    },
+    {
+      "file": "tests/basic/discovery-sitemap.php",
+      "sha256": "8d2bb4dde790bb2813c5378fc9268ae2f5ed729df064005e2c31ac32892e638b",
+      "status": "passed",
+      "output": "PASS: 51 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).\nDiscovery sitemap: 14 isolated adapter assertions passed; no live WordPress/MySQL/plugin claims.",
+      "stderr": "",
+      "assertions": 65
+    },
+    {
+      "file": "tests/basic/discovery-views.php",
+      "sha256": "c3f2b2ade1d521c88f29b5c0eccaeb9e4d265ca30188aacb08ffcdc5ef76cd0c",
+      "status": "passed",
+      "output": "Discovery views: 120 isolated assertions passed (real service and transactional wpdb model; no real WordPress/MySQL/browser).",
+      "stderr": "",
+      "assertions": 120
+    },
+    {
+      "file": "tests/basic/editorial-management.php",
+      "sha256": "94eacbdf9343ff407b972ceb6684c65086d0f881d074e45586fc3a7015d16ddf",
+      "status": "passed",
+      "output": "Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).",
+      "stderr": "",
+      "assertions": 122
+    },
+    {
+      "file": "tests/basic/editorial-projections.php",
+      "sha256": "af35a4492858c050efbe530fd84d1ac01a070f867b1e0d30e724770abd20cd46",
+      "status": "passed",
+      "output": "Editorial projections: 43 isolated assertions passed (no WordPress/MySQL or performance benchmark).",
+      "stderr": "",
+      "assertions": 43
+    },
+    {
+      "file": "tests/basic/editorial-search.php",
+      "sha256": "798c11bf3419ee1d4cc2d2dedb7d37a9bac3d9046f9cbd68aa37c93ab93c79e0",
+      "status": "passed",
+      "output": "Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).",
+      "stderr": "",
+      "assertions": 49
+    },
+    {
+      "file": "tests/basic/forms-management.php",
+      "sha256": "f12427c5d5323682d4a23d0301c0bf85bd2d5b8d0b8e9a2110cc6c6e3819fa7e",
+      "status": "passed",
+      "output": "Inbox management: 56 isolated assertions passed.",
+      "stderr": "",
+      "assertions": 56
+    },
+    {
+      "file": "tests/basic/frontend-locks.php",
+      "sha256": "de805bf1dd72cccab357bea33965cbd0b12965970324a6941d2171a59aba4563",
+      "status": "passed",
+      "output": "Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).",
+      "stderr": "",
+      "assertions": 196
+    },
+    {
+      "file": "tests/basic/frontend-routing.php",
+      "sha256": "b5607668e6d1ba7fd363504ddb5d28acdf26c108e1f787f10ec145f9e1c26833",
+      "status": "passed",
+      "output": "PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).",
+      "stderr": "",
+      "assertions": 104
+    },
+    {
+      "file": "tests/basic/github-client.php",
+      "sha256": "5e9190d358ea2be406315318f1520d552f88db73c83635658fb1c1fa3b8c47c2",
+      "status": "passed",
+      "output": "PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).",
+      "stderr": "",
+      "assertions": 160
+    },
+    {
+      "file": "tests/basic/github-discovery.php",
+      "sha256": "0dd23a4899a0e3b7f691fc74d70161b606a32dabbc9af9c4de2bcc25cd044bdf",
+      "status": "passed",
+      "output": "GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).",
+      "stderr": "",
+      "assertions": 63
+    },
+    {
+      "file": "tests/basic/help-center.php",
+      "sha256": "7683065c863506ec5694d922c9fce88379716fd8268f889a508d7999a9cd4c22",
+      "status": "passed",
+      "output": "Help center: 291 isolated assertions passed (stubbed WP/SQL; real import, KSES and rendering require integration checks).",
+      "stderr": "",
+      "assertions": 291
+    },
+    {
+      "file": "tests/basic/help-routing.php",
+      "sha256": "0676e228ece7d34961694cd373d150670fd7e7f4424112e8e9c4471d4608fd17",
+      "status": "passed",
+      "output": "Help routing: 45 isolated assertions passed (real PHP routing/SEO helpers; stubbed data, no real WPML/SEO plugin).",
+      "stderr": "",
+      "assertions": 45
+    },
+    {
+      "file": "tests/basic/home-operations.php",
+      "sha256": "47270c56058a9c6d4ba97659ebdaa82efa952b658e20210302c5a88349c61dfe",
+      "status": "passed",
+      "output": "Homepage operations: 57 isolated assertions passed; no live WordPress/MySQL/browser claims.",
+      "stderr": "",
+      "assertions": 57
+    },
+    {
+      "file": "tests/basic/import-admin.php",
+      "sha256": "491511f69612e632b29958e3453eba34359dad5131aa3132511abcac303bd8db",
+      "status": "passed",
+      "output": "PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).",
+      "stderr": "",
+      "assertions": 32
+    },
+    {
+      "file": "tests/basic/import-scheduler.php",
+      "sha256": "d702c420bb79c38484bcde7f91add8f010578fe0cf718e1bc0e357aad7abb595",
+      "status": "passed",
+      "output": "PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).",
+      "stderr": "",
+      "assertions": 59
+    },
+    {
+      "file": "tests/basic/import-store.php",
+      "sha256": "f2e2403d70fe4461cd757a2cabbebc62ec875d8c499e4050e081237dde76a68c",
+      "status": "passed",
+      "output": "PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).",
+      "stderr": "",
+      "assertions": 147
+    },
+    {
+      "file": "tests/basic/import-worker.php",
+      "sha256": "e16e28841e76e48ece95448c43f5ea64b5fa422ef3e50476373cf5023f9d0548",
+      "status": "passed",
+      "output": "PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).",
+      "stderr": "",
+      "assertions": 63
+    },
+    {
+      "file": "tests/basic/language-adapter.php",
+      "sha256": "9b1f34a98d8bf04f8f73cae885f8866a94f0520f9608761f65e067fdad260df1",
+      "status": "passed",
+      "output": "Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).",
+      "stderr": "",
+      "assertions": 50
+    },
+    {
+      "file": "tests/basic/management-integrity.php",
+      "sha256": "ee4288813c3baf7024946f3cef41bc156507ac567a8ee08925e4a39351f5732d",
+      "status": "passed",
+      "output": "Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).",
+      "stderr": "",
+      "assertions": 50
+    },
+    {
+      "file": "tests/basic/migration-recovery.php",
+      "sha256": "a6952dff6149aaf3226e8fc90f588f702f0bc694fb99e116b52ca8fe4198264e",
+      "status": "passed",
+      "output": "Migration recovery: 201 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).",
+      "stderr": "",
+      "assertions": 201
+    },
+    {
+      "file": "tests/basic/onboarding.php",
+      "sha256": "4731e06307fdf979a9cb94d666aae77c8588361c228cfd780e05be9f3cc16002",
+      "status": "passed",
+      "output": "Onboarding isolated assertions: 76 passed (stubbed WordPress/storage; not real integration).",
+      "stderr": "",
+      "assertions": 76
+    },
+    {
+      "file": "tests/basic/operations-mail.php",
+      "sha256": "9bcea3a451e92eb1cd1ed6be63e4093b6d50082f6b3754bf5d28139419bdbce1",
+      "status": "passed",
+      "output": "Operations mail: 79 isolated assertions passed (modeled WordPress/SQL, no real mail).",
+      "stderr": "",
+      "assertions": 79
+    },
+    {
+      "file": "tests/basic/operations-notifications.php",
+      "sha256": "0be5f59289b55208b7177ac9ec1e29dc055bd138a065cb78ea558d69dc6bbd98",
+      "status": "passed",
+      "output": "Operations notifications: 28 isolated assertions passed (modeled native identity/SQL; no real WordPress/MySQL).",
+      "stderr": "",
+      "assertions": 28
+    },
+    {
+      "file": "tests/basic/operations-search.php",
+      "sha256": "de2bcae3b15b74d7295f46a35c559f3554ce3d8ed4f1edd1d824ac3c8af1c80e",
+      "status": "passed",
+      "output": "Operations search privacy/protocol isolated: 79 passed; no live service assertions.",
+      "stderr": "",
+      "assertions": 79
+    },
+    {
+      "file": "tests/basic/operations-users-admin.php",
+      "sha256": "e04637a175c74b816811b84996a106c73173189d7bf067055812f4d910c310b5",
+      "status": "passed",
+      "output": "{\n    \"suite\": \"operations-users-admin\",\n    \"kind\": \"isolated UI \\/ substituted domain and WordPress\",\n    \"checks\": 17,\n    \"status\": \"passed\"\n}",
+      "stderr": "",
+      "assertions": 17
+    },
+    {
+      "file": "tests/basic/operations-users.php",
+      "sha256": "2e652887b27887974ec53bd92e358f1b95125a57ae0db1049ae00458703cb5b7",
+      "status": "passed",
+      "output": "{\n    \"suite\": \"operations-users\",\n    \"kind\": \"isolated PHP\\/model WordPress and database\",\n    \"checks\": 38,\n    \"status\": \"passed\"\n}",
+      "stderr": "",
+      "assertions": 38
+    },
+    {
+      "file": "tests/basic/operations-workbench.php",
+      "sha256": "f88d4a2df9f3dd3ad696a96f7619cf5d58845acfd234d9351a2898f0952b58de",
+      "status": "passed",
+      "output": "PASS: 47 isolated operations workbench/health checks (mock services and storage; no real WordPress/MySQL/API).",
+      "stderr": "",
+      "assertions": 47
+    },
+    {
+      "file": "tests/basic/privacy-erasure-context.php",
+      "sha256": "367fe979f775151fc7da248a8757f0aa273a2d1b4fd0332daecf1f69cae0d9b3",
+      "status": "passed",
+      "output": "Privacy erasure lifecycle: 53 isolated assertions passed (real account/operations classes, modeled WordPress/storage).",
+      "stderr": "",
+      "assertions": 53
+    },
+    {
+      "file": "tests/basic/public-search.php",
+      "sha256": "7c0d553486113477bdc8b6f906a8a335c37de9d6915436f0865294cee362ebe2",
+      "status": "passed",
+      "output": "PASS: 103 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).",
+      "stderr": "",
+      "assertions": 103
+    },
+    {
+      "file": "tests/basic/seo-failures.php",
+      "sha256": "76ea075b7d4ca5c5651560d4cfd79d0fb63149bd81480187ae5e6a46db6ab573",
+      "status": "passed",
+      "output": "SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).",
+      "stderr": "",
+      "assertions": 83
+    },
+    {
+      "file": "tests/basic/seo.php",
+      "sha256": "92abf7dd7e02209652bd920657dda309a67727669b31cf88cdf90e7b0f21531a",
+      "status": "passed",
+      "output": "PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).",
+      "stderr": "",
+      "assertions": 76
+    },
+    {
+      "file": "tests/basic/sitemap.php",
+      "sha256": "25c01712be93f02027e28e6355918aba571b0e59661956de80c51473e1b8e744",
+      "status": "passed",
+      "output": "PASS: 51 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).",
+      "stderr": "",
+      "assertions": 51
+    },
+    {
+      "file": "tests/basic/skill-experience.php",
+      "sha256": "546ce7cbe6ff5761f2e221eb8b2e350612b18dd74f75e11b80a8ed187fb3f4f0",
+      "status": "passed",
+      "output": "Skill experience isolated assertions: 131 passed (stubbed WordPress/storage; no real API or concurrency execution).",
+      "stderr": "",
+      "assertions": 131
+    },
+    {
+      "file": "tests/basic/skill-parser.php",
+      "sha256": "331c2486e3c138915fae71a47db658ad0876d8ca4d7a3a593c387263bc358f55",
+      "status": "passed",
+      "output": "PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).",
+      "stderr": "",
+      "assertions": 95
+    },
+    {
+      "file": "tests/basic/submission-input.php",
+      "sha256": "bffb7fe99f17c3be66c7b8d78c6e6ef3eea8d4bbc233102938b3fca04aa59cf7",
+      "status": "passed",
+      "output": "Submission input: 85 isolated assertions passed; no WordPress/MySQL or remote API integration.",
+      "stderr": "",
+      "assertions": 85
+    },
+    {
+      "file": "tests/basic/subscription-guards.php",
+      "sha256": "d9211d0054a81833cc7f734405b2beff628eabefb255b240f091f6767caab185",
+      "status": "passed",
+      "output": "Subscription native guards: 104 isolated assertions passed (modeled WordPress/storage; no real integration).",
+      "stderr": "",
+      "assertions": 104
+    },
+    {
+      "file": "tests/basic/subscription-ui.php",
+      "sha256": "2dc83097a173c4eb6de4e5a6d33761e6ee19b3b04a6960cb52d88d2eafec5d67",
+      "status": "passed",
+      "output": "PASS: 51 subscription UI isolated authorization, privacy and rendering assertions; no real WP/MySQL/email.",
+      "stderr": "",
+      "assertions": 51
+    },
+    {
+      "file": "tests/basic/subscriptions.php",
+      "sha256": "89f6a77bd930fe9e1b4329a3cafdab1b904738c3a7ac89e76eb0d78d6e43759d",
+      "status": "passed",
+      "output": "PASS: 45 isolated newsletter contracts; no real mail delivery.",
+      "stderr": "",
+      "assertions": 45
+    }
+  ],
+  "assertions": 5935,
+  "passed_scripts": 75,
+  "failed_scripts": 0
+}

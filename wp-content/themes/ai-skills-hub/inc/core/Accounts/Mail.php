@@ -111,10 +111,19 @@ final class Mail {
 
 	/** Acceptance is not delivery. Native false can also hide an unknown SMTP outcome. */
 	public function send( #[\SensitiveParameter] string $destination, #[\SensitiveParameter] array $message ): string {
+		$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
+		if ( isset( $message['unsubscribe_url'] ) ) {
+			$url = $message['unsubscribe_url']; $base = wp_parse_url( admin_url( 'admin-post.php' ) ); $parts = is_string( $url ) ? wp_parse_url( $url ) : false;
+			if ( ! is_array( $parts ) || ! is_array( $base ) || preg_match( '/[\r\n<>\x00-\x20]/', $url ) || ( $parts['host'] ?? '' ) !== ( $base['host'] ?? '' ) || ( $parts['scheme'] ?? '' ) !== ( $base['scheme'] ?? '' ) || ( $parts['port'] ?? null ) !== ( $base['port'] ?? null ) || ( $parts['path'] ?? '' ) !== ( $base['path'] ?? '' ) || isset( $parts['user'] ) || isset( $parts['pass'] ) || isset( $parts['fragment'] ) ) { throw new \DomainException( 'mail_invalid_payload' ); }
+			if ( ! preg_match( '/^action=aish_subscription_unsubscribe&token=[a-f0-9]{64}$/D', $parts['query'] ?? '' ) ) { throw new \DomainException( 'mail_invalid_payload' ); }
+			$headers[] = 'List-Unsubscribe: <' . $url . '>';
+			// RFC 8058 requires HTTPS; localhost HTTP QA does not claim production one-click deliverability.
+			if ( 'https' === ( $parts['scheme'] ?? '' ) ) { $headers[] = 'List-Unsubscribe-Post: List-Unsubscribe=One-Click'; }
+		}
 		$timeout = static function ( $mailer ): void { $mailer->Timeout = 20; $mailer->Timelimit = 30; $mailer->SMTPDebug = 0; };
 		add_action( 'phpmailer_init', $timeout, PHP_INT_MAX );
 		try {
-			if ( true === wp_mail( $destination, $message['subject'], $message['body'], array( 'Content-Type: text/plain; charset=UTF-8' ) ) ) { return 'accepted'; }
+			if ( true === wp_mail( $destination, $message['subject'], $message['body'], $headers ) ) { return 'accepted'; }
 			// SMTP may accept DATA before the acknowledgement is lost. A provider
 			// integration may explicitly classify a failure it KNOWS was not accepted;
 			// a plain wp_mail false, timeout, or exception cannot establish that fact.

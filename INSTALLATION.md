@@ -1,10 +1,12 @@
 # AI Skills Hub 安装与维护
 
-Phase 13 使用 **0.13.0 开发验证版**，schema **1.9.0 / 33 表保持**，没有新数据库迁移。使用 [开发安装包](release/ai-skills-hub-0.13.0.zip)，升级前保留数据库、媒体、配置及原主题备份。管理员首次进入后台加载三个独立商业管理权限；赞助与企业服务说明默认关闭、套装入口默认空，原有免费功能保持。先阅读 [商业预留说明](docs/COMMERCIAL_READINESS.md)、[本轮测试与包验证](docs/PHASE_13_REPORT.md)。不要导入 QA 测试数据，不因为安装包可用就视为正式上线验收。以下 Phase 11 的增表说明只适用于从更早版本升级。本轮已在真实WordPress7.1.4/PHP8.4/MySQL8.0环境完成0.12.0→0.13.0原生ZIP升级、新进程启动和数据/文件一致性检查；没有进行外部服务器部署。
+Phase 14 使用 **0.14.0 开发验证版**，schema **1.9.0 / 33 表保持**，没有新 Core 表迁移。使用 [开发安装包](release/ai-skills-hub-0.14.0.zip)，升级前保留数据库、媒体、配置及原主题备份。帮助原稿仅由管理员明确导入为草稿；引导可跳过，邮件精选须独立同意与确认，不自动导入任何注册或 Contact 邮箱。先阅读 [Phase 14 安装与使用](INSTALLATION_GUIDE.md)、[本轮测试与包验证](PHASE_14_REPORT.md)。不要导入 QA 数据，不因为安装包可用就视为正式上线验收。产品级 [Final QA 2.0](FINAL_QA_2_PLAN.md) 仍是待授权计划。
+
+历史 Phase 13 已在真实 WordPress7.1.4/PHP8.4/MySQL8.0 环境完成 0.12.0→0.13.0 原生 ZIP 升级、新进程启动和数据/文件一致性检查；见 [Phase 13 报告](docs/PHASE_13_REPORT.md)。该历史事实不替代本轮验收，也未部署外部服务器。已有商业预留默认关闭、免费功能保持，规则见 [商业预留说明](docs/COMMERCIAL_READINESS.md)。
 
 Phase11安装或升级只追加7张发现表，原26表保留。启用后管理员进入AI Skills Hub确认schema1.9.0、共33表，再配置精选/场景/平台及首页；未配置时显示真实空状态。有效浏览默认关闭，管理员开启后访客仍须明确同意。不得向正式站点导入QAfixtures或制造榜单计数。详见 [资源发现](DISCOVERY_SYSTEM.md)、[场景](USE_CASES.md)。
 
-适用于主题 / 内置 Core **0.13.0**，数据库 schema **1.9.0**。安装包、版本和 SHA-256 应来自同一次已验证构建。本指南沿用 Codex Cloud 开发与验收环境，不要求本机开发、宝塔或外部服务器部署。
+适用于主题 / 内置 Core **0.14.0**，数据库 schema **1.9.0**。安装包、版本和 SHA-256 应来自同一次已验证构建。本指南沿用 Codex Cloud 开发与验收环境，不要求本机开发、宝塔或外部服务器部署。
 
 主题提供前台和全部 Core 模块；WordPress、数据库、配置密钥、媒体及业务数据不包含在 ZIP 中。切换主题会停用 Hub 路由和后台功能，并清理其 Cron 事件，但不删除 Skills、译文、任务或历史。GitHub 采集与 AI 草稿都必须经过人工审核，安装不会自动生成或发布示例资源。
 
@@ -30,11 +32,11 @@ python3 scripts/package-theme.py --check
 python3 scripts/package-theme.py
 ```
 
-输出为 `release/ai-skills-hub-0.13.0.zip` 和 `release/SHA256SUMS`；实际文件名自动读取 `style.css` 的 Version，并要求 Core 版本一致。脚本不会代替前端构建；缺少非空 `assets/dist/app.css` / `app.js` 或必要模板时直接失败。`--check` 只校验输入，不创建安装包。
+输出为 `release/ai-skills-hub-0.14.0.zip` 和 `release/SHA256SUMS`；实际文件名自动读取 `style.css` 的 Version，并要求 Core 版本一致。脚本不会代替前端构建；缺少非空 `assets/dist/app.css` / `app.js` 或必要模板时直接失败。`--check` 只校验输入，不创建安装包。
 
 ZIP 只有一个 `ai-skills-hub/` 顶级目录，包含主题 PHP、模板、资源源码、已构建资源，以及从仓库根复制的 `LICENSE`。不打入整个 GitHub 仓库、WordPress 核心、数据库、测试、依赖目录、隐藏文件、缓存、备份及已知敏感配置文件；拒绝主题中的符号链接和特殊文件。打包前仍须人工检查源码没有硬编码凭据，文件筛选不能替代密钥审查。
 
-文件顺序和元信息固定，目录权限为 0755、文件为 0644；ZIP 使用无需压缩器的存储格式。默认时间统一为 1980-01-01 UTC，可显式设置合法的 `SOURCE_DATE_EPOCH`（1980–2107）。相同内容与时间参数产生相同 ZIP；打包脚本生成的 `SHA256SUMS` 只列本次版本；仓库交付清单另保留历史 0.7.1、0.8.0、0.9.0 、0.10.0 、0.11.0 、0.12.0 和当前 0.13.0 校验。`--output-dir` 可指定其他交付目录。
+文件顺序和元信息固定，目录权限为 0755、文件为 0644；ZIP 使用无需压缩器的存储格式。默认时间统一为 1980-01-01 UTC，可显式设置合法的 `SOURCE_DATE_EPOCH`（1980–2107）。相同内容与时间参数产生相同 ZIP；打包脚本生成的 `SHA256SUMS` 只列本次版本；仓库交付清单另保留历史 0.7.1、0.8.0、0.9.0 、0.10.0 、0.11.0 、0.12.0、0.13.0 和当前 0.14.0 校验。`--output-dir` 可指定其他交付目录。
 
 在 Cloud 中核对下载或复制后的包：
 
@@ -71,18 +73,18 @@ docker compose run --rm cli wp --user=cloud_admin eval 'do_action("admin_init");
 此方式用于已有的、主题目录可写的 Cloud WordPress 实例；不要同时让同一主题路径被仓库只读挂载。
 
 1. 确认 WordPress 已安装、上述依赖可用，检查 ZIP 的 SHA-256；已有数据先按第 8 节备份。
-2. 管理员打开“外观 → 主题 → 安装主题 → 上传主题”，选择 `ai-skills-hub-0.10.0.zip`，安装并启用。已有同名主题时按 WordPress 界面确认替换当前版本。
-3. 再次打开后台，确认 AI Skills Hub 顶级菜单存在，且没有数据库升级错误通知。首装及旧版升级通过现有迁移器执行；成功版本应为 `1.8.0`。
+2. 管理员打开“外观 → 主题 → 安装主题 → 上传主题”，选择 `ai-skills-hub-0.14.0.zip`，安装并启用。已有同名主题时按 WordPress 界面确认替换当前版本。
+3. 再次打开后台，确认 AI Skills Hub 顶级菜单存在，且没有数据库升级错误通知。首装及旧版升级通过现有迁移器执行；成功版本应为 `1.9.0`，共 33 张 Core 表。
 4. 打开“设置 → 固定链接”保存一次，检查 `/zh/`、`/en/`。主题首次管理员初始化会为普通链接设置 `/%postname%/`，保留已有非空固定链接规则。
 5. 确认前台加载 `assets/dist/app.css` 和 `app.js`；没有内容时应显示真实空状态。
 6. 按 [邮件配置](EMAIL_SETUP.md) 配置 sodium 专用加密密钥、`AISH_ACCOUNT_MAIL_ENABLED`、可信邮件传输与 Cron，再测试中英文注册、验证及恢复。没有配置时新注册保持关闭，已有管理员仍可原生登录。`wp_mail()` 成功仅表示传输受理，不等于收到邮件。
-7. 核对 schema 1.8.0 共 26 表、原 25 表保留，后台出现独立社区评价/举报/纠错菜单；以验证后的测试账户检查收藏、待审评价、修订审核和撤回，详见 [社区说明](COMMUNITY_REVIEWS.md)。
+7. 核对 schema 1.9.0 共 33 表、原有数据全部保留，后台出现独立社区评价/举报/纠错菜单；以验证后的测试账户检查收藏、待审评价、修订审核和撤回，详见 [社区说明](COMMUNITY_REVIEWS.md)。
 8. 核对 `/zh/login/`、`/en/register/`、本人账户中心、私有头像和隐私申请；详见 [账户说明](ACCOUNT_SYSTEM.md) 与 [隐私安全](PRIVACY_AND_SECURITY.md)。账户策略随主题加载，主题切换保留数据，但不继续执行账户保护和邮件调度。
 
 也可在同一 Cloud 实例使用 WP-CLI，路径应指向该实例实际可读的 ZIP：
 
 ```sh
-wp theme install /path/to/ai-skills-hub-0.10.0.zip --activate
+wp theme install /path/to/ai-skills-hub-0.14.0.zip --activate
 wp --user=YOUR_ADMIN_USER eval 'do_action("admin_init"); echo AISkillsHub\Core\Core::boot()->migrator()->version(), PHP_EOL;'
 ```
 
@@ -155,7 +157,7 @@ docker compose run --rm -T cli wp cron event run --due-now
 
 **升级前**：暂停 AI 队列，暂停 Cloud 外部调度，并安排维护窗口阻止新的站点写入与 WP-Cron 触发；等待已发出的请求结束。仅关闭来源定期同步不足以停止现有任务。不要为升级而归档业务仓库或取消所有任务，暂停调度即可。
 
-备份范围包括完整 WordPress 数据库（含原生 posts/postmeta/options/users 和全部十七张 `{$wpdb->prefix}aish_*` 表）、`wp-content` 媒体/插件/主题、受保护的 WordPress/秘密配置、上一版本安装包及校验值。没有“只备份主题就保留数据”的替代方案。
+备份范围包括完整 WordPress 数据库（含原生 posts/postmeta/options/users 和全部三十三张 `{$wpdb->prefix}aish_*` 表）、`wp-content` 媒体/插件/主题、受保护的 WordPress/秘密配置、上一版本安装包及校验值。没有“只备份主题就保留数据”的替代方案。
 
 先将 `AISH_BACKUP_DIR` 设置为**仓库外、非 Web 目录的受保护持久备份路径**。确认数据库表为 InnoDB，停止 DDL/写入后可用现有 Compose 导出：
 
@@ -169,7 +171,7 @@ docker compose exec -T wordpress tar -C /var/www/html -czf - wp-content > "$AISH
 
 另行私密备份 `wp-config.php` 和真实秘密配置，不打印或提交它们。核对导出命令成功、文件非空，并在独立 Cloud 验证实例实际恢复后再认为备份可用。命令失败生成的空文件不是有效备份；Cloud 临时目录也不能替代持久备份。
 
-**升级步骤**：记录当前主题/Core/schema 版本 → 备份 → 校验新包 → 在可写主题模式通过 WordPress 替换同名包，或在源码挂载模式更新代码并重新构建 → 管理员进入后台执行版本化迁移 → 确认 schema `1.8.0`、前台资源/双语路由/私有门禁正常 → 核对原有 Skill ID、译文、来源、版本及 AI 历史仍在 → 恢复调度与需要的队列。
+**升级步骤**：记录当前主题/Core/schema 版本 → 备份 → 校验新包 → 在可写主题模式通过 WordPress 替换同名包，或在源码挂载模式更新代码并重新构建 → 管理员进入后台执行版本化迁移 → 确认 schema `1.9.0` 与 33 张 Core 表、前台资源/双语路由/私有门禁正常 → 核对原有 Skill ID、译文、来源、版本及 AI 历史仍在 → 恢复调度与需要的队列。
 
 迁移只在授权后台或可信 WP-CLI 中执行，前台不执行 DDL；版本成功验证后才推进。升级错误时保留现有数据和最后成功版本，修复原因后重试，不清表重建、不改写 schema option 冒充成功。MySQL DDL 不能承诺整体回滚；断线后的 COMMIT 或已发 HTTP 也不能假称撤销。
 
@@ -195,10 +197,10 @@ docker compose exec -T wordpress tar -C /var/www/html -czf - wp-content > "$AISH
 
 历史 0.9.0 包包含 113 个主题文件，Phase 9 真实 WordPress/MySQL、社区并发、隐私和浏览器检查以 [Phase 9 报告](docs/PHASE_9_REPORT.md) 为准；ZIP 升级及精确文件校验记录见 [Phase 9 发布证据](release/PHASE_9_PACKAGE.json)。旧阶段通过结果不自动继承为新版本验收。
 
-## Phase 10 投稿与开发者中心
+## Phase 10 投稿与开发者中心（历史迁移说明）
 
 登录原生 WordPress 管理员后台触发版本化迁移及四项独立审核能力安装。1.7.0→1.8.0 仅增加 author_claims，共 26 表，原私有 Inbox 与 25 表保留。新投稿须登录且验证邮箱；旧匿名投稿仍留在历史 Inbox，不会因邮箱一致转给新账户。投稿接受不等于公开发布，结果资源须经过既有 Skill 审核。
 
 用户中心增加“我的投稿”和“开发者中心”；资料公开须本人选择并经人工审核。站内通知保存不代表电子邮件已发送。作者认领、更新建议、隐私清理与实际限制见 [SUBMISSIONS.md](SUBMISSIONS.md)、[DEVELOPER_CENTER.md](DEVELOPER_CENTER.md)、[PRIVACY_AND_SECURITY.md](PRIVACY_AND_SECURITY.md)。升级前备份；不通过回滚旧主题代码降级数据库。
 
-当前交付 [0.10.0主题ZIP](release/ai-skills-hub-0.12.0.zip) 含144个文件与已编译资源；本次检查以 [Phase10报告](docs/PHASE_10_REPORT.md) 为准，包的原生升级与内容比对见 [发布证据](release/PHASE_10_PACKAGE.json)。历史0.9.0包及其证据保持不变。
+历史交付 [0.10.0主题ZIP](release/ai-skills-hub-0.10.0.zip) 含144个文件与已编译资源；本次检查以 [Phase10报告](docs/PHASE_10_REPORT.md) 为准，包的原生升级与内容比对见 [发布证据](release/PHASE_10_PACKAGE.json)。历史0.9.0包及其证据保持不变。

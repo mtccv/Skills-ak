@@ -1,5 +1,7 @@
 # 账户邮件配置与恢复
 
+> Phase14新增自愿精选邮件，继续复用本页配置的同一个加密outbox和wp_mail传输。独立订阅权限、确认、退订与营销暂停见[EMAIL_SUBSCRIPTION.md](EMAIL_SUBSCRIPTION.md)。`accepted`依旧仅表示传输受理；没有真实收件证据不能称送达。
+
 账户邮件使用 WordPress `wp_mail()` 作为传输接口，独立加密 outbox 和有界 Cron 负责排队、重试及状态。必须同时配置服务器加密密钥和可用的邮件传输。仓库没有真实邮件凭据，不自动购买或开通服务。
 
 ## 服务器配置

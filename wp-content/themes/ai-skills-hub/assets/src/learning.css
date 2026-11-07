@@ -1,0 +1,49 @@
+/* Phase 14 learning components: the existing neutral/terracotta design, no new framework. */
+.learning-page { padding-block: 2rem 3.5rem; }
+.learning-heading { max-width: 48rem; margin-block: 1.75rem; }
+.learning-heading h1 { margin: .6rem 0 1rem; font-size: clamp(2rem, 4vw, 3rem); font-weight: 650; line-height: 1.15; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.learning-heading > p:last-child { color: #5f6877; line-height: 1.8; }
+.learning-search { display: grid; grid-template-columns: minmax(0, 1fr) minmax(12rem, .45fr) auto; gap: 1rem; align-items: end; padding: 1.25rem; margin-bottom: 2rem; background: #f8f9fb; border: 1px solid #e2e5eb; border-radius: .5rem; }
+.learning-search > div, .learning-results, .learning-sidebar { min-width: 0; }
+.learning-search input, .learning-search select, .learning-search button { min-height: 44px; width: 100%; }
+.learning-layout { display: grid; grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr); gap: 2rem; }
+.learning-sidebar h2 { font-size: .9rem; font-weight: 650; margin-bottom: .75rem; }
+.learning-sidebar ul { list-style: none; padding: 0; margin: 0; }
+.learning-sidebar li a { display: block; padding: .75rem .6rem; min-height: 44px; border-bottom: 1px solid #eceef2; overflow-wrap: anywhere; }
+.learning-sidebar a[aria-current="page"] { color: #AD5E48; background: #f8f1ee; }
+.learning-contact { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid #e2e5eb; }
+.learning-contact p { font-size: .875rem; color: #5f6877; line-height: 1.7; margin-bottom: .75rem; }
+.learning-contact > a, .learning-empty > a { display: inline-flex; min-height: 44px; align-items: center; color: #AD5E48; text-decoration: underline; text-underline-offset: .2em; }
+.learning-results-heading { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .5rem 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e2e5eb; }
+.learning-results-heading h2 { font-size: 1.125rem; font-weight: 650; }
+.learning-results-heading > span { color: #5f6877; font-size: .8rem; }
+.learning-article-list { list-style: none; padding: 0; margin: 0; }
+.learning-article-list > li { padding: 1.25rem 0; border-bottom: 1px solid #e2e5eb; }
+.learning-article-list h3 { font-size: 1.05rem; font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; }
+.learning-article-list h3 a:hover { color: #AD5E48; }
+.learning-article-list p { color: #5f6877; line-height: 1.75; font-size: .9rem; margin: .5rem 0; overflow-wrap: anywhere; }
+.learning-article-list small { color: #647083; }
+.learning-empty { padding: 2rem 1rem; background: #f8f9fb; margin-top: 1rem; }
+.learning-empty h3 { font-weight: 650; margin-bottom: .5rem; }
+.learning-empty p { line-height: 1.75; color: #5f6877; }
+.learning-toc { padding: 1rem 1.25rem; margin: 1.5rem 0; border: 1px solid #e2e5eb; background: #f8f9fb; border-radius: .35rem; }
+.learning-toc h2 { font-size: .95rem; font-weight: 650; margin: 0 0 .5rem; }
+.learning-toc ol { margin: 0; padding-left: 1.25rem; }
+.learning-toc li { margin: .25rem 0; }
+.learning-toc a { display: inline-block; min-height: 36px; padding-block: .35rem; line-height: 1.55; overflow-wrap: anywhere; }
+.learning-toc a:hover { color: #AD5E48; }
+.learning-toc .learning-toc-sub { margin-left: 1rem; }
+.learning-content :is(h2,h3)[id] { scroll-margin-top: 6rem; }
+.learning-content pre { max-width: 100%; overflow-x: auto; white-space: pre; }
+.learning-content, .learning-content a, .learning-content p { overflow-wrap: anywhere; }
+.learning-page :focus-visible, .learning-toc :focus-visible { outline: 3px solid #AD5E48; outline-offset: 3px; }
+.learning-footer-links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; padding-block: .5rem; }
+.learning-footer-links a { display: inline-flex; align-items: center; min-height: 44px; padding-block: .5rem; }
+@media (max-width: 767px) {
+ .learning-page { padding-block: 1.25rem 2.5rem; }
+ .learning-search { grid-template-columns: 1fr; padding: 1rem; }
+ .learning-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+ .learning-sidebar nav ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .2rem .5rem; }
+ .learning-contact { margin-top: 1rem; }
+ .learning-toc a { min-height: 44px; }
+}

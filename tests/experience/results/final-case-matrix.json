@@ -1,0 +1,2053 @@
+{
+  "scope": "Phase14 targeted development QA only; Final QA2.0 remains unstarted",
+  "case_identity": "runtime + domain + id; final executed evidence supersedes prior case outcome, never double-counted",
+  "cases": [
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "no_implicit_state_or_subscription_on_native_registration",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "current_owner_ordered_whitelist_idempotency_and_locale_independence",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "invalid_inputs_and_guest_state_fail_closed_without_mutations",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "pending_can_skip_help_without_verification_and_suspended_is_denied",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "nonce_origin_method_and_injected_owner_are_rejected",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "settings_replay_resets_only_help_flags",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "corrupt_metadata_does_not_guess_or_overwrite",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "onboarding",
+      "id": "native_privacy_export_and_erasure_respect_target",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "help_uses_native_tutorial_storage_and_explicit_manager_import",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "import_failure_rolls_back_native_posts_and_metadata",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "explicit_bilingual_drafts_are_atomic_reciprocal_and_not_public",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "repeat_import_never_overwrites_editorial_changes",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "public_help_bilingual_category_search_pagination_and_cache",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php83.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php83.json"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "unpublished_password_and_missing_translation_never_leak",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php83.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php83.json"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "reading_navigation_sanitizes_content_and_does_not_execute_shortcode",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php83.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php83.json"
+    },
+    {
+      "runtime": "83",
+      "domain": "help",
+      "id": "related_skill_ids_pass_existing_public_catalog_gate",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php83.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php83.json"
+    },
+    {
+      "runtime": "83",
+      "domain": "installation",
+      "id": "unverified_copy_is_never_implicitly_enabled",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "installation",
+      "id": "reviewed_editorial_copy_is_exact_locale_bound_private_notes_absent",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "installation",
+      "id": "license_platform_and_visible_source_are_mandatory",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "installation",
+      "id": "repository_snapshot_sha_and_source_change_invalidate_copy",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "installation",
+      "id": "reviewed_content_change_archive_and_missing_translation_fail_closed",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "installation",
+      "id": "public_share_discards_query_credentials_and_preserves_language",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "installation",
+      "id": "hidden_controls_markup_substrings_and_duplicate_commands_rejected",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "verified_current_owner_explicit_consent_only_no_automatic_enrollment",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "double_confirmation_hashed_token_replay_and_private_projection",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "expired_confirmation_does_not_activate_or_regenerate",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "bilingual_confirmation_transport_acceptance_is_mock_not_delivery",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "unsubscribe_is_idempotent_cancels_pending_mail_and_never_changes_account",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "new_consent_generation_invalidates_old_cancel_and_old_confirmation",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "native_metadata_guard_and_email_change_preserve_consent_boundary",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "manager_pause_bounce_projections_and_subscriber_permissions",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "definite_transport_failure_retries_same_row_without_business_replay",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "ambiguous_transport_result_is_not_automatically_retried",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "shared_outbox_retry_requires_both_queue_and_newsletter_capabilities",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "subscriptions",
+      "id": "privacy_export_erasure_and_other_owner_isolation",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php83.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "issue_exact_preview_public_language_and_private_native_storage",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaigns-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "batch_fault_rolls_back_recipient_cursor_then_retry_resumes_without_duplicates",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaigns-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "same_generation_digest_headers_and_live_public_gate",
+      "status": "passed",
+      "evidence": "tests/experience/results/mail-public-regression-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance",
+      "supersedes": "tests/experience/results/campaign-regression-initial-php83.json"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "unsubscribe_before_worker_prevents_transport_and_security_mail_is_unaffected",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaigns-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "global_pause_defers_same_row_and_resume_preserves_attempt_budget",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaign-regression-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance",
+      "supersedes": "tests/experience/results/campaigns-initial-php83.json"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "chinese_issue_reuses_curated_content_and_only_selected_language",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaign-regression-initial-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance",
+      "supersedes": "tests/experience/results/campaigns-initial-php83.json"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "new_resource_digest_current_language_pause_resume_and_http_headers_en_US",
+      "status": "passed",
+      "evidence": "tests/experience/results/new-resource-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "83",
+      "domain": "campaigns",
+      "id": "new_resource_digest_current_language_pause_resume_and_http_headers_zh_CN",
+      "status": "passed",
+      "evidence": "tests/experience/results/new-resource-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "83",
+      "domain": "guards",
+      "id": "protected_metadata_hidden_without_breaking_native_roles_or_blank_key",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "guards",
+      "id": "configuration_guards_do_not_block_domain_save_or_unrelated_native_options",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "guards",
+      "id": "native_email_round_trip_does_not_revive_previous_marketing_consent",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "guards",
+      "id": "account_service_email_change_inside_transaction_has_no_nested_transaction_failure",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "guards",
+      "id": "confirmed_native_privacy_eraser_clears_help_and_subscription_only_for_owner",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "guards",
+      "id": "native_user_deletion_and_reserved_metadata_remain_compatible",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "concurrency",
+      "id": "eight_parallel_onboarding_merges_and_replays_one_private_state",
+      "status": "passed",
+      "evidence": "tests/experience/results/concurrency-php83.json",
+      "environment_kind": "Real independent PHP/MySQL processes"
+    },
+    {
+      "runtime": "83",
+      "domain": "concurrency",
+      "id": "concurrent_repeat_native_help_import_is_idempotent_and_retryable",
+      "status": "passed",
+      "evidence": "tests/experience/results/concurrency-php83.json",
+      "environment_kind": "Real independent PHP/MySQL processes"
+    },
+    {
+      "runtime": "83",
+      "domain": "mail-concurrency",
+      "id": "two_real_concurrent_optins_and_retry_share_one_pending_consent",
+      "status": "passed",
+      "evidence": "tests/experience/results/mail-concurrency-php83.json",
+      "environment_kind": "Real independent PHP/MySQL processes and explicit barriers; intercepted Mock transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "mail-concurrency",
+      "id": "real_two_worker_policy_contention_deduplication_and_cancel_send_serialization",
+      "status": "passed",
+      "evidence": "tests/experience/results/mail-concurrency-php83.json",
+      "environment_kind": "Real independent PHP/MySQL processes and explicit barriers; intercepted Mock transport"
+    },
+    {
+      "runtime": "83",
+      "domain": "retention",
+      "id": "real_optin_retention_while_marketing_paused_preserves_accounts_active_consent_and_recent_history",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscription-retention-php83.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "users_service_capability_and_public_summary_privacy",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "users_counts_reuse_real_contributions",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "pause_audited_idempotent_preserves_identity_and_invalidates_public_stats",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "paused_identity_denied_community_submission_and_native_write",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "stale_replay_conflict_and_explicit_resume",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "protected_admin_staff_self_and_erasure_state",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "pending_verification_cannot_bypass_pause",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "native_administrator_email_change_never_lifts_pause",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-users",
+      "id": "sensitive_audit_notes_rejected",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "notification_idempotency_ownership_atomic_read",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "notification_filters_private_projection_and_current_target",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "notification_pagination_no_duplicates_and_foreign_exclusion",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "optional_preferences_do_not_disable_security_or_delete_history",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "privacy_preferences_preserve_developer_owned_optin",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "pending_email_manager_recovery_and_subscriber_denial",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_permission_redaction_preview_and_truthful_configuration",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_definite_rejection_retry_no_business_replay",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_uncertain_not_retried_and_pause_resumes_without_send",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_interruption_recovery_distinguishes_presend_and_sending",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-workbench-home",
+      "id": "workbench_capability_partition_and_no_approval_bulk",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-workbench-home",
+      "id": "workbench_partial_batch_cas_replay_preserves_private_content",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-workbench-home",
+      "id": "workbench_search_filters_and_unknown_types_fail_closed",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-workbench-home",
+      "id": "source_health_snapshot_ack_is_audit_only_and_no_network",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-workbench-home",
+      "id": "source_retry_limits_and_paused_source_not_queued",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-workbench-home",
+      "id": "home_draft_history_live_gate_and_stale_configuration",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-analytics",
+      "id": "search_sensitive_input_and_failed_page_suppression",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-analytics",
+      "id": "real_search_threshold_exact_dedupe_and_no_private_dimensions",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-analytics",
+      "id": "real_mysql_accent_insensitive_collation_keeps_terms_separate",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-analytics",
+      "id": "search_disabled_admin_bot_privacy_guards",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-analytics",
+      "id": "active_users_require_consent_current_binding_and_deduplicate_across_cookies",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-analytics",
+      "id": "analytics_known_sample_window_real_relations_and_low_frequency",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-analytics",
+      "id": "analytics_skill_archive_invalidates_current_facts",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-transactions",
+      "id": "user_transition_rolls_back_when_audit_write_fails",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-transactions-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-operations-transactions",
+      "id": "home_settings_roll_back_with_audit_failure",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-transactions-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_disabled_configuration_has_no_public_records",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_native_caps_draft_confirmation_cas_and_audit",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsor_url_and_image_validation_no_fetch_or_execution",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_current_language_future_pause_and_expiry_without_cron",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_skill_gate_keeps_publication_and_review_unchanged",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_disabled_and_language_specific_explicit_copy",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_private_inbox_idempotency_and_no_business_side_effect",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_input_bounds_honeypot_and_no_url_side_effects",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_least_privilege_native_editor_and_object_isolation",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_moderation_cas_audit_and_aggregate_without_pii",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "free_entitlements_preserve_native_recovery_and_verified_write_gates",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "entitlements_do_not_replace_object_authorization",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "bundles_default_disabled_reuse_id_and_explicit_review",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "bundles_live_member_public_gate_archive_and_pause",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-privacy-transactions",
+      "id": "enterprise_native_confirmed_privacy_export_and_controlled_erasure",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-privacy-transactions-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "regression-commercial-privacy-transactions",
+      "id": "commercial_option_and_private_inbox_transactional_audit_rollback",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-privacy-transactions-php83.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "no_implicit_subscription_and_anonymous_verified_account_guidance",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "guest_introduction_dismissal_persists_cross_language_without_ajax",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "signed_in_introduction_failure_retry_ownership_and_replay",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_zh_375",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_en_375",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_zh_768",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_en_768",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_zh_1440",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_en_1440",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "existing_favorite_review_submission_and_private_drafts_regression",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "help_search_empty_state_filters_and_pagination",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "copy_and_share_exact_public_values_without_execution",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "clipboard_rejection_exposes_manual_selection_and_feedback",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "newsletter_nonce_consent_owner_and_confirmation_prg",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "anonymous_cancellation_when_paused_and_rfc_oneclick",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "unverified_own_cancellation_and_native_admin_capabilities",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "83",
+      "domain": "browser",
+      "id": "no_unexpected_console_errors_or_failed_assets",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-php83.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "no_implicit_state_or_subscription_on_native_registration",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "current_owner_ordered_whitelist_idempotency_and_locale_independence",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "invalid_inputs_and_guest_state_fail_closed_without_mutations",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "pending_can_skip_help_without_verification_and_suspended_is_denied",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "nonce_origin_method_and_injected_owner_are_rejected",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "settings_replay_resets_only_help_flags",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "corrupt_metadata_does_not_guess_or_overwrite",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "onboarding",
+      "id": "native_privacy_export_and_erasure_respect_target",
+      "status": "passed",
+      "evidence": "tests/experience/results/onboarding-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "help_uses_native_tutorial_storage_and_explicit_manager_import",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "import_failure_rolls_back_native_posts_and_metadata",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "explicit_bilingual_drafts_are_atomic_reciprocal_and_not_public",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "repeat_import_never_overwrites_editorial_changes",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "public_help_bilingual_category_search_pagination_and_cache",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php84.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "unpublished_password_and_missing_translation_never_leak",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php84.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "reading_navigation_sanitizes_content_and_does_not_execute_shortcode",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php84.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "help",
+      "id": "related_skill_ids_pass_existing_public_catalog_gate",
+      "status": "passed",
+      "evidence": "tests/experience/results/help-regression-php84.json",
+      "environment_kind": "Real WordPress/MySQL",
+      "supersedes": "tests/experience/results/help-initial-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "installation",
+      "id": "unverified_copy_is_never_implicitly_enabled",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "installation",
+      "id": "reviewed_editorial_copy_is_exact_locale_bound_private_notes_absent",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "installation",
+      "id": "license_platform_and_visible_source_are_mandatory",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "installation",
+      "id": "repository_snapshot_sha_and_source_change_invalidate_copy",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "installation",
+      "id": "reviewed_content_change_archive_and_missing_translation_fail_closed",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "installation",
+      "id": "public_share_discards_query_credentials_and_preserves_language",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "installation",
+      "id": "hidden_controls_markup_substrings_and_duplicate_commands_rejected",
+      "status": "passed",
+      "evidence": "tests/experience/results/installation-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "verified_current_owner_explicit_consent_only_no_automatic_enrollment",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "double_confirmation_hashed_token_replay_and_private_projection",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "expired_confirmation_does_not_activate_or_regenerate",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "bilingual_confirmation_transport_acceptance_is_mock_not_delivery",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "unsubscribe_is_idempotent_cancels_pending_mail_and_never_changes_account",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "new_consent_generation_invalidates_old_cancel_and_old_confirmation",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "native_metadata_guard_and_email_change_preserve_consent_boundary",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "manager_pause_bounce_projections_and_subscriber_permissions",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "definite_transport_failure_retries_same_row_without_business_replay",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "ambiguous_transport_result_is_not_automatically_retried",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "shared_outbox_retry_requires_both_queue_and_newsletter_capabilities",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "subscriptions",
+      "id": "privacy_export_erasure_and_other_owner_isolation",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscriptions-php84.json",
+      "environment_kind": "Real WordPress/MySQL with intercepted Mock mail transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "issue_exact_preview_public_language_and_private_native_storage",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaigns-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "batch_fault_rolls_back_recipient_cursor_then_retry_resumes_without_duplicates",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaigns-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "same_generation_digest_headers_and_live_public_gate",
+      "status": "passed",
+      "evidence": "tests/experience/results/mail-public-regression-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance",
+      "supersedes": "tests/experience/results/campaign-regression-initial-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "unsubscribe_before_worker_prevents_transport_and_security_mail_is_unaffected",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaigns-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "global_pause_defers_same_row_and_resume_preserves_attempt_budget",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaign-regression-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance",
+      "supersedes": "tests/experience/results/campaigns-initial-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "chinese_issue_reuses_curated_content_and_only_selected_language",
+      "status": "passed",
+      "evidence": "tests/experience/results/campaign-regression-initial-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance",
+      "supersedes": "tests/experience/results/campaigns-initial-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "new_resource_digest_current_language_pause_resume_and_http_headers_en_US",
+      "status": "passed",
+      "evidence": "tests/experience/results/new-resource-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "84",
+      "domain": "campaigns",
+      "id": "new_resource_digest_current_language_pause_resume_and_http_headers_zh_CN",
+      "status": "passed",
+      "evidence": "tests/experience/results/new-resource-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; test-constrained owned outbox selection and Mock mail acceptance"
+    },
+    {
+      "runtime": "84",
+      "domain": "guards",
+      "id": "protected_metadata_hidden_without_breaking_native_roles_or_blank_key",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "guards",
+      "id": "configuration_guards_do_not_block_domain_save_or_unrelated_native_options",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "guards",
+      "id": "native_email_round_trip_does_not_revive_previous_marketing_consent",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "guards",
+      "id": "account_service_email_change_inside_transaction_has_no_nested_transaction_failure",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "guards",
+      "id": "confirmed_native_privacy_eraser_clears_help_and_subscription_only_for_owner",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "guards",
+      "id": "native_user_deletion_and_reserved_metadata_remain_compatible",
+      "status": "passed",
+      "evidence": "tests/experience/results/guards-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "concurrency",
+      "id": "eight_parallel_onboarding_merges_and_replays_one_private_state",
+      "status": "passed",
+      "evidence": "tests/experience/results/concurrency-php84.json",
+      "environment_kind": "Real independent PHP/MySQL processes"
+    },
+    {
+      "runtime": "84",
+      "domain": "concurrency",
+      "id": "concurrent_repeat_native_help_import_is_idempotent_and_retryable",
+      "status": "passed",
+      "evidence": "tests/experience/results/concurrency-php84.json",
+      "environment_kind": "Real independent PHP/MySQL processes"
+    },
+    {
+      "runtime": "84",
+      "domain": "mail-concurrency",
+      "id": "two_real_concurrent_optins_and_retry_share_one_pending_consent",
+      "status": "passed",
+      "evidence": "tests/experience/results/mail-concurrency-php84.json",
+      "environment_kind": "Real independent PHP/MySQL processes and explicit barriers; intercepted Mock transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "mail-concurrency",
+      "id": "real_two_worker_policy_contention_deduplication_and_cancel_send_serialization",
+      "status": "passed",
+      "evidence": "tests/experience/results/mail-concurrency-php84.json",
+      "environment_kind": "Real independent PHP/MySQL processes and explicit barriers; intercepted Mock transport"
+    },
+    {
+      "runtime": "84",
+      "domain": "retention",
+      "id": "real_optin_retention_while_marketing_paused_preserves_accounts_active_consent_and_recent_history",
+      "status": "passed",
+      "evidence": "tests/experience/results/subscription-retention-php84.json",
+      "environment_kind": "Real WordPress/MySQL"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "users_service_capability_and_public_summary_privacy",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "users_counts_reuse_real_contributions",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "pause_audited_idempotent_preserves_identity_and_invalidates_public_stats",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "paused_identity_denied_community_submission_and_native_write",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "stale_replay_conflict_and_explicit_resume",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "protected_admin_staff_self_and_erasure_state",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "pending_verification_cannot_bypass_pause",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "native_administrator_email_change_never_lifts_pause",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-users",
+      "id": "sensitive_audit_notes_rejected",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-users-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "notification_idempotency_ownership_atomic_read",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "notification_filters_private_projection_and_current_target",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "notification_pagination_no_duplicates_and_foreign_exclusion",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "optional_preferences_do_not_disable_security_or_delete_history",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "privacy_preferences_preserve_developer_owned_optin",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "pending_email_manager_recovery_and_subscriber_denial",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_permission_redaction_preview_and_truthful_configuration",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_definite_rejection_retry_no_business_replay",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_uncertain_not_retried_and_pause_resumes_without_send",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-notifications-mail",
+      "id": "mail_interruption_recovery_distinguishes_presend_and_sending",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-notifications-mail-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-workbench-home",
+      "id": "workbench_capability_partition_and_no_approval_bulk",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-workbench-home",
+      "id": "workbench_partial_batch_cas_replay_preserves_private_content",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-workbench-home",
+      "id": "workbench_search_filters_and_unknown_types_fail_closed",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-workbench-home",
+      "id": "source_health_snapshot_ack_is_audit_only_and_no_network",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-workbench-home",
+      "id": "source_retry_limits_and_paused_source_not_queued",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-workbench-home",
+      "id": "home_draft_history_live_gate_and_stale_configuration",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-workbench-home-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-analytics",
+      "id": "search_sensitive_input_and_failed_page_suppression",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-analytics",
+      "id": "real_search_threshold_exact_dedupe_and_no_private_dimensions",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-analytics",
+      "id": "real_mysql_accent_insensitive_collation_keeps_terms_separate",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-analytics",
+      "id": "search_disabled_admin_bot_privacy_guards",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-analytics",
+      "id": "active_users_require_consent_current_binding_and_deduplicate_across_cookies",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-analytics",
+      "id": "analytics_known_sample_window_real_relations_and_low_frequency",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-analytics",
+      "id": "analytics_skill_archive_invalidates_current_facts",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-analytics-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-transactions",
+      "id": "user_transition_rolls_back_when_audit_write_fails",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-transactions-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-operations-transactions",
+      "id": "home_settings_roll_back_with_audit_failure",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-operations-transactions-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_disabled_configuration_has_no_public_records",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_native_caps_draft_confirmation_cas_and_audit",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsor_url_and_image_validation_no_fetch_or_execution",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_current_language_future_pause_and_expiry_without_cron",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-sponsors",
+      "id": "sponsors_skill_gate_keeps_publication_and_review_unchanged",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-sponsors-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_disabled_and_language_specific_explicit_copy",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_private_inbox_idempotency_and_no_business_side_effect",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_input_bounds_honeypot_and_no_url_side_effects",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_least_privilege_native_editor_and_object_isolation",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-enterprise",
+      "id": "enterprise_moderation_cas_audit_and_aggregate_without_pii",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-enterprise-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "free_entitlements_preserve_native_recovery_and_verified_write_gates",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "entitlements_do_not_replace_object_authorization",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "bundles_default_disabled_reuse_id_and_explicit_review",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-entitlements-bundles",
+      "id": "bundles_live_member_public_gate_archive_and_pause",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-entitlements-bundles-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-privacy-transactions",
+      "id": "enterprise_native_confirmed_privacy_export_and_controlled_erasure",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-privacy-transactions-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "regression-commercial-privacy-transactions",
+      "id": "commercial_option_and_private_inbox_transactional_audit_rollback",
+      "status": "passed",
+      "evidence": "tests/experience/results/regression-commercial-privacy-transactions-php84.json",
+      "environment_kind": "Real WordPress/MySQL; existing suite mail outcomes remain Mock where used"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "no_implicit_subscription_and_anonymous_verified_account_guidance",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-newsletter-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery",
+      "supersedes": "tests/experience/results/browser-public-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "guest_introduction_dismissal_persists_cross_language_without_ajax",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "signed_in_introduction_failure_retry_ownership_and_replay",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_zh_375",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_en_375",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_zh_768",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_en_768",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_zh_1440",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "responsive_learning_subscription_and_existing_routes_en_1440",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "existing_favorite_review_submission_and_private_drafts_regression",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "help_search_empty_state_filters_and_pagination",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "copy_and_share_exact_public_values_without_execution",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "clipboard_rejection_exposes_manual_selection_and_feedback",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "native_admin_learning_views_and_subscriber_denial",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-public-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "no_unexpected_console_errors_or_failed_assets",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-newsletter-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery",
+      "supersedes": "tests/experience/results/browser-public-php84.json"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "newsletter_nonce_consent_owner_and_confirmation_prg",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-newsletter-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "anonymous_cancellation_when_paused_and_rfc_oneclick",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-newsletter-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    },
+    {
+      "runtime": "84",
+      "domain": "browser",
+      "id": "unverified_own_cancellation_and_native_admin_capabilities",
+      "status": "passed",
+      "evidence": "tests/experience/results/browser-newsletter-php84.json",
+      "environment_kind": "Real Chromium HTTP/UI against WordPress/MySQL; synthetic credentials and private token pipe, no real email delivery"
+    }
+  ],
+  "passed": 243,
+  "failed": 0,
+  "per_runtime": {
+    "83": {
+      "passed": 121,
+      "failed": 0
+    },
+    "84": {
+      "passed": 122,
+      "failed": 0
+    }
+  },
+  "infrastructure_checks_separate_from_business_case_count": {
+    "activation_preservation": {
+      "83": {
+        "passed": 83,
+        "failed": 0
+      },
+      "84": {
+        "passed": 83,
+        "failed": 0
+      }
+    },
+    "native_core_assertions": {
+      "83": 162,
+      "84": 162
+    },
+    "package_checks": {
+      "baseline": {
+        "passed": 6,
+        "failed": 0
+      },
+      "upgrade": {
+        "passed": 6,
+        "failed": 0
+      },
+      "verify": {
+        "passed": 6,
+        "failed": 0
+      }
+    },
+    "package_byte_comparison": {
+      "package_sha256": "d7e7c5a32e88432395d7a204d3c9683d58c7dcb3ac219dac09686bb6a18aaae5",
+      "package_files": 214,
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "original_data_differences_not_hidden_or_counted_as_pass": {
+    "83": {
+      "matched_groups": 40,
+      "mismatched_groups": 3,
+      "differences": [
+        "core_notification_outbox",
+        "core_daily_metrics",
+        "native_usermeta"
+      ],
+      "evidence": "tests/experience/results/retained-data-php83.json"
+    },
+    "84": {
+      "matched_groups": 41,
+      "mismatched_groups": 2,
+      "differences": [
+        "core_notification_outbox",
+        "core_daily_metrics"
+      ],
+      "evidence": "tests/experience/results/retained-data-php84.json"
+    }
+  },
+  "unexecuted_external_dependencies": [
+    "Real SMTP, end-recipient delivery, authenticated bounces and HTTPS RFC8058 mail-client integration",
+    "Licensed WPML",
+    "Live GitHub collector API",
+    "Live AI Provider APIs",
+    "Actual current SEO-plugin combinations",
+    "Persistent object/page cache and CDN",
+    "Production TLS/load, multisite and other browsers/physical devices"
+  ],
+  "historical_failures": [
+    "Initial onboarding harness invoked erasure extension without complete native lifecycle; corrected to actual native deletion, then full confirmed eraser independently tested.",
+    "Initial help test expected a request-local Catalog instance to invalidate across an admin archive; corrected to fresh next-request public projection.",
+    "Initial campaign selector expected obsolete ORDER BY CASE, and HTTP local mail expectation incorrectly required HTTPS-only RFC8058 header; corrected selectors and actual unsent digest regressions executed.",
+    "Initial pause test expected retry; actual paused known-unsent contract returns queued without consuming attempts; corrected and reexecuted.",
+    "Actual P1 native privacy erasure failed because a later module required an earlier module marker after its removal; fixed with identity-bound erasure context, real native regression passed.",
+    "Actual P2 native Help/Subscriptions admin headers were emitted after HTML; fixed at load hook and real browser regression passed.",
+    "Initial browser submission selector selected logout form; corrected harness and real owned draft flow reexecuted."
+  ]
+}

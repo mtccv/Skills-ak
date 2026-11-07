@@ -68,7 +68,7 @@ final class Seo {
 	}
 
 	private static function settings( string $route, string $locale, int $id ): array {
-		if ( in_array( $route, array( 'home', 'skills', 'tutorials', 'about', 'contact', 'submit' ), true ) ) { return SeoSettings::values( $route, $locale ); }
+		if ( in_array( $route, array( 'home', 'skills', 'tutorials', 'help', 'about', 'contact', 'submit' ), true ) ) { return SeoSettings::values( $route, $locale ); }
 		if ( $id > 0 && in_array( $route, array( 'skill', 'category', 'tag' ), true ) ) { return SeoSettings::values( $route, $locale, $id ); }
 		return SeoSettings::defaults();
 	}
@@ -77,6 +77,7 @@ final class Seo {
 	public static function noindex( array $context, array $query, bool $configured = false ): bool {
 		if ( $configured || ! SeoSettings::indexableSite() || 200 !== $context['status'] || in_array( $context['route'], array( 'search', 'submit', '404' ), true ) ) { return true; }
 		if ( in_array( $context['route'], array( 'about', 'contact' ), true ) && empty( $context['data']['page'] ) ) { return true; }
+		if ( 'help' === $context['route'] && empty( $context['data']['help']['items'] ) ) { return true; }
 		if ( isset( $context['data']['term'] ) && ( (int) ( $context['data']['term']['count'] ?? 0 ) < 1 || ! empty( $context['data']['term']['translation_missing'] ) ) ) { return true; }
 		if ( 'discovery' === $context['route'] && ( ( isset( $context['data']['result'] ) && (int) ( $context['data']['result']['total'] ?? 0 ) < 1 ) || ( isset( $context['data']['topics'] ) && ! $context['data']['topics'] ) ) ) { return true; }
 		foreach ( $query as $key => $value ) {

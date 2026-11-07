@@ -1,0 +1,847 @@
+{
+  "kind": "Limited actual service measurements, not a production benchmark",
+  "processes": 14,
+  "samples_per_process": 2,
+  "measurements": [
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:38Z",
+      "scope": "help_list",
+      "locale": "zh_CN",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 9,
+          "elapsed_ms": 6.535,
+          "result_shape": {
+            "returned_items": 12,
+            "matched_items": 21
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.099,
+          "result_shape": {
+            "returned_items": 12,
+            "matched_items": 21
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:38Z",
+      "scope": "help_list",
+      "locale": "en_US",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 9,
+          "elapsed_ms": 6.58,
+          "result_shape": {
+            "returned_items": 12,
+            "matched_items": 21
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.091,
+          "result_shape": {
+            "returned_items": 12,
+            "matched_items": 21
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:39Z",
+      "scope": "help_detail",
+      "locale": "zh_CN",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 8,
+          "elapsed_ms": 7.253,
+          "result_shape": {
+            "found": true,
+            "toc_items": 5,
+            "related_items": 4
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.384,
+          "result_shape": {
+            "found": true,
+            "toc_items": 5,
+            "related_items": 4
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:39Z",
+      "scope": "help_detail",
+      "locale": "en_US",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 8,
+          "elapsed_ms": 5.634,
+          "result_shape": {
+            "found": true,
+            "toc_items": 5,
+            "related_items": 4
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.354,
+          "result_shape": {
+            "found": true,
+            "toc_items": 5,
+            "related_items": 4
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:39Z",
+      "scope": "home_catalog_preamble",
+      "locale": "zh_CN",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 7,
+          "elapsed_ms": 3.725,
+          "result_shape": {
+            "featured_items": 0,
+            "latest_items": 1,
+            "categories": 6
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.044,
+          "result_shape": {
+            "featured_items": 0,
+            "latest_items": 1,
+            "categories": 6
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:39Z",
+      "scope": "home_catalog_preamble",
+      "locale": "en_US",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 7,
+          "elapsed_ms": 3.871,
+          "result_shape": {
+            "featured_items": 0,
+            "latest_items": 1,
+            "categories": 6
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.037,
+          "result_shape": {
+            "featured_items": 0,
+            "latest_items": 1,
+            "categories": 6
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:39Z",
+      "scope": "skill_detail",
+      "locale": "zh_CN",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 6,
+          "elapsed_ms": 2.715,
+          "result_shape": {
+            "found": true,
+            "language_alternatives": 2,
+            "related_tutorials": 0
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.01,
+          "result_shape": {
+            "found": true,
+            "language_alternatives": 2,
+            "related_tutorials": 0
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:40Z",
+      "scope": "skill_detail",
+      "locale": "en_US",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 6,
+          "elapsed_ms": 2.744,
+          "result_shape": {
+            "found": true,
+            "language_alternatives": 2,
+            "related_tutorials": 0
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.01,
+          "result_shape": {
+            "found": true,
+            "language_alternatives": 2,
+            "related_tutorials": 0
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:40Z",
+      "scope": "account_subscription",
+      "locale": "zh_CN",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 16,
+          "elapsed_ms": 1.662,
+          "result_shape": {
+            "existing_preference": true
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 16,
+          "elapsed_ms": 1.597,
+          "result_shape": {
+            "existing_preference": true
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:40Z",
+      "scope": "account_subscription",
+      "locale": "en_US",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 16,
+          "elapsed_ms": 0.982,
+          "result_shape": {
+            "existing_preference": true
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 16,
+          "elapsed_ms": 0.918,
+          "result_shape": {
+            "existing_preference": true
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:40Z",
+      "scope": "account_onboarding",
+      "locale": "zh_CN",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 12,
+          "elapsed_ms": 0.66,
+          "result_shape": {
+            "completed_count": 0
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 12,
+          "elapsed_ms": 0.768,
+          "result_shape": {
+            "completed_count": 0
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:40Z",
+      "scope": "account_onboarding",
+      "locale": "en_US",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 12,
+          "elapsed_ms": 0.833,
+          "result_shape": {
+            "completed_count": 0
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 12,
+          "elapsed_ms": 0.717,
+          "result_shape": {
+            "completed_count": 0
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:41Z",
+      "scope": "guard_post_metadata",
+      "locale": "zh_CN",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 2,
+          "elapsed_ms": 0.269,
+          "result_shape": {
+            "ordinary_post_metadata_reads": 8
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.012,
+          "result_shape": {
+            "ordinary_post_metadata_reads": 8
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    },
+    {
+      "kind": "Limited real WordPress/MySQL read-only service measurement; not load testing or Final QA 2.0",
+      "captured_at_utc": "2026-11-07T21:07:41Z",
+      "scope": "guard_post_metadata",
+      "locale": "en_US",
+      "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.3.36",
+        "mysql": "8.0.46",
+        "schema": "1.9.0",
+        "persistent_object_cache": false
+      },
+      "scale": {
+        "core_tables": 33,
+        "skills_all_states": 89,
+        "skill_translations": 173,
+        "native_users": 206,
+        "native_tutorials_all_states": 42,
+        "published_help_locale": 21
+      },
+      "samples": [
+        {
+          "kind": "first_call_fresh_php_process",
+          "sql_queries": 2,
+          "elapsed_ms": 0.4,
+          "result_shape": {
+            "ordinary_post_metadata_reads": 8
+          }
+        },
+        {
+          "kind": "same_request_repeat",
+          "sql_queries": 0,
+          "elapsed_ms": 0.017,
+          "result_shape": {
+            "ordinary_post_metadata_reads": 8
+          }
+        }
+      ],
+      "source_sha256": {
+        "Learning/Help.php": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+        "Learning/Onboarding.php": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+        "Learning/Subscriptions.php": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+        "Learning/SubscriptionGuards.php": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+        "Frontend/Editorial.php": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+        "Frontend/PublicCatalog.php": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d"
+      },
+      "blocked_sql_mutations": 0,
+      "external_http_attempts": 0,
+      "mail_attempts": 0,
+      "limitations": [
+        "Existing retained synthetic QA data only; no new fixtures.",
+        "First call uses a separate PHP process; database/OS caches are not flushed.",
+        "WordPress bootstrap, fixture selection, identity preparation and scale counts are excluded from timings.",
+        "These are service calls, not full HTTP/render, browser, production throughput or latency SLO measurements.",
+        "Homepage scope measures the actual public catalog preamble only; modular discovery rendering is excluded.",
+        "One first call and one repeat per scope/language; no statistical latency claim."
+      ]
+    }
+  ]
+}

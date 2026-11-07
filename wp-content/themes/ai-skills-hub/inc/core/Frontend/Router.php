@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
 
 /** Public HTML routing; all Skill reads go through the restricted PublicCatalog. */
 final class Router {
-	private const ROUTES = array( 'home', 'skills', 'skill', 'category', 'tag', 'tutorials', 'tutorial', 'search', 'about', 'contact', 'submit', '404' );
+	private const ROUTES = array( 'home', 'skills', 'skill', 'category', 'tag', 'tutorials', 'tutorial', 'help', 'search', 'about', 'contact', 'submit', '404' );
 	private static array $context = array( 'route' => '404', 'locale' => 'zh_CN', 'language' => 'zh', 'title' => 'AI Skills Hub', 'description' => '', 'canonical' => '', 'alternates' => array(), 'data' => array(), 'error' => false, 'status' => 404 );
 	private static bool $adapterFailed = false;
 	private bool $handled = false;
@@ -77,6 +77,7 @@ final class Router {
 	}
 
 	private function parseRequest( \WP $wp ): void {
+		if ( class_exists( \AISkillsHub\Core\Learning\SubscriptionFrontend::class ) && \AISkillsHub\Core\Learning\SubscriptionFrontend::active() ) { return; }
 		if ( class_exists( \AISkillsHub\Core\Discovery\Frontend::class ) && \AISkillsHub\Core\Discovery\Frontend::active() ) { return; }
 		// Account routes own their private response, authentication and metadata.
 		if ( class_exists( \AISkillsHub\Core\Accounts\Frontend::class ) && \AISkillsHub\Core\Accounts\Frontend::active() ) { return; }
@@ -107,7 +108,7 @@ final class Router {
 				$this->request['locale'] = 'zh' === $matches[1] ? 'zh_CN' : 'en_US';
 				$tail = trim( $matches[2] ?? '', '/' );
 				if ( '' === $tail ) { $this->request['route'] = 'home'; }
-				elseif ( in_array( $tail, array( 'skills', 'tutorials', 'search', 'about', 'contact', 'submit' ), true ) ) { $this->request['route'] = $tail; }
+				elseif ( in_array( $tail, array( 'skills', 'tutorials', 'help', 'search', 'about', 'contact', 'submit' ), true ) ) { $this->request['route'] = $tail; }
 				elseif ( preg_match( '#^skills/([1-9][0-9]{0,18})(?:/([a-z0-9]+(?:-[a-z0-9]+)*))?$#D', $tail, $parts ) ) { $this->request += array( 'id' => $parts[1], 'slug' => $parts[2] ?? '' ); $this->request['route'] = 'skill'; }
 				elseif ( preg_match( '#^(category|tag)/([a-z0-9]+(?:-[a-z0-9]+)*)$#D', $tail, $parts ) ) { $this->request['route'] = $parts[1]; $this->request['slug'] = $parts[2]; }
 				elseif ( preg_match( '#^tutorials/([1-9][0-9]{0,18})$#D', $tail, $parts ) ) { $this->request['route'] = 'tutorial'; $this->request['id'] = $parts[1]; }
@@ -227,6 +228,13 @@ final class Router {
 					$data = array( 'skill' => $skill, 'sections' => View::sections( $skill['content'] ), 'related' => has_action( 'aish_discovery_recommendations' ) ? array() : $this->catalog->related( $id, $locale, 3 ), 'tutorials' => $this->editorial->relatedTutorials( $id, $locale, 3 ) );
 					foreach ( $available as $language => $slug ) { $alternates[ $language ] = self::url( 'skill', array( 'id' => $id, 'slug' => $slug ), $language ); }
 				}
+			} elseif ( 'help' === $route ) {
+				$help = \AISkillsHub\Core\Core::boot()->get( 'learning_help' );
+				$validated = self::filters();
+				$filters = array( 'q' => $validated['q'], 'help_category' => self::query( 'help_category', '', 32 ), 'page' => $validated['page'] );
+				$data = array( 'help' => $help->listing( $locale, $filters ), 'filters' => $filters );
+				if ( $filters['page'] > 1 && ! $data['help']['items'] ) { $route = '404'; $status = 404; $data = array(); }
+				$canonicalArgs = $filters;
 			} elseif ( 'tutorials' === $route ) {
 				$filters = self::filters();
 				$data = array( 'result' => $this->editorial->tutorials( $locale, $filters ), 'filters' => $filters, 'categories' => $this->catalog->terms( 'category', $locale ), 'tags' => $this->catalog->terms( 'tag', $locale ), 'platforms' => $this->catalog->platforms( $locale ) );
@@ -252,10 +260,11 @@ final class Router {
 			$data['translation_missing'] = 'missing' === self::query( 'translation', '', 10 );
 		} catch ( \InvalidArgumentException $error ) { $route = '404'; $status = 404; $data = array(); }
 		catch ( \Throwable $error ) { $status = 503; $data = array(); $alternates = array(); }
-		$filtered = isset( $data['filters'] ) && ( (int) $data['filters']['page'] > 1 || 'newest' !== $data['filters']['sort'] || '' !== $data['filters']['q'] || '' !== $data['filters']['platform'] || ( 'category' !== $route && '' !== $data['filters']['category'] ) || ( 'tag' !== $route && '' !== $data['filters']['tag'] ) );
+		$filtered = isset( $data['filters'] ) && ( (int) $data['filters']['page'] > 1 || 'newest' !== ( $data['filters']['sort'] ?? 'newest' ) || '' !== $data['filters']['q'] || '' !== ( $data['filters']['platform'] ?? '' ) || '' !== ( $data['filters']['help_category'] ?? '' ) || ( 'category' !== $route && '' !== ( $data['filters']['category'] ?? '' ) ) || ( 'tag' !== $route && '' !== ( $data['filters']['tag'] ?? '' ) ) );
 		if ( ! $alternates && ! $filtered && 200 === $status && ! in_array( $route, array( 'skill', 'tutorial' ), true ) ) {
 			try {
 				foreach ( array( 'zh_CN', 'en_US' ) as $language ) {
+					if ( 'help' === $route && ! $this->editorial->tutorials( $language, array( 'help_only' => true, 'per_page' => 1 ) )['items'] ) { continue; }
 					if ( in_array( $route, array( 'about', 'contact', 'submit' ), true ) ) {
 						$translated = $this->editorial->page( $route, $language );
 						if ( ! $translated || SeoSettings::postValues( (int) $translated['id'] )['noindex'] ) { continue; }
@@ -302,7 +311,8 @@ final class Router {
 			default => $route . '/',
 		};
 		$query = array();
-		foreach ( array( 'q', 'category', 'tag', 'platform', 'sort', 'page', 'translation' ) as $key ) {
+		foreach ( array( 'q', 'category', 'tag', 'platform', 'sort', 'page', 'translation', 'help_category' ) as $key ) {
+			if ( 'help_category' === $key && 'help' !== $route ) { continue; }
 			if ( ! isset( $args[ $key ] ) || ! is_scalar( $args[ $key ] ) || '' === (string) $args[ $key ] ) { continue; }
 			if ( ( 'page' === $key && (int) $args[ $key ] <= 1 ) || ( 'sort' === $key && 'newest' === $args[ $key ] ) || $key === $route ) { continue; }
 			$query[ $key ] = (string) $args[ $key ];

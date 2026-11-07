@@ -1,0 +1,57 @@
+[
+  {
+    "timestamp_utc": "2026-11-07T20:45:04.596125+00:00",
+    "baseline_commit": "1282c4b756b3a5b020aa18e62a9295cee213d549",
+    "theme_source_files": 215,
+    "source_tree_sha256": "f923a1e74f1803cbca083e941a4ac7a621f95d5e1e84fa73642cb30651790b04",
+    "runtime_matches": {
+      "83": true,
+      "84": true
+    },
+    "purpose": "Initial Phase14 candidate; preservation before fixtures"
+  },
+  {
+    "timestamp_utc": "2026-11-07T20:46:07.950759+00:00",
+    "baseline_commit": "1282c4b756b3a5b020aa18e62a9295cee213d549",
+    "theme_source_files": 215,
+    "source_tree_sha256": "e921460f748d843b34a35f9a0753444375f6e0bfceb7058eb85b37288c12c5d9",
+    "runtime_matches": {
+      "83": true,
+      "84": true
+    },
+    "purpose": "Latest help parser and protected metadata guards before first service fixtures"
+  },
+  {
+    "timestamp_utc": "2026-11-07T20:48:50.135693+00:00",
+    "baseline_commit": "1282c4b756b3a5b020aa18e62a9295cee213d549",
+    "theme_source_files": 215,
+    "source_tree_sha256": "b977a96def5660840a2fdcf439d9751bfb13dce0d113de684eb3f153e093f28c",
+    "runtime_matches": {
+      "83": true,
+      "84": true
+    },
+    "purpose": "Final newsletter owner binding guards retention and help bookmarks"
+  },
+  {
+    "timestamp_utc": "2026-11-07T20:57:04.897103+00:00",
+    "baseline_commit": "1282c4b756b3a5b020aa18e62a9295cee213d549",
+    "theme_source_files": 215,
+    "source_tree_sha256": "83e060c7689ff25d9acdf364d29e167006eb125f13ed310f135b7dd68139e4c3",
+    "runtime_matches": {
+      "83": true,
+      "84": true
+    },
+    "purpose": "Real QA fixes admin header timing and native email consent lifecycle"
+  },
+  {
+    "timestamp_utc": "2026-11-07T21:01:54.933179+00:00",
+    "baseline_commit": "1282c4b756b3a5b020aa18e62a9295cee213d549",
+    "theme_source_files": 215,
+    "source_tree_sha256": "1921e25f2c18f1e00fe72bcb30d07b48e83d4d2a452df3987765f9fb1ed0393a",
+    "runtime_matches": {
+      "83": true,
+      "84": true
+    },
+    "purpose": "Fix native account erasure cross-module identity context"
+  }
+]

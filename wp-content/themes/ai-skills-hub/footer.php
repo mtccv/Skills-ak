@@ -1,6 +1,9 @@
 <?php
 use AISkillsHub\Core\Frontend\View;
+use AISkillsHub\Core\Frontend\Router;
+use AISkillsHub\Core\Learning\SubscriptionFrontend;
 defined( 'ABSPATH' ) || exit;
+$locale = Router::context()['locale'];
 ?>
 <footer class="site-footer">
 	<div class="aish-container footer-grid">
@@ -11,6 +14,11 @@ defined( 'ABSPATH' ) || exit;
 		<div><h2 class="footer-heading"><?php echo esc_html( View::t( 'footer.explore' ) ); ?></h2><nav class="footer-links" aria-label="<?php echo esc_attr( View::t( 'footer.explore' ) ); ?>"><a href="<?php echo esc_url( View::url( 'skills' ) ); ?>"><?php echo esc_html( View::t( 'nav.skills' ) ); ?></a><a href="<?php echo esc_url( View::url( 'tutorials' ) ); ?>"><?php echo esc_html( View::t( 'nav.tutorials' ) ); ?></a><a href="<?php echo esc_url( View::url( 'search' ) ); ?>"><?php echo esc_html( View::t( 'search.label' ) ); ?></a></nav></div>
 		<div><h2 class="footer-heading"><?php echo esc_html( View::t( 'footer.community' ) ); ?></h2><nav class="footer-links" aria-label="<?php echo esc_attr( View::t( 'footer.community' ) ); ?>"><a href="<?php echo esc_url( View::url( 'about' ) ); ?>"><?php echo esc_html( View::t( 'nav.about' ) ); ?></a><a href="<?php echo esc_url( View::url( 'contact' ) ); ?>"><?php echo esc_html( View::t( 'nav.contact' ) ); ?></a><a href="<?php echo esc_url( View::url( 'submit' ) ); ?>"><?php echo esc_html( View::t( 'nav.submit' ) ); ?></a></nav></div>
 	</div>
+	<nav class="aish-container learning-footer-links" aria-label="<?php echo esc_attr( 'zh_CN' === $locale ? '帮助与社区规范' : 'Help and guidelines' ); ?>">
+		<a href="<?php echo esc_url( View::url( 'help' ) ); ?>"><?php echo esc_html( View::t( 'nav.help' ) ); ?></a>
+		<a href="<?php echo esc_url( View::url( 'help', array( 'help_category' => 'policies' ) ) ); ?>"><?php echo esc_html( 'zh_CN' === $locale ? '社区规范与政策' : 'Guidelines and policies' ); ?></a>
+		<a href="<?php echo esc_url( SubscriptionFrontend::url( 'newsletter', $locale ) ); ?>"><?php echo esc_html( 'zh_CN' === $locale ? '自愿邮件订阅' : 'Email subscription' ); ?></a>
+	</nav>
 	<div class="aish-container footer-bottom"><p>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> AI Skills Hub</p><p><?php echo esc_html( View::t( 'footer.note' ) ); ?></p></div>
 </footer>
 <?php wp_footer(); ?>

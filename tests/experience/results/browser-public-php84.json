@@ -1,0 +1,78 @@
+{
+  "kind": "Targeted real Chromium and local WordPress/MySQL with synthetic owned content/accounts; mocked email transport, intentionally denied clipboard and aborted one onboarding request; no external API, no real delivery, not Final QA 2.0",
+  "php_runtime": "84",
+  "viewports": [
+    375,
+    768,
+    1440
+  ],
+  "cases": [
+    {
+      "id": "no_implicit_subscription_and_anonymous_verified_account_guidance",
+      "status": "passed"
+    },
+    {
+      "id": "guest_introduction_dismissal_persists_cross_language_without_ajax",
+      "status": "passed"
+    },
+    {
+      "id": "signed_in_introduction_failure_retry_ownership_and_replay",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_learning_subscription_and_existing_routes_zh_375",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_learning_subscription_and_existing_routes_en_375",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_learning_subscription_and_existing_routes_zh_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_learning_subscription_and_existing_routes_en_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_learning_subscription_and_existing_routes_zh_1440",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_learning_subscription_and_existing_routes_en_1440",
+      "status": "passed"
+    },
+    {
+      "id": "existing_favorite_review_submission_and_private_drafts_regression",
+      "status": "passed"
+    },
+    {
+      "id": "help_search_empty_state_filters_and_pagination",
+      "status": "passed"
+    },
+    {
+      "id": "copy_and_share_exact_public_values_without_execution",
+      "status": "passed"
+    },
+    {
+      "id": "clipboard_rejection_exposes_manual_selection_and_feedback",
+      "status": "passed"
+    },
+    {
+      "id": "native_admin_learning_views_and_subscriber_denial",
+      "status": "passed"
+    },
+    {
+      "id": "no_unexpected_console_errors_or_failed_assets",
+      "status": "passed"
+    }
+  ],
+  "assertions": 751,
+  "console_errors": [],
+  "intentionally_injected_errors": [
+    "Failed to load resource: net::ERR_FAILED"
+  ],
+  "passed": 15,
+  "failed": 0
+}

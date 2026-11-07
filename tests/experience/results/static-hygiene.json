@@ -1,0 +1,8 @@
+{
+  "classification": "bounded static hygiene checks, not a complete security certification",
+  "checked_changed_text_files": 209,
+  "credential_pattern_matches_paths_only": [],
+  "schema_code_changed": false,
+  "phase75_prototypes_changed": false,
+  "lockfile_changed": false
+}

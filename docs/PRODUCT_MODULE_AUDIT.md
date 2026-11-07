@@ -1,5 +1,9 @@
 # 产品 V2 模块审计与复用边界
 
+## 当前 Phase 14 实施范围（2026-11-08，Asia/Shanghai）
+
+以 [确认需求](PHASE_14_REQUEST.md) 为本轮依据，基准 `1282c4b756b3a5b020aa18e62a9295cee213d549`。主题/Core0.14.0；默认保留 **schema1.9.0 / 33张Core表**。引导复用原生用户元数据，帮助/规范复用现有教程，订阅依§4.5仅限已验证原生账户主动双重确认，复用验证表和加密outbox；不增加匿名联系人、订阅主表或第二邮件队列。旧规划的1.10.0/34表为未实施候选，不能作为当前实际Schema。完成Phase14后暂停，Final QA2.0只提供计划，不自动执行或上线。
+
 ## Phase 13 实施复用核对
 
 CommercialModule依赖既有operations/discovery/accounts/contributions/frontend/admin。Entitlements只读资格，赞助使用既有模板挂点、PublicCatalog及审计；套装只引用现有集合；企业咨询扩展Forms和私有Inbox；指标复用既有观察凭证/事件/维护任务。没有第二套身份、通知、商品、投稿或统计存储。默认配置缺失即关闭，不自动初始化演示记录。原生三个独立能力与发现管理能力不混用。运营概览只优化统计投影，不缓存安全决策。

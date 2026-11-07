@@ -1,0 +1,31 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL native help import, transactional fault injection, independent bilingual editorial data, publication/privacy gates and query-cache checks; no external API or WPML plugin claim",
+  "cases": [
+    {
+      "id": "public_help_bilingual_category_search_pagination_and_cache",
+      "status": "passed"
+    },
+    {
+      "id": "unpublished_password_and_missing_translation_never_leak",
+      "status": "passed"
+    },
+    {
+      "id": "reading_navigation_sanitizes_content_and_does_not_execute_shortcode",
+      "status": "passed"
+    },
+    {
+      "id": "related_skill_ids_pass_existing_public_catalog_gate",
+      "status": "passed"
+    }
+  ],
+  "assertions": 77,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 0,
+  "passed": 4,
+  "failed": 0
+}

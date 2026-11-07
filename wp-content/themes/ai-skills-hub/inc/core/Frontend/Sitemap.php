@@ -134,7 +134,8 @@ final class Sitemap {
 	private function staticItems( string $locale ): array {
 		if ( isset( $this->memo['static'][ $locale ] ) ) { return $this->memo['static'][ $locale ]; }
 		$items = array();
-		foreach ( array( 'home', 'skills', 'tutorials', 'about', 'contact' ) as $route ) {
+		foreach ( array( 'home', 'skills', 'tutorials', 'help', 'about', 'contact' ) as $route ) {
+			if ( 'help' === $route && ! $this->editorial->tutorials( $locale, array( 'help_only' => true, 'per_page' => 1 ) )['items'] ) { continue; }
 			$settings = SeoSettings::values( $route, $locale );
 			if ( ! empty( $settings['noindex'] ) ) { continue; }
 			$item = array( 'loc' => Router::url( $route, array(), $locale ) );

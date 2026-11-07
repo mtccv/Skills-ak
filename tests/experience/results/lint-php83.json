@@ -1,0 +1,1878 @@
+{
+  "classification": "static syntax",
+  "runtime": "83",
+  "files": [
+    {
+      "file": "tests/accounts/baseline.php",
+      "sha256": "bcc1aedf5fdb28449d9cbac9a45dda05e3e6ec9af4dc6592459a05858e586fd9",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/browser-control.php",
+      "sha256": "36af03c33b61b18f17056cae85eaf6c7b475ddfe7c4c5c7cee8884855e97553e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/concurrency.php",
+      "sha256": "bb31785033f16c8a220b25411161a6fbbad3046c4a57ec130444dc61534635dc",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/integration.php",
+      "sha256": "0b3a02e97619273fd9a524293271630ba90124c80607d72cbf17371574bad125",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/migration.php",
+      "sha256": "793fcffeaa01f6012a278b3a4720cee4bbd32507905e8a53ba255f8edc45e1d6",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/package-upgrade.php",
+      "sha256": "1996e5b0ec61b91e3f15b05c82b3d97cecab75e71eedb35fc9d6e2a235e3897e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/privacy-directory.php",
+      "sha256": "a951d24d14f8825f509b1407637909e688cac09e92c52eeacb8db05e59ed3823",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/privacy-export.php",
+      "sha256": "dd07316d50ab0352e34e4ddaaf6d15d06229bd5b27620e56f72c6cf70ede0725",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/privacy-guards.php",
+      "sha256": "6766cf96e34d422561a3897121233dba637eed8ba5ae1820f5219378eab7b763",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/qa-mail-mu.php",
+      "sha256": "4fdfd52eba2b3b4dc3935615d958f1c93cf2adecf374616c1a42fc3119724ad8",
+      "status": "passed"
+    },
+    {
+      "file": "tests/accounts/race-worker.php",
+      "sha256": "78636f77576bf953e73a990bae51a91e3bba3d0245c4eba5b03513f3bf67f4fa",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/account-frontend.php",
+      "sha256": "14377b78c9b90be0d0e30d507e2d5a9fe45b8339bd5bbbd2c6af65aa9cd58237",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/account-mail.php",
+      "sha256": "2da347172e64816bc2ea9e0ba9e008b75c0c1db07aba1eb4ced86be5ced53788",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/account-native-guards.php",
+      "sha256": "6990ddc60d53c3e849c6d3e1ff23b2e9a0ba5cce6c29eeeb68151d979e6655a4",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/account-storage.php",
+      "sha256": "d9d8be227fe01b6ded9ca5800102691eed330e7768056cf6e0b7fce41be1e4cf",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/admin-settings.php",
+      "sha256": "2c5a513f9b6593df9a7cce5b21bc255ee456f7b20542967f803094335823c146",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/ai-admin.php",
+      "sha256": "0f7e0d5834027b094e06297dd6d07a54fbdcfe76fedf7019f8f83702acfd203f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/ai-content.php",
+      "sha256": "1b7afd7ea91e9680ef1c1a58d7c28e833878d72e735c6dbb036033399062abe2",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/ai-locks.php",
+      "sha256": "7fff991b296ce41fbbd86fd8db0966bfb65c3d9587793d20cf83b41f5d55303b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/ai-provider.php",
+      "sha256": "295d1ce28d4b974f2b110dd72406d084ce2d2be244e1a31cd7fdd0f97e0261ba",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/ai-source.php",
+      "sha256": "7d3f5809347dc567c109ef6feade4f62b770053919c235b056c96dba89b1a9fa",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/ai-store.php",
+      "sha256": "da2335ed4616f6efe642d4f73822fffeb41593e95b5dbf93d8ff80bdc3348e3a",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/ai-worker.php",
+      "sha256": "e538a7f0fcbe9cd0d614b268e8fb88bc76c7ec2d383f2906f879859104ae362a",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/commercial-enterprise.php",
+      "sha256": "79214f142e928c29867492717af379f078e0d32bd97d2bd89498d4682cbc8188",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/commercial-entitlements-bundles.php",
+      "sha256": "6b5e06258be79fee7e234f5a5fb38a7221a5846f15fb9db2da5c94dcf8c4db22",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/commercial-metrics.php",
+      "sha256": "177526758ce83f49194bc009825179354c2aa069d15180f005ad470171076a2e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/commercial-sponsors.php",
+      "sha256": "a85196565e57ba286fda4d64bc860ecf7742dbc48c2b6668090afc176a6a5911",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/community-admin.php",
+      "sha256": "3b63424b2cbb9b9645d1533da39beffc5b42d2bea6e5a665b9f6355526770d32",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/community-frontend.php",
+      "sha256": "a2cb7e298969ced2f85fd4a1526a02190ea5c23a5e8e0ec2da102dbeed7e14cd",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/community-input.php",
+      "sha256": "f440b6f81161f70db9b6250391b92b1214541c39b27449c128912df904a974ed",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/community-privacy.php",
+      "sha256": "1f6bc1d8e4edd402a8ecb4d4677902029ebae50fcf2a4b8afb7ac8db16946d7f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/community-publication.php",
+      "sha256": "bb8c24901470181e37ceccc6f889ea920150698736ee797b9b31600c2acffc53",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/community-query.php",
+      "sha256": "9cd12f8431c058887f082a5475347d9978d54527313383460d8f1123b8ac72a7",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/community-schema.php",
+      "sha256": "02e6a7fb14a80d627cf471592b91baf8cc5f1592eb8c2bb34b31a29d4c955b13",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/contribution-admin.php",
+      "sha256": "8a9915d38bc52795bb1b466a8617138e46d137961a99804bf5a149ae3804461b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/contribution-frontend.php",
+      "sha256": "f3bb47f5e881eab3ff2887baf5cf222512d86849c35392e2297c70794c32ae33",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/contribution-guards.php",
+      "sha256": "31adb6d3e75412f55ede8dd1bd78fb5103dee8cad08c43ff8033b38ddf886901",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/database-transactions.php",
+      "sha256": "9ef12f46dcfc6b6aead688d70419097a189ebfbc488488c14c10b866057a2832",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/developer-input.php",
+      "sha256": "5cb5856cdfd5ff79381b3261adc91f8a5af6cb60c56b99bc57a381c029ed6bd4",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/developer-query.php",
+      "sha256": "aaff148a008ae7b09278af1a4529bbd85447d1c9488227ca4aa5f6ff29480e5f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/developer-schema.php",
+      "sha256": "cc5affd7b34290b75f8c099b256a7bf7e31cfa26c99f1073a3ef1fdd80cea387",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/developer-seo.php",
+      "sha256": "e64fdc71fb8d982ce6ceec520d309f7f6eac398962a86899e71a6bb30261f164",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-admin.php",
+      "sha256": "91439d00bd38c784c2040cd5e35ed2d7c2c5318ad0d6f306b82e20b50cf08edb",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-frontend.php",
+      "sha256": "4bc240bb97a99ab51c4d11bf3d2b54c0e93dcc744c6b817c597f54f69ead630c",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-input.php",
+      "sha256": "75b504b21fb73ef7548e79aa6cdf830a410cc7e36a5cb5f9758b053f9921f246",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-query.php",
+      "sha256": "5fb4e86b2add95a68a710984e2c1bdb1ced8ee2b68c2a2573b628c4a2903a306",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-ranking.php",
+      "sha256": "0efb8060b687259fc2b2b6561b568373f9d6a8cf2179856b8ec4b27bd30e8810",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-schema.php",
+      "sha256": "06b970b0ef0398d6adb4e0070026a33afcddf1e9cf8b681efd710d035e1b3bc5",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-sitemap.php",
+      "sha256": "8d2bb4dde790bb2813c5378fc9268ae2f5ed729df064005e2c31ac32892e638b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/discovery-views.php",
+      "sha256": "c3f2b2ade1d521c88f29b5c0eccaeb9e4d265ca30188aacb08ffcdc5ef76cd0c",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/editorial-management.php",
+      "sha256": "94eacbdf9343ff407b972ceb6684c65086d0f881d074e45586fc3a7015d16ddf",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/editorial-projections.php",
+      "sha256": "af35a4492858c050efbe530fd84d1ac01a070f867b1e0d30e724770abd20cd46",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/editorial-search.php",
+      "sha256": "798c11bf3419ee1d4cc2d2dedb7d37a9bac3d9046f9cbd68aa37c93ab93c79e0",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/forms-management.php",
+      "sha256": "f12427c5d5323682d4a23d0301c0bf85bd2d5b8d0b8e9a2110cc6c6e3819fa7e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/frontend-locks.php",
+      "sha256": "de805bf1dd72cccab357bea33965cbd0b12965970324a6941d2171a59aba4563",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/frontend-routing.php",
+      "sha256": "b5607668e6d1ba7fd363504ddb5d28acdf26c108e1f787f10ec145f9e1c26833",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/github-client.php",
+      "sha256": "5e9190d358ea2be406315318f1520d552f88db73c83635658fb1c1fa3b8c47c2",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/github-discovery.php",
+      "sha256": "0dd23a4899a0e3b7f691fc74d70161b606a32dabbc9af9c4de2bcc25cd044bdf",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/help-center.php",
+      "sha256": "7683065c863506ec5694d922c9fce88379716fd8268f889a508d7999a9cd4c22",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/help-routing.php",
+      "sha256": "0676e228ece7d34961694cd373d150670fd7e7f4424112e8e9c4471d4608fd17",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/home-operations.php",
+      "sha256": "47270c56058a9c6d4ba97659ebdaa82efa952b658e20210302c5a88349c61dfe",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/import-admin.php",
+      "sha256": "491511f69612e632b29958e3453eba34359dad5131aa3132511abcac303bd8db",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/import-scheduler.php",
+      "sha256": "d702c420bb79c38484bcde7f91add8f010578fe0cf718e1bc0e357aad7abb595",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/import-store.php",
+      "sha256": "f2e2403d70fe4461cd757a2cabbebc62ec875d8c499e4050e081237dde76a68c",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/import-worker.php",
+      "sha256": "e16e28841e76e48ece95448c43f5ea64b5fa422ef3e50476373cf5023f9d0548",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/language-adapter.php",
+      "sha256": "9b1f34a98d8bf04f8f73cae885f8866a94f0520f9608761f65e067fdad260df1",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/management-integrity.php",
+      "sha256": "ee4288813c3baf7024946f3cef41bc156507ac567a8ee08925e4a39351f5732d",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/migration-recovery.php",
+      "sha256": "a6952dff6149aaf3226e8fc90f588f702f0bc694fb99e116b52ca8fe4198264e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/onboarding.php",
+      "sha256": "4731e06307fdf979a9cb94d666aae77c8588361c228cfd780e05be9f3cc16002",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/operations-mail.php",
+      "sha256": "9bcea3a451e92eb1cd1ed6be63e4093b6d50082f6b3754bf5d28139419bdbce1",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/operations-notifications.php",
+      "sha256": "0be5f59289b55208b7177ac9ec1e29dc055bd138a065cb78ea558d69dc6bbd98",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/operations-search.php",
+      "sha256": "de2bcae3b15b74d7295f46a35c559f3554ce3d8ed4f1edd1d824ac3c8af1c80e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/operations-users-admin.php",
+      "sha256": "e04637a175c74b816811b84996a106c73173189d7bf067055812f4d910c310b5",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/operations-users.php",
+      "sha256": "2e652887b27887974ec53bd92e358f1b95125a57ae0db1049ae00458703cb5b7",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/operations-workbench.php",
+      "sha256": "f88d4a2df9f3dd3ad696a96f7619cf5d58845acfd234d9351a2898f0952b58de",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/privacy-erasure-context.php",
+      "sha256": "367fe979f775151fc7da248a8757f0aa273a2d1b4fd0332daecf1f69cae0d9b3",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/public-search.php",
+      "sha256": "7c0d553486113477bdc8b6f906a8a335c37de9d6915436f0865294cee362ebe2",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/seo-failures.php",
+      "sha256": "76ea075b7d4ca5c5651560d4cfd79d0fb63149bd81480187ae5e6a46db6ab573",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/seo.php",
+      "sha256": "92abf7dd7e02209652bd920657dda309a67727669b31cf88cdf90e7b0f21531a",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/sitemap.php",
+      "sha256": "25c01712be93f02027e28e6355918aba571b0e59661956de80c51473e1b8e744",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/skill-experience.php",
+      "sha256": "546ce7cbe6ff5761f2e221eb8b2e350612b18dd74f75e11b80a8ed187fb3f4f0",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/skill-parser.php",
+      "sha256": "331c2486e3c138915fae71a47db658ad0876d8ca4d7a3a593c387263bc358f55",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/submission-input.php",
+      "sha256": "bffb7fe99f17c3be66c7b8d78c6e6ef3eea8d4bbc233102938b3fca04aa59cf7",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/subscription-guards.php",
+      "sha256": "d9211d0054a81833cc7f734405b2beff628eabefb255b240f091f6767caab185",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/subscription-ui.php",
+      "sha256": "2dc83097a173c4eb6de4e5a6d33761e6ee19b3b04a6960cb52d88d2eafec5d67",
+      "status": "passed"
+    },
+    {
+      "file": "tests/basic/subscriptions.php",
+      "sha256": "89f6a77bd930fe9e1b4329a3cafdab1b904738c3a7ac89e76eb0d78d6e43759d",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/baseline.php",
+      "sha256": "3d5975c7214e2ef4ed743a591d44d53d41a7fddbea63a5e87b65eb6566406534",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/bootstrap.php",
+      "sha256": "6e4cae208d2a1260bd05a42835a09512ef39200d8088f4e5a41618e08cf14ac0",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/browser-control.php",
+      "sha256": "e18245b11f59dbd028c591181ad253b77c6fe202ffc2508429029e514da1400e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/enterprise.php",
+      "sha256": "0ad3127ff147d53c35311a6d1bead5498c54f878a0e1198150235a8854a1a5df",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/entitlements-bundles.php",
+      "sha256": "da19e9264499380c867cbf29090a6843b10cd0b18376b3b69b3cf422deab503b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/metrics.php",
+      "sha256": "1cf51db2a254aa283fd1ecb01b56d892084ed4ed83877932854cf45b8da5244d",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/package-upgrade.php",
+      "sha256": "35a93c38685c3ee119aab84df4e89e076f6052405363962a570e56c49f813c56",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/performance-dashboard.php",
+      "sha256": "4804037c9e77a4b9ae71a3cc5b8a58131768e03cf5d573cee2973be825d33aeb",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/performance-scale.php",
+      "sha256": "92f920e363a62fc2cedcad4f7f23609030a2b64069a1db61926e4f5bb5940d9f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/performance-semantics.php",
+      "sha256": "17f3b3bc6e5fe1b775e6868b6e4b43dda40cac464e9e2e946a2c826b005f307e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/preservation.php",
+      "sha256": "2cf5697866dfa394d899064c3f5eaacb3f6a1a417b177eff57da8fb620e6930b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/privacy-transactions.php",
+      "sha256": "08378ffd214ddbd661ea5e9d72d20530ca89ee776f05c85ff9c5b02e6bf297e9",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/race-worker.php",
+      "sha256": "27fe79eb2c76a93f8719a458a8127a475b5347cf1164180c355367dc27ffb12e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/commercial/sponsors.php",
+      "sha256": "bccf5fc852c19566e487e48a794f9cfd2e67ec14e4d177d2286cfb38ea84babc",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/baseline.php",
+      "sha256": "7c54861edbb51e2c1312a6cca5a034172671e935a1b86448f20db85cf1d8053f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/bootstrap.php",
+      "sha256": "174ab1fdd0159660242ff807c5843016d3a8215b75aec2f9c34cb54250ea0bd7",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/browser-control.php",
+      "sha256": "cfd7859aa8e66b17d6f28736eb04d290ccabb01ff73b8334ca740caf99374270",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/concurrency.php",
+      "sha256": "f345acdfb7d0d39ab44af69ff0266802c912b7d7a8652096fb7752ce05d1e440",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/integration.php",
+      "sha256": "73a34ecb898d004d77ff617577fbd8032d74653e61e130ae3f47feff2cbbf510",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/migrate.php",
+      "sha256": "3dba43bab71c58c82e6401c5395f926258298ce5f3b64f23638a3948b170fb4c",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/notification-race-worker.php",
+      "sha256": "d3040fa4c332d9893d985306950401cddb0f9d0da1d693417d1ffff584af3dc1",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/notification-race.php",
+      "sha256": "5e5083c131b6836fb5ae500e9ba3d81368e0d4443e1faa1ae35e68d7cd6ee6c5",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/package-upgrade.php",
+      "sha256": "738fa1cbfb5a3ab82e0afb3d15c341ea880bca1182dc9f44d787ce0e1e7cebab",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/privacy.php",
+      "sha256": "d889a3dfc45883d2938d3a5a9b6879a80b8ddda013a28007c525b78898aa3c93",
+      "status": "passed"
+    },
+    {
+      "file": "tests/community/race-worker.php",
+      "sha256": "3d96500a4d943d89c49e470dd77f7fabbbdfca148f32a77b87447260730e299f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/baseline.php",
+      "sha256": "6d28778b0628bd4dfd62cec639842ba0349545945251af672e94646f48abda9b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/bootstrap.php",
+      "sha256": "1b74c24d3b94146998034ce5d2ed4de39883192e0bfb1dbdbd709d99e83f6482",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/browser-control.php",
+      "sha256": "4dc8c4754d3d3a3928308d464c4c22b67dc9732f9395e94ffbe6fce8956c81be",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/concurrency.php",
+      "sha256": "dd6689447129865002d4ef8a4129a060ebe6c238caa403c31a74204b52d9ca9b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/developers.php",
+      "sha256": "7b206db69d59ebe6953f3053f53413318d8e3e63492ddb909febdc20ee7d9743",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/integration.php",
+      "sha256": "569ec4d208575b362f0b360133ed02ae55079fcec7445008989aa1291314af06",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/migrate.php",
+      "sha256": "c74e15a5395cee2c416dc3988d4c94e9c6293ac4cf9d709df9b19cc22bc3f90e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/package-upgrade.php",
+      "sha256": "bfe30b6c04541d2df92a500bdd3c759c6f737ce54327682fd308e2434947d2ca",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/privacy.php",
+      "sha256": "12fcbdb87cae126b36e8613043fa221672de0f508a46fd270b368cc86b3d5e65",
+      "status": "passed"
+    },
+    {
+      "file": "tests/contributions/race-worker.php",
+      "sha256": "ea52750345e8a703aeef89904a331a35310663e0b0899c11036fe30d09d906d6",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/baseline.php",
+      "sha256": "a54477cb539e868d08f6825e2f029df4a669fa1177fbaa626e8ba55c4049c9f4",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/bootstrap.php",
+      "sha256": "1be220f85d52716dc0502391837f46e615b49885be153e174cfc8c3e2019e3a1",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/browser-control.php",
+      "sha256": "818500fe3546cce0a8fa5fd6a4ce318106786aaa6d4bdd8c467d38681c65e0f3",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/fresh-install.php",
+      "sha256": "cb2fd61058e36ab7a5302be3070610d8449c4c1cbe3f6129e0cd14d37f6fc6dd",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/integration.php",
+      "sha256": "4507cbef80ec05a57080082dfeb159a3d9b346d6196bbb73dbb8f085580b617d",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/migrate.php",
+      "sha256": "e2cbe980f9cb2616ff94e22f52b695f04a46bfd3689dd339c5e4fbc10234879f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/package-upgrade.php",
+      "sha256": "90d147eb4c87ef80462c2e5a0e0478d54a317cd89c0c62e70daa1076bea4c3cb",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/race-worker.php",
+      "sha256": "783e7cc124bfb1ee98ff6ef664bf1c568fcd22322f3ee858bce99ae881d360ad",
+      "status": "passed"
+    },
+    {
+      "file": "tests/discovery/retention.php",
+      "sha256": "5e9b6875e85f53f0fa8ebdca358ca7950137f2325148d13f979247ed338761b5",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/baseline.php",
+      "sha256": "613a5b1acfebc312fd36dc226769e31111f42f3c7146aaba2afae03d4ff72da2",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/bootstrap.php",
+      "sha256": "e7099827166fba9c12b9b4541f980649c61947aa2ba4e15acf5ac5117b7e9c27",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/browser-control.php",
+      "sha256": "29f34d3561da96bd6ad6b12293fd9edd5ad36a933404e8e56e1490ca3f3303cd",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/campaign-regression.php",
+      "sha256": "3719975d41523b48ac9838cac357d7270525446146e901a3717520dd74724522",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/campaigns.php",
+      "sha256": "44d6ae5989b3ad0241335142de1b2bdf5958e7e79f391f26026e2e8eba945ee6",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/concurrency-worker.php",
+      "sha256": "b5b6f70bee921a4d22af0fafe47be7ca30ca0ac541fca9a1c003e608b9c00941",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/guards.php",
+      "sha256": "fa38a8938641805de3a2dc45ee82debeee97011d9c343d60265923c10a4fca46",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/help-regression.php",
+      "sha256": "2e4b8eff72c4e0f8902852c64103bf692585cea9b02a912693aab688370fa787",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/help.php",
+      "sha256": "3becb64704417ea208cd21c480167e72422767dc5e0a59cfd3c9d39658efbb30",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/installation.php",
+      "sha256": "4ea9723fa92c18adb9cec1322207897593b2f04da3510e12bfd7c3ff17fec560",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/mail-public-regression.php",
+      "sha256": "2fe7556291c579a68ea01519767beceffc543d7596ecb7eb47b2c972e73e3c99",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/mail-race-worker.php",
+      "sha256": "61c23fd50ef63f91df27417ce30fa9dc8d3b72f1d1e7e9e421f134e11ee8da82",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/new-resource-mail.php",
+      "sha256": "0dcb07ee2d73bc721ac3afc12a3ea8d1f53e8fcd0896e5db987382c04e909552",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/onboarding.php",
+      "sha256": "12265a79390432317b83d0b1e0219a8499c4896d09225aebfa049777c76c34f1",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/package-upgrade.php",
+      "sha256": "f1ed1031947608d734a2a7cb00d39f6856f3527439d50ab58dbc240e79e62bbe",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/performance.php",
+      "sha256": "a26b5451827b0ea25e194740d46cce126559912fba2d1eeec9b47cc5c4173008",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/preservation.php",
+      "sha256": "fb7910c555b58f42ecce4321b64515cc9d0918637036d1b7f48f3cf7499b368b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/retained-data.php",
+      "sha256": "c176e983bb77bcc7d872d9cfda4a209df200a09d8b4c210a5a1d75a31df5d829",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/subscription-retention.php",
+      "sha256": "45645979aeb66345ea9d1922ddc4ffb05939cf4a9c4650a1cb8437581d6c3f55",
+      "status": "passed"
+    },
+    {
+      "file": "tests/experience/subscriptions.php",
+      "sha256": "308fc13eeddf575a2c7d1be6e1bbfc4a7d5561721108653d8582494125f0024c",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/ai-common.php",
+      "sha256": "3d8db290c188c1706bb1ac9f79e601978f72bea6715f421b8b8814ff59637183",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/ai-concurrency.php",
+      "sha256": "c1756b418ac0ba29e88b51f0245fd7e642655ca26d51d56a814a29df766c848b",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/ai-race-worker.php",
+      "sha256": "15a861a2e1134ddf4dd9db3facddf282c8a150b3fa20d95c2ad23b8a63086a5e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/ai-workflows.php",
+      "sha256": "b256ce873bafcd0f1cea0a08f613a537b1d0f54fc25bc8bbb384bba8a9c910c8",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/browser-fixtures.php",
+      "sha256": "2d4eb2fa72855d1b704becc6dde21bad609c2b1188838b26011a02d2b9dada3e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/browser-persistence.php",
+      "sha256": "3fa870fd4ea567b8606ea30efe6c6366b005d934c3f58b5bb7172ba080d2dca3",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/data-suite.php",
+      "sha256": "89fc861de00a3ac26d3c95cce3c043e3b8e762c0742c08710a4d13e1b767da4f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/data-worker.php",
+      "sha256": "5fe30bd73c02ce8d6f56e7d4a43ff4b91259c871f80f9856734d55481facd918",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/package-state.php",
+      "sha256": "83fd2ec6f93f081517eb6ca5c2559a29ae63ed0189c6bfb2fe5e8015f212b1df",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/package-upgrade.php",
+      "sha256": "35c29904c8573b0ae17acd05d3839d8134b1bc8997a33f2621e0e6fae83c6548",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/performance-sql.php",
+      "sha256": "5bf44edc821fe9d7627d9fc26738c183c36b505e5504ae56cf9681f1e0e52d10",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/security-fixtures.php",
+      "sha256": "fb1a3cf9141f58200bac05ab5f12bee3d3c99c915e52964bf05bd3501c489da6",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/seo-cache-fixture.php",
+      "sha256": "a165c64ae548f37da0b023e07fd14c6357d2af7151ffaa892be3408b927f042c",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/seo-control.php",
+      "sha256": "9330bb08899aa9cb4cb3fbc26536f704b5c2fc1b701aecfe8f849b69eb02f53a",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/seo-seed.php",
+      "sha256": "df02844089f2fdf6c46dd4438d254a3aaaaf7fe54a8cd983f1e578850cce9af8",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/sources-concurrency.php",
+      "sha256": "831399f07afb975a61d94a813060d0dd4e6cfa0d4af45042d470c1feececbbfa",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/sources-http-cron-mu.php",
+      "sha256": "4e1730a8b7c55acd35fe56e64283b5b73b90ca27d6256e1a025d6ad7c883b22e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/sources-http-cron.php",
+      "sha256": "8becf82a778f6f9b78d027f9830e9e7ac6b99021d0ee3043638c0a9bbb4f1ca8",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/sources-support.php",
+      "sha256": "deb1aae51086b0bc4f0cbe4eba6abbdee34e4c6ed975d5fc0e415dc61ccc18eb",
+      "status": "passed"
+    },
+    {
+      "file": "tests/final/sources-workflow.php",
+      "sha256": "ca6e73197e0c3b04b8e3f46fd94a7534072d4cad9a111dcdff3012e7c5c6f0bc",
+      "status": "passed"
+    },
+    {
+      "file": "tests/integration/core.php",
+      "sha256": "0814e6f2b814847f21ade59e24c829b9ff1f88ce0bc87677c200a062c6c2070e",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/analytics.php",
+      "sha256": "40790c5fcae95409aaffdffafd36fcf543684f725776f1fd7851035a367c4e47",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/baseline.php",
+      "sha256": "444e9488d1ec42df44c8062250ea2543ffdda2352db73fa0b5e0ae242167228c",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/bootstrap.php",
+      "sha256": "698abdd6a9cd586bdddb85c70330d178342d7fa9de0d6ac8e762cad48bf34770",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/browser-control.php",
+      "sha256": "5fdad492e75b06c10ed4e16c377af31dfbd075ca1d7a01e86308a7e42dad542d",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/notifications-mail.php",
+      "sha256": "dae413db4e67d2960ebbd2e100106bc3351f7e5409b68deeb03479fe1f7b6e3f",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/package-upgrade.php",
+      "sha256": "0ca4a59e715465b6c93816917768982836d18821f6c3a33740c88408f095e199",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/performance.php",
+      "sha256": "e98af9db9abe271aa17bdbc1fbcfaa7d08daa23b826e4c3a0c3f5c98d958474d",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/preservation.php",
+      "sha256": "29156617f663c5e228a2ed8832fa0e13e7269883b1f516e9524188a327e05926",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/race-worker.php",
+      "sha256": "49941477109b528e46170fefd6c7482a053fed44a40819c6c51e68d3c46ce8bf",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/transactions.php",
+      "sha256": "6ec04e77a296e5bd809daa415d25d7091d59af7348f54cbbfffc0f4ffb18c9d7",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/users.php",
+      "sha256": "199983e572df1fee97043e007dc28de189db97ecf4a0d9c5664e2e811b6435d5",
+      "status": "passed"
+    },
+    {
+      "file": "tests/operations/workbench-home.php",
+      "sha256": "b7a57139e91fa4699fa33235e25a04a95ed2a03bfc77ecaa64dcfd728264a9db",
+      "status": "passed"
+    },
+    {
+      "file": "tests/phase8/storage.php",
+      "sha256": "153f9bcf765fcf9bcf2c3234bee9b4242c40ec14e8fc3ebb6f235b44b7cd84ac",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/404.php",
+      "sha256": "875894498290e181af2d145fd91502d4532f89c7c05941e42ba18c61e2cdaf6e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/footer.php",
+      "sha256": "836b25829351fe3a02c00adb58b4b96b18b2b71f2b3b4618738ae5315a3956e6",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/functions.php",
+      "sha256": "1fb114c7de34ad512214435fa85d0a24f562d547f0959dd98c02d3eff516d5f1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/header.php",
+      "sha256": "c327c246e33a260e67fbcd081f9ab6cdaf9844cdf50736362056e9763a074571",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Admin.php",
+      "sha256": "550566f2fb32fc250aea0f251823c32b90ad7ed6e575414f047f2e703246ea49",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/GenerationService.php",
+      "sha256": "36e0518896b2758864c2db3bfa0d759410d77b3ba337a7769a659248081da5bd",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/GenerationStore.php",
+      "sha256": "7c9012126c7f48177d17e07994243824ac5f24d8c344a1fc0ddb0cc4d555e417",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/OpenAIProvider.php",
+      "sha256": "7b6bca1d9fba51bfd338160f325f2f80b23aa76af71f0ee189839bb88d810761",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Output.php",
+      "sha256": "21e0b786370b57e45e995cc6c225b91b448f0be8a03659308819c278658b1737",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Prompt.php",
+      "sha256": "40e12189e37c812c5e63f0092245cb59fa5d29381930be4480bf517114fd215d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Provider.php",
+      "sha256": "23f07ce0158ce181c780b321b2f9b12bacb86bc85f7a5514e533836122fdc9f7",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/ProviderException.php",
+      "sha256": "c230f2e9d26c9630d4e780797b603c900aadcb2c1bdf163a4dde403d3d250259",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/ProviderRegistry.php",
+      "sha256": "b0debc174675aac7df55d30760406259c1e45f5355cb29da5200a7a2a9ca54cf",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Scheduler.php",
+      "sha256": "e979097c2f7c605c364ecd6530dcb4b2277bfdaa076ba16f0c748032e94a78d6",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Settings.php",
+      "sha256": "c1982ca67ff351b592d2d9e9f024274c1c536cad2220a5644d544d4508e54206",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/SourceContext.php",
+      "sha256": "4d66c922006e1b07d4bb84fb4c77b3ce1c5197a0ea5982c75ff95f20e497960e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/AI/Worker.php",
+      "sha256": "64ba5d3db8d816446cb981e4fe6e59902d06f9b40d6c1b9f325d17406cb79004",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/AccountException.php",
+      "sha256": "a44d3090fbc58fdd4b4c59f8b1493c2e8f6e45b57c7868354eb459dd27eee8c1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/AccountService.php",
+      "sha256": "b052092e0af3664d02094d8b0ba91760760a9460130067bcc8f0c1e51357bb1c",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Avatar.php",
+      "sha256": "e6b2282a44b0aad2df71109983e46f9f1ea6abc88b47bd46f317f3aa7aa7b837",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Crypto.php",
+      "sha256": "efb7b0d30c0de2cf94bc57f8335c0433f2a480f17462a397854f2fb6c2f624f8",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Frontend.php",
+      "sha256": "41e1f4087d235871c4ad59f3f954c2de30c6c3452f88d381856fd3d92eaf5d96",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Locks.php",
+      "sha256": "1677a60e48feed740f8bc308de62107b2135b80ef68449d1d0e1e5507ae86c32",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Mail.php",
+      "sha256": "4f79dc7552082ac516a99d65785467c84a15db0bf9eb99239fb18b68646147c2",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/MailWorker.php",
+      "sha256": "732394b561c31318b3a0cdb0fb96f651757aa1e3d8d54899881f6c8d88dafce0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Privacy.php",
+      "sha256": "f2553afe2e04bb51bece465f3dd062554185c253633f277d1c92e87707c34f56",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/PrivacyExports.php",
+      "sha256": "5ca5e21438f3f4d95c12aa2ac3cae87b2d33e25118d54b18bb4a707f0b75d77f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/RateLimiter.php",
+      "sha256": "4e6acb30ce277370407c88f8561451e1be3c218b31bae1bd97832d2c69f67f66",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Scheduler.php",
+      "sha256": "4d1c73da112a2bb561f2beb96269938a7422667450e35952777e51d03d7f219f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Store.php",
+      "sha256": "69d02ddba2bb68ee07d25b8f6a036ea122ab36ed5cf1aef89a3434d98debc792",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Accounts/Strings.php",
+      "sha256": "70b68088eb6b253a0ab918919c239e88ff5f33a61ca11ba4e55ea1f7a077ed6e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Actions.php",
+      "sha256": "57816aa319ffa30c3d56405c5c3143fdc3ecccbfcad26b0f12a28f8d520418b5",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/ContributionUi.php",
+      "sha256": "b722b7359b75dd18b373a457eae6abac5a789c858bdbe8a7087fa4e8f56c577d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/ListTable.php",
+      "sha256": "ef1f7a1f996e27fe121b2a7a5c26d00176422609060f62b312646745bd4aa344",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Management.php",
+      "sha256": "7605acf4fe39e7b94f8367fd2e96ab6a6d888d6a462b7878e3c7167f9bca2bb0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Admin/Pages.php",
+      "sha256": "0f1f5178d230662b570d0804f18f07756164b8d177b10f6702698821438ae0e5",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/BundleAdmin.php",
+      "sha256": "1f44ae4e6afac150bb4633869490f442728aa395b4ff33ddc96d028caf96423e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/BundleFrontend.php",
+      "sha256": "8b06ba973760b040a8934182a05ce65da9cb3e679dd91c0d372c7ad8710e511e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/Bundles.php",
+      "sha256": "4ae0fa642c9176050310ec7ec85071c32e0d5dbc2ba07b6c649e9a830a1f7bc9",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/Enterprise.php",
+      "sha256": "729fa37b5baa382e3d65bfcdcf5aef02b9d6da4251db2cf5c4d11f1deaaa93b5",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/EnterpriseAdmin.php",
+      "sha256": "f18085221759f0ec5e733e525fcd99b1b403206a01c191e189bb69f4b94500df",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/EnterpriseFrontend.php",
+      "sha256": "698dac1b63a3596e931f31be8d3c131fc4a285a2626e6961691d0a291e46441a",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/EnterpriseGuards.php",
+      "sha256": "cc0db73598065127e9745e87083a3eca8b08f07cafdfb5b4e74b41fdc37169db",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/Entitlements.php",
+      "sha256": "1f3f8af1f627282737533e5c6051d9c0fd3a2058cc99b7bd3c612ca1c6598ce9",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/Metrics.php",
+      "sha256": "d1787256053ece9b3812519b0ebc96ba368a856edc51f715a3903c7cafa38b58",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/MetricsAdmin.php",
+      "sha256": "45a1efd871f23fcce5b5892f2eb13751dac396653c3879b754e1bb47903c6ee6",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/SponsorAdmin.php",
+      "sha256": "799b1d850b16ae8c5b087d4330ff3d08b4e033b2e41540dc4ac89504254f781f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/SponsorFrontend.php",
+      "sha256": "c404e787b8cb4399c1dee0c03246191cb3766d69e26c666e607005de9ba78f41",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Commercial/Sponsors.php",
+      "sha256": "a62435c64fa50a3b28adf2aa05b4d2bd74c50491b5905210bcb8878eb0a4026d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Admin.php",
+      "sha256": "8067e336968900915d50913153f5bd8c2fc435c03ace959f4267088b723e9afc",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Events.php",
+      "sha256": "9c0ccbe0a529c4081509837ffa15f13dbd0aae47be2e63469e657a460b9b0a7c",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Exception.php",
+      "sha256": "e8db764aee457eb074a09547c5e08abb1d97c3f5b1d7c8a62f4feca2fd5a8276",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Frontend.php",
+      "sha256": "99f92cee45f2c7148554d86480012bce3735648f1572b56bbd4c0560ec68e13c",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Input.php",
+      "sha256": "52d3a33926b39939d2d3c61fc42c390d477fef34ba58448bf85f8a2765fff2e7",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Metrics.php",
+      "sha256": "99b5abde05e7ea0dd5d98e7114e317ee11a91ec6f47bb2c35097785de92e7c6f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Privacy.php",
+      "sha256": "f2bf1d20b86808fb9a6e39d6b324ccfaa84855e226a37fa1c0814581348807a5",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Publication.php",
+      "sha256": "2664f562cbde39e269e2d1722e92495df2f09d26d410c8a1bf343d0bab37c76a",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Query.php",
+      "sha256": "268c5fffc5336cffe5799eebbd5600cbbb6c356616d41327c87b7953d5c3bfbe",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Scheduler.php",
+      "sha256": "aeccd88e2be23e2ccf4e0daf578229016fa2a6ce401a5994e5fc604d2e72f930",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Service.php",
+      "sha256": "fdb83969cc2d9a20fcbd5cde4dd215ed548cfd00294d07dedf877c2b2a7ebae6",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Community/Strings.php",
+      "sha256": "6515da67aabc9b4fc4871b632bd96946bde7930a2a4ea1c9f95d71514411205b",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Content/Catalog.php",
+      "sha256": "7ab58479c495e37b953e4f2f572f3fb0ebbd0f7e2d79a2f599a029c66e6a0cd0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Contributions/Guards.php",
+      "sha256": "1a3159ca01a41c911a2fea40d589c134eda0fb68efd455d4073532b8744a6016",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Contributions/Privacy.php",
+      "sha256": "5f104f3a4a9e17aaf3e3ba9e7ac55db5b1ecdf4db3df330224e2886dd15c248f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Contributions/Strings.php",
+      "sha256": "3c35a97bc322ca051c9d0105e1bea6b6cc2569bb9378fb8600dce80437fc19ac",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Contributions/Ui.php",
+      "sha256": "0ba681ad3d7513bfb2f0f3ab5b24b03fc89d3f938314670457a335840c38967a",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Core.php",
+      "sha256": "cff52c09070e98fd5dbcfd252412da0ac180b831363e1e7b6841e4c937f8d4b4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Database.php",
+      "sha256": "654c4dcba30452c9f5e87457fd016a8bdad2cee424c156dfd3ce189417195725",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Migrator.php",
+      "sha256": "6fada73087722e08dd6f047f8f3e847d9f275f8cad2129b341f2631c592ca384",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Database/Schema.php",
+      "sha256": "c39d328502ab8d872bf4080c59d5eece2f1d2b2a8e0ae744186810bef9b058df",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Admin.php",
+      "sha256": "64c8cc24866d8121308f21f16af350bb0ebdaa75e396a2f07e53219d05f74d66",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Exception.php",
+      "sha256": "875fccbe4e10edd3ed61a98c123ee3c02e0f47c58baa311dc985d28e3106b118",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Frontend.php",
+      "sha256": "709b91f8c2aff301e153a9a1237f291c30ab125f5e9613765948142da8874081",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Input.php",
+      "sha256": "e007fafca3b24041a5535de950a4c5a023b79dcf5c290aeab8a00f3f6b4557c7",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Metadata.php",
+      "sha256": "438549ed8689c09b0b499948b274533264905e3905d3ed1f0d2f034e92ebe756",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Query.php",
+      "sha256": "064979498b1f8e724d56ad5500caa4667c730c07edffde1f2ec58770f1c5981e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Seo.php",
+      "sha256": "b53f4891ec3929d20a9d7790b1ac3adc3a97fe510d6ea9a6b6bc14917272bb4f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Service.php",
+      "sha256": "b6ef3c9e12896e6984dcb2725d0586c3c7e48dcde14b9639a0d7e9550777e7ab",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Developers/Strings.php",
+      "sha256": "c1bf433e41747ca8cc5f291c54f42b95559515b63a82b839e905d24927da46a1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Admin.php",
+      "sha256": "7721c8ce8e65786a013ee397f8bf8d67abfd2bff22d88f292b2672fab7a785af",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Frontend.php",
+      "sha256": "7271c582e59553f2e8cc73176035d202557fb7d710d6f91b234298d676bdb5f4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Input.php",
+      "sha256": "962ca6ad644e5c4b35f07d09c27f0487570c638368aeb0dc4a4ed4be68f49824",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Management.php",
+      "sha256": "eb309de1dffb2d65ed87dde637a300002c1a412ff422f98cbbe7e5da7ad71366",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Query.php",
+      "sha256": "f74dcc85ffbd37f2d265a8f4befd0fb4cd728a6969c74d660bfb7f5a3a60a975",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/RankingPolicy.php",
+      "sha256": "098a586e5304320f250afddfb91e2f7d44d2156c00e44da5e74fe28031b4d92b",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Settings.php",
+      "sha256": "f276ae32a9a02d46e9530605447e323b16af7824ef49fdd0153025b6bc7e9a3d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Strings.php",
+      "sha256": "2197145d55f702622f7d7bcaf1d0b708d10a05c0bce6bd1e82f6bc0a9b48bb61",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Discovery/Views.php",
+      "sha256": "315287c5325da719399906c666a5c8cc118d5ab52a9a1ed53c56c8718bea3959",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Editorial.php",
+      "sha256": "1ce01bc6972b98cbbca403d052fbcdc6c3c29cc1bfa6c96aca02de8cf5fbefe4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Forms.php",
+      "sha256": "5b37cd258cf410a6f556b3ca18210660cfa60f8cc9fe426d700422a1c655789c",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/NativeMetadata.php",
+      "sha256": "361b93c193b07a57b1b02f314b8866dffecbf8486da71f68541a5373b5283234",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/PublicCatalog.php",
+      "sha256": "465988673202ec8b41aacededdbb79a5425b6fa4b739ff85f064579a1168110d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Router.php",
+      "sha256": "5f36de4e6c8f5cc00ff7cec08fa6e468018296c561e884d0f1f69d7909a387f0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Seo.php",
+      "sha256": "0dcd6dd8222eccf36bce2684ccfe9dcf7100b98ebde0ac2f9f1c8ee279622a51",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/SeoSettings.php",
+      "sha256": "2a63ed67919186eb0c41d7473216b0b20fda2c36372c888200340c05284f05b1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Sitemap.php",
+      "sha256": "2b62aefec20d7b94665c4e7607da8d94f49733e8cbad9177019e54d239bfad36",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/Strings.php",
+      "sha256": "5297c319ba3ca44761f16563d65a2f9e644c7c4d73f1fb5622c2aa01af7bf901",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Frontend/View.php",
+      "sha256": "36fe98fa60e2888495b56122cae2debcb6753052127556264de808147d0fafe8",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Language/BuiltinLanguageProvider.php",
+      "sha256": "90ea1b3e6e0947f56bbe4b592f99092305a18c9e0202682ea4029dc7afdea3d0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Language/LanguageProvider.php",
+      "sha256": "ad5aec8dae7dc394cb14472cccd087af49f28b32336d77993721dd42b8215470",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/Help.php",
+      "sha256": "fda184b59bdb0e62db2399a066ee1a4210faab87a5e3b795305a245fd221a9be",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/HelpAdmin.php",
+      "sha256": "7486408adf6bb814e8eb90a91fe5c14726b816794789737ec97a9e8e94afc9d2",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/HelpContent.php",
+      "sha256": "a3317bbf167d5996132bf5e3ce97d8fa3e56fa524a4a8bc8791bbf0bdf8e189e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/InstallationAdmin.php",
+      "sha256": "1abc1f33e7d90da605e4aa680bfcc951ea7fc86f4b50cf93bed8086d5ceaedad",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/Onboarding.php",
+      "sha256": "5b9c312d59269830bc7372b118b8214d9f1e68557b1e93d4f677aa5e52499ed1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/SkillExperience.php",
+      "sha256": "507973ecf038f1114021865346336609ea6ce58496ce71c63ca8a36ffb6af5a3",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/SubscriptionAdmin.php",
+      "sha256": "3ff418e6030fe96d586326a5f7eb28c320199840c85f997ed21c2d2327e0f269",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/SubscriptionCampaigns.php",
+      "sha256": "6aae4702c917897c59b240c8349044cc85a4e2967fafd8b7a3c230e84098863d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/SubscriptionFrontend.php",
+      "sha256": "485bc8f1ab6c9410b28796213fc27df40a2a2ec3ffae6d35301f985c5f1b086d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/SubscriptionGuards.php",
+      "sha256": "4a7045491a2f9f81cb325b967d835eb545703f7f9d2f22d918150e910a31a75f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Learning/Subscriptions.php",
+      "sha256": "36b0d57f58e92e8d1fec5b256d91c58d51c21658be0c424de138b5a43d3d2db1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Module.php",
+      "sha256": "2e1e2c5ba9c47841944a530b834afdfed5ea504ecd523a9b35cdab8aa361f511",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/ModuleLoader.php",
+      "sha256": "049ada46825ea491ea1aa48e80f69c3d459419f5301292e97376fd8ea9e50da0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/AIModule.php",
+      "sha256": "a06815e952bf3f8de5ff9d288f829783dc1cc32111550a3c723ba94b73c9e864",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/AccountsModule.php",
+      "sha256": "58d37487f2e093773ae0ca30c3790cdc948a27c73d3952c11068f1142bcea296",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/AdminModule.php",
+      "sha256": "bb800724499db602c3bc428f0c1dd8840b1a19f65f4376d9d5f356c0b4bab65f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/CatalogModule.php",
+      "sha256": "309f20aad352971ae907201a649e2da939d5b6ee3c1b50298f2ce73a7f227992",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/CommercialModule.php",
+      "sha256": "6217c3198f8aa2e31817c68b7d91da554e2127cfb39ed323d02200bbc01aa6db",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/CommunityModule.php",
+      "sha256": "61d9a6cffd9115050912f36b78e7976cb802b1ec0931720068268b7dc7ff893e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/ContributionsModule.php",
+      "sha256": "2029c2800f99d5cd65b66bc9e7ada69cf019672a91b23607af31ecfe6c9c9f29",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/DatabaseModule.php",
+      "sha256": "b529cdbd1032c29679a5b55f2ebc175d54b3e2cf93927b7563d753833f2fdd19",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/DiscoveryModule.php",
+      "sha256": "42eec47084a10c6cbb34dc4e62a5491ee636aeccaf8d24d82e70793b784129bf",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/FrontendModule.php",
+      "sha256": "45d90ffa1919722b4d0b2af708a5b73ccb0281dd835a70867f5410df3da768d0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/LanguageModule.php",
+      "sha256": "95a0364c2187a65534b271bf34acebe9deb0717b1b4103600a000d6790b67898",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/LearningModule.php",
+      "sha256": "a76ddcc4548da3e99be452f3f009540819f8f0f1fc224e6c0177f957e69241d7",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/OperationsModule.php",
+      "sha256": "e8340ed7e6f1e773f5341fd24b74bb57a61acdf216833ef6c239c21c111f4fcd",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Modules/SourcesModule.php",
+      "sha256": "5056787cc56e4ab12a37d45b6a5c09e6a1204c5906f43db3b96ecd69c0d20786",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/Admin.php",
+      "sha256": "f4a5f16a7e1c0e9e14d67f71236f4c8657f1021c4c8b896126258e0857b94159",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/Analytics.php",
+      "sha256": "5be0d13c17a0f37fc0fae2e3cad6f88279793b46dbee5de3894142f3cb328357",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/AnalyticsAdmin.php",
+      "sha256": "8344ee81a7a3becd7acde6d8a5732f8d2160f244b6327fbb6afada5c25c8ff59",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/Dashboard.php",
+      "sha256": "139dbdc5773bc28a971fe8b5b029d4d94ba36c64b4462c6fb5a3bef5f026b0fd",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/Health.php",
+      "sha256": "56d7e30c762c2dd629b4c51a219163dc5952b9e3bc1072a4a655e5e735c14ba4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/MailAdmin.php",
+      "sha256": "29eb10da8325870c1b7905cddb456c978b9ce29a0b5ff27fdb18dedd243d9eeb",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/Notifications.php",
+      "sha256": "6912eac2d1c09a77bd5f2b3474860a8081807f9184a31d1fdf158d1dc8ef96ad",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/SearchMetrics.php",
+      "sha256": "7f9a307bd092383fb989216159137e8ea64e3730c79eec6e55ceb9272ec23d13",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/SearchPrivacy.php",
+      "sha256": "a52d8f7838fa85bc51c219f398dea73e1a284120bdc31292818e2f3e5724c7e0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/Users.php",
+      "sha256": "97fa3b280d71b8053319e77a9ee3f0160faf5f06346efc8b2ee41d2120b32fe1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/UsersAdmin.php",
+      "sha256": "136fb357a3122e0b45c8e94d2d6bd758186e77a6b232b5e7e60d7e9b340c3abe",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Operations/Workbench.php",
+      "sha256": "880dc185141c7a6d2c2a5ca5b0e42b2c38aaaeef98fbf2dfb892d3c7bc81d591",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Access.php",
+      "sha256": "5342138666bd35f2da874d8093aa5a5ec63252e0b3ac48838aa48b6af2caa695",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Input.php",
+      "sha256": "65c29504fd54ab3f53f391f451214e27970f8ad2db52749fcd6d95fe0c55697b",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Security/Output.php",
+      "sha256": "be0a752d0239376111ce0b295cf9700a6cb7099bb4a6cf3fbed065a21706b20d",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Admin.php",
+      "sha256": "dc1a9cf867d1a88a9b76590b49fd29237fda996e918837b7b0f94e4a57791588",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Discovery.php",
+      "sha256": "cc81aea0acf92a7d50903c2f799bda999436f2023b3743522ce7c9fe6abf270e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Frontmatter.php",
+      "sha256": "75bf66b5c0398919b0c328cf91aafadc53e90a3e41c82ef0e587b2c7c59e1314",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/GitHubClient.php",
+      "sha256": "4afbdd0939cff037cfa7f018ae7ce4716bbee68dc70873c6fc4cdb6c1aea4e32",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/GitHubException.php",
+      "sha256": "3f996240845611cf3519f5b938b05fdbbfdb3f7163c141411cd305f5d4f06405",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/ImportStore.php",
+      "sha256": "7b2aeea146ebd59e817f0ae6c801be7b6e8fc1486a5a4331ae00b3453f0f7257",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/RiskInspector.php",
+      "sha256": "b9901446dcf194b74cbc0466028ea14e78783cbb8659331fc38e4249a510bd4f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Scheduler.php",
+      "sha256": "76aff26b77b17c7076c4a0a0f3bebbec6e9fbff9c63021b6cc2bd9fd2f76ab5e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Sources/Worker.php",
+      "sha256": "7cd27b0613a88785d9f3af7d5ed8acc1e88dabc9acd68f1d3a6507f98fee2058",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Admin.php",
+      "sha256": "f60df59d492a5e1105f1b9b24bf5d01ec26b59459f6000f2d9f121247bc7236c",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Exception.php",
+      "sha256": "ef7e8c4bb272905c706da866cc0d1813d97148ef9fe10d121be32ac80af35f59",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Frontend.php",
+      "sha256": "89c91d60b224d38fa47fa22c2002219093d0e5ac779cce658508e492364b1ad4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Input.php",
+      "sha256": "85619e198a035eaca002e5fb17860e1ad45b21a9b7cc039b137746cb712ab001",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Query.php",
+      "sha256": "e5c4471b129f55f385d95f167bb0420656cceb62c7c6a407436adac9f99cc7b4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Service.php",
+      "sha256": "636164f8d328a97bba9b4ad13ba9d7e5458462ffd3b35df6f20b6645b72b2359",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Store.php",
+      "sha256": "fa8a3b42157018c9f1ef4913a2c66510da416070a0888fa54b8b8cec37838f96",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/Submissions/Strings.php",
+      "sha256": "4bcb100ca94a6f5c2d5c5aa9fac5316b1ef249af54b2629dfabb761025468ee0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/inc/core/bootstrap.php",
+      "sha256": "96e9e3926eca5208e9b2582e1c03340720535d6211bb8ed1bae97c8e294237d7",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/index.php",
+      "sha256": "378c770adc38e74698fa3515bc1c30aa7ee61679149e048930245b1c05ffd993",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/template-parts/frontend/skill-card.php",
+      "sha256": "df9ee48d7367bf52e5b473170663f706a354c1678710674f8b7801c9b6b17345",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/template-parts/frontend/tutorial-card.php",
+      "sha256": "86a44c555f158e056825508816f90c38342e0f776e67b5fbe5f019f6a7006205",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/account/page.php",
+      "sha256": "7ff6609c7b7bc2a374102989be3106fc03658019778828ce2b25a1292127c392",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/commercial/sponsorship.php",
+      "sha256": "6541fbaf3fc9cd888f1d09ff705b0e7ac42235eaff6a5790d6cb256331ad5df4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/community/page.php",
+      "sha256": "6e45cc6409d31698883c44ebb5539c047191eb5833438216e12a4e8b125ef0ec",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/community/public.php",
+      "sha256": "0a04a47b426aa671c9f982f0dd544db99def5e4f521510df0687f5c7fe0ddad2",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/contributions/shell.php",
+      "sha256": "f11c0cfcd2b10b3fd36058bcdbc0a504f48d44f4e7c29fe53752305a2c7c9fb2",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/developers/content.php",
+      "sha256": "a511677cefd3383403680e6d57f04f156a539e24de078a59885f814f0341f394",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/developers/page.php",
+      "sha256": "ddc5dd128e99c7d88e4e6e763a4a9b3439c23044c0e6815f9a6f358eea2d9ba0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/developers/public.php",
+      "sha256": "0a303b5227f6917480c8638abbfa9768e88a5287a33615bab94d541ae34e4de4",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/discovery/home-module.php",
+      "sha256": "87db85285e99acc09d46d81251fe04f9cab0256bb5f56be17be3bea321426e28",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/discovery/page.php",
+      "sha256": "ba414d3c1e0f2968ec05970e35f930e2da91355073d3708bb2fa31f96b6b533a",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/discovery/skill.php",
+      "sha256": "e9fa9424a77558284ec51522c8454b6e1427a8e1f716958e6c2f66ac6a0fe70b",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/discovery/topic.php",
+      "sha256": "f38fad10eefe784d74eed23f5a995db0f6fbd9b9330599aaceb40ca652e87ad1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/frontend/home.php",
+      "sha256": "bee88e89e02b9dadcf54a4e4048f005b45e4a848378305b753014e9ce5c571de",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/frontend/listing.php",
+      "sha256": "21017c9bb06e8a806919e18da5f7c717fda944da03e722c3b197af3d3fe4ff6e",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/frontend/not-found.php",
+      "sha256": "748f936ac9829667c634f449113597d920500cda70a2af77f6a1d3263de051e0",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/frontend/page.php",
+      "sha256": "57b396ac93a132d13914bbb46e6ef2550c242bb1d3052ecbaf2b63792bef8368",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/frontend/skill.php",
+      "sha256": "6568c08078110fde7d09993c58f65be06a949e23159108a13114dbbf879ad3c9",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/frontend/tutorial.php",
+      "sha256": "e2ea380699a696215bf7d6d06460e4c4805f227a7ded5be7a76054bd842686b8",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/frontend/tutorials.php",
+      "sha256": "b7cf54bb95410f7db6d29c22a4e38f558fd6dbfbfc7ee02e2a0f0cd648739ac1",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/learning/help.php",
+      "sha256": "7c5999317a3e783c5884ea69f020501a8efa42a2fc6bfe03b3b76f333bd192af",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/learning/onboarding-settings.php",
+      "sha256": "6ed818a9d261b5f114494c96dc9627785bb6b2da654cb1a2fe75af1f58d782a9",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/learning/onboarding.php",
+      "sha256": "de046447970bb0b75055b1319368e6458d53c5d816aa766c30518923fbbceda7",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/learning/skill-experience-installation.php",
+      "sha256": "2d16290e7bd422d2b145f34d871974c384c19fab101477724cd2c0f9805a658f",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/learning/skill-experience-share.php",
+      "sha256": "1d107d8778afe1cdd54cf788d39ef58c62bc0e9951d4c89a543fe9f3083d6f93",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/learning/subscriptions.php",
+      "sha256": "943ef2696bba53833a8234350f066a6710744fb4f2c61260de5782c404997b13",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/submissions/content.php",
+      "sha256": "44d26a92f20be9935cfcda6132a1331a906362b5c5b7744cb4f01655432ebf5c",
+      "status": "passed"
+    },
+    {
+      "file": "wp-content/themes/ai-skills-hub/templates/submissions/page.php",
+      "sha256": "6bb8cdb7b4b7e81640e1bdf08dd7a189caceb97e663653b8cb7c5e4bc5f2a3da",
+      "status": "passed"
+    }
+  ],
+  "passed_files": 374,
+  "failed_files": 0
+}

@@ -14,6 +14,7 @@ final class Privacy {
 	private const CLEANUP_TARGET = '_aish_cleanup_target';
 	private const META = array( '_aish_account_state', '_aish_account_deletion_pending', '_aish_email_verified_at', '_aish_verified_email_hash', '_aish_email_change_context', '_aish_profile_locale', '_aish_avatar_attachment_id', '_aish_public_profile', '_aish_notification_preferences', '_aish_onboarding_version', '_aish_operations_account' );
 	private array $requestLocks = array();
+	private static ?int $erasureTarget = null;
 
 	public function __construct( private Database $database, private Store $store, private Locks $locks, private AccountService $accounts, private Avatar $avatar ) {}
 
@@ -270,6 +271,9 @@ final class Privacy {
 		do_action( 'aish_account_privacy_isolate', $id );
 	}
 
+	/** Read-only proof of the account-owned, identity-locked extension dispatch. */
+	public static function isErasingAccount( int $id ): bool { return $id > 0 && self::$erasureTarget === $id; }
+
 	/** Every call is bounded and restartable; it never touches Skills or legacy Inbox records. */
 	private function eraseBatch( int $id ): bool {
 		$done = true;
@@ -280,7 +284,12 @@ final class Privacy {
 		}
 		$done = $this->avatar->purgeOwned( $id, 25 ) && $done;
 		// False keeps the existing durable request pending until every module has finished.
-		return (bool) apply_filters( 'aish_account_privacy_erase_batch', $done, $id );
+		// Sibling modules may remove their own completion markers before later
+		// callbacks run. Keep authority in this already validated/locked dispatch,
+		// not in a mutable marker or a caller-supplied filter argument.
+		$previous = self::$erasureTarget; self::$erasureTarget = $id;
+		try { return (bool) apply_filters( 'aish_account_privacy_erase_batch', $done, $id ); }
+		finally { self::$erasureTarget = $previous; }
 	}
 
 	private function cleanupRequest( int $id ): int {

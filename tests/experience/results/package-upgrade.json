@@ -1,0 +1,19 @@
+{
+  "kind": "Real native WordPress Theme_Upgrader baseline ZIP installation then Phase14 overwrite upgrade; isolated writable WordPress copy only",
+  "wordpress": "7.1.4",
+  "php": "8.4.27",
+  "mysql": "8.0.46",
+  "package_sha256": "d7e7c5a32e88432395d7a204d3c9683d58c7dcb3ac219dac09686bb6a18aaae5",
+  "files": 214,
+  "checks": {
+    "expected_installed_version_before_upgrade": true,
+    "native_phase14_zip_upgrade": true,
+    "theme_package_version": true,
+    "installed_file_hashes_match_package": true,
+    "all_33_core_tables_and_private_inbox_unchanged": true,
+    "schema_1_9_retained": true
+  },
+  "reason": null,
+  "passed": 6,
+  "failed": 0
+}

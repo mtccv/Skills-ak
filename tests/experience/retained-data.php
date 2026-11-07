@@ -1,0 +1,24 @@
+<?php
+declare(strict_types=1);
+/** Post-test read-only comparison; never changes, repairs or replaces the original baseline. */
+if(PHP_SAPI!=='cli'||getenv('AISH_PHASE14_QA')!=='1')exit(1);
+require '/var/www/html/wp-load.php';if(!in_array(DB_NAME,['qa_discovery','qa_operations84'],true))exit(2);
+$v=PHP_VERSION_ID>=80400?'84':'83';$base=json_decode(file_get_contents(__DIR__.'/results/baseline-php'.$v.'.json'),true,512,JSON_THROW_ON_ERROR);
+function p14_retained_hash(string$sql):array{global$wpdb;$rows=$wpdb->get_results($sql,ARRAY_A);if($wpdb->last_error||!is_array($rows))throw new RuntimeException('retained_read_failed');$hashes=array_map(static fn(array$r):string=>hash('sha256',json_encode($r,JSON_THROW_ON_ERROR)),$rows);sort($hashes);return['count'=>count($rows),'sha256'=>hash('sha256',implode('',$hashes))];}
+$groups=[];$structure=[];
+foreach($base['tables']as$entity=>$expected){$table=$wpdb->prefix.'aish_'.$entity;$indexes=$wpdb->get_results("SHOW INDEX FROM `$table` WHERE Key_name='PRIMARY'",ARRAY_A);usort($indexes,fn($a,$b)=>(int)$a['Seq_in_index']<=>(int)$b['Seq_in_index']);$keys=array_column($indexes,'Column_name');foreach($keys as$key)if(!preg_match('/^[a-zA-Z0-9_]+$/D',$key))throw new RuntimeException('retained_key_invalid');$order=implode(',',array_map(fn($k)=>'`'.$k.'`',$keys));$candidate=p14_retained_hash("SELECT * FROM `$table` ORDER BY $order LIMIT ".(int)$expected['count']);$groups['core_'.$entity]=['baseline_rows'=>$expected['count'],'current_rows'=>(int)$wpdb->get_var("SELECT COUNT(*) FROM `$table`"),'original_set_hash_matches'=>$candidate['count']===$expected['count']&&$candidate['sha256']===$expected['sha256']];$ddl=$wpdb->get_row("SHOW CREATE TABLE `$table`",ARRAY_N);$structure[$entity]=hash('sha256',preg_replace('/ AUTO_INCREMENT=[0-9]+/','',$ddl[1]))===$expected['structure_sha256'];}
+$queries=[
+'users'=>"SELECT * FROM {$wpdb->users} ORDER BY ID",
+'usermeta'=>"SELECT * FROM {$wpdb->usermeta} ORDER BY umeta_id",
+'inbox'=>"SELECT * FROM {$wpdb->posts} WHERE post_type='aish_message' ORDER BY ID",
+'inbox_meta'=>"SELECT m.* FROM {$wpdb->postmeta} m INNER JOIN {$wpdb->posts} p ON p.ID=m.post_id WHERE p.post_type='aish_message' ORDER BY m.meta_id",
+'revisions'=>"SELECT r.* FROM {$wpdb->posts} r INNER JOIN {$wpdb->posts} p ON p.ID=r.post_parent WHERE p.post_type='aish_message' AND r.post_type='revision' ORDER BY r.ID",
+'revision_meta'=>"SELECT m.* FROM {$wpdb->postmeta} m INNER JOIN {$wpdb->posts} r ON r.ID=m.post_id INNER JOIN {$wpdb->posts} p ON p.ID=r.post_parent WHERE p.post_type='aish_message' AND r.post_type='revision' ORDER BY m.meta_id",
+'tutorials_and_pages'=>"SELECT * FROM {$wpdb->posts} WHERE post_type IN ('aish_tutorial','page') ORDER BY ID",
+'tutorials_and_pages_meta'=>"SELECT m.* FROM {$wpdb->postmeta} m INNER JOIN {$wpdb->posts} p ON p.ID=m.post_id WHERE p.post_type IN ('aish_tutorial','page') ORDER BY m.meta_id",
+'editorial_revisions'=>"SELECT r.* FROM {$wpdb->posts} r INNER JOIN {$wpdb->posts} p ON p.ID=r.post_parent WHERE p.post_type IN ('aish_tutorial','page') AND r.post_type='revision' ORDER BY r.ID",
+'editorial_revision_meta'=>"SELECT m.* FROM {$wpdb->postmeta} m INNER JOIN {$wpdb->posts} r ON r.ID=m.post_id INNER JOIN {$wpdb->posts} p ON p.ID=r.post_parent WHERE p.post_type IN ('aish_tutorial','page') AND r.post_type='revision' ORDER BY m.meta_id"];
+foreach($queries as$name=>$sql){$expected=$base['native'][$name];$actual=p14_retained_hash($sql.' LIMIT '.(int)$expected['count']);$groups['native_'.$name]=['baseline_rows'=>$expected['count'],'candidate_rows'=>$actual['count'],'original_set_hash_matches'=>$actual===$expected];}
+$diff=array_keys(array_filter($groups,fn($r)=>!$r['original_set_hash_matches']));
+echo wp_json_encode(['kind'=>'Read-only post-test original-data set-hash comparison, allowing new higher-primary-key QA fixtures; original baseline remains immutable','environment'=>['wordpress'=>$GLOBALS['wp_version'],'php'=>PHP_VERSION,'mysql'=>$wpdb->get_var('SELECT VERSION()')],'method'=>'For each original dataset, hash the first original-count records in primary-key order using original row bytes and IDs. Equality proves retention of the original set despite appended fixtures. A mismatch remains explicitly unresolved from the aggregate-only baseline; no original row is restored or guessed.','schema'=>get_option('aish_schema_version'),'core_tables'=>count($wpdb->get_col("SHOW TABLES LIKE 'wp\\_aish\\_%'")),'structure'=>$structure,'groups'=>$groups,'differences'=>$diff,'matched_groups'=>count($groups)-count($diff),'mismatched_groups'=>count($diff),'limitation'=>'Initial baseline stores full-set hashes, not per-row plaintext backups. For mismatched sets, row-level historical reconstruction is unavailable; legitimate test-driven session/queue changes are reported separately and never disguised as unchanged.'],JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES)."\n";
+exit($diff?1:0);

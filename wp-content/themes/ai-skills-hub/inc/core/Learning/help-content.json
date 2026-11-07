@@ -1,0 +1,1075 @@
+{
+  "what-are-agent-skills": {
+    "category": "getting-started",
+    "zh_CN": {
+      "title": "什么是 Agent Skills？",
+      "summary": "了解 Skill 的组成、适用范围，以及资源目录与实际运行环境的区别。",
+      "sections": [
+        [
+          "从可复用工作方法开始",
+          "Agent Skill 通常把完成某类任务的说明与相关材料放在一个目录中。SKILL.md 描述名称、用途和操作方法，目录还可能包含参考资料、模板或脚本。不同平台支持的元数据、加载方式和权限不同，格式相似不代表能够直接通用。"
+        ],
+        [
+          "先看说明，再决定是否使用",
+          "阅读资源的适用任务、所需平台、依赖和来源。一个写作流程可能只包含文字说明；一个开发工具 Skill 也可能读写文件、联网或调用程序。不要只凭名称、收藏数或一段简介判断它的能力和风险。"
+        ],
+        [
+          "本站提供什么",
+          "AI Skills Hub 帮助你发现资源、阅读经人工审核的介绍并访问来源。审核、静态风险提示和社区评价是参考信息，不是安全认证。本站不会在你复制链接或安装说明时自动执行 Skill。"
+        ],
+        [
+          "下一步",
+          "从一个范围明确、可用非敏感数据验证的小任务开始。确认许可和环境，在隔离的测试项目中检查结果；不需要的权限不要开启。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "What are Agent Skills?",
+      "summary": "Understand what a Skill contains, when it is useful, and how a directory differs from the agent that runs it.",
+      "sections": [
+        [
+          "A reusable way of working",
+          "An Agent Skill usually packages instructions and supporting material for a class of tasks in a directory. SKILL.md describes its name, purpose and procedure. References, templates or scripts may accompany it. Platforms differ in metadata, loading behavior and permissions; a familiar format does not establish compatibility."
+        ],
+        [
+          "Read before choosing",
+          "Check the intended task, supported platform, dependencies and source. A writing workflow may consist entirely of instructions, while a development Skill may access files, use the network or invoke programs. A name, popularity count or short description cannot establish its capabilities or safety."
+        ],
+        [
+          "What this directory provides",
+          "AI Skills Hub helps you discover resources, read human-reviewed descriptions and visit their sources. Editorial review, static findings and community experiences are reference information, not a security certification. Copying a link or installation note here does not execute a Skill."
+        ],
+        [
+          "A sensible first use",
+          "Start with a narrow task that can be checked using non-sensitive test data. Review the license and environment, try it in an isolated project, and inspect its output before relying on it. Keep unnecessary permissions disabled."
+        ]
+      ]
+    },
+    "links": [
+      "https://agentskills.io/specification",
+      "route:skills"
+    ]
+  },
+  "skills-and-prompts": {
+    "category": "getting-started",
+    "zh_CN": {
+      "title": "Skills 与 Prompt 有什么区别？",
+      "summary": "按任务选择一次性提示或可复用 Skill，不把格式和能力混为一谈。",
+      "sections": [
+        [
+          "提示适合直接表达当前需求",
+          "Prompt 是给模型的一段输入，可以描述目标、背景、限制和期望输出。一次性的小任务通常不需要额外安装资源。把需求、示例和验收标准写清楚，往往比增加复杂工具更有效。"
+        ],
+        [
+          "Skill 组织可复用的流程",
+          "Skill 可将说明和参考文件组织为可重复使用的工作方法，并由支持的平台发现或调用。部分 Skills 只有说明，部分带有工具或脚本；是否存在程序执行能力要检查实际文件和运行平台，不能从 Skill 这个名称推断。"
+        ],
+        [
+          "共同需要人工核验",
+          "两者都可能包含错误、过时步骤或诱导泄露信息的指令。不要因为内容被包装为 Skill，就给予更高权限或提供真实密钥。输出仍需根据原始资料和任务标准核对。"
+        ],
+        [
+          "如何选择",
+          "先用清晰的提示验证需求。流程需要长期复用、共享参考资料或稳定组织时，再寻找合适的 Skill；确认它带来的收益能够抵消安装、维护和安全检查成本。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Skills and prompts: what is the difference?",
+      "summary": "Choose between a direct prompt and a reusable Skill without confusing packaging with capability.",
+      "sections": [
+        [
+          "A prompt describes the current request",
+          "A prompt is input to a model: a goal, context, constraints and a desired result. A small one-off task may not need any installation. Clear examples and acceptance criteria often help more than adding another tool."
+        ],
+        [
+          "A Skill organizes reusable work",
+          "A Skill packages a procedure and supporting files for a compatible agent to discover or invoke. Some contain instructions only; others include scripts or tools. Inspect the actual files and the host platform to understand execution capabilities instead of inferring them from the label."
+        ],
+        [
+          "Both require verification",
+          "Either can contain mistakes, outdated steps or instructions intended to expose private information. Packaging content as a Skill does not justify broader permissions or access to real credentials. Check results against the original evidence and your task requirements."
+        ],
+        [
+          "Choose the smaller useful option",
+          "Validate your task with a clear prompt first. Consider a Skill when the workflow needs repeated use or shared references, then weigh that benefit against installation, maintenance and security review."
+        ]
+      ]
+    },
+    "links": [
+      "route:skills"
+    ]
+  },
+  "discover-skills": {
+    "category": "getting-started",
+    "zh_CN": {
+      "title": "如何发现合适的 Skill？",
+      "summary": "使用搜索、组合筛选和真实来源信息，建立可核验的候选清单。",
+      "sections": [
+        [
+          "用任务描述搜索",
+          "先写出需要完成的任务、输入类型和期望结果，再选择关键词。中文和英文分别搜索当前语言已经发布的内容；没有翻译时，切换语言不会凭空生成相同资源的译文。"
+        ],
+        [
+          "逐步缩小范围",
+          "结合分类、标签和平台筛选。平台说明应有依据；没有标注的平台不能视为已验证兼容。先少用筛选条件，结果为空时逐项放宽，而不是把无结果理解为该能力不存在。"
+        ],
+        [
+          "理解不同排序",
+          "最新加入表示进入公开目录的时间；最近更新只反映已审核内容更新，不等于 GitHub 每一次提交。热门、收藏和评分各有自己的统计口径，查看页面说明及样本量，不把不同指标直接比较。赞助会单独标注，不是自然排名。"
+        ],
+        [
+          "建立可复查清单",
+          "打开详情核对来源、许可证、版本说明、风险和安装证据。登录并验证邮箱后可私下收藏同一个 Skill；中英文共用收藏关系。最终选择应基于你的实际平台和任务测试。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Find a suitable Skill",
+      "summary": "Use search, combined filters and source evidence to build a shortlist you can verify.",
+      "sections": [
+        [
+          "Search for the task",
+          "Describe the task, inputs and expected result before choosing keywords. Chinese and English searches use published content in the selected language. Switching languages does not manufacture a translation when none has been published."
+        ],
+        [
+          "Narrow the result gradually",
+          "Combine category, tag and platform filters. A platform claim needs evidence; an unlisted platform is not verified support. Begin with fewer filters and relax them one at a time if the result is empty."
+        ],
+        [
+          "Understand the ordering",
+          "Recently added refers to entry into the public catalog. Recently updated reflects approved content updates, not every GitHub commit. Trending, favorites and ratings have different definitions and sample sizes. Read the accompanying explanation. Sponsored placements are labeled separately from natural rankings."
+        ],
+        [
+          "Keep a verifiable shortlist",
+          "Check the source, license, version caveats, risk information and installation evidence on the detail page. Signed-in users with verified email can keep private favorites, shared across the two language versions of a Skill. Make the final choice through a small test in your actual environment."
+        ]
+      ]
+    },
+    "links": [
+      "route:skills",
+      "route:search"
+    ]
+  },
+  "install-skills": {
+    "category": "getting-started",
+    "zh_CN": {
+      "title": "如何安装 Skills？",
+      "summary": "依据具体平台和来源说明安装，先核对权限、依赖与许可证。",
+      "sections": [
+        [
+          "没有适用于所有 Skill 的安装命令",
+          "平台、版本和仓库结构决定安装方法。先查看 Skill 详情中的平台、文件路径、来源和许可证，再阅读原仓库的 SKILL.md 与安装文档。本站未提供明确命令，或标为待核实时，不要用猜测的命令补齐。"
+        ],
+        [
+          "准备一个可恢复的测试环境",
+          "使用不含敏感资料的独立项目。检查所需运行时、工具版本、网络连接和文件访问范围；保留现有配置，了解如何移除或停用该 Skill。不要为了完成安装先放开所有权限。"
+        ],
+        [
+          "核对每一步",
+          "如平台允许手工添加目录，确保来自同一可信版本的 SKILL.md 和必要引用文件齐全。若来源要求包管理器或脚本，先阅读具体行为与依赖；复制按钮只复制文本，不代表命令安全或官方推荐。"
+        ],
+        [
+          "失败时如何排查",
+          "记录平台版本、步骤、脱敏后的错误和实际文件路径。检查名称、目录层级、依赖与许可限制，再查平台官方文档或相关教程。不要粘贴 API Key、访问令牌、私人文件或完整环境变量。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Install Skills with evidence",
+      "summary": "Follow the specific platform and source instructions, checking permissions, dependencies and licensing first.",
+      "sections": [
+        [
+          "There is no universal installation command",
+          "The platform, version and repository layout determine the installation method. Check the detail page, then read the original SKILL.md and installation documentation. If instructions are missing or marked for verification, do not fill the gap with a guessed command."
+        ],
+        [
+          "Prepare a recoverable test environment",
+          "Use a separate project without sensitive data. Check required runtimes, tool versions, network use and file access. Keep existing configuration and learn how to remove or disable the Skill. Avoid enabling every permission just to finish setup."
+        ],
+        [
+          "Verify each step",
+          "When the platform supports adding a directory manually, keep SKILL.md and its required references from the same reviewed source version. If installation involves a package manager or script, read its behavior and dependencies first. A copy button transfers text; it does not certify a command or make it official."
+        ],
+        [
+          "Troubleshoot without exposing secrets",
+          "Record the platform version, the failing step, a sanitized error and the relevant file path. Check directory layout, names, dependencies and license restrictions, then consult official documentation or a related tutorial. Never paste API keys, access tokens, private files or complete environment variables."
+        ]
+      ]
+    },
+    "links": [
+      "route:skills",
+      "route:contact"
+    ]
+  },
+  "claude-code-skills": {
+    "category": "platforms",
+    "zh_CN": {
+      "title": "Claude Code Skills 使用指南",
+      "summary": "按当前 Claude Code 文档检查 Skill 的发现、调用和权限，避免把跨平台格式当作兼容保证。",
+      "sections": [
+        [
+          "先核对你使用的版本",
+          "打开 Claude Code 的官方 Skills 文档，确认当前版本支持的目录范围、文件格式、调用方式和权限设置。文档与客户端可能随版本变化；本教程不把无法现场核实的路径、选项或命令标为最新官方步骤。"
+        ],
+        [
+          "检查来源目录",
+          "阅读原始 SKILL.md 的名称、描述和正文，检查它引用的脚本、参考资料和工具。不要只复制单个说明文件而遗漏必需资源，也不要把仓库 owner 自动当成每个 Skill 的原创作者。"
+        ],
+        [
+          "在非敏感项目中试用",
+          "按你当前版本的官方说明添加 Skill，再确认客户端能正确识别其用途。用一个可人工判断的任务测试；观察是否申请联网、执行程序或修改文件，拒绝与任务无关的权限请求。"
+        ],
+        [
+          "控制变化与反馈",
+          "记录你核对过的来源和版本。来源更新后重新比较变化，不把先前的成功测试当成新版本保证。遇到问题时提供脱敏错误和可复现步骤；不要在公开评价中贴出项目密钥或私人内容。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Use Skills with Claude Code",
+      "summary": "Check discovery, invocation and permissions against your installed Claude Code version.",
+      "sections": [
+        [
+          "Check the version you use",
+          "Open the official Claude Code Skills documentation and confirm the supported directory scopes, format, invocation method and permission settings for your installed version. These can change. This guide does not present unverified paths, switches or commands as current official instructions."
+        ],
+        [
+          "Inspect the source directory",
+          "Read the original SKILL.md name, description and body, together with referenced scripts, resources and tools. Copying only the instruction file may omit required material. A repository owner is not automatically the original author of every Skill it contains."
+        ],
+        [
+          "Try a non-sensitive project",
+          "Add the Skill according to the documentation for your version, then confirm the client recognizes its purpose. Test a small task whose result you can judge yourself. Observe requests for networking, program execution or file changes and reject permissions unrelated to the task."
+        ],
+        [
+          "Track changes and report carefully",
+          "Record the source and version you inspected. Review changes again after updates; an earlier successful test does not validate a new revision. Share sanitized errors and reproducible steps when asking for help, without project secrets or private content."
+        ]
+      ]
+    },
+    "links": [
+      "https://code.claude.com/docs/en/skills",
+      "route:skills"
+    ]
+  },
+  "codex-skills": {
+    "category": "platforms",
+    "zh_CN": {
+      "title": "Codex Skills 使用指南",
+      "summary": "按 Codex 当前技能发现规则检查目录、用途和依赖，并用小任务验证行为。",
+      "sections": [
+        [
+          "认识目录与说明",
+          "Codex 官方文档说明，仓库范围会从当前工作目录向仓库根目录检查 .agents/skills。其他用户、管理员或系统范围须按你使用的版本查看官方文档。每个 Skill 的说明和名称应与实际任务相符，不把同名文件理解为自动合并。"
+        ],
+        [
+          "确认技能能被发现",
+          "从可信来源准备完整 Skill 目录，核对 SKILL.md 和所有必需引用文件。按当前客户端文档查看可用 Skills 或选择相应技能。平台是否自动发现或需要显式调用，应以当前客户端行为为准。"
+        ],
+        [
+          "审查执行边界",
+          "名称与 description 只是发现信息，不是权限或安全保证。阅读正文和脚本，检查外部服务、下载、文件写入及敏感数据访问。未核实的安装步骤保持待核实，不能用一条通用命令替代。"
+        ],
+        [
+          "验证并记录结果",
+          "用隔离项目和非敏感输入尝试明确任务，核对结果、文件变化和依赖。保留测试时的平台版本、来源路径和版本记录；发布评价时说明具体环境和限制，不把自己的单次成功推广为所有环境兼容。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Use Skills with Codex",
+      "summary": "Check Codex discovery rules, intent and dependencies, then validate behavior with a narrow task.",
+      "sections": [
+        [
+          "Understand the directory and instructions",
+          "The official Codex documentation describes repository discovery of .agents/skills from the current working directory up to the repository root. Check the documentation for your version for user, administrator and system scopes. Matching Skill names do not imply that separate sources are merged."
+        ],
+        [
+          "Confirm discovery",
+          "Prepare the complete Skill directory from a source you trust and inspect SKILL.md and its required references. Use the current client documentation to view or select available Skills. Whether discovery is automatic or invocation explicit depends on the client behavior you are actually using."
+        ],
+        [
+          "Review execution boundaries",
+          "A name and description help discovery; they are not permission or safety guarantees. Read the body and scripts for external services, downloads, file writes and access to sensitive data. Keep unverified installation instructions marked as such instead of substituting a universal command."
+        ],
+        [
+          "Validate and document the result",
+          "Try a clearly defined task in an isolated project with non-sensitive inputs. Inspect output, file changes and dependencies. Record the platform version and source you tested. A review should describe that environment and its limitations rather than promise compatibility everywhere."
+        ]
+      ]
+    },
+    "links": [
+      "https://developers.openai.com/codex/skills",
+      "https://agentskills.io/specification",
+      "route:skills"
+    ]
+  },
+  "create-skills": {
+    "category": "creating",
+    "zh_CN": {
+      "title": "如何创建自己的 Skill？",
+      "summary": "从具体任务、清晰说明与最小权限开始，公开前补齐来源、测试和许可。",
+      "sections": [
+        [
+          "定义一个可以验证的任务",
+          "说明 Skill 解决什么问题、需要什么输入、产出什么结果，以及何时不应使用。把成功标准写成可检查的条件，避免以模糊的全能描述吸引用户。"
+        ],
+        [
+          "组织说明和引用资料",
+          "依据 Agent Skills 格式及目标平台文档准备 SKILL.md，维护准确的 name 和 description。把长参考资料、模板和脚本放在清晰目录中，用相对路径说明关系；不要把密钥、私人数据或仅在你机器上存在的路径写进示例。"
+        ],
+        [
+          "限制操作并测试失败情况",
+          "明确依赖、联网范围和文件修改行为。检查空输入、错误路径、缺依赖与权限拒绝的结果。任何安装命令都应来自实际可复现的步骤；有脚本时先自行审阅，不要求使用者无条件信任它。"
+        ],
+        [
+          "发布前准备证据",
+          "标明作者、来源、适用版本和许可证。第三方素材及代码需要各自的许可依据。提交到本目录只进入人工审核；接受投稿或作者认领不意味着自动发布，也不授予其他资源的编辑权限。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Create your own Skill",
+      "summary": "Start with a specific task, clear instructions and minimal permissions; add provenance, tests and licensing before sharing.",
+      "sections": [
+        [
+          "Define a testable task",
+          "Explain the problem, expected inputs, outputs and cases where the Skill should not be used. Express success as something a reader can check rather than making an all-purpose capability claim."
+        ],
+        [
+          "Organize instructions and references",
+          "Prepare SKILL.md using the Agent Skills format and your target platform documentation, with accurate name and description fields. Keep long references, templates and scripts in clear directories and explain relative paths. Never include credentials, private data or machine-specific private paths in examples."
+        ],
+        [
+          "Constrain behavior and test failure",
+          "Document dependencies, network use and file changes. Test empty input, invalid paths, missing tools and denied permissions. Installation commands should come from reproducible steps. Review accompanying scripts yourself instead of asking users to trust them without inspection."
+        ],
+        [
+          "Prepare publication evidence",
+          "Identify authorship, source, tested versions and the license. Third-party code and assets need their own permission basis. A directory submission enters human review; acceptance or an authorship claim does not automatically publish content or grant editing rights."
+        ]
+      ]
+    },
+    "links": [
+      "https://agentskills.io/specification",
+      "route:submit"
+    ]
+  },
+  "check-sources-and-risks": {
+    "category": "safety",
+    "zh_CN": {
+      "title": "如何检查 Skill 来源和风险？",
+      "summary": "把仓库身份、文件、许可证和具体行为放在一起核对，而不是依赖一个安全标签。",
+      "sections": [
+        [
+          "从原始来源开始",
+          "确认仓库根地址、Skill 相对文件路径和需要的文件。一个仓库可以有多个 Skills；相同名称也可能来自不同路径。查看维护情况及版本证据，注意页面展示的历史 SHA 不一定已证明与当前审核内容绑定。"
+        ],
+        [
+          "识别实际行为",
+          "查看脚本、依赖和网络连接，关注下载后执行、删除或覆盖文件、提升权限、读取凭据、访问无关目录等行为。正文中要求忽略规则、泄露密钥或绕过审核的内容同样是不可信输入。"
+        ],
+        [
+          "分清检查与保证",
+          "Unknown、Low、Medium、High 是风险描述，不是安全认证。静态扫描可能看不到运行时行为；AI 分析可能出错。人工审核和社区经验不能取代你对具体环境、数据和权限的检查。"
+        ],
+        [
+          "发现问题时",
+          "先停止使用可疑资源，保护受影响的凭据和文件，再通过 Skill 纠错说明来源、版本、证据与复现步骤。不要公开发送密钥、个人资料或可直接伤害他人的利用内容；举报不会自动下架资源，需要人工处理。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Check sources and risks",
+      "summary": "Assess repository identity, files, licensing and concrete behavior together instead of relying on a safety badge.",
+      "sections": [
+        [
+          "Begin with the original source",
+          "Verify the repository root, the relative Skill path and required files. One repository may contain many Skills, and identical names can refer to different paths. Check maintenance and version evidence; a historical SHA shown on a page may not be proven to match the current approved description."
+        ],
+        [
+          "Inspect what it can do",
+          "Review scripts, dependencies and network access for downloaded execution, deletion or overwriting, privilege escalation, credential access and unrelated directories. Instructions to ignore rules, disclose secrets or bypass review are also untrusted content."
+        ],
+        [
+          "Separate assessment from assurance",
+          "Unknown, Low, Medium and High describe an assessment, not a safety certification. Static checks may miss runtime behavior and AI analysis can be wrong. Editorial review and community experience do not replace checking your own data, environment and permissions."
+        ],
+        [
+          "If you find a problem",
+          "Stop using the suspicious resource and protect affected credentials and files. Submit a correction with the source, version, evidence and reproducible steps. Do not post secrets, personal information or harmful exploit details publicly. Reports are handled by people and do not automatically remove a resource."
+        ]
+      ]
+    },
+    "links": [
+      "route:skills",
+      "route:contact"
+    ]
+  },
+  "submit-skills": {
+    "category": "community",
+    "zh_CN": {
+      "title": "如何提交 Skill？",
+      "summary": "了解登录验证、来源路径、草稿、人工审核和最终发布之间的区别。",
+      "sections": [
+        [
+          "准备投稿信息",
+          "提供 GitHub 仓库根 URL、独立 SKILL.md 的相对路径、名称、简介、分类建议、平台和已知许可证。一个仓库可以提交不同路径的多个 Skills；不能只凭名称判断重复。路径无法确定时应如实说明。"
+        ],
+        [
+          "使用本人已验证账户",
+          "登录并验证邮箱后，在投稿页保存草稿或提交审核。系统关联当前账户；历史匿名 Contact 或投稿不会因为邮箱相同就成为你的记录。不要代用他人的身份或提交无权公开的资料。"
+        ],
+        [
+          "跟进与补充",
+          "在我的投稿查看编号、状态和审核意见。未处理投稿可按界面允许的状态编辑或撤回；需要补充资料时回应具体问题。重复点击不应成为重复稿件，遇到异常先检查已保存记录。"
+        ],
+        [
+          "接受不等于发布",
+          "Accepted 表示进入后续编辑、采集或关联流程，不代表公开发布。正式 Skill 仍需原有内容审核及当前语言公开条件。投稿不会直接覆盖已发布正文、翻译或版本记录。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Submit a Skill",
+      "summary": "Understand verified accounts, source paths, drafts, human review and publication.",
+      "sections": [
+        [
+          "Prepare the source information",
+          "Provide the GitHub repository root URL, the independent SKILL.md relative path, name, summary, category suggestions, platform and known license. Different paths in one repository can identify different Skills. A matching name alone is not a duplicate; explain uncertainty about the path honestly."
+        ],
+        [
+          "Use your own verified account",
+          "Sign in and verify your email before saving a draft or submitting for review. The submission belongs to the current account. Earlier anonymous Contact or submission records are not claimed by matching an email address. Do not impersonate another person or share material you cannot disclose."
+        ],
+        [
+          "Follow up and provide details",
+          "Use My submissions to check the identifier, status and reviewer feedback. Edit or withdraw unprocessed work when the displayed state permits it. Respond to specific information requests and check the saved record before retrying an uncertain submission."
+        ],
+        [
+          "Acceptance is not publication",
+          "Accepted means the submission can move into editing, collection or association. The actual Skill still needs its established editorial review and language-specific public checks. Submitting cannot directly replace published content, translations or immutable versions."
+        ]
+      ]
+    },
+    "links": [
+      "route:submit",
+      "route:contact"
+    ]
+  },
+  "favorites-and-reviews": {
+    "category": "community",
+    "zh_CN": {
+      "title": "如何收藏和评价 Skill？",
+      "summary": "私有收藏帮助整理资源；公开评价需要审核，修改稿不会立即替换已批准内容。",
+      "sections": [
+        [
+          "收藏与你的账户关联",
+          "使用本人已验证账户收藏公开 Skill，或取消收藏。中文和英文共用同一资源的收藏关系。我的收藏是私有列表；资源下架时仍保留必要记录并显示不可用，不借收藏入口公开草稿。"
+        ],
+        [
+          "评价真实使用体验",
+          "评分为 1–5 的整数。说明使用平台、任务、优点、缺点和可选版本信息，避免泄露私人项目内容。没有使用过时不要编造体验，不让 AI 或管理员冒充真实用户评价。"
+        ],
+        [
+          "理解修订与审核",
+          "首次评价进入待审核。已批准评价修改后生成新修订，旧版在新稿待审或拒绝期间继续展示；新稿通过后才切换。未审核修订不改变公开平均分和人数。"
+        ],
+        [
+          "撤回、隐藏和举报",
+          "你可以撤回自己的评价，管理员也可以隐藏违规内容；这些内容随即停止公开展示和计分。举报需要说明原因与证据，由管理员处理，不会自动删除被举报评价。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Favorite and review Skills",
+      "summary": "Keep a private resource list and share genuine experience through the review process.",
+      "sections": [
+        [
+          "Favorites belong to your account",
+          "Use your verified account to favorite a public Skill or remove it. The Chinese and English pages share one relationship. My favorites is private; when a resource is unavailable, the record can remain without making a draft accessible through it."
+        ],
+        [
+          "Describe actual experience",
+          "Choose an integer rating from 1 to 5 and describe the platform, task, strengths, limitations and optional version. Keep private project information out of the review. Do not invent experience, or use AI or an administrator to impersonate a real user."
+        ],
+        [
+          "Understand revision review",
+          "A first review waits for moderation. Editing an approved review creates a new revision: the old approved version remains visible while the new one is pending or rejected. Approval switches the public version. Unapproved revisions do not affect the public average or count."
+        ],
+        [
+          "Withdraw, hide or report",
+          "You may withdraw your own review, and moderators may hide rule-breaking content. It then stops contributing to public display and scores. Reports should include a reason and evidence; they do not automatically delete the reported review."
+        ]
+      ]
+    },
+    "links": [
+      "route:skills"
+    ]
+  },
+  "licenses-explained": {
+    "category": "safety",
+    "zh_CN": {
+      "title": "理解 License 与版权信息",
+      "summary": "核对资源、脚本和引用素材的许可，未知许可证不能当作允许商用。",
+      "sections": [
+        [
+          "公开访问不等于获得许可",
+          "GitHub 上可读取的文件仍可能受版权或其他条件限制。仓库、单个 Skill、引用文档、图片和依赖可能有不同许可证；查看适用于你实际使用文件的授权文本，而不是只读目录中的标签。"
+        ],
+        [
+          "核对计划用途",
+          "确认是否允许复制、修改、分发或商业使用，以及是否要求署名、保留声明、公开修改或采用特定许可。许可证含义应结合实际条款理解；本页不能替代专业法律意见。"
+        ],
+        [
+          "未知就保留未知",
+          "来源未标明许可、文本冲突或无法确认覆盖范围时，保持待核实并联系权利人。不要自动假定 MIT、开源或可商业再分发。复制命令、分享链接和加入资源套装都不会增加授权范围。"
+        ],
+        [
+          "纠正错误信息",
+          "发现本站许可证说明有误时，提交纠错并附上明确的文件路径、来源链接和适用版本。不要发布无关个人资料；平台会人工核查，不通过一次举报直接裁定权利归属。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Understand licenses and copyright",
+      "summary": "Check permissions for the resource and its dependencies; an unknown license is not commercial permission.",
+      "sections": [
+        [
+          "Public access is not a license",
+          "A readable GitHub file may still be protected by copyright or other restrictions. The repository, individual Skill, referenced documents, images and dependencies can carry different terms. Read the license applicable to the files you plan to use rather than relying only on a directory label."
+        ],
+        [
+          "Check your intended use",
+          "Look for permission and conditions concerning copying, modification, redistribution and commercial use. Attribution, notice preservation, source disclosure or a particular license may be required. Interpret the actual terms; this guide is not professional legal advice."
+        ],
+        [
+          "Keep unknown information unknown",
+          "If licensing is absent, conflicting or unclear in scope, seek clarification from the rights holder. Do not assume MIT, open source or commercial redistribution permission. Copying a command, sharing a link or including a Skill in a bundle does not grant extra rights."
+        ],
+        [
+          "Correct inaccurate information",
+          "Use the correction flow with a precise file path, source link and relevant version when a license description appears wrong. Avoid unrelated personal details. The platform reviews evidence manually rather than deciding ownership from a single report."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact"
+    ]
+  },
+  "frequently-asked-questions": {
+    "category": "getting-started",
+    "zh_CN": {
+      "title": "常见问题",
+      "summary": "查看语言、审核、来源、邮件和资源不可用等常见情况的处理方式。",
+      "sections": [
+        [
+          "为什么某种语言没有这个资源？",
+          "公开页面只展示当前语言可公开的完整内容。缺少翻译时不会自动生成译文，也不会把另一语言复制成“已翻译”。可以切换已有语言阅读，或等待编辑补齐。"
+        ],
+        [
+          "审核通过是否说明绝对安全？",
+          "不是。内容审核、用户评价和静态风险检查各有目的和边界。安装前仍须检查来源、权限、依赖、许可证及你自己的环境；本站不会代你执行未知脚本。"
+        ],
+        [
+          "为什么投稿被接受却还没公开？",
+          "接受只是后续编辑流程的一步。Skill 必须满足正式内容审核和语言发布条件。你可以在我的投稿查看进展；作者认领也不自动提供编辑或发布权限。"
+        ],
+        [
+          "验证或订阅邮件没收到怎么办？",
+          "先确认邮箱输入、垃圾邮件和发送状态。邮件入队或传输受理并不等于收件箱送达。使用有间隔的重新发送或联系帮助，避免连续重复提交；订阅是自愿的，注册账户不会自动订阅。"
+        ],
+        [
+          "链接失效或安装失败怎么办？",
+          "记录资源地址、来源版本和脱敏错误，先查安装帮助及官方文档，再通过纠错或 Contact 提供必要信息。不要上传凭据、私人日志或敏感项目文件。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Frequently asked questions",
+      "summary": "Find answers about language availability, review, submissions, email and unavailable resources.",
+      "sections": [
+        [
+          "Why is a resource missing in this language?",
+          "Public pages require complete, publishable content in the selected language. Missing translations are not generated automatically or replaced with a mislabeled copy. Read an available language or wait for editorial translation."
+        ],
+        [
+          "Does approval mean a Skill is absolutely safe?",
+          "No. Editorial review, user reviews and static checks have different purposes and limits. Inspect the source, permissions, dependencies, licensing and your own environment before installation. The directory does not execute unknown scripts for you."
+        ],
+        [
+          "Why is an accepted submission not public?",
+          "Acceptance is one step in the editing workflow. A Skill still needs the established publication review and language conditions. Check My submissions for progress. An authorship claim does not automatically grant editing or publishing permissions either."
+        ],
+        [
+          "What if verification or subscription mail does not arrive?",
+          "Check the address, spam folder and available sending status. Queued or transport-accepted mail does not prove inbox delivery. Use the bounded resend flow or contact support rather than submitting continuously. Subscriptions are voluntary; account registration does not subscribe you."
+        ],
+        [
+          "What if a link fails or installation breaks?",
+          "Record the resource URL, source version and sanitized error. Check installation help and official documentation, then submit a correction or Contact request with only the necessary information. Do not upload credentials, private logs or sensitive project files."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact",
+      "route:submit"
+    ]
+  },
+  "community-guidelines": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Community Guidelines · 社区规范",
+      "summary": "围绕可核实的 Skills 使用与贡献交流，尊重他人和个人信息。",
+      "sections": [
+        [
+          "分享有依据的信息",
+          "讨论围绕实际任务、平台、来源和使用结果展开。区分亲自测试、转述资料和仍待核实的判断；不要制造评价、夸大兼容性、刷收藏或通过多个账户操纵评分。"
+        ],
+        [
+          "尊重他人与隐私",
+          "可以批评资源和技术选择，但不要人身攻击、骚扰、冒充作者或公开无关个人资料。评论、投稿和纠错中不要包含密钥、登录凭据、私人代码或你无权披露的内容。"
+        ],
+        [
+          "人工审核与处理",
+          "社区评价首次发布及修订需要审核。管理员可拒绝或隐藏违规内容，并记录处理；举报只进入人工流程，不会自动下架。Skill 内容审核、AI 草稿审阅和社区评价审核是不同流程。"
+        ],
+        [
+          "参与和退出",
+          "使用自己的已验证账户提交受限社区操作。你可以取消收藏、撤回自己的评价，并通过账户隐私设置申请导出或删除。处理争议时请提供具体记录和证据；不要重复提交或组织骚扰。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Community Guidelines",
+      "summary": "Discuss verifiable Skill use and contributions while respecting people and private information.",
+      "sections": [
+        [
+          "Share evidence-based information",
+          "Focus on tasks, platforms, sources and actual results. Distinguish firsthand testing, quoted documentation and uncertainty. Do not fabricate reviews, exaggerate compatibility, inflate favorites or use multiple accounts to manipulate scores."
+        ],
+        [
+          "Respect people and privacy",
+          "Critique resources and technical choices without personal attacks, harassment or impersonation. Do not disclose unrelated personal details, credentials, private code or material you lack permission to share in a review, submission or correction."
+        ],
+        [
+          "Understand moderation",
+          "Initial community reviews and subsequent revisions require human moderation. Moderators may reject or hide rule-breaking content and record their decisions. Reports enter a human workflow rather than automatically removing content. Skill publication, AI draft review and community review moderation remain distinct."
+        ],
+        [
+          "Participate and leave responsibly",
+          "Use your own verified account for restricted community actions. You can remove favorites, withdraw your reviews and request data export or erasure through account privacy settings. Provide concrete records and evidence in a dispute; do not flood the queues or organize harassment."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact",
+      "route:submit"
+    ]
+  },
+  "submission-guidelines": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Submission Guidelines · 投稿规范",
+      "summary": "准备准确来源、必要说明和权利依据，理解草稿、接受与发布的不同含义。",
+      "sections": [
+        [
+          "提供可核实的来源",
+          "提交仓库根 URL 和独立 Skill 文件相对路径。名称、简介、平台与许可证应对应真实内容；路径不确定或版本未测试时明确说明，不把推测写成已验证结论。一个仓库不同路径允许有不同 Skills。"
+        ],
+        [
+          "保证有权提交",
+          "不要上传私密仓库内容、凭据、他人个人信息或无权公开的材料。提供作者与许可证据时区分原创作者、仓库维护者和投稿者，不以仓库 owner 自动替代作者身份。"
+        ],
+        [
+          "通过本人账户跟进",
+          "投稿关联当前已验证账户，可按当前状态保存草稿、编辑、提交、补充或撤回。历史匿名来信不因邮箱相同自动归属。审核意见可在我的投稿查看，不要通过重复投稿绕过拒绝或处理状态。"
+        ],
+        [
+          "发布仍需人工审核",
+          "Accepted 只意味着接受进入后续工作，不能直接覆盖已发布 Skill、版本或人工翻译。最终资源必须通过原内容审核和公开门禁；投稿本身不触发不受限的采集、AI 调用或外部安装。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Submission Guidelines",
+      "summary": "Provide accurate source details and permission evidence, and distinguish draft, acceptance and publication.",
+      "sections": [
+        [
+          "Identify a verifiable source",
+          "Provide the repository root URL and the independent relative Skill path. The name, description, platform and license should reflect actual content. State uncertainty about paths or untested versions instead of presenting guesses as verification. Different paths in one repository can identify different Skills."
+        ],
+        [
+          "Have permission to share",
+          "Do not submit private repository content, credentials, personal information or material you cannot disclose. Distinguish original authors, repository maintainers and submitters when supplying evidence; repository ownership does not establish original authorship."
+        ],
+        [
+          "Follow up from your own account",
+          "A submission belongs to the current verified account. Save, edit, submit, supplement or withdraw only as the displayed state allows. Historical anonymous messages are not claimed by matching an email address. Use reviewer feedback instead of duplicate submissions to bypass a decision."
+        ],
+        [
+          "Publication is a separate review",
+          "Accepted means the work may proceed to a later workflow. It does not replace a published Skill, version or human translation. The resulting resource still needs editorial approval and public checks; submitting does not initiate unrestricted collection, AI calls or installation."
+        ]
+      ]
+    },
+    "links": [
+      "route:submit",
+      "route:contact"
+    ]
+  },
+  "review-guidelines": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Review Guidelines · 评价规范",
+      "summary": "发表真实、具体、可复查的使用体验，并保留修订审核的完整过程。",
+      "sections": [
+        [
+          "评价你真实使用过的内容",
+          "使用 1–5 的整数评分，并说明任务、平台、环境和可选版本。清楚描述有帮助的方面、失败条件及局限；不要把一次测试概括为所有环境的保证。未实际使用时不要编写使用体验。"
+        ],
+        [
+          "保持独立与清晰",
+          "不能由管理员或 AI 冒充用户生成评价，不能通过奖励或虚假身份操纵公开评分。避免广告、重复文本、人身攻击和无关链接；涉及问题时提供脱敏证据，不披露他人隐私。"
+        ],
+        [
+          "修改不会悄悄替换公开版本",
+          "首次评价待审核；修改已批准评价会创建新修订。旧批准版本在新修订待审或拒绝期间继续显示与计分，通过后原子切换。审核人员不能直接修改你的原文并伪装成你发布。"
+        ],
+        [
+          "撤回和举报",
+          "你可撤回自己的评价；被隐藏或撤回的内容不参与公开展示和评分。举报请选择准确原因并提供必要说明，举报人身份和内部处理备注不公开，结果由人工处理决定。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Review Guidelines",
+      "summary": "Publish genuine, specific experience and preserve the integrity of review revisions.",
+      "sections": [
+        [
+          "Review what you actually used",
+          "Use an integer rating from 1 to 5 and describe the task, platform, environment and optional version. Explain strengths, failure conditions and limits. One test is not a guarantee for every setup. Do not invent usage experience for something you have not tried."
+        ],
+        [
+          "Keep reviews independent and clear",
+          "Administrators and AI must not impersonate users to generate reviews, and incentives or false identities must not manipulate ratings. Avoid advertising, repeated text, personal attacks and unrelated links. Provide sanitized evidence about problems without disclosing private information."
+        ],
+        [
+          "Edits do not silently replace approval",
+          "First submissions wait for moderation. Editing an approved review creates a new revision while the approved version remains public until a new revision is accepted. Rejection leaves the old approved version intact. Moderators cannot rewrite your original text and pass it off as your words."
+        ],
+        [
+          "Withdrawal and reporting",
+          "You can withdraw your own review. Hidden or withdrawn content no longer contributes to public display or scores. Reports require an appropriate reason and necessary context. Reporter identity and internal notes remain private; handling is manual."
+        ]
+      ]
+    },
+    "links": [
+      "route:skills",
+      "route:contact"
+    ]
+  },
+  "author-claim-guidelines": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Author Claim Guidelines · 作者认领规范",
+      "summary": "用可核实证据区分原创作者、维护者与投稿者，认领不是发布授权。",
+      "sections": [
+        [
+          "选择准确的身份",
+          "Original Author、Repository Maintainer 和 Submitter 含义不同。说明你与目标 Skill 的具体关系，不把仓库 owner、一次提交或当前维护权限自动视为原创权利。"
+        ],
+        [
+          "提供能够核验的证据",
+          "附上与目标资源有关的公开作者说明、项目记录或其他可复查来源，解释证据如何支持申请。不要提供密码、令牌或私人通信全文；如证据不能公开，应先联系管理员确认必要的安全渠道。"
+        ],
+        [
+          "等待人工审核",
+          "申请、认领通过、撤销和争议都经过人工处理。通过后才形成相应公开关联；认领不会自动获得 Skill 编辑、发布或其他后台权限。原有内容审核继续独立执行。"
+        ],
+        [
+          "维护准确资料",
+          "开发者公开资料需本人选择公开并通过相应审核；邮箱、登录名、私有投稿和未审核证据不出现在公开主页。身份变化或证据失效时应请求更正，不使用过时关联继续作保证。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Author Claim Guidelines",
+      "summary": "Use verifiable evidence to distinguish authorship, maintenance and submission; a claim is not publishing permission.",
+      "sections": [
+        [
+          "Choose the accurate relationship",
+          "Original Author, Repository Maintainer and Submitter describe different roles. Explain your relationship to the specific Skill. Repository ownership, a contribution or current maintenance access does not automatically prove original authorship or ownership rights."
+        ],
+        [
+          "Provide evidence that can be checked",
+          "Link relevant public attribution, project records or another reviewable source and explain how it supports the claim. Never send passwords, tokens or entire private conversations. If evidence cannot be public, first ask the administrators about an appropriate channel."
+        ],
+        [
+          "Wait for human review",
+          "Applications, approval, revocation and disputes require human handling. Approval establishes the relevant public relationship only. It does not grant editing, publishing or administrative permissions; the normal content review remains separate."
+        ],
+        [
+          "Keep the public record accurate",
+          "Developer profiles require opt-in and the relevant review. Emails, login names, private submissions and unreviewed evidence are not shown publicly. Request a correction when a role changes or evidence becomes obsolete instead of relying on an outdated association."
+        ]
+      ]
+    },
+    "links": [
+      "route:skills",
+      "route:contact"
+    ]
+  },
+  "license-copyright": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "License & Copyright · 许可与版权",
+      "summary": "分享和整理资源不改变原作者权利，转载、修改和分发须核对适用许可。",
+      "sections": [
+        [
+          "来源与权利保持独立",
+          "本站收录的资源、引用材料和依赖保留各自来源及许可。提供链接、作者关联、收藏或资源套装不表示本站拥有作品，也不自动授予商业使用或再分发权利。"
+        ],
+        [
+          "使用前查阅原始许可",
+          "对计划复制、修改、发布或商业使用的文件逐项核对许可证和附加声明。没有明确许可或存在冲突时保持待核实，不假定公开仓库中的全部材料都可自由使用。"
+        ],
+        [
+          "提交版权问题",
+          "如果认为本站存在错误署名或不当披露，通过 Contact 提供资源地址、具体内容、权利依据和联系信息。仅提供处理所必需的资料，不公开发送无关个人信息。管理员会核对证据并记录处理，不因一次举报自动裁定所有权。"
+        ],
+        [
+          "理解本说明的范围",
+          "本页说明平台的内容处理原则，不代替适用于你具体用途和地区的法律意见。原创、商用与开源等描述需要可核查依据；未知信息会继续保持未知。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "License & Copyright",
+      "summary": "Organizing or linking a resource does not change the rights attached to its original content.",
+      "sections": [
+        [
+          "Source and rights remain separate",
+          "Resources, referenced material and dependencies retain their respective sources and licenses. A link, authorship association, favorite or bundle does not mean this site owns the work or grants commercial-use or redistribution rights."
+        ],
+        [
+          "Read the applicable permission",
+          "Check the license and additional notices for each file you plan to copy, modify, publish or use commercially. If permission is missing or conflicting, seek clarification rather than assuming that every file in a public repository is freely reusable."
+        ],
+        [
+          "Raise a copyright concern",
+          "Contact the administrators with the resource URL, specific material, basis of the concern and a way to respond. Share only information needed for handling the request. Evidence is reviewed and handling recorded; a single report does not automatically determine ownership."
+        ],
+        [
+          "Scope of this explanation",
+          "This page describes the platform’s content-handling principles, not legal advice for your particular use or jurisdiction. Claims about originality, commercial permission and open-source status need verifiable evidence. Unknown information remains unknown."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact"
+    ]
+  },
+  "safety-security": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Safety & Security · 安全说明",
+      "summary": "来源文件、AI 草稿与用户内容均需要验证，网站不提供绝对安全认证。",
+      "sections": [
+        [
+          "把外部内容当作不可信资料",
+          "SKILL.md、脚本、引用文件和 AI 输出可能含错误或恶意指令。它们不能要求你泄露密钥、忽略权限、绕过审核或运行与任务无关的程序。检查真实行为，而不是只阅读安全宣称。"
+        ],
+        [
+          "目录不会替你执行资源",
+          "复制安装命令和分享链接只传递文本或地址，不在网站中执行 Skill。安装前自行核对来源、平台、依赖和许可证，在最小权限环境中验证。未知或高风险操作应暂停并进一步核实。"
+        ],
+        [
+          "风险等级有适用边界",
+          "静态检查、AI 风险分析、人工审核和社区评价都可能遗漏问题。Unknown、Low、Medium、High 不是无风险证明；已审核资源也可能随上游或运行环境变化产生新风险。"
+        ],
+        [
+          "安全反馈",
+          "通过 Skill 纠错或 Contact 提供必要的来源、版本、影响和脱敏复现信息。不要公开发送密钥、真实用户资料或可直接滥用的细节。需要紧急保护自己的账户时，先修改受影响凭据和撤销会话，再提交说明。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Safety & Security",
+      "summary": "Source files, AI drafts and user content require verification; the directory does not certify absolute safety.",
+      "sections": [
+        [
+          "Treat external material as untrusted",
+          "SKILL.md, scripts, references and AI output may contain mistakes or malicious instructions. They cannot authorize disclosure of secrets, ignored permissions, bypassed reviews or unrelated execution. Inspect actual behavior rather than accepting a safety claim."
+        ],
+        [
+          "The directory does not run resources for you",
+          "Copying an installation command or sharing a URL transfers text or an address; it does not execute the Skill here. Verify source, platform, dependencies and licensing before installation, and test with minimal permissions. Pause uncertain or high-risk actions for further review."
+        ],
+        [
+          "Risk labels have limits",
+          "Static checks, AI analysis, human review and community reports can miss problems. Unknown, Low, Medium and High are not proof of no risk. Upstream changes or a different runtime can introduce risks after an earlier review."
+        ],
+        [
+          "Report safely",
+          "Use Skill corrections or Contact with the necessary source, version, impact and sanitized reproduction. Do not publish secrets, real user data or directly exploitable details. If your own account is at risk, first rotate affected credentials and revoke sessions, then provide a concise report."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact"
+    ]
+  },
+  "privacy-policy": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Privacy Policy · 隐私说明",
+      "summary": "了解账户、私有内容、自愿统计与订阅的实际用途，以及导出和删除请求。",
+      "sections": [
+        [
+          "账户和私有内容",
+          "本站使用 WordPress 原生账户。邮箱、登录名、私有收藏、账户通知、未审核评价和私人投稿不会因为注册就公开。开发者资料只有在本人选择公开并完成审核后才按相应范围展示；公开评价会展示允许公开的用户信息。"
+        ],
+        [
+          "统计需要明确用途同意",
+          "浏览、搜索和赞助计量有各自的同意范围，不会因为同意一种用途就自动开启全部用途。界面可撤回观察同意；聚合统计不是个人行为清单。站点运行日志和外部服务可能有不同的实际记录方式，请勿在表单中提交不必要的敏感资料。"
+        ],
+        [
+          "订阅是独立选择",
+          "注册、普通 Contact、投稿或企业咨询都不会自动加入邮件订阅。已验证账户需要另行明确同意并完成订阅确认，才形成有效订阅；你可以选择内容语言和偏好，或通过邮件中的退订入口停止后续营销发送。队列状态不等于送达证明。"
+        ],
+        [
+          "查看和处理你的数据",
+          "账户隐私设置提供数据导出和删除申请，经过身份确认与管理员处理；提交申请不等于全部数据已立即删除。必要审计事实可能匿名保留，公开贡献和关联数据按实际规则处理。有关范围、处理进度或账户订阅记录，请通过 Contact 提出请求。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Privacy Policy",
+      "summary": "Understand accounts, private content, voluntary measurement, subscriptions and data requests.",
+      "sections": [
+        [
+          "Accounts and private content",
+          "The site uses native WordPress accounts. Email addresses, login names, private favorites, account notifications, unreviewed reviews and private submissions are not made public by registration. Developer information requires opt-in and review before public display. Public reviews show only information permitted for that purpose."
+        ],
+        [
+          "Measurement requires a stated purpose",
+          "Views, search and sponsorship measurement have distinct consent scopes. Agreeing to one does not silently enable them all, and the interface allows withdrawal. Aggregate statistics are not personal browsing lists. Operational logs and external services can have different actual recording behavior; avoid unnecessary sensitive information in forms."
+        ],
+        [
+          "Subscriptions are a separate choice",
+          "Registration, Contact, submissions and enterprise inquiries do not subscribe an address automatically. A verified account must separately give explicit consent and complete subscription confirmation. Choose language and content preferences, or use the unsubscribe link to stop later marketing sends. Queue status does not prove delivery."
+        ],
+        [
+          "Access and data requests",
+          "Account privacy settings provide export and erasure requests, with identity confirmation and administrative handling. Sending a request does not mean every record is immediately deleted. Necessary audit facts may be anonymized, and public contributions and related records follow the applicable handling rules. Contact the administrators about scope, progress or account subscription records."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact"
+    ]
+  },
+  "terms": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Terms · 使用说明",
+      "summary": "了解免费资源目录的功能边界、用户责任与内容处理方式。",
+      "sections": [
+        [
+          "平台用途",
+          "AI Skills Hub 提供 Skills 发现、来源导航、教程和经审核的社区交流。当前免费功能按账户验证、内容公开状态和对象权限提供；赞助会明确标注，不改变自然评分、排行或资源审核。企业咨询只是人工联系请求，不是订单或服务交付。"
+        ],
+        [
+          "合理使用与责任",
+          "使用自己的账户，不冒充他人、不操纵评分、不绕过权限或干扰服务。只提交有权披露的材料；安装、运行或再分发第三方资源前，核对其许可和适用环境。本站的说明不能代替你对具体操作的判断。"
+        ],
+        [
+          "内容与可用性",
+          "资料和上游资源可能变化，部分语言可能缺译，内容可能因审核、撤回或安全原因不可用。不要把已发布、受欢迎或 AI 分析理解为兼容性、准确性或安全性的保证。重要资料应回到原始来源核验。"
+        ],
+        [
+          "联系与处理",
+          "投稿、评价、作者认领及举报按对应流程人工处理。对状态或内容有疑问时，请提供具体资源地址和必要事实联系管理员，不通过重复提交绕过处理。本页描述当前平台规则，不虚构合同、交付承诺或对法律权利的替代安排。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Terms",
+      "summary": "Understand the free directory’s boundaries, responsible use and content-handling process.",
+      "sections": [
+        [
+          "What the platform does",
+          "AI Skills Hub provides resource discovery, source navigation, tutorials and moderated community participation. Free features follow account verification, publication state and object permissions. Sponsorship is labeled and does not alter natural ratings, rankings or editorial review. An enterprise inquiry is a request for human contact, not an order or delivered service."
+        ],
+        [
+          "Use the service responsibly",
+          "Use your own account. Do not impersonate others, manipulate scores, evade permissions or disrupt the service. Share only material you may disclose. Before installing, executing or redistributing a third-party resource, check its license and your environment. Descriptions here do not replace judgment about the specific action."
+        ],
+        [
+          "Content and availability",
+          "Information and upstream resources can change. Translations may be missing, and content may become unavailable after review, withdrawal or a security concern. Publication, popularity and AI analysis do not guarantee compatibility, accuracy or safety. Check important facts at their original source."
+        ],
+        [
+          "Questions and handling",
+          "Submissions, reviews, authorship claims and reports follow their respective human workflows. Contact the administrators with a specific resource URL and necessary facts rather than bypassing a decision through repeated submissions. This page describes current platform rules without inventing contracts, delivery commitments or substitutes for legal rights."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact"
+    ]
+  },
+  "contact-help": {
+    "category": "policies",
+    "zh_CN": {
+      "title": "Contact & Help · 联系与帮助",
+      "summary": "先查找对应指南，再提供最小必要信息获得人工帮助。",
+      "sections": [
+        [
+          "选择合适的入口",
+          "使用方法可先搜索帮助中心和教程；资源来源、安装、兼容性或许可证错误可使用 Skill 纠错；违规评价可使用评价举报。账户、隐私或无法归类的问题通过 Contact 提交。"
+        ],
+        [
+          "提供可复查的信息",
+          "说明你要完成的任务、页面地址、相关 Skill、平台版本、具体步骤和脱敏错误。区分实际看到的现象与自己的推测。必要信息越清楚，越方便人工定位，重复发送不一定加快处理。"
+        ],
+        [
+          "保护敏感内容",
+          "不要填写密码、API Key、邮件确认链接、会话 Cookie、私人项目全文或无关个人信息。截图应先遮盖这些内容；不要要求管理员执行未知脚本来复现问题。"
+        ],
+        [
+          "理解提交结果",
+          "Contact 和企业咨询保存为私有人工处理记录；提交成功表示记录已保存，不证明邮件已送达、订单已创建或问题已解决。会员 Skill 投稿有独立的已验证账户流程和状态，请在我的投稿跟进。"
+        ]
+      ]
+    },
+    "en_US": {
+      "title": "Contact & Help",
+      "summary": "Find the relevant guide first, then provide only the information needed for human assistance.",
+      "sections": [
+        [
+          "Choose the right route",
+          "Search Help and tutorials for usage questions. Use Skill corrections for source, installation, compatibility or license issues, and review reports for inappropriate community content. Contact is available for account, privacy or other questions."
+        ],
+        [
+          "Provide reproducible context",
+          "Describe the task, page URL, relevant Skill, platform version, steps and sanitized error. Separate what you observed from your assumptions. Clear, minimal information helps investigation; repeated messages do not necessarily make handling faster."
+        ],
+        [
+          "Keep secrets out",
+          "Do not send passwords, API keys, email confirmation links, session cookies, complete private projects or unrelated personal information. Redact screenshots before sharing them. Do not ask administrators to execute unknown scripts to reproduce a problem."
+        ],
+        [
+          "Understand confirmation",
+          "Contact and enterprise inquiries become private records for manual handling. A successful submission means the record was saved; it does not prove email delivery, an order or a resolved issue. Member Skill submissions have a separate verified-account workflow and can be followed in My submissions."
+        ]
+      ]
+    },
+    "links": [
+      "route:contact",
+      "route:submit"
+    ]
+  }
+}

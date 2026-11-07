@@ -49,7 +49,7 @@ final class MailAdmin {
 		if ( 'all' !== $state ) { $where .= ' AND status=%s'; $args[] = $state; }
 		// No email addresses, native logins, event hashes, leases, keys or ciphertext leave this projection.
 		$rows = $db->rows( 'SELECT id,template_key,locale,status,attempts,available_at,expires_at,created_at,updated_at,accepted_at,last_error,(lease_token=\'\') AS lease_available,(payload_ciphertext IS NOT NULL AND payload_ciphertext<>\'\') AS recoverable_payload FROM ' . $db->table( 'notification_outbox' ) . " WHERE $where ORDER BY id DESC LIMIT 26 OFFSET %d", array_merge( $args, array( ( $page - 1 ) * 25 ) ) );
-		foreach ( $rows as &$row ) { $row['last_error'] = Store::error( (string) $row['last_error'] ); $row['can_retry'] = self::retryable( $row ); unset( $row['recoverable_payload'], $row['lease_available'] ); } unset( $row );
+		foreach ( $rows as &$row ) { $row['last_error'] = Store::error( (string) $row['last_error'] ); $row['can_retry'] = self::retryable( $row ) && $this->mayRetryTemplate( (string) $row['template_key'] ); unset( $row['recoverable_payload'], $row['lease_available'] ); } unset( $row );
 		return $rows;
 	}
 	public function statistics(): array {
@@ -66,6 +66,10 @@ final class MailAdmin {
 		foreach ( array( 'queued' => $this->t( '邮件排队中', 'Queued mail' ), 'uncertain' => $this->t( '邮件结果不确定', 'Uncertain mail outcomes' ), 'failed' => $this->t( '邮件失败', 'Failed mail' ) ) as $state => $label ) {
 			$cards[] = array( 'key' => 'mail_' . $state, 'label' => $label, 'unit' => $this->t( '条', 'messages' ), 'scope' => $this->t( '最近 30 天创建、当前状态；UTC', 'Created within 30 days, current state; UTC' ), 'value' => $stats['counts'][ $state ], 'status' => $config['enabled'] && $config['encryption_ready'] ? 'available' : 'not_configured', 'url' => $url );
 		} return $cards;
+	}
+	/** Shared queue visibility never grants authority to dispatch marketing messages. */
+	private function mayRetryTemplate( string $template ): bool {
+		return ! str_starts_with( $template, 'newsletter_' ) || current_user_can( 'aish_manage_subscriptions' );
 	}
 	/** A claimed attempt is not a delivery. Only known-unsent durable live payloads may be scheduled. */
 	public static function retryable( array $row ): bool {
@@ -105,7 +109,8 @@ final class MailAdmin {
 		$this->locked( function () use ( $id ): void {
 			$db = $this->store->database(); $table = $db->table( 'notification_outbox' );
 			$db->transaction( function () use ( $id, $db, $table ): void {
-				$row = $db->row( "SELECT id,status,attempts,expires_at,available_at,last_error,lease_token,(payload_ciphertext IS NOT NULL AND payload_ciphertext<>'') AS recoverable_payload FROM $table WHERE id=%d AND channel='email' FOR UPDATE", array( $id ) );
+				$row = $db->row( "SELECT id,template_key,status,attempts,expires_at,available_at,last_error,lease_token,(payload_ciphertext IS NOT NULL AND payload_ciphertext<>'') AS recoverable_payload FROM $table WHERE id=%d AND channel='email' FOR UPDATE", array( $id ) );
+				if ( $row && ! $this->mayRetryTemplate( (string) $row['template_key'] ) ) { throw new \RuntimeException( 'mail_forbidden' ); }
 				if ( ! $row || ! self::retryable( $row ) ) { throw new \RuntimeException( 'mail_not_retryable' ); }
 				$db->execute( "UPDATE $table SET available_at=%s,updated_at=%s WHERE id=%d AND status='retry'", array( Store::now(), Store::now(), $id ) );
 				$this->event( 'mail_retry_schedule', $id, 'retry', 'retry' );

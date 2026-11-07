@@ -19,6 +19,7 @@ final class RateLimiter {
 			'forgot' => array( 3600, 15, 5, 200 ),
 			'verify' => array( 900, 30, 10, 1000 ),
 			'security' => array( 900, 30, 10, 1000 ),
+			'newsletter' => array( 3600, 20, 5, 200 ),
 		);
 		if ( ! isset( $limits[ $action ] ) ) { throw new \InvalidArgumentException( 'Unknown account rate scope.' ); }
 		[ $window, $addressLimit, $identityLimit, $globalLimit ] = $limits[ $action ];

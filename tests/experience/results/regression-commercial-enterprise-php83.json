@@ -1,0 +1,35 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.3.36",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL private enterprise Inbox, deduplication, state revisions, capability separation, input validation and native editing restrictions; synthetic contacts, no external mail or API.",
+  "cases": [
+    {
+      "id": "enterprise_disabled_and_language_specific_explicit_copy",
+      "status": "passed"
+    },
+    {
+      "id": "enterprise_private_inbox_idempotency_and_no_business_side_effect",
+      "status": "passed"
+    },
+    {
+      "id": "enterprise_input_bounds_honeypot_and_no_url_side_effects",
+      "status": "passed"
+    },
+    {
+      "id": "enterprise_least_privilege_native_editor_and_object_isolation",
+      "status": "passed"
+    },
+    {
+      "id": "enterprise_moderation_cas_audit_and_aggregate_without_pii",
+      "status": "passed"
+    }
+  ],
+  "assertions": 46,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 0,
+  "passed": 5,
+  "failed": 0
+}

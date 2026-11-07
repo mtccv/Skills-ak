@@ -33,7 +33,7 @@ final class View {
 		if ( class_exists( \AISkillsHub\Core\Discovery\Frontend::class ) && \AISkillsHub\Core\Discovery\Frontend::active() ) { return \AISkillsHub\Core\Discovery\Frontend::switchUrl( $locale ); }
 		$context = Router::context();
 		if ( isset( $context['alternates'][ $locale ] ) ) { return $context['alternates'][ $locale ]; }
-		if ( in_array( $context['route'], array( 'skills', 'category', 'tag', 'tutorials', 'search' ), true ) ) {
+		if ( in_array( $context['route'], array( 'skills', 'category', 'tag', 'tutorials', 'help', 'search' ), true ) ) {
 			$args = $context['data']['filters'] ?? array();
 			$args['page'] = 1;
 			if ( isset( $context['data']['term']['slug'] ) ) { $args['slug'] = $context['data']['term']['slug']; }
