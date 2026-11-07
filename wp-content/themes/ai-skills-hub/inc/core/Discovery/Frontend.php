@@ -17,6 +17,7 @@ final class Frontend {
 	private static bool $active = false;
 	private static array $context = array();
 	private array $request = array();
+	private ?array $homePreview = null;
 	public function __construct( private Query $query, private PublicCatalog $catalog, private Editorial $editorial ) {}
 	public static function active(): bool { return self::$active; }
 	public static function context(): array { return self::$context; }
@@ -31,6 +32,33 @@ final class Frontend {
 		add_filter( 'template_include', static fn( string $file ): string => self::$active ? get_template_directory() . '/templates/discovery/page.php' : $file, 99 );
 		add_action( 'aish_discovery_home', array( $this, 'home' ), 10, 2 );
 		add_action( 'aish_discovery_recommendations', array( $this, 'recommendations' ), 10, 2 );
+		add_action( 'template_redirect', array( $this, 'previewHome' ), 1 );
+		add_filter( 'aish_frontend_context', array( $this, 'previewContext' ), 99 );
+	}
+	public static function previewUrl( string $locale, int $revision ): string {
+		if ( ! current_user_can( Settings::CAPABILITY ) || ! in_array( $locale, Settings::LOCALES, true ) ) { throw new \RuntimeException( 'forbidden' ); }
+		Settings::integer( $revision, 0, PHP_INT_MAX - 1 );
+		return add_query_arg( array( 'aish_home_preview' => $revision, '_wpnonce' => wp_create_nonce( 'aish_home_preview_' . $revision ) ), View::url( 'home', array(), $locale ) );
+	}
+	/** Same home renderer and public queries; the draft configuration is never a public endpoint. */
+	public function previewHome(): void {
+		if ( ! array_key_exists( 'aish_home_preview', $_GET ) ) { return; }
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) { define( 'DONOTCACHEPAGE', true ); }
+		nocache_headers(); header( 'Cache-Control: private, no-store, max-age=0' ); header( 'X-Robots-Tag: noindex, nofollow, noarchive' ); header( 'Referrer-Policy: same-origin' );
+		try {
+			$context = Router::context();
+			if ( ! in_array( $_SERVER['REQUEST_METHOD'] ?? 'GET', array( 'GET', 'HEAD' ), true ) || 'home' !== $context['route'] || 200 !== $context['status'] || ! is_string( $_GET['_wpnonce'] ?? null ) ) { throw new \RuntimeException( 'forbidden' ); }
+			$this->homePreview = Settings::preview( Settings::integer( $_GET['aish_home_preview'], 0, PHP_INT_MAX - 1 ), wp_unslash( $_GET['_wpnonce'] ) );
+			// Even when a plugin owns ordinary-page SEO, private preview must suppress its renderers.
+			Seo::sendHeaders( $this->previewContext( $context ) );
+			header( 'X-Robots-Tag: noindex, nofollow, noarchive' );
+		} catch ( \Throwable $error ) {
+			wp_die( esc_html( 'stale_preview' === $error->getMessage() ? '预览已过期，请返回后台重新打开。 / Preview expired. Reopen the saved draft from the admin.' : '此预览不可用。 / This preview is unavailable.' ), '', array( 'response' => 'stale_preview' === $error->getMessage() ? 409 : 403 ) );
+		}
+	}
+	public function previewContext( array $context ): array {
+		if ( null === $this->homePreview || 'home' !== $context['route'] ) { return $context; }
+		return array_replace( $context, array( 'noindex' => true, 'seo_managed' => true, 'canonical' => '', 'alternates' => array(), 'seo_alternates' => array(), 'x_default' => '' ) );
 	}
 	/** Strict URL contract; request filters are bounded and never become template paths. */
 	public static function url( string $route, string $locale, array $args = array() ): string {
@@ -134,11 +162,18 @@ final class Frontend {
 		return $this->editorial->cardsByIds( array_slice( $ids, 0, 6 ), $locale );
 	}
 	public function home( string $locale, array $existing ): void {
-		try { $modules = Settings::home( $locale ); } catch ( \Throwable $ignored ) { echo '<p class="aish-container discovery-notice" role="status">' . esc_html( self::t( 'error', $locale ) ) . '</p>'; return; }
+		try { $modules = null === $this->homePreview ? Settings::home( $locale ) : $this->homePreview['draft']['home'][ $locale ]; } catch ( \Throwable $ignored ) { echo '<p class="aish-container discovery-notice" role="status">' . esc_html( self::t( 'error', $locale ) ) . '</p>'; return; }
+		if ( null !== $this->homePreview ) {
+			echo '<p class="aish-container discovery-notice" role="status">' . esc_html( ( 'zh_CN' === $locale ? '首页草稿预览 · 修订 ' : 'Private home draft preview · revision ' ) . $this->homePreview['revision'] . ( 'zh_CN' === $locale ? '。仅展示当前可公开内容；未生效或过期模块不展示。' : '. Only currently public content is shown; scheduled or expired modules remain hidden.' ) );
+			foreach ( Settings::LOCALES as $language ) { echo ' <a href="' . esc_url( self::previewUrl( $language, $this->homePreview['revision'] ) ) . '">' . esc_html( 'zh_CN' === $language ? '中文预览' : 'English preview' ) . '</a>'; }
+			echo '</p>';
+		}
 		foreach ( $modules as $module ) {
-			if ( empty( $module['enabled'] ) ) { continue; } $key = $module['key']; $limit = max( 1, min( 12, (int) $module['limit'] ) ); $items = array(); $kind = 'skills'; $link = ''; $error = false;
+			if ( ! Settings::visible( $module ) ) { continue; } $key = $module['key']; $limit = max( 1, min( 12, (int) $module['limit'] ) ); $items = array(); $kind = 'skills'; $link = ''; $error = false;
 			try {
-				if ( 'categories' === $key ) { $kind = 'categories'; $allCategories = $existing['categories'] ?? $this->catalog->terms( 'category', $locale ); $items = array_slice( array_values( array_filter( $allCategories, static fn( array $term ): bool => (int) ( $term['count'] ?? 0 ) > 0 ) ), 0, $limit ); foreach ( $items as &$item ) { $item['display_name'] = View::termLabel( $item, $allCategories ); } unset( $item ); $link = View::url( 'skills', array(), $locale ); }
+				if ( 'skills' === ( $module['source'] ?? '' ) ) { $excluded = Query::excludedSkillIds(); $items = array_slice( array_values( array_filter( $this->catalog->cardsByIds( $module['selected_ids'], $locale ), static fn( array $skill ): bool => ! in_array( (int) $skill['id'], $excluded, true ) ) ), 0, $limit ); $link = View::url( 'skills', array(), $locale ); }
+				elseif ( 'selected' === ( $module['source'] ?? '' ) ) { $kind = 'topics'; $items = array_slice( $this->query->topicsByIds( 'use_cases' === $key ? 'use_case' : 'collection', $module['selected_ids'], $locale ), 0, $limit ); $link = self::url( str_replace( '_', '-', $key ), $locale ); }
+				elseif ( 'categories' === $key ) { $kind = 'categories'; $allCategories = $existing['categories'] ?? $this->catalog->terms( 'category', $locale ); $items = array_slice( array_values( array_filter( $allCategories, static fn( array $term ): bool => (int) ( $term['count'] ?? 0 ) > 0 ) ), 0, $limit ); foreach ( $items as &$item ) { $item['display_name'] = View::termLabel( $item, $allCategories ); } unset( $item ); $link = View::url( 'skills', array(), $locale ); }
 				elseif ( 'tutorials' === $key ) { $kind = 'tutorials'; $items = $this->editorial->tutorials( $locale, array( 'per_page' => $limit ) )['items']; $link = View::url( 'tutorials', array(), $locale ); }
 				elseif ( in_array( $key, array( 'collections', 'use_cases', 'platforms' ), true ) ) { $kind = 'topics'; $topicKind = match ( $key ) { 'use_cases' => 'use_case', 'platforms' => 'platform', default => 'collection' }; $items = array_slice( $this->query->topics( $topicKind, $locale ), 0, $limit ); $link = self::url( str_replace( '_', '-', $key ), $locale ); }
 				else { $ranking = str_replace( '_', '-', $key ); $result = $this->query->list( $ranking, $locale, array( 'per_page' => $limit, 'window' => 7 ) ); $items = $result['items']; $link = self::url( $ranking, $locale ); }

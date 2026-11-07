@@ -1,0 +1,109 @@
+{
+    "kind": "Measured local QA samples, five sequential calls per read model. Small synthetic data, warm PHP process, shared host load, no production benchmark claim.",
+    "environment": {
+        "wordpress": "7.1.4",
+        "php": "8.4.27",
+        "mysql": "8.0.46"
+    },
+    "fixture_rows": {
+        "skills": 10,
+        "skill_translations": 20,
+        "favorites": 2,
+        "reviews": 4,
+        "workflow_events": 60,
+        "metric_events": 22,
+        "daily_metrics": 17
+    },
+    "samples": {
+        "analytics": [
+            {
+                "elapsed_ms": 13.657,
+                "sql_queries": 24
+            },
+            {
+                "elapsed_ms": 9.363,
+                "sql_queries": 18
+            },
+            {
+                "elapsed_ms": 11.196,
+                "sql_queries": 18
+            },
+            {
+                "elapsed_ms": 11.121,
+                "sql_queries": 18
+            },
+            {
+                "elapsed_ms": 11.376,
+                "sql_queries": 18
+            }
+        ],
+        "dashboard": [
+            {
+                "elapsed_ms": 34.877,
+                "sql_queries": 195
+            },
+            {
+                "elapsed_ms": 35.071,
+                "sql_queries": 193
+            },
+            {
+                "elapsed_ms": 54.944,
+                "sql_queries": 193
+            },
+            {
+                "elapsed_ms": 27.281,
+                "sql_queries": 193
+            },
+            {
+                "elapsed_ms": 29.067,
+                "sql_queries": 193
+            }
+        ],
+        "users_page": [
+            {
+                "elapsed_ms": 10.206,
+                "sql_queries": 25
+            },
+            {
+                "elapsed_ms": 16.06,
+                "sql_queries": 25
+            },
+            {
+                "elapsed_ms": 26.752,
+                "sql_queries": 25
+            },
+            {
+                "elapsed_ms": 9.356,
+                "sql_queries": 25
+            },
+            {
+                "elapsed_ms": 17.031,
+                "sql_queries": 25
+            }
+        ],
+        "notifications_page": [
+            {
+                "elapsed_ms": 28.453,
+                "sql_queries": 21
+            },
+            {
+                "elapsed_ms": 26.841,
+                "sql_queries": 21
+            },
+            {
+                "elapsed_ms": 12.361,
+                "sql_queries": 21
+            },
+            {
+                "elapsed_ms": 13.461,
+                "sql_queries": 21
+            },
+            {
+                "elapsed_ms": 6.35,
+                "sql_queries": 21
+            }
+        ]
+    },
+    "passed": 4,
+    "failed": 0
+}

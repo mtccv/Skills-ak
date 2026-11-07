@@ -1,0 +1,67 @@
+{
+  "kind": "Real Chromium HTTP/UI against isolated WordPress7.1.4/MySQL8.0; synthetic identities; no external mail/API",
+  "php_runtime": "83",
+  "viewports": [
+    1440,
+    768,
+    375
+  ],
+  "cases": [
+    {
+      "id": "responsive_private_en_1440",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_private_zh_1440",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_private_en_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_private_zh_768",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_private_en_375",
+      "status": "passed"
+    },
+    {
+      "id": "responsive_private_zh_375",
+      "status": "passed"
+    },
+    {
+      "id": "first_upgrade_request_grants_menus_before_admin_init",
+      "status": "passed"
+    },
+    {
+      "id": "native_admin_operations_screens_and_capability_partition",
+      "status": "passed"
+    },
+    {
+      "id": "home_private_preview_nonce_revision_and_live_seo",
+      "status": "passed"
+    },
+    {
+      "id": "native_nonce_and_capability_write_guards",
+      "status": "passed"
+    },
+    {
+      "id": "notifications_owner_filter_and_csrf_post",
+      "status": "passed"
+    },
+    {
+      "id": "search_consent_proof_nonce_origin_and_parallel_dedupe",
+      "status": "passed"
+    },
+    {
+      "id": "browser_runtime_errors",
+      "status": "passed"
+    }
+  ],
+  "assertions": 261,
+  "console_errors": [],
+  "passed": 13,
+  "failed": 0
+}

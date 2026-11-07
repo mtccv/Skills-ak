@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+require __DIR__.'/bootstrap.php';
+$ops=$core->get('operations_users');$member=p12_user('rollback');wp_set_current_user($admin);
+$inject=static function(string$sql):string{if(preg_match('/^INSERT\s+INTO\s+`?wp_aish_workflow_events`?\s/i',$sql))return 'SELECT phase12_injected_failure FROM no_such_phase12_qa_table';return$sql;};
+p12_case('user_transition_rolls_back_when_audit_write_fails',function()use($ops,$member,$db,$inject){$before=$ops->detail($member);$events=(int)$db->value('SELECT COUNT(*) FROM '.$db->table('workflow_events'));add_filter('query',$inject,PHP_INT_MAX);try{p12_reject(fn()=>$ops->setState($member,'suspend',0,'Synthetic rollback check','Manual review',bin2hex(random_bytes(16))),'Injected audit failure surfaces');}finally{remove_filter('query',$inject,PHP_INT_MAX);}$after=$ops->detail($member);p12_assert($after['state']===$before['state']&&$after['revision']===$before['revision'],'Account and revision rollback');p12_assert((int)$db->value('SELECT COUNT(*) FROM '.$db->table('workflow_events'))===$events,'No partial audit');});
+p12_case('home_settings_roll_back_with_audit_failure',function()use($settings,$inject){$before=AISkillsHub\Core\Discovery\Settings::snapshot();$p=$before['published'];$p['home']['en_US'][0]['title']='Should never commit';add_filter('query',$inject,PHP_INT_MAX);try{p12_reject(fn()=>$settings->save($p,$before['revision'],'draft'),'Injected settings audit failure');}finally{remove_filter('query',$inject,PHP_INT_MAX);}p12_assert(AISkillsHub\Core\Discovery\Settings::snapshot()===$before,'Draft revision/settings rolled back with event');});
+p12_report('Real MySQL transaction failure injection via controlled SQL query filter; no DDL, no production data, rollback verified');

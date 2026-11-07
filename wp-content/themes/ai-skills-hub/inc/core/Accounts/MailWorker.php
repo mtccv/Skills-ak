@@ -12,7 +12,7 @@ final class MailWorker {
 	public function run(): void {
 		if ( ! ( ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) ) { return; }
 		$this->store->recoverExpired();
-		if ( ! defined( 'AISH_ACCOUNT_MAIL_ENABLED' ) || true !== AISH_ACCOUNT_MAIL_ENABLED ) { return; }
+		if ( ( function_exists( 'get_option' ) && '1' === get_option( 'aish_account_mail_paused', '0' ) ) || ! defined( 'AISH_ACCOUNT_MAIL_ENABLED' ) || true !== AISH_ACCOUNT_MAIL_ENABLED ) { return; }
 		$row = $this->store->claim();
 		if ( ! $row ) { return; }
 		$id = (int) $row['id']; $lease = (string) $row['lease_token']; $sending = false;

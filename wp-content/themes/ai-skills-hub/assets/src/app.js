@@ -3,6 +3,7 @@ import './accounts.js';
 import './community.js';
 import './contributions.js';
 import './discovery-views.js';
+import './operations-analytics.js';
 
 window.Alpine = Alpine;
 Alpine.start();

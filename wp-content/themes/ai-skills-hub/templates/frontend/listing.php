@@ -32,5 +32,12 @@ $form_url = View::url( $route, ! empty( $term['slug'] ) ? array( 'slug' => $term
 	<div class="results-heading"><h2><?php echo esc_html( View::t( 'listing.results' ) ); ?><span><?php echo esc_html( (string) $total ); ?></span></h2><p><?php echo esc_html( View::t( 'listing.locale_note' ) ); ?></p></div>
 	<?php if ( $items ) : ?><div class="skill-grid"><?php foreach ( $items as $skill ) { get_template_part( 'template-parts/frontend/skill-card', null, array( 'skill' => $skill ) ); } ?></div><?php else : ?><div class="empty-state"><span class="empty-icon"><?php echo View::icon( 'search' ); ?></span><h2><?php echo esc_html( View::t( 'empty.search.title' ) ); ?></h2><p><?php echo esc_html( View::t( 'empty.search.description' ) ); ?></p><a class="button button-secondary" href="<?php echo esc_url( View::url( 'skills' ) ); ?>"><?php echo esc_html( View::t( 'filter.resetall' ) ); ?><?php echo View::icon( 'arrow-right' ); ?></a></div><?php endif; ?>
 	<?php $params = $filters; unset( $params['page'], $params['per_page'] ); echo View::pagination( $total, $page, $per_page, $params ); ?>
+	<?php
+	// Observation is optional and can never turn a search failure into a valid zero.
+	if ( 200 === ( $context['status'] ?? 0 ) && empty( $context['error'] ) && isset( $result['total'] ) ) {
+		try { do_action( 'aish_search_observation', array( 'locale' => $context['locale'], 'route' => $route, 'query' => $filters['q'] ?? '', 'page' => $page, 'valid' => true, 'failed' => false, 'total' => $total + ( 'search' === $route ? (int) ( $data['tutorial_result']['total'] ?? 0 ) : 0 ) ) ); }
+		catch ( \Throwable $ignored ) { /* Optional analytics must not disrupt public search. */ }
+	}
+	?>
 	<?php if ( 'search' === $route && ! empty( $data['tutorials'] ) ) : ?><div class="section-heading mt-16"><div><h2><?php echo esc_html( View::t( 'search.tutorials' ) ); ?></h2></div><a class="text-link" href="<?php echo esc_url( View::url( 'tutorials', array_merge( $filters, array( 'page' => 1 ) ) ) ); ?>"><?php echo esc_html( View::t( 'common.viewall' ) ); ?><?php echo View::icon( 'arrow-right' ); ?></a></div><div class="skill-grid"><?php foreach ( $data['tutorials'] as $tutorial ) { get_template_part( 'template-parts/frontend/tutorial-card', null, array( 'tutorial' => $tutorial ) ); } ?></div><?php endif; ?>
 </section>

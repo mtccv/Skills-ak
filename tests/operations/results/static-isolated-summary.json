@@ -1,0 +1,530 @@
+{
+  "kind": "Static PHP lint and isolated/Mock contracts; not real WordPress/MySQL/API integration",
+  "php": {
+    "83": {
+      "version": "8.3.36",
+      "scripts": 63,
+      "assertion_executions": 4806,
+      "linted_files": 295,
+      "failed": 0,
+      "suites": [
+        {
+          "file": "tests/basic/account-frontend.php",
+          "assertions": 26
+        },
+        {
+          "file": "tests/basic/account-mail.php",
+          "assertions": 35
+        },
+        {
+          "file": "tests/basic/account-native-guards.php",
+          "assertions": 46
+        },
+        {
+          "file": "tests/basic/account-storage.php",
+          "assertions": 52
+        },
+        {
+          "file": "tests/basic/admin-settings.php",
+          "assertions": 52
+        },
+        {
+          "file": "tests/basic/ai-admin.php",
+          "assertions": 74
+        },
+        {
+          "file": "tests/basic/ai-content.php",
+          "assertions": 100
+        },
+        {
+          "file": "tests/basic/ai-locks.php",
+          "assertions": 99
+        },
+        {
+          "file": "tests/basic/ai-provider.php",
+          "assertions": 260
+        },
+        {
+          "file": "tests/basic/ai-source.php",
+          "assertions": 39
+        },
+        {
+          "file": "tests/basic/ai-store.php",
+          "assertions": 105
+        },
+        {
+          "file": "tests/basic/ai-worker.php",
+          "assertions": 157
+        },
+        {
+          "file": "tests/basic/community-admin.php",
+          "assertions": 65
+        },
+        {
+          "file": "tests/basic/community-frontend.php",
+          "assertions": 70
+        },
+        {
+          "file": "tests/basic/community-input.php",
+          "assertions": 65
+        },
+        {
+          "file": "tests/basic/community-privacy.php",
+          "assertions": 32
+        },
+        {
+          "file": "tests/basic/community-publication.php",
+          "assertions": 40
+        },
+        {
+          "file": "tests/basic/community-query.php",
+          "assertions": 62
+        },
+        {
+          "file": "tests/basic/community-schema.php",
+          "assertions": 64
+        },
+        {
+          "file": "tests/basic/contribution-admin.php",
+          "assertions": 108
+        },
+        {
+          "file": "tests/basic/contribution-frontend.php",
+          "assertions": 65
+        },
+        {
+          "file": "tests/basic/contribution-guards.php",
+          "assertions": 95
+        },
+        {
+          "file": "tests/basic/database-transactions.php",
+          "assertions": 92
+        },
+        {
+          "file": "tests/basic/developer-input.php",
+          "assertions": 85
+        },
+        {
+          "file": "tests/basic/developer-query.php",
+          "assertions": 29
+        },
+        {
+          "file": "tests/basic/developer-schema.php",
+          "assertions": 76
+        },
+        {
+          "file": "tests/basic/developer-seo.php",
+          "assertions": 34
+        },
+        {
+          "file": "tests/basic/discovery-admin.php",
+          "assertions": 52
+        },
+        {
+          "file": "tests/basic/discovery-frontend.php",
+          "assertions": 81
+        },
+        {
+          "file": "tests/basic/discovery-input.php",
+          "assertions": 54
+        },
+        {
+          "file": "tests/basic/discovery-query.php",
+          "assertions": 97
+        },
+        {
+          "file": "tests/basic/discovery-ranking.php",
+          "assertions": 22
+        },
+        {
+          "file": "tests/basic/discovery-schema.php",
+          "assertions": 105
+        },
+        {
+          "file": "tests/basic/discovery-sitemap.php",
+          "assertions": 63
+        },
+        {
+          "file": "tests/basic/discovery-views.php",
+          "assertions": 107
+        },
+        {
+          "file": "tests/basic/editorial-management.php",
+          "assertions": 122
+        },
+        {
+          "file": "tests/basic/editorial-projections.php",
+          "assertions": 43
+        },
+        {
+          "file": "tests/basic/editorial-search.php",
+          "assertions": 49
+        },
+        {
+          "file": "tests/basic/forms-management.php",
+          "assertions": 56
+        },
+        {
+          "file": "tests/basic/frontend-locks.php",
+          "assertions": 196
+        },
+        {
+          "file": "tests/basic/frontend-routing.php",
+          "assertions": 104
+        },
+        {
+          "file": "tests/basic/github-client.php",
+          "assertions": 160
+        },
+        {
+          "file": "tests/basic/github-discovery.php",
+          "assertions": 63
+        },
+        {
+          "file": "tests/basic/home-operations.php",
+          "assertions": 57
+        },
+        {
+          "file": "tests/basic/import-admin.php",
+          "assertions": 32
+        },
+        {
+          "file": "tests/basic/import-scheduler.php",
+          "assertions": 59
+        },
+        {
+          "file": "tests/basic/import-store.php",
+          "assertions": 147
+        },
+        {
+          "file": "tests/basic/import-worker.php",
+          "assertions": 63
+        },
+        {
+          "file": "tests/basic/language-adapter.php",
+          "assertions": 50
+        },
+        {
+          "file": "tests/basic/management-integrity.php",
+          "assertions": 50
+        },
+        {
+          "file": "tests/basic/migration-recovery.php",
+          "assertions": 201
+        },
+        {
+          "file": "tests/basic/operations-mail.php",
+          "assertions": 55
+        },
+        {
+          "file": "tests/basic/operations-notifications.php",
+          "assertions": 28
+        },
+        {
+          "file": "tests/basic/operations-search.php",
+          "assertions": 79
+        },
+        {
+          "file": "tests/basic/operations-users-admin.php",
+          "assertions": 17
+        },
+        {
+          "file": "tests/basic/operations-users.php",
+          "assertions": 38
+        },
+        {
+          "file": "tests/basic/operations-workbench.php",
+          "assertions": 38
+        },
+        {
+          "file": "tests/basic/public-search.php",
+          "assertions": 103
+        },
+        {
+          "file": "tests/basic/seo-failures.php",
+          "assertions": 83
+        },
+        {
+          "file": "tests/basic/seo.php",
+          "assertions": 76
+        },
+        {
+          "file": "tests/basic/sitemap.php",
+          "assertions": 49
+        },
+        {
+          "file": "tests/basic/skill-parser.php",
+          "assertions": 95
+        },
+        {
+          "file": "tests/basic/submission-input.php",
+          "assertions": 85
+        }
+      ]
+    },
+    "84": {
+      "version": "8.4.27",
+      "scripts": 63,
+      "assertion_executions": 4806,
+      "linted_files": 295,
+      "failed": 0,
+      "suites": [
+        {
+          "file": "tests/basic/account-frontend.php",
+          "assertions": 26
+        },
+        {
+          "file": "tests/basic/account-mail.php",
+          "assertions": 35
+        },
+        {
+          "file": "tests/basic/account-native-guards.php",
+          "assertions": 46
+        },
+        {
+          "file": "tests/basic/account-storage.php",
+          "assertions": 52
+        },
+        {
+          "file": "tests/basic/admin-settings.php",
+          "assertions": 52
+        },
+        {
+          "file": "tests/basic/ai-admin.php",
+          "assertions": 74
+        },
+        {
+          "file": "tests/basic/ai-content.php",
+          "assertions": 100
+        },
+        {
+          "file": "tests/basic/ai-locks.php",
+          "assertions": 99
+        },
+        {
+          "file": "tests/basic/ai-provider.php",
+          "assertions": 260
+        },
+        {
+          "file": "tests/basic/ai-source.php",
+          "assertions": 39
+        },
+        {
+          "file": "tests/basic/ai-store.php",
+          "assertions": 105
+        },
+        {
+          "file": "tests/basic/ai-worker.php",
+          "assertions": 157
+        },
+        {
+          "file": "tests/basic/community-admin.php",
+          "assertions": 65
+        },
+        {
+          "file": "tests/basic/community-frontend.php",
+          "assertions": 70
+        },
+        {
+          "file": "tests/basic/community-input.php",
+          "assertions": 65
+        },
+        {
+          "file": "tests/basic/community-privacy.php",
+          "assertions": 32
+        },
+        {
+          "file": "tests/basic/community-publication.php",
+          "assertions": 40
+        },
+        {
+          "file": "tests/basic/community-query.php",
+          "assertions": 62
+        },
+        {
+          "file": "tests/basic/community-schema.php",
+          "assertions": 64
+        },
+        {
+          "file": "tests/basic/contribution-admin.php",
+          "assertions": 108
+        },
+        {
+          "file": "tests/basic/contribution-frontend.php",
+          "assertions": 65
+        },
+        {
+          "file": "tests/basic/contribution-guards.php",
+          "assertions": 95
+        },
+        {
+          "file": "tests/basic/database-transactions.php",
+          "assertions": 92
+        },
+        {
+          "file": "tests/basic/developer-input.php",
+          "assertions": 85
+        },
+        {
+          "file": "tests/basic/developer-query.php",
+          "assertions": 29
+        },
+        {
+          "file": "tests/basic/developer-schema.php",
+          "assertions": 76
+        },
+        {
+          "file": "tests/basic/developer-seo.php",
+          "assertions": 34
+        },
+        {
+          "file": "tests/basic/discovery-admin.php",
+          "assertions": 52
+        },
+        {
+          "file": "tests/basic/discovery-frontend.php",
+          "assertions": 81
+        },
+        {
+          "file": "tests/basic/discovery-input.php",
+          "assertions": 54
+        },
+        {
+          "file": "tests/basic/discovery-query.php",
+          "assertions": 97
+        },
+        {
+          "file": "tests/basic/discovery-ranking.php",
+          "assertions": 22
+        },
+        {
+          "file": "tests/basic/discovery-schema.php",
+          "assertions": 105
+        },
+        {
+          "file": "tests/basic/discovery-sitemap.php",
+          "assertions": 63
+        },
+        {
+          "file": "tests/basic/discovery-views.php",
+          "assertions": 107
+        },
+        {
+          "file": "tests/basic/editorial-management.php",
+          "assertions": 122
+        },
+        {
+          "file": "tests/basic/editorial-projections.php",
+          "assertions": 43
+        },
+        {
+          "file": "tests/basic/editorial-search.php",
+          "assertions": 49
+        },
+        {
+          "file": "tests/basic/forms-management.php",
+          "assertions": 56
+        },
+        {
+          "file": "tests/basic/frontend-locks.php",
+          "assertions": 196
+        },
+        {
+          "file": "tests/basic/frontend-routing.php",
+          "assertions": 104
+        },
+        {
+          "file": "tests/basic/github-client.php",
+          "assertions": 160
+        },
+        {
+          "file": "tests/basic/github-discovery.php",
+          "assertions": 63
+        },
+        {
+          "file": "tests/basic/home-operations.php",
+          "assertions": 57
+        },
+        {
+          "file": "tests/basic/import-admin.php",
+          "assertions": 32
+        },
+        {
+          "file": "tests/basic/import-scheduler.php",
+          "assertions": 59
+        },
+        {
+          "file": "tests/basic/import-store.php",
+          "assertions": 147
+        },
+        {
+          "file": "tests/basic/import-worker.php",
+          "assertions": 63
+        },
+        {
+          "file": "tests/basic/language-adapter.php",
+          "assertions": 50
+        },
+        {
+          "file": "tests/basic/management-integrity.php",
+          "assertions": 50
+        },
+        {
+          "file": "tests/basic/migration-recovery.php",
+          "assertions": 201
+        },
+        {
+          "file": "tests/basic/operations-mail.php",
+          "assertions": 55
+        },
+        {
+          "file": "tests/basic/operations-notifications.php",
+          "assertions": 28
+        },
+        {
+          "file": "tests/basic/operations-search.php",
+          "assertions": 79
+        },
+        {
+          "file": "tests/basic/operations-users-admin.php",
+          "assertions": 17
+        },
+        {
+          "file": "tests/basic/operations-users.php",
+          "assertions": 38
+        },
+        {
+          "file": "tests/basic/operations-workbench.php",
+          "assertions": 38
+        },
+        {
+          "file": "tests/basic/public-search.php",
+          "assertions": 103
+        },
+        {
+          "file": "tests/basic/seo-failures.php",
+          "assertions": 83
+        },
+        {
+          "file": "tests/basic/seo.php",
+          "assertions": 76
+        },
+        {
+          "file": "tests/basic/sitemap.php",
+          "assertions": 49
+        },
+        {
+          "file": "tests/basic/skill-parser.php",
+          "assertions": 95
+        },
+        {
+          "file": "tests/basic/submission-input.php",
+          "assertions": 85
+        }
+      ]
+    }
+  },
+  "js_assertions": 29,
+  "package_tests": 8,
+  "build": "passed"
+}

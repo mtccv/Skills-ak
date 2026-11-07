@@ -1,0 +1,142 @@
+TEST tests/basic/account-frontend.php
+Account frontend isolated: 26 assertions passed; no real WP/HTTP/database/mail claim.
+TEST tests/basic/account-mail.php
+Account mail: 35 isolated/Mock checks passed; no SMTP delivery tested.
+TEST tests/basic/account-native-guards.php
+{
+    "suite": "account-native-guards",
+    "kind": "isolated PHP\/WP API substitutes",
+    "checks": 46,
+    "status": "passed"
+}
+TEST tests/basic/account-storage.php
+Account storage: 52 isolated assertions passed (real sodium; modeled wpdb, no WordPress/MySQL/mail).
+TEST tests/basic/admin-settings.php
+Admin settings: 52 isolated assertions passed (WordPress/SQL stubs; no real integration).
+TEST tests/basic/ai-admin.php
+PASS: 74 isolated AI admin assertions (PHP stubs; no WordPress/MySQL/browser/real AI API).
+TEST tests/basic/ai-content.php
+PASS: 100 isolated AI prompt/output assertions (fixtures; no real AI API, WordPress or MySQL).
+TEST tests/basic/ai-locks.php
+PASS: 99 isolated AI lock assertions (modeled connection/options/leases/HTTP; no WordPress, MySQL, real API or concurrent integration).
+TEST tests/basic/ai-provider.php
+PASS: 260 isolated AI provider/settings assertions (Mock HTTP/DNS/WordPress; no real AI API/MySQL/WordPress).
+TEST tests/basic/ai-source.php
+PASS: 39 isolated AI source/service assertions (recorded DB/queue stubs; no SQL, WordPress or real AI API).
+TEST tests/basic/ai-store.php
+PASS: 105 isolated AI storage assertions (in-memory adapter; no MySQL/WordPress/real AI API).
+TEST tests/basic/ai-worker.php
+PASS: 157 isolated AI worker/source assertions (Mock Provider and persistence; no real AI API, WordPress, MySQL or Cron).
+TEST tests/basic/community-admin.php
+Community admin: 65 isolated assertions passed (WP/service/query substitutes; no real WordPress/MySQL).
+TEST tests/basic/community-frontend.php
+Community frontend isolated: 70 assertions passed; no real WP/HTTP/database claim.
+TEST tests/basic/community-input.php
+Community input: 65 isolated assertions passed; no WordPress/MySQL integration.
+TEST tests/basic/community-privacy.php
+Community privacy: 32 isolated assertions passed (modeled WordPress/SQL; no real integration).
+TEST tests/basic/community-publication.php
+Community publication and notifications: 40 isolated assertions passed (real services, modeled wpdb; no WordPress/MySQL/mail integration).
+TEST tests/basic/community-query.php
+Community query: 62 isolated assertions passed; recording adapters, no WordPress/MySQL integration.
+TEST tests/basic/community-schema.php
+Community schema: 64 isolated assertions passed (DDL/physical metadata model, no real WordPress/MySQL).
+TEST tests/basic/contribution-admin.php
+Contribution admin: 108 isolated assertions passed (WP/query/service substitutes; no real WordPress/MySQL or external requests).
+TEST tests/basic/contribution-frontend.php
+Contribution frontend isolated: 65 assertions passed; no real WP/HTTP/database claim.
+TEST tests/basic/contribution-guards.php
+Contribution guards: 95 isolated assertions passed (WP/database substitutes; no real WordPress/MySQL).
+TEST tests/basic/database-transactions.php
+Database transactions: 92 isolated assertions passed (native mysqli mode; modeled connection; no WordPress/MySQL connection).
+TEST tests/basic/developer-input.php
+Developer input/metadata: 85 isolated assertions passed; no WordPress, MySQL, or external requests.
+TEST tests/basic/developer-query.php
+Developer queries: 29 isolated assertions passed; recording SQL fixtures only.
+TEST tests/basic/developer-schema.php
+Developer schema: 76 isolated assertions passed (DDL/metadata model; no real WordPress/MySQL).
+TEST tests/basic/developer-seo.php
+Developer SEO: 34 isolated assertions passed (WP/router/settings/plugin-hook substitutes; no real third-party SEO/WPML integration).
+TEST tests/basic/discovery-admin.php
+Discovery admin/settings: 52 isolated assertions passed.
+TEST tests/basic/discovery-frontend.php
+Discovery frontend isolated: 81 assertions passed; no WordPress/MySQL/browser integration claim.
+TEST tests/basic/discovery-input.php
+Discovery input: 54 isolated assertions passed (sanitizer stubs; no real WordPress/MySQL).
+TEST tests/basic/discovery-query.php
+Discovery query isolated contracts: 97 passed; no live MySQL assertions.
+TEST tests/basic/discovery-ranking.php
+Discovery ranking: 22 isolated assertions passed; no WordPress/MySQL/browser integration.
+TEST tests/basic/discovery-schema.php
+Discovery schema: 105 isolated assertions passed (DDL/metadata model; no real WordPress/MySQL).
+TEST tests/basic/discovery-sitemap.php
+PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).
+Discovery sitemap: 14 isolated adapter assertions passed; no live WordPress/MySQL/plugin claims.
+TEST tests/basic/discovery-views.php
+Discovery views: 107 isolated assertions passed (real service and transactional wpdb model; no real WordPress/MySQL/browser).
+TEST tests/basic/editorial-management.php
+Editorial management contracts: 122 assertions passed (isolated stubs; no WordPress/MySQL integration).
+TEST tests/basic/editorial-projections.php
+Editorial projections: 43 isolated assertions passed (no WordPress/MySQL or performance benchmark).
+TEST tests/basic/editorial-search.php
+Editorial search contracts: 49 assertions passed (isolated stubs; no WordPress/MySQL/WPML integration).
+TEST tests/basic/forms-management.php
+Inbox management: 56 isolated assertions passed.
+TEST tests/basic/frontend-locks.php
+Frontend advisory locks: 196 isolated assertions passed (driver/wpdb model; no WordPress/MySQL integration).
+TEST tests/basic/frontend-routing.php
+PASS: 104 isolated routing and URL assertions (PHP stubs; no WordPress/SQL integration).
+TEST tests/basic/github-client.php
+PASS: 160 GitHub client fixture assertions (no real GitHub/WordPress/MySQL integration).
+TEST tests/basic/github-discovery.php
+GitHub discovery contracts: 63 assertions passed (pure fixtures; no GitHub/WordPress/MySQL integration).
+TEST tests/basic/home-operations.php
+Homepage operations: 57 isolated assertions passed; no live WordPress/MySQL/browser claims.
+TEST tests/basic/import-admin.php
+PASS: 32 isolated import-admin assertions (PHP stubs; no WordPress/MySQL/GitHub integration).
+TEST tests/basic/import-scheduler.php
+PASS: 59 import-scheduler assertions (native mysqli mode; modeled connection; no WordPress/MySQL/HTTP integration).
+TEST tests/basic/import-store.php
+PASS: 147 import-store contracts (in-memory DB adapter; no MySQL/WordPress/GitHub integration).
+TEST tests/basic/import-worker.php
+PASS: 63 isolated import-worker workflow assertions (in-memory store/API fixtures; no MySQL/WordPress/live GitHub).
+TEST tests/basic/language-adapter.php
+Language adapter contracts: 50 assertions passed (isolated PHP; no WordPress/WPML).
+TEST tests/basic/management-integrity.php
+Management integrity contracts: 50 assertions passed (isolated model; no MySQL/WordPress).
+TEST tests/basic/migration-recovery.php
+Migration recovery: 201 isolated assertions passed (native mysqli mode; modeled migration; no WordPress/MySQL connection).
+TEST tests/basic/operations-mail.php
+Operations mail: 55 isolated assertions passed (modeled WordPress/SQL, no real mail).
+TEST tests/basic/operations-notifications.php
+Operations notifications: 28 isolated assertions passed (modeled native identity/SQL; no real WordPress/MySQL).
+TEST tests/basic/operations-search.php
+Operations search privacy/protocol isolated: 79 passed; no live service assertions.
+TEST tests/basic/operations-users-admin.php
+{
+    "suite": "operations-users-admin",
+    "kind": "isolated UI \/ substituted domain and WordPress",
+    "checks": 17,
+    "status": "passed"
+}
+TEST tests/basic/operations-users.php
+{
+    "suite": "operations-users",
+    "kind": "isolated PHP\/model WordPress and database",
+    "checks": 38,
+    "status": "passed"
+}
+TEST tests/basic/operations-workbench.php
+PASS: 38 isolated operations workbench/health checks (mock services and storage; no real WordPress/MySQL/API).
+TEST tests/basic/public-search.php
+PASS: 103 isolated public search and sitemap query-contract assertions (recording DB stub; no MySQL/WordPress integration).
+TEST tests/basic/seo-failures.php
+SEO and adapter failures: 83 isolated assertions passed (no WordPress/MySQL/WPML integration).
+TEST tests/basic/seo.php
+PASS: 76 isolated SEO/index-policy assertions (PHP stubs; no WordPress/MySQL/plugin integration).
+TEST tests/basic/sitemap.php
+PASS: 49 isolated Sitemap/XML assertions (PHP stubs; no WordPress/SQL/plugin integration).
+TEST tests/basic/skill-parser.php
+PASS: 95 isolated frontmatter/static-risk assertions (no WordPress/GitHub/executable integration).
+TEST tests/basic/submission-input.php
+Submission input: 85 isolated assertions passed; no WordPress/MySQL or remote API integration.

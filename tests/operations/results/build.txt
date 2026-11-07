@@ -1,0 +1,29 @@
+
+> ai-skills-hub@0.1.0 build
+> npm run build:css && npm run build:js
+
+
+> ai-skills-hub@0.1.0 build:css
+> tailwindcss -i ./wp-content/themes/ai-skills-hub/assets/src/app.css -o ./wp-content/themes/ai-skills-hub/assets/dist/app.css --minify
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+Rebuilding...
+
+Done in 684ms.
+
+> ai-skills-hub@0.1.0 build:js
+> esbuild ./wp-content/themes/ai-skills-hub/assets/src/app.js --bundle --minify --target=es2020 --outfile=./wp-content/themes/ai-skills-hub/assets/dist/app.js
+
+
+  wp-content/themes/ai-skills-hub/assets/dist/app.js  65.7kb
+
+⚡ Done in 11ms
+
+> ai-skills-hub@0.1.0 check:assets
+> node scripts/check-assets.mjs
+
+app.css: 69302 bytes
+app.js: 67268 bytes

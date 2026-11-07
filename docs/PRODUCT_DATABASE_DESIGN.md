@@ -1,5 +1,13 @@
 # AI Skills Hub V2 数据库设计规划
 
+## Phase 12 实施：沿用 schema 1.9.0 / 33 表
+
+本阶段无 DDL、无新迁移、无重复建表。新增运营投影复用原生 users/usermeta/posts/postmeta/options 和既有 workflow_events、metric_events、daily_metrics、user_notifications、notification_outbox。原 Skill ID、用户 ID、译文、投稿归属和审核版本不改变。实际逐表 DDL/数据指纹、原生 Inbox/用户保护、重复迁移和主题切换证据见 [阶段报告](PHASE_12_REPORT.md)。
+
+`_aish_operations_account` 仅保存受控暂停 revision/paused/prior_state；原因和恢复条件追加至原工作流事件，隐私清理会匿名化。邮件暂停使用非 autoload option；队列锁与既有 Worker 共用，不建立新 outbox。首页仍用原单一 draft/published JSON option，并扩展模块选择/UTC窗口及同事务审计。运营来源处理记录绑定现有 import 指纹，不改来源事实或发布状态。
+
+搜索/活跃指标 policy=`operations-1`，事件与日桶同事务；内部 `search_term/no_result_term` 事件使用 `search_hash` 维度和日HMAC，只保留7日，不存低频词明文。达同日5主体门槛后，daily_metrics才写合格词日桶；稳定ASCII词标识隔离MySQL重音不敏感排序造成的合并。日预算用带到期的非 autoload 原生 transient，清理有界，不建个人搜索表。不同保留期和指标语义见 [ANALYTICS_DEFINITIONS](ANALYTICS_DEFINITIONS.md)。未凭猜测增加索引；实际查询规模和未执行生产压测分别报告。
+
 ## Phase 11 实施增量（当前）
 
 已在代码与独立真实MySQL核对：1.8.0有26张Core表，1.9.0仅追加7表为33表：editorial_collections、collection_translations、collection_items、use_cases、use_case_translations、use_case_skills、term_translations。定义/列/唯一索引/查询索引见 Schema.php；原26表在1.9的DDL与历史版本逐字一致，新增版本不修改旧迁移。

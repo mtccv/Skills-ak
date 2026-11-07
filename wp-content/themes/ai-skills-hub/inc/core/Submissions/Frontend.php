@@ -98,6 +98,7 @@ final class Frontend {
 			$mode = Ui::input( 'mode', 10 ); if ( ! in_array( $mode, array( 'draft', 'submit' ), true ) ) { throw new \InvalidArgumentException( 'invalid_input' ); }
 			$result = $this->service->save( $id, $payload, $revision, $mode, $request ); $id = (int) $result['id']; Ui::flash( 'submissions', 'submit' === $mode ? 'submitted' : 'saved' );
 		}
+		try { do_action( 'aish_account_interaction_completed', get_current_user_id() ); } catch ( \Throwable $ignored ) {}
 		wp_safe_redirect( self::url( 'submission', self::$context['locale'], array( 'id' => $id ) ), 303 ); exit;
 	}
 	private static function payload(): array {

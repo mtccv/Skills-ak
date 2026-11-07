@@ -48,10 +48,11 @@ final class Frontend {
 		if ( empty( $parts['query'] ) ) { return Router::siteUrl( $relative ); }
 		$query = array(); parse_str( $parts['query'], $query );
 		$route = $isSubmit ? 'submit' : ( $match[2] ?? 'account' );
-		$allowed = match ( $route ) { 'favorites' => array( 'page', 'q', 'status', 'sort' ), 'reviews' => array( 'page', 'status' ), 'review', 'favorite' => array( 'skill', 'page' ), 'report-review' => array( 'skill', 'review', 'revision', 'page' ), 'report-skill', 'update-suggestion' => array( 'skill', 'page' ), 'submissions' => array( 'page', 'status', 'kind' ), 'submission' => array( 'id', 'page' ), 'claim' => array( 'id', 'skill', 'page' ), 'developer' => array( 'page', 'state' ), default => array( 'page' ) };
+		$allowed = match ( $route ) { 'favorites' => array( 'page', 'q', 'status', 'sort' ), 'reviews' => array( 'page', 'status' ), 'review', 'favorite' => array( 'skill', 'page' ), 'report-review' => array( 'skill', 'review', 'revision', 'page' ), 'report-skill', 'update-suggestion' => array( 'skill', 'page' ), 'submissions' => array( 'page', 'status', 'kind' ), 'submission' => array( 'id', 'page' ), 'claim' => array( 'id', 'skill', 'page' ), 'developer' => array( 'page', 'state' ), 'notifications' => array( 'page', 'type' ), default => array( 'page' ) };
 		if ( array_diff( array_keys( $query ), $allowed ) ) { return null; }
 		foreach ( $query as $key => $value ) {
 			if ( ! is_string( $value ) || preg_match( '/[\x00-\x1f\x7f]/', $value ) || ! preg_match( '//u', $value ) ) { return null; }
+			if ( 'type' === $key ) { if ( ! in_array( $value, \AISkillsHub\Core\Operations\Notifications::TYPES, true ) ) { return null; } continue; }
 			if ( 'q' === $key ) { if ( strlen( $value ) > 400 ) { return null; } continue; }
 			if ( 'status' === $key ) { $states = match ( $route ) { 'favorites' => array( 'all', 'available', 'unavailable' ), 'submissions' => array( 'all', 'draft', 'submitted', 'in_review', 'needs_changes', 'accepted', 'rejected', 'withdrawn' ), default => array( 'all', 'pending', 'approved', 'rejected', 'hidden', 'withdrawn' ) }; if ( ! in_array( $value, $states, true ) ) { return null; } continue; }
 			if ( 'kind' === $key ) { if ( ! in_array( $value, array( 'all', 'submit', 'update_suggestion' ), true ) ) { return null; } continue; }
@@ -141,8 +142,7 @@ final class Frontend {
 					if ( in_array( $route, array( 'account', 'notifications' ), true ) ) {
 						$page = filter_var( $_GET['page'] ?? '1', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 1000 ) ) );
 						if ( false === $page ) { throw new \InvalidArgumentException( 'invalid_input' ); }
-						self::$context['page'] = $page;
-						self::$context['notifications'] = $this->store->notifications( (int) $user->ID, 'account' === $route ? 5 : 21, 'account' === $route ? 0 : ( $page - 1 ) * 20 );
+						self::$context = array_replace( self::$context, ( new \AISkillsHub\Core\Operations\Notifications( $this->store, $this->accounts ) )->mine( self::$context['locale'], $page, \AISkillsHub\Core\Operations\Notifications::type( $_GET['type'] ?? 'all' ), 'account' === $route ) );
 					}
 					if ( in_array( $route, array( 'settings', 'privacy' ), true ) ) { self::$context['preferences'] = $this->privacy->preferences(); }
 					if ( 'privacy' === $route ) { self::$context['requests'] = $this->privacy->requests(); }
@@ -213,16 +213,23 @@ final class Frontend {
 			case 'email_change': $this->accounts->requestEmailChange( self::input( 'current_password', 4096 ), self::input( 'new_email', 254 ), $locale ); $message = 'email_change'; break;
 			case 'sessions': $this->accounts->revokeOtherSessions( self::input( 'current_password', 4096 ) ); $message = 'sessions'; break;
 			case 'preferences':
-				$currentPreferences = $this->privacy->preferences()['notification_preferences'];
+				$privacyPreferences = $this->privacy->preferences();
+				$currentPreferences = $privacyPreferences['notification_preferences'];
+				foreach ( array( 'account_notifications', 'community_notifications', 'contribution_notifications' ) as $key ) { $value = self::input( $key, 1 ); if ( ! in_array( $value, array( '', '1' ), true ) ) { throw new \RuntimeException( 'invalid_input' ); } $currentPreferences[ $key ] = '1' === $value; }
 				$currentPreferences['locale'] = self::localeInput();
-				$this->privacy->savePreferences( array( 'public_profile' => false, 'notification_preferences' => $currentPreferences ) ); break;
+				$this->privacy->savePreferences( array( 'public_profile' => $privacyPreferences['public_profile'], 'notification_preferences' => $currentPreferences ) ); break;
 			case 'export': case 'erase':
 				if ( 'erase' === $action && '1' !== self::input( 'confirm_erasure', 1 ) ) { throw new \InvalidArgumentException( 'invalid_input' ); }
 				$this->privacy->request( $action, self::input( 'current_password', 4096 ) ); $message = 'privacy'; break;
 			case 'read': case 'read_all':
-				$user = $this->accounts->requireOwner();
-				$id = 'read_all' === $action ? null : filter_var( self::input( 'notification_id', 20 ), FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
-				if ( false === $id || ! $this->store->markRead( (int) $user->ID, $id ) ) { throw new \RuntimeException( 'invalid_input' ); } break;
+				$raw = 'read_all' === $action ? ( $_POST['notification_ids'] ?? array() ) : array( self::input( 'notification_id', 20 ) );
+				if ( ! is_array( $raw ) || ! array_is_list( $raw ) || ! $raw || count( $raw ) > 50 ) { throw new \RuntimeException( 'invalid_input' ); }
+				$ids = array(); foreach ( $raw as $value ) { $id = is_string( $value ) ? filter_var( $value, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) ) : false; if ( false === $id ) { throw new \RuntimeException( 'invalid_input' ); } $ids[] = $id; }
+				( new \AISkillsHub\Core\Operations\Notifications( $this->store, $this->accounts ) )->read( $ids ); break;
+		}
+		// Analytics runs only after a successful account service operation; it cannot roll it back.
+		if ( is_user_logged_in() && ! in_array( $action, array( 'register', 'login', 'logout', 'forgot', 'reset', 'resend', 'verify' ), true ) ) {
+			try { do_action( 'aish_account_interaction_completed', get_current_user_id() ); } catch ( \Throwable $ignored ) {}
 		}
 		$this->flash( $message );
 		$this->redirect( $target );

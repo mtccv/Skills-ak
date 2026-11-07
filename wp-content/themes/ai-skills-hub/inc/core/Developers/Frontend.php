@@ -115,6 +115,7 @@ final class Frontend {
 			$evidence = Ui::input( 'evidence_urls', 12000 ); $urls = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', $evidence ) ?: array() ), static fn( string $value ): bool => '' !== $value ) );
 			$this->service->submitClaim( (int) self::$context['params']['skill'], array( 'claim_role' => Ui::input( 'claim_role', 20 ), 'locale' => Ui::input( 'locale', 10 ), 'source_revision' => Ui::integer( Ui::input( 'source_revision', 20 ) ), 'proof_kind' => Ui::input( 'proof_kind', 32 ), 'reason' => Ui::input( 'reason', 16000 ), 'evidence_urls' => $urls ), $request ); $message = 'claim_submitted';
 		}
+		try { do_action( 'aish_account_interaction_completed', get_current_user_id() ); } catch ( \Throwable $ignored ) {}
 		Ui::flash( 'developers', $message ); wp_safe_redirect( self::url( 'developer', self::$context['locale'] ), 303 ); exit;
 	}
 	private static function profilePayload(): array {

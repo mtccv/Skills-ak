@@ -181,7 +181,7 @@ final class AccountService {
 		$state = $this->state( (int) $user->ID );
 		if ( 'suspended' === $state ) { return true; }
 		// Management access is independent of new community verification evidence.
-		$legacyCapabilities = array( 'edit_posts', 'aish_manage_skills', 'aish_review_skills', 'aish_manage_taxonomies', 'aish_manage_repositories', 'aish_manage_settings', 'aish_manage_ai_settings', 'aish_generate_content', 'aish_moderate_community', 'aish_manage_community_reports', 'aish_manage_submissions', 'aish_manage_update_suggestions', 'aish_manage_developers', 'aish_manage_author_claims', 'aish_manage_discovery' );
+		$legacyCapabilities = array( 'edit_posts', 'aish_manage_skills', 'aish_review_skills', 'aish_manage_taxonomies', 'aish_manage_repositories', 'aish_manage_settings', 'aish_manage_ai_settings', 'aish_generate_content', 'aish_moderate_community', 'aish_manage_community_reports', 'aish_manage_submissions', 'aish_manage_update_suggestions', 'aish_manage_developers', 'aish_manage_author_claims', 'aish_manage_discovery', 'aish_manage_accounts', 'aish_manage_notifications', 'aish_view_operations', 'aish_view_analytics' );
 		if ( self::manager( $user ) ) { return false; }
 		if ( 'legacy' === $state ) { foreach ( $legacyCapabilities as $cap ) { if ( ! empty( $user->allcaps[ $cap ] ) ) { return false; } } }
 		return ! $this->verified( (int) $user->ID );
@@ -517,7 +517,8 @@ final class AccountService {
 				if ( $current->user_email !== $old->user_email ) { throw new AccountException( 'save_failed' ); }
 				if ( $email !== ( '' === $old->user_email ? '' : Locks::email( $old->user_email ) ) ) {
 					// Revoke before the native write: a native failure cannot grant verification.
-					$this->setMeta( (int) $userId, '_aish_account_state', 'pending_email' );
+					// Native profile updates cannot lift an independent business suspension.
+					if ( 'suspended' !== $this->state( (int) $userId ) ) { $this->setMeta( (int) $userId, '_aish_account_state', 'pending_email' ); }
 					$this->removeMeta( (int) $userId, '_aish_verified_email_hash' );
 					$this->removeMeta( (int) $userId, '_aish_email_verified_at' );
 					if ( $this->storageReady() ) { $this->store->revokeVerifications( (int) $userId ); }

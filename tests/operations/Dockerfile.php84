@@ -1,0 +1,5 @@
+FROM alpine:3.22
+RUN --mount=type=secret,id=proxy_ca,required=true \
+    SSL_CERT_FILE=/run/secrets/proxy_ca apk add --no-cache php84 php84-mysqli php84-mbstring php84-dom php84-session php84-curl php84-fileinfo php84-openssl php84-tokenizer php84-sodium php84-zip php84-iconv php84-xml php84-simplexml php84-xmlwriter php84-ctype php84-phar php84-exif php84-gd php84-intl php84-pdo_mysql php84-pcntl
+WORKDIR /var/www/html
+CMD ["php84", "-v"]

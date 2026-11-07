@@ -12,7 +12,7 @@ final class Privacy {
 	public const CRON = 'aish_account_privacy_cleanup';
 	private const TARGET = '_aish_request_user_id';
 	private const CLEANUP_TARGET = '_aish_cleanup_target';
-	private const META = array( '_aish_account_state', '_aish_account_deletion_pending', '_aish_email_verified_at', '_aish_verified_email_hash', '_aish_email_change_context', '_aish_profile_locale', '_aish_avatar_attachment_id', '_aish_public_profile', '_aish_notification_preferences', '_aish_onboarding_version' );
+	private const META = array( '_aish_account_state', '_aish_account_deletion_pending', '_aish_email_verified_at', '_aish_verified_email_hash', '_aish_email_change_context', '_aish_profile_locale', '_aish_avatar_attachment_id', '_aish_public_profile', '_aish_notification_preferences', '_aish_onboarding_version', '_aish_operations_account' );
 	private array $requestLocks = array();
 
 	public function __construct( private Database $database, private Store $store, private Locks $locks, private AccountService $accounts, private Avatar $avatar ) {}
@@ -130,20 +130,24 @@ final class Privacy {
 		$user = $this->accounts->requireOwner();
 		$stored = get_user_meta( $user->ID, '_aish_notification_preferences', true );
 		$stored = is_array( $stored ) ? $stored : array();
-		return array( 'public_profile' => '1' === get_user_meta( $user->ID, '_aish_public_profile', true ), 'notification_preferences' => array( 'version' => 1, 'account_notifications' => (bool) ( $stored['account_notifications'] ?? true ), 'optional_email' => (bool) ( $stored['optional_email'] ?? false ), 'locale' => 'en_US' === ( $stored['locale'] ?? get_user_meta( $user->ID, '_aish_profile_locale', true ) ) ? 'en_US' : 'zh_CN' ) );
+		return array( 'public_profile' => '1' === get_user_meta( $user->ID, '_aish_public_profile', true ), 'notification_preferences' => array( 'version' => 1, 'account_notifications' => (bool) ( $stored['account_notifications'] ?? true ), 'community_notifications' => (bool) ( $stored['community_notifications'] ?? true ), 'contribution_notifications' => (bool) ( $stored['contribution_notifications'] ?? true ), 'optional_email' => (bool) ( $stored['optional_email'] ?? false ), 'locale' => 'en_US' === ( $stored['locale'] ?? get_user_meta( $user->ID, '_aish_profile_locale', true ) ) ? 'en_US' : 'zh_CN' ) );
 	}
 
 	public function savePreferences( array $input ): void {
 		$user = $this->accounts->requireOwner();
 		$preferences = $input['notification_preferences'] ?? array();
-		if ( ! is_array( $preferences ) || array_diff( array_keys( $input ), array( 'public_profile', 'notification_preferences' ) ) || array_diff( array_keys( $preferences ), array( 'version', 'account_notifications', 'optional_email', 'locale' ) ) || ! is_bool( $input['public_profile'] ?? false ) || ! is_bool( $preferences['account_notifications'] ?? true ) || ! is_bool( $preferences['optional_email'] ?? false ) || ! in_array( $preferences['locale'] ?? 'zh_CN', array( 'zh_CN', 'en_US' ), true ) ) { throw new \RuntimeException( 'invalid_request' ); }
-		$value = array( 'version' => 1, 'account_notifications' => $preferences['account_notifications'] ?? true, 'optional_email' => $preferences['optional_email'] ?? false, 'locale' => $preferences['locale'] ?? 'zh_CN' );
+		if ( ! is_array( $preferences ) || array_diff( array_keys( $input ), array( 'public_profile', 'notification_preferences' ) ) || array_diff( array_keys( $preferences ), array( 'version', 'account_notifications', 'community_notifications', 'contribution_notifications', 'optional_email', 'locale' ) ) || ! is_bool( $input['public_profile'] ?? false ) || ! is_bool( $preferences['account_notifications'] ?? true ) || ! is_bool( $preferences['community_notifications'] ?? true ) || ! is_bool( $preferences['contribution_notifications'] ?? true ) || ! is_bool( $preferences['optional_email'] ?? false ) || ! in_array( $preferences['locale'] ?? 'zh_CN', array( 'zh_CN', 'en_US' ), true ) ) { throw new \RuntimeException( 'invalid_request' ); }
+		$value = array( 'version' => 1, 'account_notifications' => $preferences['account_notifications'] ?? true, 'community_notifications' => $preferences['community_notifications'] ?? true, 'contribution_notifications' => $preferences['contribution_notifications'] ?? true, 'optional_email' => $preferences['optional_email'] ?? false, 'locale' => $preferences['locale'] ?? 'zh_CN' );
 		$this->locks->withUser( (int) $user->ID, function () use ( $user, $input, $value ): void {
 			$this->accounts->requireOwner();
 			try {
 				$this->nativeReady();
 				$this->database->transaction( function () use ( $user, $input, $value ): void {
-					$this->userMeta( (int) $user->ID, '_aish_public_profile', ( $input['public_profile'] ?? false ) ? '1' : '0' );
+					// Phase 10 owns developer consent. Rewriting its protected key here
+					// would either withdraw a profile or fail its guarded opt-in path.
+					$visibility = $this->database->rows( 'SELECT meta_value FROM ' . $this->database->connection()->usermeta . " WHERE user_id=%d AND meta_key='_aish_public_profile' FOR UPDATE", array( (int) $user->ID ) );
+					if ( count( $visibility ) > 1 ) { throw new \RuntimeException( 'privacy_unavailable' ); }
+					if ( ( $input['public_profile'] ?? false ) !== ( '1' === ( $visibility[0]['meta_value'] ?? '' ) ) ) { throw new \RuntimeException( 'invalid_request' ); }
 					$this->userMeta( (int) $user->ID, '_aish_notification_preferences', $value );
 				} );
 			} finally { clean_user_cache( $user->ID ); wp_cache_delete( $user->ID, 'user_meta' ); }
@@ -196,7 +200,7 @@ final class Privacy {
 			$this->isolate( (int) $user->ID );
 			$finished = $this->eraseBatch( (int) $user->ID );
 			if ( $finished ) {
-				foreach ( array( '_aish_profile_locale', '_aish_avatar_attachment_id', '_aish_notification_preferences', '_aish_onboarding_version', '_aish_privacy_auth_limit' ) as $key ) { delete_user_meta( $user->ID, $key ); }
+				foreach ( array( '_aish_profile_locale', '_aish_avatar_attachment_id', '_aish_notification_preferences', '_aish_onboarding_version', '_aish_operations_account', '_aish_privacy_auth_limit' ) as $key ) { delete_user_meta( $user->ID, $key ); }
 				wp_cache_delete( $user->ID, 'user_meta' );
 				// Display/login identity is native WordPress data. Private profile text is removable.
 				delete_user_meta( $user->ID, 'description' );

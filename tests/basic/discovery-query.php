@@ -88,6 +88,16 @@ namespace {
 	foreach ( $db->queries as $sql ) { check( str_contains( $sql, "t.status='published'" ) && str_contains( $sql, 't.published_at<=UTC_TIMESTAMP()' ) && str_contains( $sql, '$.ends_at' ) && str_contains( $sql, 'JSON_VALID(dx.option_value)' ), 'Scheduled/expired/malformed topics excluded on every locale projection.' ); }
 	$db->reset( array(), array( array( array( 'id' => 3, 'title' => 'A use case', 'slug' => 'build', 'description' => 'Reviewed selection', 'skill_count' => 0 ) ), array(), array( array( 'id' => 3, 'slug' => 'build' ) ) ) );
 	$topics = $query->topics( 'use_case', 'en_US' ); check( array( 'en_US' => 'build' ) === $topics[0]['translations'], 'Missing translation does not create an alternate.' );
+	$db->reset( array(), array( array( array( 'id' => 202, 'title' => 'Second', 'slug' => 'second', 'description' => 'Existing topic', 'skill_count' => 1 ), array( 'id' => 201, 'title' => 'First', 'slug' => 'first', 'description' => 'Existing topic', 'skill_count' => 2 ) ), array(), array( array( 'id' => 201, 'slug' => 'first' ), array( 'id' => 202, 'slug' => 'second' ) ) ) );
+	$selected = $query->topicsByIds( 'collection', array( 201, 202, 999 ), 'en_US' );
+	check( array_column( $selected, 'id' ) === array( 201, 202 ), 'Selected existing topics preserve requested order and omit unavailable IDs.' );
+	check( count( $db->queries ) === 3 && ! str_contains( $db->queries[0], 'LIMIT 200' ) && str_contains( $db->queries[0], 't.id IN (201,202,999)' ), 'Selected topics are batched and can address identities beyond directory cap.' );
+	check( str_contains( $db->queries[0], 'INNER JOIN (SELECT collection_id,COUNT(*) AS skill_count' ) && str_contains( $db->queries[0], "locale='en_US'" ) && str_contains( $db->queries[0], 't.published_at<=UTC_TIMESTAMP()' ), 'Curated topics require current-language public membership and live publication period.' );
+	$db->reset(); check( array() === $query->topicsByIds( 'use_case', array(), 'zh_CN' ) && ! $db->queries, 'Empty selection does not query.' );
+	rejects( fn() => $query->topicsByIds( 'collection', range( 1, 13 ), 'en_US' ) ); rejects( fn() => $query->topicsByIds( 'platform', array( 201 ), 'en_US' ) ); rejects( fn() => $query->topicsByIds( 'collection', array( '201 OR 1=1' ), 'en_US' ) );
+	$gate = $query->publicTopicIdsSql( 'use_case', 'en_US' );
+	check( str_contains( $gate, "t.status='published'" ) && str_contains( $gate, "tt.locale='en_US'" ) && str_contains( $gate, '$.ends_at' ) && ! str_contains( $gate, 'LIMIT' ), 'Topic publication/translation/expiry subquery can gate analytics before top-N pagination.' );
+	rejects( fn() => $query->publicTopicIdsSql( 'platform', 'en_US' ) ); rejects( fn() => $query->publicTopicIdsSql( 'use_case', 'fr_FR' ) );
 	$catalog->platformRows = array( array( 'id' => 20, 'slug' => 'platform-codex', 'count' => 2 ), array( 'id' => 21, 'slug' => 'platform-inferred', 'count' => 7 ) );
 	Settings::$platforms = array( 20 => array( 'enabled' => true, 'verified' => true, 'evidence_url' => 'https://example.test/docs', 'translations' => array( 'en_US' => array( 'title' => 'Codex', 'description' => 'Verified description.' ) ) ), 21 => array( 'enabled' => true, 'verified' => false, 'translations' => array() ) );
 	$db->reset( array(), array( array(), array( array( 'id' => 20, 'slug' => 'platform-codex', 'skill_count' => 2 ) ) ) );

@@ -22,6 +22,26 @@ final class Views {
 
 	public function __construct( private Database $db, private Migrator $migrator, private PublicCatalog $catalog ) {}
 
+	/** Phase 12 shares the short-lived observer, but requires explicit broader consent. */
+	public function analyticsEligible(): bool { return $this->eligible( 0 ); }
+	public function analyticsObserver(): ?string {
+		$cookie = $_COOKIE[ $this->cookieName() ] ?? '';
+		return is_string( $cookie ) && str_ends_with( $cookie, '.analytics' ) ? $this->observer( $cookie ) : null;
+	}
+	public function grantAnalyticsConsent(): string {
+		if ( ! Settings::tracking() || ! $this->analyticsEligible() ) { throw new \InvalidArgumentException( 'measurement_unavailable' ); }
+		$observer = $this->observer( $_COOKIE[ $this->cookieName() ] ?? '' ) ?? bin2hex( random_bytes( 32 ) );
+		$body = gmdate( 'Y-m-d' ) . '.' . $observer;
+		$cookie = $body . '.' . $this->mac( 'cookie:' . $body . '.analytics' ) . '.analytics';
+		$this->writeCookie( $cookie, strtotime( 'tomorrow UTC' ) );
+		$_COOKIE[ $this->cookieName() ] = $cookie;
+		return $observer;
+	}
+	public function withdrawAnalyticsConsent(): void {
+		$this->writeCookie( '', time() - 3600 );
+		unset( $_COOKIE[ $this->cookieName() ] );
+	}
+
 	public function register(): void {
 		add_action( 'aish_skill_actions', array( $this, 'render' ), 50, 2 );
 		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'handle' ) );
@@ -69,7 +89,7 @@ final class Views {
 			$zh = 'zh_CN' === $locale;
 			$help = $zh ? '可自愿允许当天匿名去重浏览统计：仅在页面可见停留 8 秒后计数。不保存 IP、账户 ID 或跨日浏览历史，可随时停止。' : 'Optional anonymous, daily-deduplicated views: counted after 8 visible seconds. No IP, account ID or cross-day history is stored. You can stop at any time.';
 			$allow = $zh ? '允许当天匿名浏览统计' : 'Allow anonymous views today';
-			$stop = $zh ? '停止浏览统计' : 'Stop view measurement';
+			$stop = $zh ? '停止当天统计（含已同意的搜索/活跃统计）' : 'Stop daily measurement (including any search/activity consent)';
 			echo '<div class="mt-4 border-t border-slate-200 pt-3 text-xs text-slate-500" data-discovery-view data-endpoint="' . esc_url( admin_url( 'admin-ajax.php' ) ) . '" data-nonce="' . esc_attr( wp_create_nonce( self::ACTION ) ) . '" data-skill="' . esc_attr( (string) $id ) . '" data-locale="' . esc_attr( $locale ) . '" data-ticket="' . esc_attr( $this->ticket( 'page', $id, $locale ) ) . '">';
 			echo '<p>' . esc_html( $help ) . '</p><button type="button" class="mt-2 underline" data-discovery-consent>' . esc_html( $allow ) . '</button><button type="button" class="mt-2 underline" data-discovery-withdraw hidden>' . esc_html( $stop ) . '</button><p class="mt-2" role="status" aria-live="polite" data-discovery-status></p><noscript>' . esc_html( $zh ? '未启用 JavaScript，不记录浏览。' : 'Views are not recorded without JavaScript.' ) . '</noscript></div>';
 		} catch ( \Throwable $error ) { /* Optional measurement must not break the public page. */ }
@@ -172,7 +192,7 @@ final class Views {
 	}
 
 	private function observer( mixed $cookie ): ?string {
-		if ( ! is_string( $cookie ) || ! preg_match( '/^(\d{4}-\d{2}-\d{2})\.([a-f0-9]{64})\.([a-f0-9]{64})$/D', $cookie, $matches ) || gmdate( 'Y-m-d' ) !== $matches[1] || ! hash_equals( $this->mac( 'cookie:' . $matches[1] . '.' . $matches[2] ), $matches[3] ) ) { return null; }
+		if ( ! is_string( $cookie ) || ! preg_match( '/^(\d{4}-\d{2}-\d{2})\.([a-f0-9]{64})\.([a-f0-9]{64})(\.analytics)?$/D', $cookie, $matches ) || gmdate( 'Y-m-d' ) !== $matches[1] || ! hash_equals( $this->mac( 'cookie:' . $matches[1] . '.' . $matches[2] . ( $matches[4] ?? '' ) ), $matches[3] ) ) { return null; }
 		return $matches[2];
 	}
 

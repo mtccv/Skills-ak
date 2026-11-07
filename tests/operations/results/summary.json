@@ -1,0 +1,80 @@
+{
+  "baseline_commit": "997bdd05a0332cd7e9603323d36a9de16810a1c7",
+  "schema": "1.9.0",
+  "core_tables": 33,
+  "real_scenarios": {
+    "83": {
+      "passed": 47,
+      "failed": 0,
+      "assertions": 639,
+      "scenario_counts": {
+        "users": 9,
+        "notifications-mail": 10,
+        "workbench-home": 6,
+        "analytics": 7,
+        "transactions": 2,
+        "browser": 13
+      }
+    },
+    "84": {
+      "passed": 47,
+      "failed": 0,
+      "assertions": 585,
+      "scenario_counts": {
+        "users": 9,
+        "notifications-mail": 10,
+        "workbench-home": 6,
+        "analytics": 7,
+        "transactions": 2,
+        "browser": 13
+      }
+    }
+  },
+  "separate_checks": {
+    "preservation-php83": {
+      "passed": 79,
+      "failed": 0
+    },
+    "preservation-php84": {
+      "passed": 79,
+      "failed": 0
+    },
+    "concurrency-php83": {
+      "passed": 8,
+      "failed": 0
+    },
+    "concurrency-php84": {
+      "passed": 8,
+      "failed": 0
+    },
+    "package-upgrade-php84": {
+      "passed": 6,
+      "failed": 0
+    },
+    "runtime-package-hashes": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "mock_components": [
+    "All outbound account mail acceptance/rejection/uncertainty responses. No real SMTP or receipt."
+  ],
+  "not_executed": [
+    "Real external email transport and delivery",
+    "Real GitHub and AI APIs",
+    "WPML commercial plugin",
+    "Real Yoast and Rank Math plugins",
+    "Multisite",
+    "Persistent Redis/Memcached",
+    "Non-Chromium browsers",
+    "Production-scale sustained load"
+  ],
+  "performance_observations": 40,
+  "existing_core_integration": {
+    "runtime": "PHP8.4.27 WordPress7.1.4 MySQL8.0.46",
+    "assertions_passed": 162,
+    "failed": 0
+  },
+  "final_package_sha256": "4c237e825145ae87dcd50221e14c87ccba5fd81eb75a03f2428d780c86fbc02b",
+  "evidence_note": "Counts distinguish scenarios, assertions, individual checks and performance observations; do not sum these as equivalent tests."
+}

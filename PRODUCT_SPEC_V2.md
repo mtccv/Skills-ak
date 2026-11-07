@@ -1,5 +1,7 @@
 # AI Skills Hub 产品规格 V2
 
+> Phase 12 当前增量：主题/Core **0.12.0**、schema **1.9.0 / 33 表**不变。复用已完成的账户、审核、通知与加密邮件队列、事件/日聚合、发现与首页配置；新增按权限的运营概览/统一待办、用户状态运营、邮件诊断、真实分析、搜索隐私、来源异常记录和首页私有预览。完整具体要求见 [PHASE_12_REQUEST](docs/PHASE_12_REQUEST.md)，接口/验证见 [运营指南](docs/OPERATIONS_GUIDE.md) 和 [阶段报告](docs/PHASE_12_REPORT.md)。开发版交付后暂停，不进入 Phase 13/14或正式发布。下文旧阶段状态是历史。
+
 > Phase 11 当前实施：主题/Core 0.11.0、schema 1.9.0（33表），基于已验收Phase10 main c7fa503。六榜单、集合/场景、术语翻译、平台专题、相关/相似推荐与首页配置见 [资源发现](DISCOVERY_SYSTEM.md)、[场景](USE_CASES.md)、[本轮报告](docs/PHASE_11_REPORT.md)。浏览统计默认关闭且需访客同意；当前语言公开门禁优先。按本轮详细需求，策展集合独立维护、不自动改写历史featured标签；第8节旧建议由该具体规则补充。Phase12–14未实施；以下早期“当前”均为历史。
 
 > 当前实施状态：Phase 9 已由用户验收；Phase 10 投稿与开发者中心基于 `93738c1` 实施，主题/Core 0.10.0、schema 1.8.0 共 26 表。只增加 author_claims，投稿/更新建议复用原生私有 Inbox。公开开发者 URL 按本轮用户要求为 `/zh|en/developers/{slug}/`；下文 `/authors/` 为旧规划。详情见 [投稿](SUBMISSIONS.md)、[开发者中心](DEVELOPER_CENTER.md)、[Phase 10 报告](docs/PHASE_10_REPORT.md)。Phase 11–14 未实施。

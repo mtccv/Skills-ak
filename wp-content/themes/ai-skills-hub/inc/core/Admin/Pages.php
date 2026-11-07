@@ -66,6 +66,14 @@ final class Pages {
 			add_menu_page( 'AI Skills Hub', 'AI Skills Hub', 'aish_manage_discovery', 'aish', static function (): void { do_action( 'aish_discovery_admin_landing' ); }, 'dashicons-lightbulb', 25 );
 			return;
 		}
+		if ( ! $editorial ) {
+			foreach ( array( 'aish_view_operations', 'aish_manage_accounts', 'aish_manage_notifications', 'aish_view_analytics' ) as $cap ) {
+				if ( current_user_can( $cap ) ) {
+					add_menu_page( 'AI Skills Hub', 'AI Skills Hub', $cap, 'aish', static function (): void { do_action( 'aish_operations_admin_landing' ); }, 'dashicons-lightbulb', 25 );
+					return;
+				}
+			}
+		}
 		$top = 'aish_manage_skills';
 		foreach ( self::CAPABILITIES as $cap ) { if ( self::can( $cap ) ) { $top = current_user_can( $cap ) ? $cap : 'manage_options'; break; } }
 		add_menu_page( 'AI Skills Hub', 'AI Skills Hub', $top, 'aish', array( $this, 'dashboard' ), 'dashicons-lightbulb', 25 );

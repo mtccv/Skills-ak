@@ -1,5 +1,9 @@
 # AI Skills Hub Core 使用与维护
 
+## Phase 12 当前增量
+
+主题/Core 0.12.0，schema 1.9.0 共33表不变。新增 OperationsModule 及 `operations_dashboard/workbench/health/users/mail/analytics/search_metrics` 服务，菜单与前台通知继续使用原有身份、数据访问、发布和审核门禁。新增四项运营 Capability，原管理员按版本化能力标记取得权限；其他角色明确授权。来源 enqueue 增加可选 `requireEnabled` 参数，仅运营重试使用锁内停用检查，原手动采集契约保持。统计完成钩子只在业务提交后执行，异常不能回滚业务。详见 [运营指南](OPERATIONS_GUIDE.md)、[指标口径](ANALYTICS_DEFINITIONS.md)、[报告](PHASE_12_REPORT.md)。
+
 ## Phase 11 当前增量
 
 主题/Core0.11.0，schema1.9.0共33表，新增DiscoveryModule；原26表、用户/SkillID、版本与双语关系保持。服务注册 discovery_query、discovery_management、discovery_settings、discovery_views、discovery_frontend、discovery_admin；sitemap实例复用现有前台模块并注入发现查询。查询无跨请求排行榜缓存，权限aish_manage_discovery与原审核权限分离。详细接口与口径见 [资源发现](../DISCOVERY_SYSTEM.md)、[场景](../USE_CASES.md)、[报告](PHASE_11_REPORT.md)。

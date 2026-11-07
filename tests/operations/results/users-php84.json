@@ -1,0 +1,51 @@
+{
+  "environment": {
+    "wordpress": "7.1.4",
+    "php": "8.4.27",
+    "mysql": "8.0.46"
+  },
+  "kind": "Real WordPress/MySQL native-user operations, actual private Inbox/community writes and current public projections; no external mail/API",
+  "cases": [
+    {
+      "id": "users_service_capability_and_public_summary_privacy",
+      "status": "passed"
+    },
+    {
+      "id": "users_counts_reuse_real_contributions",
+      "status": "passed"
+    },
+    {
+      "id": "pause_audited_idempotent_preserves_identity_and_invalidates_public_stats",
+      "status": "passed"
+    },
+    {
+      "id": "paused_identity_denied_community_submission_and_native_write",
+      "status": "passed"
+    },
+    {
+      "id": "stale_replay_conflict_and_explicit_resume",
+      "status": "passed"
+    },
+    {
+      "id": "protected_admin_staff_self_and_erasure_state",
+      "status": "passed"
+    },
+    {
+      "id": "pending_verification_cannot_bypass_pause",
+      "status": "passed"
+    },
+    {
+      "id": "native_administrator_email_change_never_lifts_pause",
+      "status": "passed"
+    },
+    {
+      "id": "sensitive_audit_notes_rejected",
+      "status": "passed"
+    }
+  ],
+  "assertions": 38,
+  "external_http_attempts": 0,
+  "mock_mail_calls": 1,
+  "passed": 9,
+  "failed": 0
+}

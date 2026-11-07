@@ -1,8 +1,10 @@
 # AI Skills Hub 安装与维护
 
+Phase 12 使用 **0.12.0 开发验证版**，schema 仍为 **1.9.0 / 33 表**，没有新数据库迁移。升级前保留完整备份，使用原管理员进入后台加载新增运营权限。查看 [运营指南](docs/OPERATIONS_GUIDE.md)、[通知邮件](docs/NOTIFICATIONS_AND_EMAIL.md)、[指标口径](docs/ANALYTICS_DEFINITIONS.md) 及 [本轮实际测试](docs/PHASE_12_REPORT.md)。不要导入 QA 数据；没有真实邮件配置不宣称送达。以下 Phase11 迁移说明仅适用于从更早版本升级。
+
 Phase11安装或升级只追加7张发现表，原26表保留。启用后管理员进入AI Skills Hub确认schema1.9.0、共33表，再配置精选/场景/平台及首页；未配置时显示真实空状态。有效浏览默认关闭，管理员开启后访客仍须明确同意。不得向正式站点导入QAfixtures或制造榜单计数。详见 [资源发现](DISCOVERY_SYSTEM.md)、[场景](USE_CASES.md)。
 
-适用于主题 / 内置 Core **0.11.0**，数据库 schema **1.9.0**。安装包、版本和 SHA-256 应来自同一次正式构建。本指南沿用 Codex Cloud 开发与验收环境，不要求本机开发、宝塔或外部服务器部署。
+适用于主题 / 内置 Core **0.12.0**，数据库 schema **1.9.0**。安装包、版本和 SHA-256 应来自同一次正式构建。本指南沿用 Codex Cloud 开发与验收环境，不要求本机开发、宝塔或外部服务器部署。
 
 主题提供前台和全部 Core 模块；WordPress、数据库、配置密钥、媒体及业务数据不包含在 ZIP 中。切换主题会停用 Hub 路由和后台功能，并清理其 Cron 事件，但不删除 Skills、译文、任务或历史。GitHub 采集与 AI 草稿都必须经过人工审核，安装不会自动生成或发布示例资源。
 
@@ -28,11 +30,11 @@ python3 scripts/package-theme.py --check
 python3 scripts/package-theme.py
 ```
 
-输出为 `release/ai-skills-hub-0.11.0.zip` 和 `release/SHA256SUMS`；实际文件名自动读取 `style.css` 的 Version，并要求 Core 版本一致。脚本不会代替前端构建；缺少非空 `assets/dist/app.css` / `app.js` 或必要模板时直接失败。`--check` 只校验输入，不创建安装包。
+输出为 `release/ai-skills-hub-0.12.0.zip` 和 `release/SHA256SUMS`；实际文件名自动读取 `style.css` 的 Version，并要求 Core 版本一致。脚本不会代替前端构建；缺少非空 `assets/dist/app.css` / `app.js` 或必要模板时直接失败。`--check` 只校验输入，不创建安装包。
 
 ZIP 只有一个 `ai-skills-hub/` 顶级目录，包含主题 PHP、模板、资源源码、已构建资源，以及从仓库根复制的 `LICENSE`。不打入整个 GitHub 仓库、WordPress 核心、数据库、测试、依赖目录、隐藏文件、缓存、备份及已知敏感配置文件；拒绝主题中的符号链接和特殊文件。打包前仍须人工检查源码没有硬编码凭据，文件筛选不能替代密钥审查。
 
-文件顺序和元信息固定，目录权限为 0755、文件为 0644；ZIP 使用无需压缩器的存储格式。默认时间统一为 1980-01-01 UTC，可显式设置合法的 `SOURCE_DATE_EPOCH`（1980–2107）。相同内容与时间参数产生相同 ZIP；打包脚本生成的 `SHA256SUMS` 只列本次版本；仓库交付清单另保留历史 0.7.1、0.8.0、0.9.0 、0.10.0 和当前 0.11.0 校验。`--output-dir` 可指定其他交付目录。
+文件顺序和元信息固定，目录权限为 0755、文件为 0644；ZIP 使用无需压缩器的存储格式。默认时间统一为 1980-01-01 UTC，可显式设置合法的 `SOURCE_DATE_EPOCH`（1980–2107）。相同内容与时间参数产生相同 ZIP；打包脚本生成的 `SHA256SUMS` 只列本次版本；仓库交付清单另保留历史 0.7.1、0.8.0、0.9.0 、0.10.0 、0.11.0 和当前 0.12.0 校验。`--output-dir` 可指定其他交付目录。
 
 在 Cloud 中核对下载或复制后的包：
 
@@ -199,4 +201,4 @@ docker compose exec -T wordpress tar -C /var/www/html -czf - wp-content > "$AISH
 
 用户中心增加“我的投稿”和“开发者中心”；资料公开须本人选择并经人工审核。站内通知保存不代表电子邮件已发送。作者认领、更新建议、隐私清理与实际限制见 [SUBMISSIONS.md](SUBMISSIONS.md)、[DEVELOPER_CENTER.md](DEVELOPER_CENTER.md)、[PRIVACY_AND_SECURITY.md](PRIVACY_AND_SECURITY.md)。升级前备份；不通过回滚旧主题代码降级数据库。
 
-当前交付 [0.10.0主题ZIP](release/ai-skills-hub-0.11.0.zip) 含144个文件与已编译资源；本次检查以 [Phase10报告](docs/PHASE_10_REPORT.md) 为准，包的原生升级与内容比对见 [发布证据](release/PHASE_10_PACKAGE.json)。历史0.9.0包及其证据保持不变。
+当前交付 [0.10.0主题ZIP](release/ai-skills-hub-0.12.0.zip) 含144个文件与已编译资源；本次检查以 [Phase10报告](docs/PHASE_10_REPORT.md) 为准，包的原生升级与内容比对见 [发布证据](release/PHASE_10_PACKAGE.json)。历史0.9.0包及其证据保持不变。

@@ -4,13 +4,14 @@ declare(strict_types=1);
 namespace AISkillsHub\Core\Database {
  final class Migrator { public bool $current=true; public function isCurrent(): bool { return $this->current; } }
  final class Database {
-  public bool $fail=false; public array $tags=array(7=>array('slug'=>'platform-cli','is_archived'=>0),8=>array('slug'=>'general','is_archived'=>0),9=>array('slug'=>'platform-old','is_archived'=>1)); public array $queries=array();
+  public bool $fail=false; public array $events=array(); public array $tags=array(7=>array('slug'=>'platform-cli','is_archived'=>0),8=>array('slug'=>'general','is_archived'=>0),9=>array('slug'=>'platform-old','is_archived'=>1)); public array $queries=array();
   public function connection(): object { return (object)array('options'=>'wp_options'); }
   public function table(string $entity): string { return 'wp_aish_'.$entity; }
   public function value(string $sql,array $values=array()): mixed { $this->queries[]=$sql; return str_contains($sql,'ENGINE')?'InnoDB':1; }
   public function row(string $sql,array $values=array()): ?array { $this->queries[]=$sql; return str_contains($sql,'option_value')?(false===$GLOBALS['option']?null:array('option_value'=>$GLOBALS['option'])):($this->tags[$values[0]]??null); }
   public function rows(string $sql,array $values=array()): array { return array(); }
   public function execute(string $sql,array $values=array()): int { $this->queries[]=$sql; if($this->fail){throw new \RuntimeException('simulated secret database error');} $GLOBALS['option']=$values[1];return 1; }
+  public function insert(string $entity,array $row):int{$this->events[]=$row;return count($this->events);}
   public function transaction(callable $callback): mixed { $old=$GLOBALS['option'];try{return $callback();}catch(\Throwable $e){$GLOBALS['option']=$old;throw $e;} }
  }
 }
@@ -27,7 +28,7 @@ namespace AISkillsHub\Core\Discovery {
  }
 }
 namespace {
- define('ABSPATH','/isolated-wordpress/'); $GLOBALS['caps']=array();$GLOBALS['option']=false;$GLOBALS['hooks']=array();$GLOBALS['menus']=array();$GLOBALS['notice']='';$count=0;
+ define('ABSPATH','/isolated-wordpress/'); define('DAY_IN_SECONDS',86400); $GLOBALS['caps']=array();$GLOBALS['option']=false;$GLOBALS['hooks']=array();$GLOBALS['menus']=array();$GLOBALS['notice']='';$count=0;
  function current_user_can(string $cap):bool{return !empty($GLOBALS['caps'][$cap]);}
  function get_current_user_id():int{return 31;}
  function get_user_locale():string{return 'en_US';}
@@ -58,7 +59,7 @@ namespace {
  function check(bool $ok,string $message):void{++$GLOBALS['count'];if(!$ok){throw new RuntimeException($message);}}
  function rejects(callable $fn,string $message):void{try{$fn();}catch(Throwable $e){check(true,$message);return;}check(false,$message);}
  function dispatch(object $admin,array $post):void{$_POST=$post+array('_wpnonce'=>'fixture','confirm'=>'1','revision'=>'0','id'=>'0','operation'=>'save');try{$admin->handle();}catch(RedirectReached $r){check($r->status===303,'POST redirects with303');}}
- $base=dirname(__DIR__,2).'/wp-content/themes/ai-skills-hub/inc/core/';require $base.'Admin/ContributionUi.php';require $base.'Discovery/Settings.php';require $base.'Discovery/Admin.php';
+ $base=dirname(__DIR__,2).'/wp-content/themes/ai-skills-hub/inc/core/';require $base.'Admin/ContributionUi.php';require $base.'Community/Exception.php';require $base.'Community/Input.php';require $base.'Community/Events.php';require $base.'Discovery/Settings.php';require $base.'Discovery/Admin.php';
  use AISkillsHub\Core\Discovery\Settings;use AISkillsHub\Core\Discovery\Admin;use AISkillsHub\Core\Discovery\Management;use AISkillsHub\Core\Database\Database;use AISkillsHub\Core\Database\Migrator;
  $db=new Database();$migrator=new Migrator();$settings=new Settings($db,$migrator);$management=new Management();$admin=new Admin($management,$settings,$db);$defaults=Settings::defaults();
  check(count(Settings::home('en_US'))===10&&!Settings::tracking(),'bounded real-data modules and tracking off by default');

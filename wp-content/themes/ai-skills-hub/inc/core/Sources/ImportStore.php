@@ -111,17 +111,17 @@ final class ImportStore {
 	}
 	public function dueRepos( int $limit = 20 ): array { return $this->dueRepositories( $limit ); }
 
-	public function enqueue( int $repositoryId, string $kind = 'sync', bool $scheduled = false ): int {
+	public function enqueue( int $repositoryId, string $kind = 'sync', bool $scheduled = false, bool $requireEnabled = false ): int {
 		if ( $scheduled ) { self::background(); } else { Access::write( 'aish_manage_repositories' ); }
 		$this->ready(); Input::id( $repositoryId );
 		if ( ! in_array( $kind, array( 'scan', 'sync' ), true ) ) { throw new \InvalidArgumentException( 'Invalid import job kind.' ); }
-		return $this->advisory( 'enqueue:' . $repositoryId, function () use ( $repositoryId, $kind, $scheduled ): int {
-			return $this->db->transaction( function () use ( $repositoryId, $kind, $scheduled ): int {
+		return $this->advisory( 'enqueue:' . $repositoryId, function () use ( $repositoryId, $kind, $scheduled, $requireEnabled ): int {
+			return $this->db->transaction( function () use ( $repositoryId, $kind, $scheduled, $requireEnabled ): int {
 				$jobs = $this->db->table( 'jobs' ); $repositories = $this->db->table( 'repositories' );
 				$active = $this->db->row( "SELECT id FROM $jobs WHERE active_key=%d FOR UPDATE", array( $repositoryId ) );
-				if ( $active ) { return (int) $active['id']; }
 				$repo = $this->db->row( "SELECT * FROM $repositories WHERE id=%d FOR UPDATE", array( $repositoryId ) );
-				if ( ! $repo || (int) $repo['is_archived'] || ( $scheduled && ! (int) $repo['sync_enabled'] ) ) { throw new \DomainException( 'Repository synchronization is not available.' ); }
+				if ( ! $repo || (int) $repo['is_archived'] || ( ( $scheduled || $requireEnabled ) && ! (int) $repo['sync_enabled'] ) ) { throw new \DomainException( 'Repository synchronization is not available.' ); }
+				if ( $active ) { return (int) $active['id']; }
 				$recent = $this->db->value( "SELECT MAX(created_at) FROM $jobs WHERE repository_id=%d", array( $repositoryId ) );
 				if ( is_string( $recent ) && $recent > self::now( -60 ) ) { throw new \DomainException( 'Wait before starting another repository scan.' ); }
 				$id = $this->db->insert( 'jobs', array( 'repository_id' => $repositoryId, 'kind' => $kind, 'status' => 'queued', 'active_key' => $repositoryId, 'state_json' => '{}', 'attempts' => 0, 'available_at' => self::now(), 'lease_token' => '', 'deadline_at' => self::now( 172800 ), 'created_at' => self::now(), 'updated_at' => self::now(), 'last_error' => '' ) );

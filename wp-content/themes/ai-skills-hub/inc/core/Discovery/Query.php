@@ -144,6 +144,23 @@ final class Query {
 		$rows = $this->db->rows( "SELECT t.id,tt.$title AS title,tt.slug,tt.description,tt.seo_title,tt.seo_description,COALESCE(c.skill_count,0) AS skill_count FROM $from LEFT JOIN (SELECT $column,COUNT(*) AS skill_count FROM $links WHERE skill_id IN ($public) GROUP BY $column) c ON c.$column=t.id WHERE $where ORDER BY t.sort_order ASC,t.id ASC LIMIT 200" );
 		return $this->topicRows( $rows, $kind );
 	}
+	/** Trusted topic publication/translation/expiry subquery; callers still gate Skill membership. */
+	public function publicTopicIdsSql( string $kind, string $locale ): string {
+		$this->ready( $locale );
+		[ $from, $where ] = $this->topicSource( $kind, $locale );
+		return "SELECT t.id FROM $from WHERE $where";
+	}
+	/** Bounded homepage curation, including IDs beyond the directory's first 200 topics. */
+	public function topicsByIds( string $kind, array $ids, string $locale ): array {
+		$this->ready( $locale );
+		if ( count( $ids ) > 12 || ! in_array( $kind, array( 'collection', 'use_case' ), true ) ) { throw new \InvalidArgumentException( 'Invalid topic selection.' ); }
+		$ids = array_values( array_unique( array_map( array( SecurityInput::class, 'id' ), $ids ) ) );
+		if ( ! $ids ) { return array(); }
+		[ $from, $where, $title, $link, $column ] = $this->topicSource( $kind, $locale ); $links = $this->db->table( $link ); $public = $this->publicIds( $locale ); $selection = implode( ',', $ids );
+		$rows = $this->db->rows( "SELECT t.id,tt.$title AS title,tt.slug,tt.description,tt.seo_title,tt.seo_description,c.skill_count FROM $from INNER JOIN (SELECT $column,COUNT(*) AS skill_count FROM $links WHERE $column IN ($selection) AND skill_id IN ($public) GROUP BY $column) c ON c.$column=t.id WHERE $where AND t.id IN ($selection)" );
+		$rows = array_column( $this->topicRows( $rows, $kind ), null, 'id' );
+		return array_values( array_intersect_key( array_replace( array_fill_keys( $ids, null ), $rows ), $rows ) );
+	}
 	private function topicRows( array $rows, string $kind ): array {
 		if ( ! $rows ) { return array(); } $ids = array_map( 'intval', array_column( $rows, 'id' ) ); $alternates = array();
 		foreach ( array( 'zh_CN', 'en_US' ) as $locale ) {

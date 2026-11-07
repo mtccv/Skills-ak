@@ -21,7 +21,7 @@ final class Store {
 	private static function hash( string $value ): void { if ( ! preg_match( '/^[a-f0-9]{64}$/D', $value ) ) { throw new \InvalidArgumentException( 'Invalid account event identity.' ); } }
 	private static function locale( string $value ): void { if ( ! in_array( $value, array( 'zh_CN', 'en_US' ), true ) ) { throw new \InvalidArgumentException( 'Unsupported account language.' ); } }
 	private static function purpose( string $value ): void { if ( ! in_array( $value, self::PURPOSES, true ) ) { throw new \InvalidArgumentException( 'Unsupported verification purpose.' ); } }
-	private static function error( string $value ): string {
+	public static function error( string $value ): string {
 		// Error *codes* only. Reject free-form driver/transport messages and credentials.
 		return in_array( $value, array( '', 'mail_failed', 'mail_outcome_unknown', 'mail_expired', 'mail_worker_interrupted', 'mail_retry_exhausted', 'account_unavailable', 'mail_recipient_unavailable', 'mail_payload_unavailable', 'mail_context_changed', 'mail_transport_rejected', 'mail_result_uncertain', 'mail_preflight_failed' ), true ) ? $value : 'mail_failed';
 	}
@@ -151,10 +151,18 @@ final class Store {
 		return $this->db->row( 'SELECT id,status,last_error,updated_at,available_at,accepted_at,template_key FROM ' . $this->db->table( 'notification_outbox' ) . ' WHERE recipient_user_id=%d ORDER BY created_at DESC,id DESC LIMIT 1', array( $userId ) );
 	}
 
+	/** Preferences affect future optional notices; existing history and security notices remain. */
+	private function notificationEnabled( int $userId, string $type ): bool {
+		if ( ! function_exists( 'get_user_meta' ) ) { return true; }
+		$preferences = get_user_meta( $userId, '_aish_notification_preferences', true );
+		return ! is_array( $preferences ) || false !== ( $preferences[ $type . '_notifications' ] ?? true );
+	}
+
 	/** Only account event codes enter notifications; no free-form email/token/body parameters. */
 	public function notify( int $userId, string $eventKey, string $template, string $locale, array $params = array() ): int {
 		self::user( $userId ); self::hash( $eventKey ); self::locale( $locale );
 		if ( ! in_array( $template, array( 'account_registered', 'email_verified', 'email_changed', 'password_changed', 'sessions_revoked', 'privacy_request', 'profile_updated', 'preferences_updated' ), true ) || array_diff( array_keys( $params ), array( 'request_type' ) ) || ( isset( $params['request_type'] ) && ! in_array( $params['request_type'], array( 'export_personal_data', 'remove_personal_data' ), true ) ) ) { throw new \InvalidArgumentException( 'Invalid account notification.' ); }
+		if ( in_array( $template, array( 'profile_updated', 'preferences_updated', 'account_registered' ), true ) && ! $this->notificationEnabled( $userId, 'account' ) ) { return 0; }
 		$table = $this->db->table( 'user_notifications' ); $now = self::now();
 		$json = wp_json_encode( $params );
 		$this->db->execute( "INSERT INTO $table (user_id,event_key,type,subject_type,subject_id,template_key,params_json,locale,created_at,expires_at) VALUES (%d,%s,'account','account',%d,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE id=id", array( $userId, $eventKey, $userId, $template, $json, $locale, $now, gmdate( 'Y-m-d H:i:s', time() + 180 * 86400 ) ) );
@@ -168,6 +176,7 @@ final class Store {
 		self::user( $userId ); self::user( $subjectId ); self::hash( $eventKey ); self::locale( $locale );
 		$review = in_array( $template, array( 'review_approved', 'review_rejected', 'review_hidden', 'review_withdrawn' ), true );
 		if ( ! ( ( $review && 'review' === $subjectType ) || ( 'report_resolved' === $template && in_array( $subjectType, array( 'review_report', 'skill_report' ), true ) ) ) ) { throw new \InvalidArgumentException( 'Invalid community notification.' ); }
+		if ( ! $this->notificationEnabled( $userId, 'community' ) ) { return 0; }
 		$table = $this->db->table( 'user_notifications' ); $now = self::now();
 		$this->db->execute( "INSERT INTO $table (user_id,event_key,type,subject_type,subject_id,template_key,params_json,locale,created_at,expires_at) VALUES (%d,%s,'community',%s,%d,%s,'{}',%s,%s,%s) ON DUPLICATE KEY UPDATE id=id", array( $userId, $eventKey, $subjectType, $subjectId, $template, $locale, $now, gmdate( 'Y-m-d H:i:s', time() + 180 * 86400 ) ) );
 		$row = $this->db->row( "SELECT id,type,subject_type,subject_id,template_key,locale,params_json FROM $table WHERE user_id=%d AND event_key=%s", array( $userId, $eventKey ) );
@@ -185,6 +194,7 @@ final class Store {
 			'claim' => array( 'claim_submitted', 'claim_approved', 'claim_rejected', 'claim_revoked', 'claim_disputed', 'claim_withdrawn' ),
 		);
 		if ( ! isset( $allowed[ $subjectType ] ) || ! in_array( $template, $allowed[ $subjectType ], true ) ) { throw new \InvalidArgumentException( 'Invalid contribution notification.' ); }
+		if ( ! $this->notificationEnabled( $userId, 'contribution' ) ) { return 0; }
 		$table = $this->db->table( 'user_notifications' ); $now = self::now();
 		$this->db->execute( "INSERT INTO $table (user_id,event_key,type,subject_type,subject_id,template_key,params_json,locale,created_at,expires_at) VALUES (%d,%s,'contribution',%s,%d,%s,'{}',%s,%s,%s) ON DUPLICATE KEY UPDATE id=id", array( $userId, $eventKey, $subjectType, $subjectId, $template, $locale, $now, gmdate( 'Y-m-d H:i:s', time() + 180 * 86400 ) ) );
 		$row = $this->db->row( "SELECT id,type,subject_type,subject_id,template_key,locale,params_json FROM $table WHERE user_id=%d AND event_key=%s", array( $userId, $eventKey ) );
@@ -192,16 +202,39 @@ final class Store {
 		return (int) $row['id'];
 	}
 
-	public function notifications( int $userId, int $limit = 20, int $offset = 0 ): array {
+	public function notifications( int $userId, int $limit = 20, int $offset = 0, string $type = 'all' ): array {
 		self::user( $userId );
+		if ( ! in_array( $type, array( 'all', 'account', 'community', 'contribution' ), true ) ) { throw new \InvalidArgumentException( 'Invalid notification type.' ); }
 		if ( $offset < 0 || $offset > 20000 ) { throw new \InvalidArgumentException( 'Account notification page is out of range.' ); }
-		return $this->db->rows( 'SELECT id,type,template_key,params_json,locale,read_at,created_at FROM ' . $this->db->table( 'user_notifications' ) . ' WHERE user_id=%d AND expires_at>%s ORDER BY id DESC LIMIT %d OFFSET %d', array( $userId, self::now(), max( 1, min( 50, $limit ) ), $offset ) );
+		return $this->db->rows( 'SELECT id,type,subject_type,subject_id,template_key,params_json,locale,read_at,created_at FROM ' . $this->db->table( 'user_notifications' ) . ' WHERE user_id=%d AND expires_at>%s' . ( 'all' === $type ? '' : ' AND type=%s' ) . ' ORDER BY id DESC LIMIT %d OFFSET %d', array_merge( array( $userId, self::now() ), 'all' === $type ? array() : array( $type ), array( max( 1, min( 50, $limit ) ), $offset ) ) );
 	}
 
+	public function unreadCount( int $userId ): int {
+		self::user( $userId );
+		return (int) $this->db->value( 'SELECT COUNT(*) FROM ' . $this->db->table( 'user_notifications' ) . ' WHERE user_id=%d AND read_at IS NULL AND expires_at>%s', array( $userId, self::now() ) );
+	}
+
+	/** All-or-nothing ownership validation; at most 50 explicit IDs, never unbounded read-all. */
+	public function markReadBatch( int $userId, array $ids ): void {
+		self::user( $userId );
+		if ( ! $ids || count( $ids ) > 50 || ! array_is_list( $ids ) ) { throw new \RuntimeException( 'invalid_request' ); }
+		foreach ( $ids as $id ) { if ( ! is_int( $id ) || $id < 1 ) { throw new \RuntimeException( 'invalid_request' ); } }
+		$ids = array_values( array_unique( $ids ) ); sort( $ids, SORT_NUMERIC );
+		$this->db->transaction( function () use ( $userId, $ids ): void {
+			$table = $this->db->table( 'user_notifications' ); $slots = implode( ',', array_fill( 0, count( $ids ), '%d' ) ); $now = self::now();
+			$values = array_merge( array( $userId, $now ), $ids );
+			$rows = $this->db->rows( "SELECT id FROM $table WHERE user_id=%d AND expires_at>%s AND id IN ($slots) ORDER BY id FOR UPDATE", $values );
+			if ( count( $rows ) !== count( $ids ) ) { throw new \RuntimeException( 'invalid_request' ); }
+			$this->db->execute( "UPDATE $table SET read_at=%s WHERE user_id=%d AND expires_at>%s AND id IN ($slots) AND read_at IS NULL", array_merge( array( $now ), $values ) );
+		} );
+	}
+
+	/** Compatibility wrapper: the legacy read-all is now bounded to the latest 50 notices. */
 	public function markRead( int $userId, ?int $id = null ): bool {
-		self::user( $userId ); if ( null !== $id ) { self::user( $id ); }
-		$changed = $this->db->execute( 'UPDATE ' . $this->db->table( 'user_notifications' ) . ' SET read_at=%s WHERE user_id=%d AND read_at IS NULL' . ( null !== $id ? ' AND id=%d' : '' ), array_merge( array( self::now(), $userId ), null === $id ? array() : array( $id ) ) );
-		return null === $id || $changed > 0 || null !== $this->db->value( 'SELECT id FROM ' . $this->db->table( 'user_notifications' ) . ' WHERE user_id=%d AND id=%d LIMIT 1', array( $userId, $id ) );
+		self::user( $userId );
+		$ids = null === $id ? array_map( 'intval', array_column( $this->notifications( $userId, 50 ), 'id' ) ) : array( $id );
+		if ( ! $ids ) { return true; }
+		try { $this->markReadBatch( $userId, $ids ); return true; } catch ( \RuntimeException $error ) { if ( 'invalid_request' === $error->getMessage() ) { return false; } throw $error; }
 	}
 
 	public function cleanup(): void {

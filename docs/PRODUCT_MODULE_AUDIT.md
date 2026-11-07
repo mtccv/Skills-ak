@@ -1,5 +1,11 @@
 # 产品 V2 模块审计与复用边界
 
+## Phase 12 增量复用核对
+
+`OperationsModule` 在 discovery/accounts/contributions/sources/ai/admin 之后加载。新增 Dashboard、Workbench、Users、Health、Analytics、SearchMetrics 及原生界面；不复制业务状态机。统一工作台操作回到已有 Submissions/Community/Developers 服务；按修订审核、逐项验权、有限批量和明确结果。AccountService 复用原生身份门禁，Accounts 保留唯一通知/加密邮件存储，Discovery 保留唯一排行与首页配置。
+
+schema 1.9.0/33 表不变；新增权限分别为运营概览、账户运营、通知邮件、分析，原发布权限不合并。源健康只排队既有采集并添加审计，不执行外部代码。详情见 [运营说明](OPERATIONS_GUIDE.md) 和 [本阶段验证](PHASE_12_REPORT.md)。下方旧差距属于当时规划。
+
 ## Phase 11 增量实现核对
 
 新增 DiscoveryModule，依赖现有 community/contributions/frontend/admin，复用 PublicCatalog、Editorial、Seo/Sitemap 和稳定 Skill ID。Query负责公开排行/推荐与主题投影，Management/Input负责集合/场景/翻译事务，Settings/Admin负责原生运营，Views负责自愿有效观察；没有向functions.php集中业务逻辑。

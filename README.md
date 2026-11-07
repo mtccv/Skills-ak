@@ -1,5 +1,7 @@
 # AI Skills Hub
 
+当前开发版本 **0.12.0 / Phase 12**，schema **1.9.0 / 33 表**。运营管理、通知与邮件、真实数据分析、搜索隐私和首页运营复用已有系统；详见 [运营指南](docs/OPERATIONS_GUIDE.md)、[阶段报告](docs/PHASE_12_REPORT.md)。[开发验证版主题 ZIP](release/ai-skills-hub-0.12.0.zip) 包含编译资源；它不是正式发布，未执行的真实邮件、WPML、外部 API/插件及生产负载测试仍有明确限制。停止在 Phase 12，不进入 Phase 13/14。下方旧阶段交付为历史记录。
+
 当前交付 **Phase 11 资源发现与推荐**，主题/Core **0.11.0**、schema **1.9.0**（33表）。六类真实排行榜、明确同意的匿名有效浏览、编辑集合、使用场景、双语分类标签、经核实平台专题、相关/相似推荐与首页模块化配置；原26表、Skill ID、收藏、评价和投稿保持，不进入Phase12。
 
 [0.11.0可安装主题ZIP](release/ai-skills-hub-0.11.0.zip) · [发现系统](DISCOVERY_SYSTEM.md) · [场景维护](USE_CASES.md) · [Phase11报告](docs/PHASE_11_REPORT.md) · [安装与配置](INSTALLATION.md)。本轮PHP8.3/WordPress/MySQL/Chromium已有真实验证；PHP8.4及未提供的外部依赖如实未验。以下版本和测试数字为历史记录，不自动代表新代码通过。

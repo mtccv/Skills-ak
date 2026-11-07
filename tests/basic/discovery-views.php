@@ -215,4 +215,20 @@ $GLOBALS['view_scheduled'][ Views::RETENTION_HOOK ] = time() + 60;
 foreach ( $GLOBALS['view_actions']['switch_theme'] as $callback ) { $callback(); }
 check( ! $GLOBALS['view_scheduled'], 'switching the theme clears pending discovery retention jobs without deleting business data' );
 
+// Phase 12 purpose-specific extension reuses the same observer without retroactive consent.
+[ $db, $views ] = fixture(); tracking( true ); $GLOBALS['view_caps'] = array(); $GLOBALS['view_meta'] = array();
+$_SERVER = array( 'HTTP_USER_AGENT' => 'Mozilla/5.0 Chrome/120 Safari/537.36' );
+$body = gmdate( 'Y-m-d' ) . '.' . str_repeat( 'c', 64 );
+$legacy = $body . '.' . call( $views, 'mac', 'cookie:' . $body );
+$_COOKIE = array( '__Host-aish_discovery_observer' => $legacy );
+check( null === $views->analyticsObserver(), 'legacy view-only consent never silently opts into analytics' );
+check( str_repeat( 'c', 64 ) === call( $views, 'observer', $legacy ), 'legacy view-only observer remains valid for original views' );
+$newObserver = $views->grantAnalyticsConsent();
+check( str_repeat( 'c', 64 ) === $newObserver && $newObserver === $views->analyticsObserver(), 'explicit analytics consent reuses existing daily random observer' );
+check( count( $_COOKIE ) === 1 && str_ends_with( $_COOKIE['__Host-aish_discovery_observer'], '.analytics' ), 'broader purpose is signed in the same cookie, not a second identity' );
+check( $newObserver === call( $views, 'observer', $_COOKIE['__Host-aish_discovery_observer'] ), 'analytics-purpose consent remains compatible with existing view dedupe' );
+$_COOKIE['__Host-aish_discovery_observer'] = $legacy . '.analytics';
+check( null === $views->analyticsObserver(), 'appending an unsigned broader purpose cannot bypass consent' );
+$views->withdrawAnalyticsConsent(); check( array() === $_COOKIE && null === $views->analyticsObserver(), 'withdrawal clears the shared observer and all measurement purposes' );
+
 echo "Discovery views: $checks isolated assertions passed (real service and transactional wpdb model; no real WordPress/MySQL/browser).\n";

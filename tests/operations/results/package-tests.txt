@@ -1,0 +1,14 @@
+test_fixed_epoch_is_bounded_and_changes_explicit_metadata_only (__main__.PackageThemeTests.test_fixed_epoch_is_bounded_and_changes_explicit_metadata_only) ... ok
+test_license_and_output_symlinks_are_rejected (__main__.PackageThemeTests.test_license_and_output_symlinks_are_rejected) ... ok
+test_missing_assets_version_mismatch_and_unsafe_version_fail_closed (__main__.PackageThemeTests.test_missing_assets_version_mismatch_and_unsafe_version_fail_closed) ... ok
+test_reproducible_bytes_and_sha_ignore_source_modes_and_mtimes (__main__.PackageThemeTests.test_reproducible_bytes_and_sha_ignore_source_modes_and_mtimes) ... ok
+test_sensitive_dependency_cache_backup_and_unrelated_files_excluded (__main__.PackageThemeTests.test_sensitive_dependency_cache_backup_and_unrelated_files_excluded) ... ok
+test_single_root_resources_license_and_unix_permissions (__main__.PackageThemeTests.test_single_root_resources_license_and_unix_permissions) ... ok
+test_symlink_cannot_include_outside_file (__main__.PackageThemeTests.test_symlink_cannot_include_outside_file) ... ok
+test_symlink_directory_is_not_followed (__main__.PackageThemeTests.test_symlink_directory_is_not_followed) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.013s
+
+OK
+Package inputs valid: ai-skills-hub 0.12.0; 174 files. No archive created.

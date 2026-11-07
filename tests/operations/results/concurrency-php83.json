@@ -1,0 +1,91 @@
+{
+  "kind": "Real four independent PHP processes per race against actual MySQL8; no Mock database. Mail retry-state fixture never sent.",
+  "php_runtime": "83",
+  "workers_per_race": 4,
+  "races": {
+    "user": [
+      {
+        "success": true,
+        "result": true
+      },
+      {
+        "success": true,
+        "result": true
+      },
+      {
+        "success": true,
+        "result": true
+      },
+      {
+        "success": true,
+        "result": true
+      }
+    ],
+    "home": [
+      {
+        "success": false,
+        "code": "conflict"
+      },
+      {
+        "success": false,
+        "code": "conflict"
+      },
+      {
+        "success": true,
+        "result": true
+      },
+      {
+        "success": false,
+        "code": "conflict"
+      }
+    ],
+    "mail": [
+      {
+        "success": false,
+        "code": "mail_not_retryable"
+      },
+      {
+        "success": true,
+        "result": true
+      },
+      {
+        "success": false,
+        "code": "mail_not_retryable"
+      },
+      {
+        "success": false,
+        "code": "mail_not_retryable"
+      }
+    ],
+    "search": [
+      {
+        "success": false,
+        "code": "measurement_busy"
+      },
+      {
+        "success": true,
+        "result": true
+      },
+      {
+        "success": false,
+        "code": "measurement_busy"
+      },
+      {
+        "success": true,
+        "result": false
+      }
+    ]
+  },
+  "checks": {
+    "user_transition_one_audit": true,
+    "home_cas_one_revision": true,
+    "mail_retry_never_resets_attempts": true,
+    "search_exactly_one_event_and_total": true,
+    "user_all_identical_replays_safe": true,
+    "home_one_winner": true,
+    "mail_one_schedule": true,
+    "search_one_durable_winner": true
+  },
+  "passed": 8,
+  "failed": 0
+}

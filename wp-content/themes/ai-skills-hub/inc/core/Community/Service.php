@@ -85,6 +85,7 @@ final class Service {
 		catch ( \Throwable $error ) { throw new Exception( 'storage_unavailable' ); }
 		// No persistent caches exist for these facts. Hooks run only after commit.
 		try { do_action( 'aish_community_changed', $skillId ); } catch ( \Throwable $error ) {}
+		if ( null === $cap ) { try { do_action( 'aish_account_interaction_completed', $actor ); } catch ( \Throwable $ignored ) {} }
 		return $result;
 	}
 	/** Multiple identities are always locked in numeric order before any Skill row. */

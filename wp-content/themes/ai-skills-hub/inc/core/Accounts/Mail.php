@@ -56,6 +56,25 @@ final class Mail {
 		return $id;
 	}
 
+	/** Safe template catalogue: never reads queue payloads or builds credential-bearing URLs. */
+	public static function preview( string $template, string $locale, string $event = 'password_changed' ): array {
+		if ( ! in_array( $locale, array( 'zh_CN', 'en_US' ), true ) ) { throw new \InvalidArgumentException( 'invalid_template' ); }
+		$zh = 'zh_CN' === $locale;
+		$subjects = array( 'verify_email' => array( '验证您的邮箱', 'Verify your email' ), 'change_email' => array( '确认新的账户邮箱', 'Confirm your new account email' ), 'password_reset' => array( '重置账户密码', 'Reset your account password' ), 'security_notice' => array( '账户安全通知', 'Account security notice' ) );
+		if ( ! isset( $subjects[ $template ] ) ) { throw new \InvalidArgumentException( 'invalid_template' ); }
+		$events = array( 'email_changed' => array( '账户邮箱已更改。此安全通知发送至原邮箱。', 'Your account email was changed. This security notice is sent to your previous address.' ), 'password_changed' => array( '账户密码已更改。', 'Your account password was changed.' ), 'sessions_revoked' => array( '其他登录会话已退出。', 'Other signed-in sessions were revoked.' ) );
+		if ( ! isset( $events[ $event ] ) ) { throw new \InvalidArgumentException( 'invalid_template' ); }
+		$body = match ( $template ) {
+			'change_email' => $zh ? '请打开验证链接并确认，将此邮箱设为账户邮箱。确认之前原邮箱保持不变。' : 'Open the verification link and confirm to make this your account email. Your existing address remains unchanged until you confirm.',
+			'verify_email' => $zh ? '请打开验证链接，然后在页面上确认邮箱验证。' : 'Open the verification link, then confirm email verification on the page.',
+			'password_reset' => $zh ? '请打开重置链接设置新的密码。使用 WordPress 原生一次性重置凭证。' : 'Open the reset link to choose a new password. This uses the native WordPress single-use reset credential.',
+			'security_notice' => $events[ $event ][ $zh ? 0 : 1 ],
+		};
+		$body .= "\n\n" . ( $zh ? '[预览已省略收件人、链接、凭证及具体到期时间]' : '[Preview omits recipient, links, credentials and the specific expiration time]' );
+		$body .= "\n\n" . ( 'security_notice' === $template ? ( $zh ? '如果不是您本人操作，请通过网站联系管理员。' : 'If this was not you, contact the site administrator through the website.' ) : ( $zh ? '如果不是您本人发起，请忽略此邮件。不要转发验证或重置凭证。' : 'If you did not request this, ignore this email. Do not forward verification or reset credentials.' ) );
+		return array( 'subject' => '[AI Skills Hub] ' . $subjects[ $template ][ $zh ? 0 : 1 ], 'body' => $body );
+	}
+
 	/** Payload is decrypted only in the protected worker, never returned by a public projection. */
 	public function render( array $row, #[\SensitiveParameter] array $payload ): array {
 		$zh = 'zh_CN' === ( $row['locale'] ?? '' );

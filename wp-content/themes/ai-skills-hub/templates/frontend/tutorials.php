@@ -2,7 +2,8 @@
 use AISkillsHub\Core\Frontend\Router;
 use AISkillsHub\Core\Frontend\View;
 defined( 'ABSPATH' ) || exit;
-$data = Router::context()['data'] ?? array();
+$context = Router::context();
+$data = $context['data'] ?? array();
 $result = $data['result'] ?? array();
 $filters = $data['filters'] ?? array();
 $total = (int) ( $result['total'] ?? 0 );
@@ -19,4 +20,10 @@ $per_page = max( 1, (int) ( $result['per_page'] ?? $filters['per_page'] ?? 12 ) 
 	<div class="results-heading"><h2><?php echo esc_html( View::t( 'nav.tutorials' ) ); ?><span><?php echo esc_html( (string) $total ); ?></span></h2><p><?php echo esc_html( View::t( 'tutorial.locale_note' ) ); ?></p></div>
 	<?php if ( ! empty( $result['items'] ) ) : ?><div class="skill-grid"><?php foreach ( $result['items'] as $tutorial ) { get_template_part( 'template-parts/frontend/tutorial-card', null, array( 'tutorial' => $tutorial ) ); } ?></div><?php else : ?><div class="empty-state"><span class="empty-icon"><?php echo View::icon( 'book' ); ?></span><h2><?php echo esc_html( View::t( 'empty.tutorials.title' ) ); ?></h2><p><?php echo esc_html( View::t( 'empty.tutorials.description' ) ); ?></p><a class="button button-secondary" href="<?php echo esc_url( View::url( 'skills' ) ); ?>"><?php echo esc_html( View::t( 'home.browse' ) ); ?><?php echo View::icon( 'arrow-right' ); ?></a></div><?php endif; ?>
 	<?php $params = $filters; unset( $params['page'], $params['per_page'] ); echo View::pagination( $total, $page, $per_page, $params ); ?>
+	<?php
+	if ( 200 === ( $context['status'] ?? 0 ) && empty( $context['error'] ) && isset( $result['total'] ) ) {
+		try { do_action( 'aish_search_observation', array( 'locale' => $context['locale'], 'route' => 'tutorials', 'query' => $filters['q'] ?? '', 'page' => $page, 'valid' => true, 'failed' => false, 'total' => $total ) ); }
+		catch ( \Throwable $ignored ) { /* Search remains available when optional analytics fail. */ }
+	}
+	?>
 </section>
